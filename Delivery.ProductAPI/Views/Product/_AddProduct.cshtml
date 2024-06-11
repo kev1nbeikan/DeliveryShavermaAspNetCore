@@ -1,0 +1,37 @@
+﻿@model AddProductViewModel;
+
+@{
+}
+
+<form class="form-inline row g-3" asp-controller="Product" asp-action="Create" method="POST">
+    <div class="input-group mb-3">
+        <div class="input-group">
+            <span class="input-group-text">Title</span>
+            <input type="text" class="form-control" asp-for="Title" placeholder="Title" aria-label="Default">
+        </div>
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group">
+            <span class="input-group-text">Description</span>
+            <textarea class="form-control" asp-for="Description" placeholder="Description" aria-label="Default" style="height: 17px"></textarea>
+        </div>
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group">
+            <span class="input-group-text" id="inputGroup-sizing-default">Composition</span>
+            <input type="text" class="form-control" asp-for="Composition" placeholder="Composition" aria-label="Default">
+        </div>
+    </div>
+    <div class="input-group mb-3">
+        <div class="input-group">
+            <span class="input-group-text">$</span>
+            <span class="input-group-text">0.00</span>
+            <input type="text" class="form-control" asp-for="Price" placeholder="Price" aria-label="Amount (to the nearest dollar)">
+        </div>
+    </div>
+    <div>
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary" type="submit">Create</button>
+        </div>
+    </div>
+</form>
