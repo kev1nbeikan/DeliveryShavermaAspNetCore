@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Delivery.ProductAPI.Domain;
 
-[Table("item", Schema = "public")]
+[Table("product", Schema = "public")]
 public class Product
 {
 	[Key, Column("id"), DatabaseGenerated(DatabaseGeneratedOption.Identity)]

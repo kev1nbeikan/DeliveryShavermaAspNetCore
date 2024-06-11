@@ -2,6 +2,7 @@
 using Delivery.ProductAPI.Domain;
 using Delivery.ProductAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Delivery.ProductAPI.Controllers;
 
@@ -13,13 +14,13 @@ public class ProductController : Controller
 	{
 		_dbContext = dbContext;
 	}
-	
+
 	[HttpGet]
 	public IActionResult Index()
 	{
-		var items = _dbContext.Items.ToList();
+		var products = _dbContext.Products.ToList();
 
-		return View(new ProductListViewModel(items));
+		return View(new ProductListViewModel(products));
 	}
 
 	[HttpPost]
@@ -34,9 +35,35 @@ public class ProductController : Controller
 			ImagePath = "imagePath"
 		};
 
-		_dbContext.Items.Add(product);
+		_dbContext.Products.Add(product);
 		await _dbContext.SaveChangesAsync();
 
 		return RedirectToAction(nameof(Index));
+	}
+
+	[HttpGet("delete/{id:long}")]
+	public async Task<IActionResult> DeleteAsync(long id)
+	{
+		var product = await _dbContext.Products.FindAsync(id);
+
+		_dbContext.Products.Remove(product!);
+		await _dbContext.SaveChangesAsync();
+
+		return RedirectToAction("Index");
+	}
+
+	public async Task<IActionResult> EditAsync(long id)
+	{
+		var product = _dbContext.Products.FirstOrDefaultAsync(p => p.Id == id);
+		return View(product);
+	}
+
+	public async Task<IActionResult> UpdateAsync(Product product)
+	{
+		var oldProduct = _dbContext.Products.FirstOrDefaultAsync(p => p.Id == product.Id);
+		_dbContext.Entry(oldProduct).CurrentValues.SetValues(product);
+		await _dbContext.SaveChangesAsync();
+
+		return RedirectToAction("Index");
 	}
 }

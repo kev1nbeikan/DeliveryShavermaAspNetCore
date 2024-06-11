@@ -22,20 +22,24 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/meshk/RiderProjects/DeliveryBarsGroupProject/Delivery.ProductAPI/Views/Item/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSXRlbVxJbmRleC5jc2h0bWw=
+[C:/Users/meshk/RiderProjects/DeliveryBarsGroupProject/Delivery.ProductAPI/Views/Product/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdFxFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/meshk/RiderProjects/DeliveryBarsGroupProject/Delivery.ProductAPI/Views/Item/_AddItem.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSXRlbVxfQWRkSXRlbS5jc2h0bWw=
+[C:/Users/meshk/RiderProjects/DeliveryBarsGroupProject/Delivery.ProductAPI/Views/Product/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdFxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/meshk/RiderProjects/DeliveryBarsGroupProject/Delivery.ProductAPI/Views/Item/_ItemList.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSXRlbVxfSXRlbUxpc3QuY3NodG1s
+[C:/Users/meshk/RiderProjects/DeliveryBarsGroupProject/Delivery.ProductAPI/Views/Product/_AddProduct.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdFxfQWRkUHJvZHVjdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/meshk/RiderProjects/DeliveryBarsGroupProject/Delivery.ProductAPI/Views/Item/_Items.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSXRlbVxfSXRlbXMuY3NodG1s
+[C:/Users/meshk/RiderProjects/DeliveryBarsGroupProject/Delivery.ProductAPI/Views/Product/_ProductList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdFxfUHJvZHVjdExpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/meshk/RiderProjects/DeliveryBarsGroupProject/Delivery.ProductAPI/Views/Product/_Products.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdFxfUHJvZHVjdHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/meshk/RiderProjects/DeliveryBarsGroupProject/Delivery.ProductAPI/Views/Shared/Error.cshtml]

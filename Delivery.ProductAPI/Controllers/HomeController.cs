@@ -15,8 +15,8 @@ public class HomeController : Controller
 
 	public IActionResult Index()
 	{
-		var items = _dbContext.Items.ToList();
-		
-		return View(new ProductListViewModel(items));
+		var products = _dbContext.Products.ToList();
+
+		return View(new ProductListViewModel(products));
 	}
 }
