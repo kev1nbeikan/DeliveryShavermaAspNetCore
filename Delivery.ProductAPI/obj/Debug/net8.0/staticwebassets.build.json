@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "KBxSsy+9/TUbnXdhqpnO7P4uQY72mNIMl/bXQ4WjU9c=",
+  "Hash": "Pr4xU9+BEY7oHg9tcH9UpRYKvr9akUJf414THTujq6A=",
   "Source": "Delivery.ProductAPI",
   "BasePath": "_content/Delivery.ProductAPI",
   "Mode": "Default",
@@ -1193,6 +1193,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\jquery\\LICENSE.txt"
+    },
+    {
+      "Identity": "C:\\Users\\meshk\\RiderProjects\\DeliveryBarsGroupProject\\Delivery.ProductAPI\\wwwroot\\no-image.svg",
+      "SourceId": "Delivery.ProductAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\meshk\\RiderProjects\\DeliveryBarsGroupProject\\Delivery.ProductAPI\\wwwroot\\",
+      "BasePath": "_content/Delivery.ProductAPI",
+      "RelativePath": "no-image.svg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\no-image.svg"
     }
   ]
 }

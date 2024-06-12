@@ -44,3 +44,4 @@ C:\Users\meshk\RiderProjects\DeliveryBarsGroupProject\Delivery.GatewaySolution\o
 C:\Users\meshk\RiderProjects\DeliveryBarsGroupProject\Delivery.GatewaySolution\obj\Debug\net8.0\Delivery.GatewaySolution.pdb
 C:\Users\meshk\RiderProjects\DeliveryBarsGroupProject\Delivery.GatewaySolution\obj\Debug\net8.0\Delivery.GatewaySolution.genruntimeconfig.cache
 C:\Users\meshk\RiderProjects\DeliveryBarsGroupProject\Delivery.GatewaySolution\obj\Debug\net8.0\ref\Delivery.GatewaySolution.dll
+C:\Users\meshk\RiderProjects\DeliveryBarsGroupProject\Delivery.GatewaySolution\obj\Debug\net8.0\Delivery.GatewaySolution.sourcelink.json

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Delivery.ProductAPI.Controllers;
 
+[Route("/api/products")]
 public class ProductController : Controller
 {
 	private readonly DeliveryAppDbContext _dbContext;
@@ -52,16 +53,17 @@ public class ProductController : Controller
 		return RedirectToAction("Index");
 	}
 
-	public async Task<IActionResult> EditAsync(long id)
-	{
-		var product = _dbContext.Products.FirstOrDefaultAsync(p => p.Id == id);
-		return View(product);
-	}
-
+	[HttpGet("update/{product}")]
 	public async Task<IActionResult> UpdateAsync(Product product)
 	{
-		var oldProduct = _dbContext.Products.FirstOrDefaultAsync(p => p.Id == product.Id);
-		_dbContext.Entry(oldProduct).CurrentValues.SetValues(product);
+		await _dbContext.Products.Where(p => p.Id == product.Id).ExecuteUpdateAsync(
+			x => x
+				.SetProperty(p => p.Title, p => product.Title)
+				.SetProperty(p => p.Description, p => product.Description)
+				.SetProperty(p => p.Composition, p => product.Composition)
+				.SetProperty(p => p.Price, p => product.Price)
+		);
+
 		await _dbContext.SaveChangesAsync();
 
 		return RedirectToAction("Index");

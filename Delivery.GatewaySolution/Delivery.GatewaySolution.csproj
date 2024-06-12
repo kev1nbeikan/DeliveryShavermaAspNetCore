@@ -12,4 +12,17 @@
       <PackageReference Include="Ocelot" Version="23.3.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Product\Edit.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Product\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Product\_AddProduct.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Product\_ProductList.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Product\_Products.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Home\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\_Layout.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\_ValidationScriptsPartial.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\_ViewImports.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\_ViewStart.cshtml" />
+    </ItemGroup>
+
 </Project>

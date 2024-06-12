@@ -245,6 +245,10 @@
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
     },
     {
+      "Id": "C:\\Users\\meshk\\RiderProjects\\DeliveryBarsGroupProject\\Delivery.ProductAPI\\wwwroot\\no-image.svg",
+      "PackagePath": "staticwebassets\\no-image.svg"
+    },
+    {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Delivery.ProductAPI.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },
