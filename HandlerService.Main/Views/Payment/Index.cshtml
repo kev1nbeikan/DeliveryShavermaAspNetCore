@@ -1,0 +1,59 @@
+﻿@model HandlerService.Contracts.PaymentRequest
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<div id="paymentForm" class="text-center">
+    <label for="ProductIds">Product IDs:</label>
+    <input id="ProductIds" type="text" class="form-control" value="1, 2, 3, 5, 6, 7"/>
+    <br>
+    <label for="Comment">Comment:</label>
+    <input id="Comment" type="text" class="form-control" value="ул. Бебры"/>
+    <br>
+    <label for="Address">Address:</label>
+    <input id="Address" type="text" class="form-control" value="ул. Бебры важно"/>
+    <br>
+    <label for="StoreId">Store ID:</label>
+    <input id="StoreId" type="text" class="form-control" value=@{ Guid.NewGuid().ToString();}/>
+    <br>
+    <button id="submitBtn" class="btn btn-primary">Submit</button>
+</div>
+
+<script>
+    document.getElementById('submitBtn').addEventListener('click', function() {
+        let paymentData = {
+            ProductIds: document.getElementById('ProductIds').value.split(',').map(id => parseInt(id.trim(), 10)),
+            Comment: document.getElementById('Comment').value,
+            Address: document.getElementById('Address').value,
+            StoreId: document.getElementById('StoreId').value
+        };
+
+        fetch('/payment/calculatepayment', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(paymentData)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response; // Change to response.text() to read HTML response
+            })
+            .then(data => {
+                console.log(data);
+                // Redirect to the cart page
+                window.location.href = data.url; // Change 'cart' to the actual cart page URL
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    });
+</script>

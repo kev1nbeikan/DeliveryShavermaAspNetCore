@@ -1,4 +1,4 @@
-namespace HandlerSerivce.Models;
+namespace HandlerService.Models;
 
 public class ErrorViewModel
 {
