@@ -1,4 +1,3 @@
-
 namespace HandlerService.Contracts;
 
-public record PaymentRequest(List<long> ProductIds, string Comment, string Address, String StoreId);
+public record PaymentRequest(List<Guid> ProductIds, string Comment, string Address, String StoreId);

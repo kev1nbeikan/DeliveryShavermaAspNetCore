@@ -1,31 +1,75 @@
-﻿namespace Handler.Core;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
+namespace Handler.Core;
+
+[Table("product", Schema = "public")]
 public class Product
 {
-    public long Id { get; set; }
-    public string Name { get; set; }
-    public long Price { get; set; }
-    public string Description { get; set; }
-    public List<string> Recipe { get; set; }
-    public Guid StoreId { get; set; }
+    public const int MAX_TITLE_LENGTH = 32;
 
-    public Product(long id, string name, long price, string description, List<string> recipe, Guid storeId)
+    public const int MAX_DESCRIPTION_LENGTH = 256;
+
+    public const int MAX_COMPOSITION_LENGTH = 128;
+
+    private Product(Guid id, string title, string description, string composition, int price, string imagePath)
     {
         Id = id;
-        Name = name;
-        Price = price;
+        Title = title;
         Description = description;
-        Recipe = recipe;
-        StoreId = storeId;
+        Composition = composition;
+        Price = price;
+        ImagePath = imagePath;
     }
 
+    public Guid Id { get; }
 
-    public static (Product? product, string? error) Create(long id, string name, long price, string description,
-        List<string> recipe, Guid storeId)
+    public string Title { get; } = string.Empty;
+
+    public string Description { get; } = string.Empty;
+
+    public string Composition { get; } = string.Empty;
+
+    public int Price { get; }
+
+    public string ImagePath { get; } = string.Empty;
+
+    public static (Product product, string error) Create(
+        Guid id,
+        string title,
+        string description,
+        string composition,
+        int price,
+        string imagePath)
     {
-        string error = null;
-        
+        var error = string.Empty;
 
-        return (new Product(id, name, price, description, recipe, storeId), error);
+        if (string.IsNullOrEmpty(title) || title.Length > MAX_TITLE_LENGTH)
+        {
+            error = "Title is empty or longer than 32 chars";
+        }
+
+        if (string.IsNullOrEmpty(description) || description.Length > MAX_DESCRIPTION_LENGTH)
+        {
+            error = "Title is empty or longer than 256 chars";
+        }
+
+        if (string.IsNullOrEmpty(composition) || composition.Length > MAX_COMPOSITION_LENGTH)
+        {
+            error = "Title is empty or longer than 128 chars";
+        }
+
+        if (price < 0)
+        {
+            error = "Price is negative";
+        }
+
+        if (string.IsNullOrEmpty(imagePath))
+        {
+            error = "Image path is empty";
+        }
+
+        var product = new Product(id, title, description, composition, price, imagePath);
+
+        return (product, error);
     }
 }

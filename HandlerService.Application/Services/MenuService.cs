@@ -6,7 +6,7 @@ namespace HandlerService.Application.Services;
 
 public class MenuService : IMenuService
 {
-    public (Product[] products, string? error) GetProducts(List<long> productIds)
+    public (Product[] products, string? error) GetProducts(List<Guid> productIds)
     {
         var products = new Product[productIds.Count];
 
@@ -15,9 +15,11 @@ public class MenuService : IMenuService
             products[i] = Product.Create(
                 productIds[i],
                 "title",
+                "bebrae",
+                "desc",
                 100,
-                "desc", new List<string>(),
-                Guid.NewGuid()).product!;
+                "123123123"
+            ).product;
         }
 
 

@@ -10,6 +10,6 @@ public class PaymentViewModel
     public long Price { get; set; }
 
     public List<PaymentType> PaymentTypes { get; set; }
-    public Order? Order { get; set; }
+    public HandlerServiceOrder? Order { get; set; }
     public Product[] Products { get; set; }
 }

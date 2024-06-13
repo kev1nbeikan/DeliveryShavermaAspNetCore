@@ -2,8 +2,8 @@
 @model PaymentViewModel
 
 @{
-ViewBag.Title = "Оплата корзины";
-Layout = "_Layout";
+    ViewBag.Title = "Оплата корзины";
+    Layout = "_Layout";
 }
 
 <div class="container mt-5">
@@ -20,7 +20,7 @@ Layout = "_Layout";
                     <ul class="list-group list-group-flush">
                         @foreach (var product in Model.Products)
                         {
-                        <li class="list-group-item">@product.Name - Цена: @product.Price</li>
+                            <li class="list-group-item">@product.Title - Цена: @product.Price</li>
                         }
                     </ul>
                 </div>
@@ -71,7 +71,8 @@ Layout = "_Layout";
         </div>
         <input type="hidden" id="orderId" name="orderId" value="@Model.Order!.Id"/>
         <button type="submit" value="Submit" class="btn btn-primary mt-3">Оплатить</button>
-    </form></div>
+    </form>
+</div>
 
 <script>
     function toggleCardFields() {

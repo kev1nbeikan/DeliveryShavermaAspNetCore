@@ -1,15 +1,33 @@
-﻿
-using Handler.Core;
+﻿using Handler.Core;
 using Handler.Core.Abstractions;
+using HandlerService.Infustucture.Extensions;
 
 namespace HandlerService.Application.Services;
 
 public class UserService : IUserService
 {
-    public (MyUser? myUser, string? error) Save(Guid userId, string paymentRequestAddress, string paymentRequestComment)
+    private readonly IUserRepository _userRepository;
+
+    public UserService(IUserRepository userRepository)
     {
-        var (myUser, error) = MyUser.Create(userId, paymentRequestAddress, paymentRequestComment);
-        if (!string.IsNullOrEmpty(error)) return (null, error);
+        _userRepository = userRepository;
+    }
+
+    public async Task<string?> Save(Guid userId, string address, string comment)
+    {
+        var (user, error) = MyUser.Create(userId, [address], comment);
+        return
+            error.IsNotEmptyOrNull()
+                ? error
+                : await _userRepository.SaveByUserId(user!);
+    }
+
+    public async Task<(MyUser?, string? error)> Get(Guid userId)
+    {
+        var myUser = await _userRepository.Get(userId);
+
+        if (myUser == null) return (null, "User not found");
+
         return (myUser, null);
     }
 }
