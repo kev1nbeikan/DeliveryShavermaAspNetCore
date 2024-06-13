@@ -8,7 +8,7 @@
 
         public Order(Guid id,
                      StatusCode status,
-                     List<Guid> basket,
+                     Dictionary<Guid, int> basket,
                      int price,
                      string comment,
                      string cheque,
@@ -54,7 +54,7 @@
         public Guid StoreId { get; }
 
 
-        public List<Guid>? Basket { get; } = [];
+        public Dictionary<Guid, int> Basket { get; } = []; // проверка значений словаря
 
 
         public StatusCode Status { get; } = StatusCode.Active;
@@ -90,7 +90,7 @@
 
         public static (Order Order, string Error) Create(Guid id,
                                                          StatusCode status,
-                                                         List<Guid> basket,
+                                                         Dictionary<Guid, int> basket,
                                                          int price,
                                                          string comment,
                                                          string cheque,
