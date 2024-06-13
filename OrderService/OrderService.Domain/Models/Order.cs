@@ -2,29 +2,22 @@
 {
     public class Order
     {
-        public enum StatusCode
-        {
-            Cancelled = 0,
-            Active = 1,
-            Cooking = 2,
-            WaitingCourier = 3,
-            Delivering = 4, 
-            WaitingClinet = 5,
-            Accepted = 6
-        }
-
-        int Active = (int)Status.Active;
         public const int MAX_NUMBER_LENGHT = 10;
         public const int MAX_ADDRESS_LENGHT = 250;
-        public const int ACTIVE = 1;
-        public const int DELETED = 2;
+        public const int MAX_COMMENT_LENGHT = 250;
 
-        private Order(Guid id,
-                     int status,
+        public Order(Guid id,
+                     StatusCode status,
+                     List<Guid> basket,
                      int price,
+                     string comment,
+                     string cheque,
                      string clientAddress,
                      string courierNumber,
                      string clientNumber,
+                     Guid clientId,
+                     Guid courierId,
+                     Guid storeId,
                      TimeSpan cookingTime,
                      TimeSpan deliveryTime,
                      DateTime orderDate,
@@ -32,11 +25,17 @@
                      DateTime deliveryDate)
         {
             Id = id;
-            //Status = status;
+            Status = status;
+            Basket = basket;
             Price = price;
+            Comment = comment;
+            Cheque = cheque;
             ClientAddress = clientAddress;
             CourierNumber = courierNumber;
             ClientNumber = clientNumber;
+            ClientId = clientId;
+            CourierId = courierId;
+            StoreId = storeId;
             CookingTime = cookingTime;
             DeliveryTime = deliveryTime;
             OrderDate = orderDate;
@@ -44,20 +43,29 @@
             DeliveryDate = deliveryDate;
         }
 
+
         public Guid Id { get; }
 
-        
-        public List<Order> Orders { get; } = [];
+
+        public Guid ClientId { get; }
+
+        public Guid CourierId { get; }
+
+        public Guid StoreId { get; }
 
 
-        public int Status { get; } = 1;
+        public List<Guid>? Basket { get; } = [];
+
+
+        public StatusCode Status { get; } = StatusCode.Active;
+
 
         public int Price { get; }
 
-        
+
         public string Comment { get; } = string.Empty;
 
-        public string Cehque { get; } = string.Empty;
+        public string Cheque { get; } = string.Empty; // пока не уверен как хранить чек
 
 
         public string ClientAddress { get; } = string.Empty;
@@ -66,15 +74,14 @@
 
         public string ClientNumber { get; } = string.Empty;
 
-
-
+       
         public TimeSpan CookingTime { get; } = TimeSpan.Zero;
 
         public TimeSpan DeliveryTime { get; } = TimeSpan.Zero;
 
 
         public DateTime OrderDate { get; } = DateTime.UtcNow;
-        
+
         public DateTime CookingDate { get; } = DateTime.UtcNow;
 
         public DateTime DeliveryDate { get; } = DateTime.UtcNow;
@@ -82,11 +89,17 @@
 
 
         public static (Order Order, string Error) Create(Guid id,
-                                                         int status,
+                                                         StatusCode status,
+                                                         List<Guid> basket,
                                                          int price,
+                                                         string comment,
+                                                         string cheque,
                                                          string clientAddress,
                                                          string courierNumber,
                                                          string clientNumber,
+                                                         Guid clientId,
+                                                         Guid courierId,
+                                                         Guid storeId,
                                                          TimeSpan cookingTime,
                                                          TimeSpan deliveryTime,
                                                          DateTime orderDate,
@@ -104,15 +117,46 @@
             if (string.IsNullOrEmpty(courierNumber) || courierNumber.Length > MAX_NUMBER_LENGHT)
                 errorString = "Error in the courier number, the value is empty or exceeds the maximum value";
 
+            if (string.IsNullOrEmpty(comment) || comment.Length > MAX_COMMENT_LENGHT)
+                errorString = "Error in the comment, the value is empty or exceeds the maximum value";
+
+            if (string.IsNullOrEmpty(cheque))
+                errorString = "Error in the cheque, the value is empty";
+
+            if (basket is null)
+                errorString = "Error in the basket, the value is empty";
+
+            if(clientId == Guid.Empty)
+                errorString = "Error in clientId, value is empty";
+
+            if (courierId == Guid.Empty)
+                errorString = "Error in courierId, value is empty";
+
+            if (storeId == Guid.Empty)
+                errorString = "Error in storeId, value is empty";
+
             if (price < 0)
                 errorString = "Error in price, negative value for price";
 
+            if (cookingTime < TimeSpan.Zero)
+                errorString = "Error in cookingTime, negative value for price";
+
+            if (deliveryTime < TimeSpan.Zero)
+                errorString = "Error in deliveryTime, negative value for price";
+
+
             var task = new Order(id,
                                  status,
+                                 basket,
                                  price,
+                                 comment,
+                                 cheque,
                                  clientAddress,
                                  courierNumber,
                                  clientNumber,
+                                 clientId,
+                                 courierId,
+                                 storeId,
                                  cookingTime,
                                  deliveryTime,
                                  orderDate,
