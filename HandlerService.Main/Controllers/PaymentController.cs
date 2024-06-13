@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Handler.Core;
 using Handler.Core.Abstractions;
 using Handler.Core.Abstractions.Services;
+using Handler.Core.Abstractions.UseCases;
 using Handler.Core.Extensions;
 using HandlerService.Contracts;
 using HandlerService.Extensions;
@@ -18,27 +19,24 @@ public class PaymentController : Controller
     private readonly IMenuService _menuService;
     private readonly IPaymentService _paymentService;
     private readonly IHandlerOrderService _handlerOrderService;
-    private readonly ICurierService _curierService;
-    private readonly IStoreService _storeService;
     private readonly IOrderService _orderService;
+    private readonly IGetOrderTimingUseCase _getOrderTiming;
 
     public PaymentController(ILogger<PaymentController> logger,
         IUserService userService,
         IPaymentService paymentService,
         IMenuService menuService,
         IHandlerOrderService handlerOrderService,
-        ICurierService curierService,
-        IStoreService storeService,
-        IOrderService orderService)
+        IOrderService orderService,
+        IGetOrderTimingUseCase getOrderTiming)
     {
         _logger = logger;
         _userService = userService;
         _paymentService = paymentService;
         _menuService = menuService;
         _handlerOrderService = handlerOrderService;
-        _curierService = curierService;
-        _storeService = storeService;
         _orderService = orderService;
+        _getOrderTiming = getOrderTiming;
     }
 
     public IActionResult Index()
@@ -67,48 +65,35 @@ public class PaymentController : Controller
     public async Task<IActionResult> PaymentConfirm(PaymentConfirmRequest paymentConfirmRequest)
     {
         string? error = null;
+
         var handlerServiceOrder = _handlerOrderService.Get(paymentConfirmRequest.OrderId);
         if (handlerServiceOrder == null) return BadRequest(error);
 
-        var (curier, deliveryTime) = await _curierService.GetCurier(handlerServiceOrder.ClientAddress);
-
-        if (curier == null) return BadRequest("Curier is not found");
-
-        (var cookingTime, error) =
-            await _storeService.GetCookingTime(handlerServiceOrder.StoreId, handlerServiceOrder.Basket);
+        (var cookingTime, var deliveryTime, var curier, error) = await _getOrderTiming.Invoke(handlerServiceOrder);
         if (error.IsNotEmptyOrNull()) return BadRequest(error);
 
         (error, var cheque) = _paymentService.ConfirmPayment(handlerServiceOrder, paymentConfirmRequest.PaymentType,
             paymentConfirmRequest.CardNumber,
             paymentConfirmRequest.ExpiryDate, paymentConfirmRequest.CVV, paymentConfirmRequest.Comment,
             paymentConfirmRequest.Address);
-
         if (error.IsNotEmptyOrNull()) return BadRequest(error);
 
         (var myUser, error) = await _userService.Get(User.UserId());
-
         if (error.IsNotEmptyOrNull()) return BadRequest(error);
 
-        (var order, error) = Order.Create(
+        (var order, error) = await _orderService.CreateOrder(
             handlerServiceOrder.Id,
-            Handler.Core.StatusCode.Cooking,
-            handlerServiceOrder.Basket.ToOrderBucket(),
+            handlerServiceOrder.Basket,
             handlerServiceOrder.Price,
             handlerServiceOrder.Comment,
             cheque!,
             handlerServiceOrder.ClientAddress,
-            curier.PhoneNumber,
-            myUser!.PhoneNumber,
-            myUser.UserId,
-            handlerServiceOrder.StoreId,
+            curier,
+            myUser!,
             handlerServiceOrder.StoreId,
             cookingTime,
-            deliveryTime,
-            default,
-            default,
-            default
+            deliveryTime
         );
-
         if (error.IsNotEmptyOrNull()) return BadRequest(error);
 
         error = await _orderService.Save(order);
