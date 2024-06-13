@@ -1,20 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="postgres@localhost" uuid="4b4f17db-1eb6-4a2d-ab48-163dea6a9a09">
+    <data-source source="LOCAL" name="ProductDb@localhost" uuid="e30e2a61-3b8f-463b-a526-6c18af57040c">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <configured-by-url>true</configured-by-url>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/postgres</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
-    <data-source source="LOCAL" name="DeliveryDb@localhost" uuid="d1b11ed7-bd66-441c-bd80-6402ccbe2890">
-      <driver-ref>postgresql</driver-ref>
-      <synchronize>true</synchronize>
-      <configured-by-url>true</configured-by-url>
-      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/DeliveryDb?password=1234&amp;user=postgres</jdbc-url>
+      <jdbc-url>jdbc:postgresql://localhost:5432/ProductDb?password=1234&amp;user=postgres</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

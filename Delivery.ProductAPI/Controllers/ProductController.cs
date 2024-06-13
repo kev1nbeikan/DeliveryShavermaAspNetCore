@@ -1,71 +1,73 @@
-﻿using Delivery.ProductAPI.Data;
+﻿using Delivery.ProductAPI.Abstractions;
+using Delivery.ProductAPI.Contracts;
 using Delivery.ProductAPI.Domain;
-using Delivery.ProductAPI.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Delivery.ProductAPI.Controllers;
 
-[Route("/api/products")]
+[ApiController]
+[Route("[controller]")]
 public class ProductController : Controller
 {
-	private readonly DeliveryAppDbContext _dbContext;
+	private readonly IProductService _productService;
 
-	public ProductController(DeliveryAppDbContext dbContext)
+	public ProductController(IProductService productService)
 	{
-		_dbContext = dbContext;
+		_productService = productService;
 	}
 
 	[HttpGet]
-	public IActionResult Index()
+	public async Task<IActionResult> GetProducts()
 	{
-		var products = _dbContext.Products.ToList();
+		var products = await _productService.GetAllProducts();
 
-		return View(new ProductListViewModel(products));
+		var response = products.Select(
+			p => new ProductResponse(p.Id, p.Title, p.Description, p.Composition, p.Price, p.ImagePath)
+		);
+
+		return Ok(response);
 	}
 
 	[HttpPost]
-	public async Task<IActionResult> CreateAsync(string title, string description, string composition, int price)
+	public async Task<IActionResult> CreateProduct([FromBody] ProductRequest request)
 	{
-		var product = new Product
-		{
-			Title = title,
-			Description = description,
-			Composition = composition,
-			Price = price,
-			ImagePath = "imagePath"
-		};
-
-		_dbContext.Products.Add(product);
-		await _dbContext.SaveChangesAsync();
-
-		return RedirectToAction(nameof(Index));
-	}
-
-	[HttpGet("delete/{id:long}")]
-	public async Task<IActionResult> DeleteAsync(long id)
-	{
-		var product = await _dbContext.Products.FindAsync(id);
-
-		_dbContext.Products.Remove(product!);
-		await _dbContext.SaveChangesAsync();
-
-		return RedirectToAction("Index");
-	}
-
-	[HttpGet("update/{product}")]
-	public async Task<IActionResult> UpdateAsync(Product product)
-	{
-		await _dbContext.Products.Where(p => p.Id == product.Id).ExecuteUpdateAsync(
-			x => x
-				.SetProperty(p => p.Title, p => product.Title)
-				.SetProperty(p => p.Description, p => product.Description)
-				.SetProperty(p => p.Composition, p => product.Composition)
-				.SetProperty(p => p.Price, p => product.Price)
+		var (product, error) = Product.Create(
+			Guid.NewGuid(),
+			request.title,
+			request.description,
+			request.composition,
+			request.price,
+			request.imagePath
 		);
 
-		await _dbContext.SaveChangesAsync();
+		if (!string.IsNullOrEmpty(error))
+		{
+			return BadRequest(error);
+		}
 
-		return RedirectToAction("Index");
+		var productId = await _productService.CreateProduct(product);
+
+		return Ok(productId);
+	}
+
+	[HttpPut("{id:guid}")]
+	public async Task<IActionResult> UpdateProduct(Guid id, [FromBody] ProductRequest request)
+	{
+		var productId = await _productService.UpdateProduct(
+			id,
+			request.title,
+			request.description,
+			request.composition,
+			request.price,
+			request.imagePath
+		);
+
+		return Ok(productId);
+	}
+
+	[HttpDelete("{id:guid}")]
+	public async Task<IActionResult> DeleteProduct(Guid id)
+	{
+		return Ok(await _productService.DeleteProduct(id));
 	}
 }

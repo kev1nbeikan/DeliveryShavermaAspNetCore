@@ -18,12 +18,8 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = C:\Users\meshk\RiderProjects\DeliveryBarsGroupProject\Delivery.ProductAPI
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/meshk/RiderProjects/DeliveryBarsGroupProject/Delivery.ProductAPI/Views/Home/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/meshk/RiderProjects/DeliveryBarsGroupProject/Delivery.ProductAPI/Views/Product/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdFxFZGl0LmNzaHRtbA==
+[C:/Users/meshk/RiderProjects/DeliveryBarsGroupProject/Delivery.ProductAPI/Views/Product/Home.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZHVjdFxIb21lLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/meshk/RiderProjects/DeliveryBarsGroupProject/Delivery.ProductAPI/Views/Product/Index.cshtml]

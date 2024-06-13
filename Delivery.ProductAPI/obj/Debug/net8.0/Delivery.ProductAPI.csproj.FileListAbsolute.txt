@@ -36,3 +36,8 @@ C:\Users\meshk\RiderProjects\DeliveryBarsGroupProject\Delivery.ProductAPI\obj\De
 C:\Users\meshk\RiderProjects\DeliveryBarsGroupProject\Delivery.ProductAPI\obj\Debug\net8.0\Delivery.ProductAPI.genruntimeconfig.cache
 C:\Users\meshk\RiderProjects\DeliveryBarsGroupProject\Delivery.ProductAPI\obj\Debug\net8.0\ref\Delivery.ProductAPI.dll
 C:\Users\meshk\RiderProjects\DeliveryBarsGroupProject\Delivery.ProductAPI\obj\Debug\net8.0\Delivery.ProductAPI.sourcelink.json
+C:\Users\meshk\RiderProjects\DeliveryBarsGroupProject\Delivery.ProductAPI\bin\Debug\net8.0\Microsoft.OpenApi.dll
+C:\Users\meshk\RiderProjects\DeliveryBarsGroupProject\Delivery.ProductAPI\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\meshk\RiderProjects\DeliveryBarsGroupProject\Delivery.ProductAPI\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\meshk\RiderProjects\DeliveryBarsGroupProject\Delivery.ProductAPI\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\meshk\RiderProjects\DeliveryBarsGroupProject\Delivery.ProductAPI\obj\Debug\net8.0\Delivery.ProductAPI.MvcApplicationPartsAssemblyInfo.cs
