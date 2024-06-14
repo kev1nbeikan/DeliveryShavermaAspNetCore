@@ -67,7 +67,7 @@ public class PaymentController : Controller
         string? error = null;
 
         var handlerServiceOrder = _handlerOrderService.Get(paymentConfirmRequest.OrderId);
-        if (handlerServiceOrder == null) return BadRequest(error);
+        if (handlerServiceOrder == null) return BadRequest("Order not found: retry make order again");
 
         (var orderTimings, error) = await _getOrderTimings.Invoke(handlerServiceOrder);
         if (error.IsNotEmptyOrNull()) return BadRequest(error);
@@ -78,7 +78,7 @@ public class PaymentController : Controller
         (var myUser, error) = await _userService.Get(User.UserId());
         if (error.IsNotEmptyOrNull()) return BadRequest(error);
 
-        (var order, error) = await _orderService.CreateOrder(
+        (var order, error) = await _orderService.CreateAndSave(
             handlerServiceOrder.Id,
             handlerServiceOrder.Basket,
             handlerServiceOrder.Price,
@@ -87,7 +87,7 @@ public class PaymentController : Controller
             handlerServiceOrder.ClientAddress,
             orderTimings.DeliveryTime.Agent,
             myUser!,
-            handlerServiceOrder.StoreId,
+            orderTimings.CookingTime.Agent,
             orderTimings.CookingTime.Time,
             orderTimings.DeliveryTime.Time
         );

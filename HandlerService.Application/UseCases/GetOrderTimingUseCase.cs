@@ -1,7 +1,7 @@
 using Handler.Core;
 using Handler.Core.Abstractions;
 using Handler.Core.Abstractions.UseCases;
-using HandlerService.Application.Contracts;
+using Handler.Core.Contracts;
 using HandlerService.Controllers;
 using HandlerService.Infustucture.Extensions;
 
@@ -29,7 +29,8 @@ public class GetOrderTimingUseCase : IGetOrderTimingUseCase
 
         (result.CookingTime.Time, var error) =
             await _storeService.GetCookingTime(handlerServiceOrder.StoreId, handlerServiceOrder.Basket);
-        
+        result.CookingTime.Agent = handlerServiceOrder.StoreId;
+
         if (error.IsNotEmptyOrNull()) return GetErrorResult(error!);
 
         return (result, null);

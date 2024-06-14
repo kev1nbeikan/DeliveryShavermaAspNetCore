@@ -1,4 +1,4 @@
-using HandlerService.Application.Contracts;
+using Handler.Core.Contracts;
 
 namespace Handler.Core.Abstractions.UseCases;
 

@@ -88,7 +88,7 @@
 
 
 
-        public static (Order Order, string Error) CreateAndSave(Guid id,
+        public static (Order Order, string Error) Create(Guid id,
                                                          StatusCode status,
                                                          Dictionary<Guid, int>? basket,
                                                          int price,

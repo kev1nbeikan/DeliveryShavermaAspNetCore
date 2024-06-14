@@ -1,6 +1,6 @@
 using HandlerService.Controllers;
 
-namespace HandlerService.Application.Contracts;
+namespace Handler.Core.Contracts;
 
 public class OrderTimings
 {
