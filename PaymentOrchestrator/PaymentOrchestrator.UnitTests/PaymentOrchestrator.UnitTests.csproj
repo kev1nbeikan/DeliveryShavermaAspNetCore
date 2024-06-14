@@ -4,6 +4,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RootNamespace>HandlerService.UnitTests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -14,8 +15,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\HandlerService.Core\HandlerService.Core.csproj" />
-      <ProjectReference Include="..\HandlerService.DataAccess\HandlerService.DataAccess.csproj" />
+      <ProjectReference Include="..\PaymentOrchestrator.Core\PaymentOrchestrator.Core.csproj" />
+      <ProjectReference Include="..\PaymentOrchestrator.DataAccess\PaymentOrchestrator.DataAccess.csproj" />
     </ItemGroup>
 
 </Project>

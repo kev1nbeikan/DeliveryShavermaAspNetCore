@@ -4,10 +4,11 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RootNamespace>HandlerService.Application</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\HandlerService.Core\HandlerService.Core.csproj" />
+      <ProjectReference Include="..\PaymentOrchestrator.Core\PaymentOrchestrator.Core.csproj" />
     </ItemGroup>
 
 </Project>
