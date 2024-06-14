@@ -11,6 +11,6 @@ public class PaymentViewModel
     public long Price { get; set; }
 
     public List<PaymentType> PaymentTypes { get; set; }
-    public PaymentOrder? Order { get; set; }
+    public TemporyOrder? Order { get; set; }
     public Product[] Products { get; set; }
 }

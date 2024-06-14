@@ -17,7 +17,7 @@ public class PaymentService : IPaymentService
         return [PaymentType.Card, PaymentType.Cash];
     }
 
-    public (string? error, string? cheque) ConfirmPayment(PaymentOrder order,
+    public (string? error, string? cheque) ConfirmPayment(TemporyOrder order,
         Payment paymentRequest)
     {
         return ("", "");

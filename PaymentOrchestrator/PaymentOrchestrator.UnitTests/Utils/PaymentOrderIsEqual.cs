@@ -4,7 +4,7 @@ namespace HandlerService.UnitTests.Utils;
 
 public static class PaymentOrderIsEqual
 {
-    public static bool IsEqual(PaymentOrder expected, PaymentOrder actual)
+    public static bool IsEqual(TemporyOrder expected, TemporyOrder actual)
     {
         return expected.Id == actual.Id &&
                expected.Basket.Length == actual.Basket.Length &&

@@ -45,7 +45,7 @@ public class OrderService : IOrderService
             default,
             default);
 
-        if (error.IsNotEmptyOrNull()) error = await Save(order);
+        if (error.HasValue()) error = await Save(order);
         return (order, error);
     }
 }

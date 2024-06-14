@@ -15,12 +15,12 @@ public class HandlerOrderService : IHandlerOrderService
         _handlerRepository = handlerRepository;
     }
 
-    public (PaymentOrder? order, string? error) Save(Guid newGuid, Guid userId, Product[] products,
+    public (TemporyOrder? order, string? error) Save(Guid newGuid, Guid userId, Product[] products,
         int price,
         string address,
         string comment)
     {
-        var (order, error) = PaymentOrder.Create(
+        var (order, error) = TemporyOrder.Create(
             newGuid,
             products,
             price,
@@ -38,7 +38,7 @@ public class HandlerOrderService : IHandlerOrderService
     }
 
 
-    public PaymentOrder? Get(Guid orderId)
+    public TemporyOrder? Get(Guid orderId)
     {
         return _handlerRepository.Get(orderId);
     }

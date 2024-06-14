@@ -1,12 +1,15 @@
 ﻿namespace Handler.Core.HanlderService
 {
-    public class PaymentOrder
+    /// <summary>
+    /// Represents a temporary order that inherits certain fields from the Order class to store it in the database until payment is confirmed.
+    /// </summary>
+    public class TemporyOrder
     {
         public const int MAX_NUMBER_LENGHT = 10;
         public const int MAX_ADDRESS_LENGHT = 250;
         public const int MAX_COMMENT_LENGHT = 250;
 
-        public PaymentOrder(Guid id,
+        public TemporyOrder(Guid id,
             Product[] basket,
             int price,
             string comment,
@@ -36,8 +39,6 @@
         public Product[] Basket { get; } = []; // проверка значений словаря
 
 
-
-
         public int Price { get; }
 
 
@@ -47,7 +48,7 @@
         public string ClientAddress { get; } = string.Empty;
 
 
-        public static (PaymentOrder? Order, string? Error) Create(Guid id,
+        public static (TemporyOrder? Order, string? Error) Create(Guid id,
             Product[] basket,
             int price,
             string comment,
@@ -78,7 +79,7 @@
                 errorString = "Error in price, negative value for price";
 
 
-            var task = new PaymentOrder(id,
+            var task = new TemporyOrder(id,
                 basket!,
                 price,
                 comment,

@@ -18,25 +18,25 @@ public class PaymentController : Controller
     private readonly IUserService _userService;
     private readonly IMenuService _menuService;
     private readonly IPaymentService _paymentService;
-    private readonly IHandlerOrderService _paymentOrderService;
+    private readonly IHandlerOrderService _temporaryOrderService;
     private readonly IOrderService _orderService;
-    private readonly IGetOrderTimingUseCase _getOrderTimings;
+    private readonly IGetOrderLogisticUseCase _getOrderLogistic;
 
     public PaymentController(ILogger<PaymentController> logger,
         IUserService userService,
         IPaymentService paymentService,
         IMenuService menuService,
-        IHandlerOrderService paymentOrderService,
+        IHandlerOrderService temporaryOrderService,
         IOrderService orderService,
-        IGetOrderTimingUseCase getOrderTimings)
+        IGetOrderLogisticUseCase getOrderLogistic)
     {
         _logger = logger;
         _userService = userService;
         _paymentService = paymentService;
         _menuService = menuService;
-        _paymentOrderService = paymentOrderService;
+        _temporaryOrderService = temporaryOrderService;
         _orderService = orderService;
-        _getOrderTimings = getOrderTimings;
+        _getOrderLogistic = getOrderLogistic;
     }
 
     public IActionResult Index()
@@ -66,33 +66,33 @@ public class PaymentController : Controller
     {
         string? error;
 
-        var paymentOrder = _paymentOrderService.Get(paymentConfirmRequest.OrderId);
-        if (paymentOrder == null) return BadRequest("Order not found: retry make order again");
+        var temporyOrder = _temporaryOrderService.Get(paymentConfirmRequest.OrderId);
+        if (temporyOrder == null) return BadRequest("Order not found: try make order again");
 
-        (var orderTimings, error) = await _getOrderTimings.Invoke(paymentOrder);
-        if (error.IsNotEmptyOrNull()) return BadRequest(error);
+        (var orderLogistic, error) = await _getOrderLogistic.Invoke(temporyOrder);
+        if (error.HasValue()) return BadRequest(error);
 
-        (error, var cheque) = _paymentService.ConfirmPayment(paymentOrder, paymentConfirmRequest.ToPayment());
-        if (error.IsNotEmptyOrNull()) return BadRequest(error);
+        (error, var cheque) = _paymentService.ConfirmPayment(temporyOrder, paymentConfirmRequest.ToPayment());
+        if (error.HasValue()) return BadRequest(error);
 
         (var myUser, error) = await _userService.Get(User.UserId());
-        if (error.IsNotEmptyOrNull()) return BadRequest(error);
+        if (error.HasValue()) return BadRequest(error);
 
         (var order, error) = await _orderService.CreateAndSave(
-            paymentOrder.Id,
-            paymentOrder.Basket,
-            paymentOrder.Price,
-            paymentOrder.Comment,
+            temporyOrder.Id,
+            temporyOrder.Basket,
+            temporyOrder.Price,
+            temporyOrder.Comment,
             cheque!,
-            paymentOrder.ClientAddress,
-            orderTimings.DeliveryTime.Agent,
+            temporyOrder.ClientAddress,
+            orderLogistic.Delivery.Perfomer,
             myUser!,
-            orderTimings.CookingTime.Agent,
-            orderTimings.CookingTime.Time,
-            orderTimings.DeliveryTime.Time
+            orderLogistic.Cooking.Perfomer,
+            orderLogistic.Cooking.Time,
+            orderLogistic.Delivery.Time
         );
 
-        if (error.IsNotEmptyOrNull()) return BadRequest(error);
+        if (error.HasValue()) return BadRequest(error);
 
         return Ok(order);
     }
@@ -103,17 +103,17 @@ public class PaymentController : Controller
         var userId = User.UserId();
 
         var error = await _userService.Save(userId, paymentRequest.Address, paymentRequest.Comment);
-        if (error.IsNotEmptyOrNull()) return BadRequest(error);
+        if (error.HasValue()) return BadRequest(error);
 
         (var products, error) = _menuService.GetProducts(paymentRequest.ProductIds);
-        if (error.IsNotEmptyOrNull()) return BadRequest(error);
+        if (error.HasValue()) return BadRequest(error);
 
         var price = _paymentService.CalculatePayment(products!);
 
-        (var paymentOrder, error) = _paymentOrderService.Save(Guid.NewGuid(), userId, products, price,
+        (var paymentOrder, error) = _temporaryOrderService.Save(Guid.NewGuid(), userId, products, price,
             paymentRequest.Address,
             paymentRequest.Comment);
-        if (error.IsNotEmptyOrNull()) return BadRequest(error);
+        if (error.HasValue()) return BadRequest(error);
 
 
         return View(new PaymentViewModel()

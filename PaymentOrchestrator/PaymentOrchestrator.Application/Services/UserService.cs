@@ -17,7 +17,7 @@ public class UserService : IUserService
     {
         var (user, error) = MyUser.Create(userId, [address], comment);
         return
-            error.IsNotEmptyOrNull()
+            error.HasValue()
                 ? error
                 : await _userRepository.SaveByUserId(user!);
     }

@@ -20,7 +20,7 @@ public static class AppServiceDependenciesExtensions
         serviceProvider.AddUserDependencies();
         serviceProvider.AddStoreDependencies();
         serviceProvider.AddPaymentDependencies();
-        serviceProvider.AddSingleton<IGetOrderTimingUseCase, GetOrderTimingUseCase>();
+        serviceProvider.AddSingleton<IGetOrderLogisticUseCase, GetOrderLogisticUseCase>();
     }
 
     private static void AddMenuDependencies(this IServiceCollection serviceProvider)

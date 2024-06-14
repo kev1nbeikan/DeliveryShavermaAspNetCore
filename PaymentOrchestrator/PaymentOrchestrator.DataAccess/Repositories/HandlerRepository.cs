@@ -16,7 +16,7 @@ public class HandlerRepository : IHandlerRepository
         _entryMemoryCacheOptions = new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(15));
     }
 
-    public string? Save(PaymentOrder? order)
+    public string? Save(TemporyOrder? order)
     {
         if (order == null)
         {
@@ -28,9 +28,9 @@ public class HandlerRepository : IHandlerRepository
         return null;
     }
 
-    public PaymentOrder? Get(Guid orderId)
+    public TemporyOrder? Get(Guid orderId)
     {
-        return _cache.TryGetValue(orderId.ToString(), out PaymentOrder? order)
+        return _cache.TryGetValue(orderId.ToString(), out TemporyOrder? order)
             ? order
             : null;
     }

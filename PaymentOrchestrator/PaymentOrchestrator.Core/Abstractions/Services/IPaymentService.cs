@@ -7,6 +7,6 @@ public interface IPaymentService
     int CalculatePayment(Product[] products);
     List<PaymentType> GetPaymentTypes();
 
-    (string? error, string? cheque) ConfirmPayment(PaymentOrder order, Payment paymentRequest);
+    (string? error, string? cheque) ConfirmPayment(TemporyOrder order, Payment paymentRequest);
 }
 
