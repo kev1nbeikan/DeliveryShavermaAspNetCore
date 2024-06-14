@@ -18,6 +18,7 @@ public class CurierRepository : ICurierRepository
         httpClient.BaseAddress = new Uri(configuration["curiersUrl"] ?? throw new Exception("curiersUrl not found"));
     }
 
+
     public async Task<(Curier?, TimeSpan)> GetCurierAsync(string resource)
     {
         HttpResponseMessage response = await _httpClient.GetAsync(resource);

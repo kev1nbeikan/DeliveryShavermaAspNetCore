@@ -1,0 +1,2 @@
+namespace HandlerService.DataAccess.Utils;
+

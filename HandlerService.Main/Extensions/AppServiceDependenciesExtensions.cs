@@ -1,7 +1,9 @@
 using Handler.Core.Abstractions;
 using Handler.Core.Abstractions.Repositories;
 using Handler.Core.Abstractions.Services;
+using Handler.Core.Abstractions.UseCases;
 using HandlerService.Application.Services;
+using HandlerService.Application.UseCases;
 using HandlerService.Controllers;
 using HandlerService.DataAccess.Repositories;
 
@@ -13,10 +15,12 @@ public static class AppServiceDependenciesExtensions
     {
         serviceProvider.AddMenuDependencies();
         serviceProvider.AddOrderDependencies();
-        serviceProvider.AddPaymentDependencies();
+        serviceProvider.AddHandlerDependencies();
         serviceProvider.AddCurierDependencies();
         serviceProvider.AddUserDependencies();
         serviceProvider.AddStoreDependencies();
+        serviceProvider.AddPaymentDependencies();
+        serviceProvider.AddSingleton<IGetOrderTimingUseCase, GetOrderTimingUseCase>();
     }
 
     private static void AddMenuDependencies(this IServiceCollection serviceProvider)
@@ -35,12 +39,16 @@ public static class AppServiceDependenciesExtensions
 
     }
 
-    private static void AddPaymentDependencies(this IServiceCollection serviceProvider)
+    private static void AddHandlerDependencies(this IServiceCollection serviceProvider)
     {
         serviceProvider.AddSingleton<IHandlerRepository, HandlerRepository>();
         serviceProvider.AddSingleton<IHandlerOrderService, HandlerOrderService>();
         serviceProvider.AddHttpClient<HandlerRepository>();
-
+    }
+    
+    private static void AddPaymentDependencies(this IServiceCollection serviceProvider)
+    {
+        serviceProvider.AddSingleton<IPaymentService, PaymentService>();
     }
 
     private static void AddCurierDependencies(this IServiceCollection serviceProvider)
