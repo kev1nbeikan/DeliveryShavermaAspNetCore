@@ -21,7 +21,7 @@ public class OrderService : IOrderService
         return await _orderRepository.Save(order);
     }
 
-    public async Task<(Order order, string? error)> CreateAndSave(Guid handlerServiceOrderId,
+    public async Task<(Order order, string? error)> Save(Guid handlerServiceOrderId,
         Product[] orderBucket, int price,
         string comment, string cheque, string clientAddress, Curier curier, MyUser user, Guid storeId,
         TimeSpan cookingTime, TimeSpan deliveryTime)

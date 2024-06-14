@@ -18,8 +18,19 @@ public class PaymentService : IPaymentService
     }
 
     public (string? error, string? cheque) ConfirmPayment(TemporyOrder order,
-        Payment paymentRequest)
+        Payment paymentInfo)
     {
-        return ("", "");
+        return paymentInfo.PaymentType switch
+        {
+            PaymentType.Cash => (null, "Cheque for Cash: " + order.Price),
+            PaymentType.Card => proccessCardPayment(order, paymentInfo.Card),
+            _ => ("payment type not found", null)
+        };
+    }
+
+    private static (string? error, string? cheque) proccessCardPayment(TemporyOrder order, Card? paymentInfoCard)
+    {
+        if (paymentInfoCard == null) return ("card not found", null);
+        return ("", "Cheque for Card: " + order.Price);
     }
 }

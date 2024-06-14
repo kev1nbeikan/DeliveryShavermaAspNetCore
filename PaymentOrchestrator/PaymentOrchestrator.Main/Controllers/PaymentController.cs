@@ -72,13 +72,13 @@ public class PaymentController : Controller
         (var orderLogistic, error) = await _getOrderLogistic.Invoke(temporyOrder);
         if (error.HasValue()) return BadRequest(error);
 
-        (error, var cheque) = _paymentService.ConfirmPayment(temporyOrder, paymentConfirmRequest.ToPayment());
+        (error, var cheque) = _paymentService.ConfirmPayment(temporyOrder, paymentConfirmRequest.ToPaymentInfo());
         if (error.HasValue()) return BadRequest(error);
 
         (var myUser, error) = await _userService.Get(User.UserId());
         if (error.HasValue()) return BadRequest(error);
 
-        (var order, error) = await _orderService.CreateAndSave(
+        (var order, error) = await _orderService.Save(
             temporyOrder.Id,
             temporyOrder.Basket,
             temporyOrder.Price,

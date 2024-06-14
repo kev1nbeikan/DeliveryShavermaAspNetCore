@@ -6,7 +6,7 @@ namespace HandlerService.Extensions;
 
 public static class PaymentConfirmRequestExtensions
 {
-    public static Payment ToPayment(this PaymentConfirmRequest paymentConfirmRequest)
+    public static Payment ToPaymentInfo(this PaymentConfirmRequest paymentConfirmRequest)
     {
         return new Payment
         {
