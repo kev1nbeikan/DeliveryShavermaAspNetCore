@@ -7,7 +7,7 @@ using NUnit.Framework;
 
 namespace HandlerService.UnitTests.Test;
 
-public class HandlerRepositoryTest
+public class PaymentRepositoryTest
 {
     private IHandlerRepository _handlerRepository;
 

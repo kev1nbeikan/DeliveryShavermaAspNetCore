@@ -10,6 +10,7 @@
     <ItemGroup>
       <ProjectReference Include="..\HandlerService.Application\HandlerService.Application.csproj" />
       <ProjectReference Include="..\HandlerService.Core\HandlerService.Core.csproj" />
+      <ProjectReference Include="..\HandlerService.DataAccess\HandlerService.DataAccess.csproj" />
       <ProjectReference Include="..\HandlerService.Infrastructure\HandlerService.Infrastructure.csproj" />
     </ItemGroup>
 

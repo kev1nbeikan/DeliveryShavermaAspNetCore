@@ -6,14 +6,11 @@ namespace Handler.Core.Abstractions.Repositories;
 
 public class OrderRepository : IOrderRepository
 {
-    private readonly string _orderUrl;
     private readonly HttpClient _httpClient;
     private readonly IConfiguration _configuration;
 
-    public OrderRepository(string orderUrl, IConfiguration configuration)
+    public OrderRepository(IConfiguration configuration)
     {
-        _orderUrl = orderUrl;
-
         _configuration = configuration;
 
         _httpClient = new HttpClient();
