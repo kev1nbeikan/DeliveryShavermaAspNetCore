@@ -7,10 +7,13 @@ namespace HandlerService.DataAccess.Repositories;
 public class HandlerRepository : IHandlerRepository
 {
     private readonly IMemoryCache _cache;
+    private readonly MemoryCacheEntryOptions _entryMemoryCacheOptions;
+
 
     public HandlerRepository(IMemoryCache cache)
     {
         _cache = cache;
+        _entryMemoryCacheOptions = new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(15));
     }
 
     public string? Save(PaymentOrder? order)
@@ -20,7 +23,7 @@ public class HandlerRepository : IHandlerRepository
             throw new ArgumentNullException(nameof(order));
         }
 
-        _cache.Set(order.Id.ToString(), order);
+        _cache.Set(order.Id.ToString(), order, _entryMemoryCacheOptions);
 
         return null;
     }
@@ -30,5 +33,11 @@ public class HandlerRepository : IHandlerRepository
         return _cache.TryGetValue(orderId.ToString(), out PaymentOrder? order)
             ? order
             : null;
+    }
+
+    public string? Delete(Guid orderId)
+    {
+        _cache.Remove(orderId.ToString());
+        return null;
     }
 }

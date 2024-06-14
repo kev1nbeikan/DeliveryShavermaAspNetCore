@@ -6,4 +6,6 @@ public interface IHandlerRepository
 {
     string? Save(PaymentOrder? order);
     PaymentOrder? Get(Guid orderId);
+
+    string? Delete(Guid orderId);
 }
