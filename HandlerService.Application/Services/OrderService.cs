@@ -26,7 +26,7 @@ public class OrderService : IOrderService
         string comment, string cheque, string clientAddress, Curier curier, MyUser user, Guid storeId,
         TimeSpan cookingTime, TimeSpan deliveryTime)
     {
-        var (order, error) = Order.Create(
+        var (order, error) = Order.CreateAndSave(
             handlerServiceOrderId,
             StatusCode.Cooking,
             orderBucket.ToOrderBucket(),

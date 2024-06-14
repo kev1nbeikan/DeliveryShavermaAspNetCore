@@ -1,10 +1,8 @@
-using HandlerService.Controllers;
+using HandlerService.Application.Contracts;
 
 namespace Handler.Core.Abstractions.UseCases;
 
 public interface IGetOrderTimingUseCase
-    
 {
-    Task<(TimeSpan cookingTime, TimeSpan deliveryTime, Curier curier, string?)> Invoke(
-        HandlerServiceOrder handlerServiceOrder);
+    Task<(OrderTimings? orderTimings, string? error)> Invoke(HandlerServiceOrder handlerServiceOrder);
 }

@@ -1,5 +1,6 @@
 using Handler.Core;
 using Handler.Core.Abstractions;
+using Handler.Core.Abstractions.Services;
 
 namespace HandlerService.Application.Services;
 
@@ -15,10 +16,8 @@ public class PaymentService : IPaymentService
         return [PaymentType.Card, PaymentType.Cash];
     }
 
-    public (string? error, string? check) ConfirmPayment(HandlerServiceOrder order, string paymentType,
-        string cardNumber,
-        string expiryDate,
-        string cvv, string comment, string address)
+    public (string? error, string? cheque) ConfirmPayment(HandlerServiceOrder order,
+        Payment paymentRequest)
     {
         return ("", "");
     }

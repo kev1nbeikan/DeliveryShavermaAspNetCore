@@ -1,6 +1,7 @@
 using Handler.Core;
 using Handler.Core.Abstractions;
 using Handler.Core.Abstractions.UseCases;
+using HandlerService.Application.Contracts;
 using HandlerService.Controllers;
 using HandlerService.Infustucture.Extensions;
 
@@ -18,22 +19,25 @@ public class GetOrderTimingUseCase : IGetOrderTimingUseCase
     }
 
 
-    public async Task<(TimeSpan cookingTime, TimeSpan deliveryTime, Curier curier, string?)> Invoke(
-        HandlerServiceOrder handlerServiceOrder)
+    public async Task<(OrderTimings? orderTimings, string? error)> Invoke(HandlerServiceOrder handlerServiceOrder)
     {
-        var (curier, deliveryTime) = await _curierService.GetCurier(handlerServiceOrder.ClientAddress);
-        if (curier == null) return GetErrorResult("Curier is not found");
+        var result = new OrderTimings();
 
-        var (cookingTime, error) =
+        (result.DeliveryTime.Agent, result.DeliveryTime.Time) =
+            await _curierService.GetCurier(handlerServiceOrder.ClientAddress);
+        if (result.DeliveryTime.Agent == null) return GetErrorResult("Curier is not found");
+
+        (result.CookingTime.Time, var error) =
             await _storeService.GetCookingTime(handlerServiceOrder.StoreId, handlerServiceOrder.Basket);
-        if (error.IsNotEmptyOrNull()) return GetErrorResult(error);
+        
+        if (error.IsNotEmptyOrNull()) return GetErrorResult(error!);
 
-        return (cookingTime, deliveryTime, curier, null);
+        return (result, null);
     }
 
 
-    private (TimeSpan cookingTime, TimeSpan deliveryTime, Curier curier, string?) GetErrorResult(string error)
+    private (OrderTimings? orderTimings, string error) GetErrorResult(string error)
     {
-        return (TimeSpan.Zero, TimeSpan.Zero, null, error)!;
+        return (null, error);
     }
 }

@@ -1,4 +1,5 @@
 using Handler.Core.Abstractions;
+using Handler.Core.Abstractions.Services;
 using HandlerService.Application.Services;
 
 namespace HandlerService.Extensions;

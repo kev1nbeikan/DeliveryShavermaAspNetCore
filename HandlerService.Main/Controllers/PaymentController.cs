@@ -20,7 +20,7 @@ public class PaymentController : Controller
     private readonly IPaymentService _paymentService;
     private readonly IHandlerOrderService _handlerOrderService;
     private readonly IOrderService _orderService;
-    private readonly IGetOrderTimingUseCase _getOrderTiming;
+    private readonly IGetOrderTimingUseCase _getOrderTimings;
 
     public PaymentController(ILogger<PaymentController> logger,
         IUserService userService,
@@ -28,7 +28,7 @@ public class PaymentController : Controller
         IMenuService menuService,
         IHandlerOrderService handlerOrderService,
         IOrderService orderService,
-        IGetOrderTimingUseCase getOrderTiming)
+        IGetOrderTimingUseCase getOrderTimings)
     {
         _logger = logger;
         _userService = userService;
@@ -36,7 +36,7 @@ public class PaymentController : Controller
         _menuService = menuService;
         _handlerOrderService = handlerOrderService;
         _orderService = orderService;
-        _getOrderTiming = getOrderTiming;
+        _getOrderTimings = getOrderTimings;
     }
 
     public IActionResult Index()
@@ -69,13 +69,10 @@ public class PaymentController : Controller
         var handlerServiceOrder = _handlerOrderService.Get(paymentConfirmRequest.OrderId);
         if (handlerServiceOrder == null) return BadRequest(error);
 
-        (var cookingTime, var deliveryTime, var curier, error) = await _getOrderTiming.Invoke(handlerServiceOrder);
+        (var orderTimings, error) = await _getOrderTimings.Invoke(handlerServiceOrder);
         if (error.IsNotEmptyOrNull()) return BadRequest(error);
 
-        (error, var cheque) = _paymentService.ConfirmPayment(handlerServiceOrder, paymentConfirmRequest.PaymentType,
-            paymentConfirmRequest.CardNumber,
-            paymentConfirmRequest.ExpiryDate, paymentConfirmRequest.CVV, paymentConfirmRequest.Comment,
-            paymentConfirmRequest.Address);
+        (error, var cheque) = _paymentService.ConfirmPayment(handlerServiceOrder, paymentConfirmRequest.ToPayment());
         if (error.IsNotEmptyOrNull()) return BadRequest(error);
 
         (var myUser, error) = await _userService.Get(User.UserId());
@@ -88,15 +85,13 @@ public class PaymentController : Controller
             handlerServiceOrder.Comment,
             cheque!,
             handlerServiceOrder.ClientAddress,
-            curier,
+            orderTimings.DeliveryTime.Agent,
             myUser!,
             handlerServiceOrder.StoreId,
-            cookingTime,
-            deliveryTime
+            orderTimings.CookingTime.Time,
+            orderTimings.DeliveryTime.Time
         );
-        if (error.IsNotEmptyOrNull()) return BadRequest(error);
 
-        error = await _orderService.Save(order);
         if (error.IsNotEmptyOrNull()) return BadRequest(error);
 
         return Ok(order);
