@@ -1,6 +1,6 @@
 using Handler.Core.HanlderService;
 
-namespace Handler.Core.Abstractions;
+namespace Handler.Core.Abstractions.Services;
 
 public interface IHandlerOrderService
 {

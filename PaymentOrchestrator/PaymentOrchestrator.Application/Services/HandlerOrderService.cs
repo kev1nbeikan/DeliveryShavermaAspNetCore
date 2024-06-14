@@ -1,6 +1,7 @@
 using Handler.Core;
 using Handler.Core.Abstractions;
 using Handler.Core.Abstractions.Repositories;
+using Handler.Core.Abstractions.Services;
 using Handler.Core.Extensions;
 using Handler.Core.HanlderService;
 

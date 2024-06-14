@@ -85,7 +85,7 @@ public class PaymentController : Controller
             temporyOrder.Comment,
             cheque!,
             temporyOrder.ClientAddress,
-            orderLogistic.Delivery.Perfomer,
+            orderLogistic!.Delivery.Perfomer,
             myUser!,
             orderLogistic.Cooking.Perfomer,
             orderLogistic.Cooking.Time,
