@@ -1,0 +1,9 @@
+﻿@model ProductListViewModel;
+
+@{
+    ViewBag.Title = "Admin Store Panel";
+}
+
+<partial name="_ProductCreate" model="new ProductCreateViewModel()"/>
+<hr/>
+<partial name="_ProductListHeader" model="@Model"/>

@@ -1,4 +1,5 @@
 ﻿using MenuService.API.Contracts;
+using MenuService.API.Models;
 using MenuService.Core.Abstractions;
 using MenuService.Core.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -25,11 +26,12 @@ public class ProductController : Controller
 			p => new ProductResponse(p.Id, p.Title, p.Description, p.Composition, p.Price, p.ImagePath)
 		);
 
-		return Ok(response);
+		// return Ok(response);
+		return View(new ProductListViewModel(products));
 	}
 
 	[HttpPost]
-	public async Task<IActionResult> CreateProduct([FromBody] ProductRequest request)
+	public async Task<IActionResult> CreateProduct([FromForm] ProductRequest request)
 	{
 		var (product, error) = Product.Create(
 			Guid.NewGuid(),
@@ -47,11 +49,12 @@ public class ProductController : Controller
 
 		var productId = await _productService.CreateProduct(product);
 
-		return Ok(productId);
+		// return Ok(productId);
+		return RedirectToAction(nameof(AdminStorePanel));
 	}
 
-	[HttpPut("{id:guid}")]
-	public async Task<IActionResult> UpdateProduct(Guid id, [FromBody] ProductRequest request)
+	[HttpPost("{id:guid}")]
+	public async Task<IActionResult> UpdateProduct(Guid id, [FromForm] ProductRequest request)
 	{
 		var productId = await _productService.UpdateProduct(
 			id,
@@ -62,12 +65,26 @@ public class ProductController : Controller
 			request.ImagePath
 		);
 
-		return Ok(productId);
+		// return Ok(productId);
+
+		return RedirectToAction(nameof(AdminStorePanel));
 	}
 
-	[HttpDelete("{id:guid}")]
+	[HttpGet("{id:guid}")]
 	public async Task<IActionResult> DeleteProduct(Guid id)
 	{
-		return Ok(await _productService.DeleteProduct(id));
+		await _productService.DeleteProduct(id);
+
+		// return Ok(id);
+
+		return RedirectToAction(nameof(AdminStorePanel));
+	}
+
+	[HttpGet("adminstorepanel")]
+	public async Task<IActionResult> AdminStorePanel()
+	{
+		var products = await _productService.GetAllProducts();
+
+		return View(new ProductListViewModel(products));
 	}
 }

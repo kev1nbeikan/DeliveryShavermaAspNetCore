@@ -1,0 +1,55 @@
+﻿@model ProductCreateViewModel;
+
+@{
+}
+
+<form class="form-inline row g-3" asp-controller="Product" asp-action="CreateProduct" method="POST">
+    <div class="input-group-append">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
+            Create product
+        </button>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Create product</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" asp-for="Title" placeholder="Title" aria-label="Default">
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group">
+                            <textarea class="form-control" asp-for="Description" placeholder="Description" aria-label="Default" style="height: 17px"></textarea>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" asp-for="Composition" placeholder="Composition" aria-label="Default">
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group">
+                            <span class="input-group-text">$</span>
+                            <input type="text" class="form-control" asp-for="Price" placeholder="Price" aria-label="Amount (to the nearest dollar)">
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" asp-for="ImagePath" placeholder="File" aria-label="Default">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
