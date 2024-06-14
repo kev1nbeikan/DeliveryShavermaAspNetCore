@@ -1,4 +1,5 @@
 using Handler.Core;
+using Handler.Core.HanlderService;
 using HandlerService.Contracts;
 using HandlerService.Controllers;
 
@@ -10,6 +11,6 @@ public class PaymentViewModel
     public long Price { get; set; }
 
     public List<PaymentType> PaymentTypes { get; set; }
-    public HandlerServiceOrder? Order { get; set; }
+    public PaymentOrder? Order { get; set; }
     public Product[] Products { get; set; }
 }

@@ -1,12 +1,12 @@
-﻿namespace Handler.Core
+﻿namespace Handler.Core.HanlderService
 {
-    public class HandlerServiceOrder
+    public class PaymentOrder
     {
         public const int MAX_NUMBER_LENGHT = 10;
         public const int MAX_ADDRESS_LENGHT = 250;
         public const int MAX_COMMENT_LENGHT = 250;
 
-        public HandlerServiceOrder(Guid id,
+        public PaymentOrder(Guid id,
             Product[] basket,
             int price,
             string comment,
@@ -47,7 +47,7 @@
         public string ClientAddress { get; } = string.Empty;
 
 
-        public static (HandlerServiceOrder? Order, string? Error) Create(Guid id,
+        public static (PaymentOrder? Order, string? Error) Create(Guid id,
             Product[] basket,
             int price,
             string comment,
@@ -78,7 +78,7 @@
                 errorString = "Error in price, negative value for price";
 
 
-            var task = new HandlerServiceOrder(id,
+            var task = new PaymentOrder(id,
                 basket!,
                 price,
                 comment,

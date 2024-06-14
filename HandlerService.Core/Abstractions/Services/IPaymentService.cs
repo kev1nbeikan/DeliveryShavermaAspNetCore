@@ -1,3 +1,5 @@
+using Handler.Core.HanlderService;
+
 namespace Handler.Core.Abstractions.Services;
 
 public interface IPaymentService
@@ -5,6 +7,6 @@ public interface IPaymentService
     int CalculatePayment(Product[] products);
     List<PaymentType> GetPaymentTypes();
 
-    (string? error, string? cheque) ConfirmPayment(HandlerServiceOrder order, Payment paymentRequest);
+    (string? error, string? cheque) ConfirmPayment(PaymentOrder order, Payment paymentRequest);
 }
 

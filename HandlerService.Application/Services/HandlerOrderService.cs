@@ -1,16 +1,26 @@
 using Handler.Core;
 using Handler.Core.Abstractions;
+using Handler.Core.Abstractions.Repositories;
 using Handler.Core.Extensions;
+using Handler.Core.HanlderService;
 
 namespace HandlerService.Application.Services;
 
 public class HandlerOrderService : IHandlerOrderService
 {
-    public (HandlerServiceOrder? order, string? error) Save(Guid newGuid, Guid userId, Product[] products, int price,
+    private readonly IHandlerRepository _handlerRepository;
+
+    public HandlerOrderService(IHandlerRepository handlerRepository)
+    {
+        _handlerRepository = handlerRepository;
+    }
+
+    public (PaymentOrder? order, string? error) Save(Guid newGuid, Guid userId, Product[] products,
+        int price,
         string address,
         string comment)
     {
-        var (order, error) = HandlerServiceOrder.Create(
+        var (order, error) = PaymentOrder.Create(
             newGuid,
             products,
             price,
@@ -21,12 +31,15 @@ public class HandlerOrderService : IHandlerOrderService
         );
 
         if (!string.IsNullOrEmpty(error)) return (null, error);
-        return (order, null);
+
+        error = _handlerRepository.Save(order);
+
+        return (order, error);
     }
 
 
-    public HandlerServiceOrder? Get(Guid orderId)
+    public PaymentOrder? Get(Guid orderId)
     {
-        return HandlerServiceOrder.Create(orderId, new Product[0], 0, "", "", Guid.Empty, Guid.Empty).Order;
+        return _handlerRepository.Get(orderId);
     }
 }

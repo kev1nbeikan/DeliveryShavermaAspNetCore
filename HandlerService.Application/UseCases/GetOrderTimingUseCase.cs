@@ -2,6 +2,7 @@ using Handler.Core;
 using Handler.Core.Abstractions;
 using Handler.Core.Abstractions.UseCases;
 using Handler.Core.Contracts;
+using Handler.Core.HanlderService;
 using HandlerService.Controllers;
 using HandlerService.Infustucture.Extensions;
 
@@ -19,17 +20,17 @@ public class GetOrderTimingUseCase : IGetOrderTimingUseCase
     }
 
 
-    public async Task<(OrderTimings? orderTimings, string? error)> Invoke(HandlerServiceOrder handlerServiceOrder)
+    public async Task<(OrderTimings? orderTimings, string? error)> Invoke(PaymentOrder paymentOrder)
     {
         var result = new OrderTimings();
 
         (result.DeliveryTime.Agent, result.DeliveryTime.Time) =
-            await _curierService.GetCurier(handlerServiceOrder.ClientAddress);
+            await _curierService.GetCurier(paymentOrder.ClientAddress);
         if (result.DeliveryTime.Agent == null) return GetErrorResult("Curier is not found");
 
         (result.CookingTime.Time, var error) =
-            await _storeService.GetCookingTime(handlerServiceOrder.StoreId, handlerServiceOrder.Basket);
-        result.CookingTime.Agent = handlerServiceOrder.StoreId;
+            await _storeService.GetCookingTime(paymentOrder.StoreId, paymentOrder.Basket);
+        result.CookingTime.Agent = paymentOrder.StoreId;
 
         if (error.IsNotEmptyOrNull()) return GetErrorResult(error!);
 
