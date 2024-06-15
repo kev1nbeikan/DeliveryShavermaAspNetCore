@@ -2,6 +2,6 @@ namespace Handler.Core;
 
 public static class UserClaims
 {
-    public static string UserId = "userId";
-    public static string Role = "role";
+    public static string UserId = "UserId";
+    public static string Role = "Role";
 }

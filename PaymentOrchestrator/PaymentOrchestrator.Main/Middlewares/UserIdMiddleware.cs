@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using Handler.Core;
 
 namespace HandlerService.Middlewares;
 
@@ -13,8 +14,8 @@ public class UserIdMiddleware
 
     public async Task Invoke(HttpContext context)
     {
-        var userIdString = GetFromCookiesOrHeaders(context, "userId");
-        var roleString = GetFromCookiesOrHeaders(context, "role");
+        var userIdString = GetFromCookiesOrHeaders(context, UserClaims.UserId);
+        var roleString = GetFromCookiesOrHeaders(context, UserClaims.Role);
 
 
         if (!Guid.TryParse(userIdString, out Guid userId) || string.IsNullOrEmpty(roleString))
@@ -28,8 +29,8 @@ public class UserIdMiddleware
         {
             new ClaimsIdentity(new Claim[]
             {
-                new Claim("userId", userId.ToString()),
-                new Claim("role", roleString)
+                new Claim(UserClaims.UserId, userId.ToString()),
+                new Claim(UserClaims.Role, roleString)
             }),
         });
 
