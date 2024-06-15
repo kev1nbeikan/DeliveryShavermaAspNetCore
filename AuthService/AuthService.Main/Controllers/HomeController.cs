@@ -22,6 +22,21 @@ public class HomeController : Controller
     {
         return View();
     }
+    
+    public IActionResult AuthUser()
+    {
+        return View();
+    }
+    
+    public IActionResult AuthStore()
+    {
+        return View();
+    }
+    
+    public IActionResult AuthCurier()
+    {
+        return View();
+    }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
