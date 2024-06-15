@@ -13,21 +13,32 @@ public class UserIdMiddleware
 
     public async Task Invoke(HttpContext context)
     {
-        if (string.IsNullOrEmpty(context.Request.Headers["userId"]))
+        var userIdString = GetFromCookiesOrHeaders(context, "userId");
+        var roleString = GetFromCookiesOrHeaders(context, "role");
+
+
+        if (!Guid.TryParse(userIdString, out Guid userId) || string.IsNullOrEmpty(roleString))
         {
             context.Response.StatusCode = StatusCodes.Status401Unauthorized;
             return;
         }
 
-        if (!Guid.TryParse(context.Request.Headers["userId"], out Guid userId))
-        {
-            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-            return;
-        }
 
         context.User = new ClaimsPrincipal(new[]
-            { new ClaimsIdentity(new Claim[] { new Claim("userId", userId.ToString()) }) });
-        
+        {
+            new ClaimsIdentity(new Claim[]
+            {
+                new Claim("userId", userId.ToString()),
+                new Claim("role", roleString)
+            }),
+        });
+
         await _next(context);
+    }
+
+    private string? GetFromCookiesOrHeaders(HttpContext context, string key)
+    {
+        return context.Request.Headers[key].ToString() ??
+               context.Request.Cookies[key]?.ToString();
     }
 }

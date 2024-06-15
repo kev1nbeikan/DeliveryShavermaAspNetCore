@@ -4,7 +4,8 @@ public class CookiesSaver : IDisposable
 {
     IResponseCookies _cookies;
     private List<string> _domains = new();
-
+    
+    
     public CookiesSaver(IResponseCookies cookies)
     {
         _cookies = cookies;
@@ -41,4 +42,5 @@ public class CookiesSaver : IDisposable
     {
         _domains.Clear();
     }
+    
 }

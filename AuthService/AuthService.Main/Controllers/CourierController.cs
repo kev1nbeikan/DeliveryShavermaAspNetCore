@@ -1,3 +1,4 @@
+using AuthService.Application.Services;
 using AuthService.Core;
 using AuthService.Core.Abstractions;
 using AuthService.Core.Exceptions;
@@ -9,49 +10,43 @@ using Microsoft.Extensions.Options;
 namespace AuthService.Main.Controllers;
 
 [Route("authService/[controller]")]
-public class UserController : Controller
+public class CourierController : Controller
 {
-    private readonly ILogger<UserController> _logger;
-    private IUserAuthService _userAuthService;
+    private readonly ILogger<CourierController> _logger;
+    private readonly ICourierAuthService _courierAuthService;
     private readonly IOptions<ServicesOptions> _serviceOptions;
 
-    public UserController(ILogger<UserController> logger, IUserAuthService userAuthService,
+    public CourierController(ILogger<CourierController> logger, ICourierAuthService courierAuthService,
         IOptions<ServicesOptions> servicesOptions)
     {
         _logger = logger;
-        _userAuthService = userAuthService;
+        _courierAuthService = courierAuthService;
         _serviceOptions = servicesOptions;
     }
 
 
     [HttpGet("login")]
-    public IActionResult UserLoginView()
-    {
-        return View();
-    }
-
-    [HttpGet("Registration")]
-    public IActionResult UserRegisterView()
+    public IActionResult Login()
     {
         return View();
     }
 
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login(AuthUserLoginRequest request)
+    public async Task<IActionResult> Login(AuthStaffRequest request)
     {
         try
         {
-            var userId = await _userAuthService.Login(request.Email, request.Password);
+            var userId = await _courierAuthService.Login(request.Login, request.Password);
 
 
             var response = new LoginResponse
             {
                 UserId = userId.ToString(),
-                Role = "user"
+                Role = "courier"
             };
 
-            using (var cookiesSaver = CookiesSaverBuilder.ForUserAuth(Response.Cookies, _serviceOptions))
+            using (var cookiesSaver = CookiesSaverBuilder.ForCourierAuth(Response.Cookies, _serviceOptions))
             {
                 cookiesSaver.Append(nameof(response.UserId), response.UserId);
                 cookiesSaver.Append(nameof(response.Role), response.Role);
@@ -68,12 +63,18 @@ public class UserController : Controller
         }
     }
 
+    [HttpGet("register")]
+    public IActionResult Register()
+    {
+        return View();
+    }
+
     [HttpPost("register")]
-    public async Task<IActionResult> Register(AuthUserLoginRequest request)
+    public async Task<IActionResult> Register(AuthStaffRequest request)
     {
         try
         {
-            var user = await _userAuthService.Register(request.Email, request.Password);
+            var user = await _courierAuthService.Register(request.Login, request.Password);
             return Ok(user.Id);
         }
         catch (Exception e) when (e is UniqeConstraitException | e is ArgumentException)
