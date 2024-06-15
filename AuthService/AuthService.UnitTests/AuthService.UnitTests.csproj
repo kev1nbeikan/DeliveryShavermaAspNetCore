@@ -14,8 +14,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\AuthService\AuthService.Application\AuthService.Application.csproj" />
-      <ProjectReference Include="..\AuthService\AuthService.DataAccess\AuthService.DataAccess.csproj" />
+      <ProjectReference Include="..\AuthService.Application\AuthService.Application.csproj" />
+      <ProjectReference Include="..\AuthService.DataAccess\AuthService.DataAccess.csproj" />
     </ItemGroup>
 
 </Project>

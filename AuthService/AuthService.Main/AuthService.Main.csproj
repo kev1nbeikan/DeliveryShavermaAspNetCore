@@ -15,7 +15,14 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\AuthService.Application\AuthService.Application.csproj" />
       <ProjectReference Include="..\AuthService.DataAccess\AuthService.DataAccess.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Shared\Error.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\_Layout.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Shared\_ValidationScriptsPartial.cshtml" />
     </ItemGroup>
 
 </Project>

@@ -1,3 +1,4 @@
+using AuthService.Core;
 using AuthService.DataAccess;
 using AuthService.Main.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,10 @@ builder.Services.AddDbContext<AuthDbContext>(
 );
 
 builder.Services.AddDependenciesServices();
+
+builder.Services.Configure<ServicesOptions>(builder.Configuration.GetSection("Services"));
+
+Console.WriteLine(builder.Configuration.GetSection("Services").Get<ServicesOptions>().MenuUrl);
 
 var app = builder.Build();
 
@@ -31,6 +36,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=User}/{action=Index}/{id?}");
 
 app.Run();

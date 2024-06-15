@@ -1,3 +1,4 @@
+
 using AuthService.Application.Utils;
 
 namespace AuthService.UnitTests.Fixtures;
