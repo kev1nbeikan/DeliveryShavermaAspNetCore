@@ -30,24 +30,24 @@ namespace OrderService.DataAccess.Configurations
             builder.ToTable(b => b.HasCheckConstraint("CK_CurrentOrder_Status", "LastStatus >= 0 AND LastStatus <= 6"));
 
             builder.Property(b => b.ReasonOfCanceled)
-                .HasMaxLength(Order.MAX_COMMENT_LENGHT);
+                .HasMaxLength(LastOrder.MaxCommentLength);
 
             builder.Property(b => b.Price)
                 .IsRequired();
 
             builder.Property(b => b.Comment)
-                .HasMaxLength(Order.MAX_COMMENT_LENGHT);
+                .HasMaxLength(LastOrder.MaxCommentLength);
 
             builder.Property(b => b.CourierNumber)
-                .HasMaxLength(Order.MAX_NUMBER_LENGHT)
+                .HasMaxLength(LastOrder.MaxNumberLength)
                 .IsRequired();
 
             builder.Property(b => b.ClientNumber)
-                .HasMaxLength(Order.MAX_COMMENT_LENGHT)
+                .HasMaxLength(LastOrder.MaxCommentLength)
                 .IsRequired();
 
             builder.Property(b => b.ClientAddress)
-                .HasMaxLength(Order.MAX_ADDRESS_LENGHT)
+                .HasMaxLength(LastOrder.MaxAddressLength)
                 .IsRequired();
         }
     }

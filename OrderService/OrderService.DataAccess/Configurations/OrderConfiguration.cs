@@ -5,7 +5,7 @@ using OrderService.Domain.Models;
 
 namespace OrderService.DataAccess.Configurations
 {
-    public class CurrentOrderConfiguration: IEntityTypeConfiguration<CurrentOrderEntity>
+    public class OrderConfiguration: IEntityTypeConfiguration<CurrentOrderEntity>
     {
         public void Configure(EntityTypeBuilder<CurrentOrderEntity> builder)
         {
@@ -33,18 +33,18 @@ namespace OrderService.DataAccess.Configurations
                 .IsRequired();
 
             builder.Property(b => b.Comment)
-                .HasMaxLength(Order.MAX_COMMENT_LENGHT);
+                .HasMaxLength(LastOrder.MaxCommentLength);
 
             builder.Property(b => b.CourierNumber)
-                .HasMaxLength(Order.MAX_NUMBER_LENGHT)
+                .HasMaxLength(LastOrder.MaxNumberLength)
                 .IsRequired();
 
             builder.Property(b => b.ClientNumber)
-                .HasMaxLength(Order.MAX_COMMENT_LENGHT)
+                .HasMaxLength(LastOrder.MaxCommentLength)
                 .IsRequired();
 
             builder.Property(b => b.ClientAddress)
-                .HasMaxLength(Order.MAX_ADDRESS_LENGHT)
+                .HasMaxLength(LastOrder.MaxAddressLength)
                 .IsRequired();
         }
     }
