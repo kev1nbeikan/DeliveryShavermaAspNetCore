@@ -2,17 +2,17 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PaymentOrchestrator", "PaymentOrchestrator", "{E61A4B9F-C195-4EC3-93D4-AD7C441C97D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentOrchestrator.Main", "PaymentOrchestrator\PaymentOrchestrator.Main\PaymentOrchestrator.Main.csproj", "{7777FE6F-A757-4279-A19C-65379C2DFA5F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentOrchestrator.Main", "PaymentOrchestratorService\PaymentOrchestrator.Main\PaymentOrchestrator.Main.csproj", "{7777FE6F-A757-4279-A19C-65379C2DFA5F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentOrchestrator.Core", "PaymentOrchestrator\PaymentOrchestrator.Core\PaymentOrchestrator.Core.csproj", "{6ADB0BFA-576A-403C-A201-D7D0888E6E19}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentOrchestrator.Core", "PaymentOrchestratorService\PaymentOrchestrator.Core\PaymentOrchestrator.Core.csproj", "{6ADB0BFA-576A-403C-A201-D7D0888E6E19}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentOrchestrator.Application", "PaymentOrchestrator\PaymentOrchestrator.Application\PaymentOrchestrator.Application.csproj", "{ECD50B9C-A1B8-4A40-897C-023D5C1000C3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentOrchestrator.Application", "PaymentOrchestratorService\PaymentOrchestrator.Application\PaymentOrchestrator.Application.csproj", "{ECD50B9C-A1B8-4A40-897C-023D5C1000C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentOrchestrator.Infrastructure", "PaymentOrchestrator\PaymentOrchestrator.Infrastructure\PaymentOrchestrator.Infrastructure.csproj", "{45C81E94-F6F9-476B-989B-9E620C146589}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentOrchestrator.Infrastructure", "PaymentOrchestratorService\PaymentOrchestrator.Infrastructure\PaymentOrchestrator.Infrastructure.csproj", "{45C81E94-F6F9-476B-989B-9E620C146589}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentOrchestrator.DataAccess", "PaymentOrchestrator\PaymentOrchestrator.DataAccess\PaymentOrchestrator.DataAccess.csproj", "{1678CDF6-2270-410A-A26C-3A3C51B7E4B4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentOrchestrator.DataAccess", "PaymentOrchestratorService\PaymentOrchestrator.DataAccess\PaymentOrchestrator.DataAccess.csproj", "{1678CDF6-2270-410A-A26C-3A3C51B7E4B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentOrchestrator.UnitTests", "PaymentOrchestrator\PaymentOrchestrator.UnitTests\PaymentOrchestrator.UnitTests.csproj", "{D946E292-127E-4DB9-AD27-8D9CF379E6DD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentOrchestrator.UnitTests", "PaymentOrchestratorService\PaymentOrchestrator.UnitTests\PaymentOrchestrator.UnitTests.csproj", "{D946E292-127E-4DB9-AD27-8D9CF379E6DD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AuthService", "AuthService/AuthService", "{E63952F0-621A-4BCE-B750-108268B80D7C}"
 EndProject
