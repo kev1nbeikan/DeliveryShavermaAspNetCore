@@ -9,7 +9,7 @@ public static class DependenciesServicesExtensions
     {
         services.AddScoped<IUserAuthRepo, UserAuthRepo>();
         services.AddScoped<IStoreAuthRepo, StoreAuthRepo>();
-        services.AddScoped<ICurierAuthRepo, CurierAuthRepo>();
+        services.AddScoped<ICourierAuthRepo, CourierAuthRepo>();
 
         return services;
     }

@@ -5,9 +5,9 @@ namespace AuthService.DataAccess.Extensions;
 
 public static class EntityExtensions
 {
-    public static CurierAuth? ToCore(this CurierAuthEntity curier)
+    public static CourierAuth? ToCore(this CurierAuthEntity curier)
     {
-        return new CurierAuth
+        return new CourierAuth
         {
             Id = curier.Id,
             Login = curier.Login,

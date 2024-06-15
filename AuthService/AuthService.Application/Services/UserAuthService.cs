@@ -17,7 +17,7 @@ public class UserAuthService : IUserAuthService
     }
 
 
-    public async Task<UserAuth> Register(string userName, string email,
+    public async Task<UserAuth> Register(string email,
         string passwordHash)
     {
         var user = await _userRepository.GetByEmail(email);

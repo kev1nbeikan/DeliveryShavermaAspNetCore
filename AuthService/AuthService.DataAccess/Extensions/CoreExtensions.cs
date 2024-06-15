@@ -17,15 +17,15 @@ public static class CoreExtensions
         };
     }
 
-    public static CurierAuthEntity ToEntity(this CurierAuth curier)
+    public static CurierAuthEntity ToEntity(this CourierAuth courier)
     {
         
-        ArgumentNullException.ThrowIfNull(curier);
+        ArgumentNullException.ThrowIfNull(courier);
         return new CurierAuthEntity
         {
-            Id = curier.Id,
-            PasswordHash = curier.PasswordHash,
-            Login = curier.Login
+            Id = courier.Id,
+            PasswordHash = courier.PasswordHash,
+            Login = courier.Login
         };
     }
 

@@ -15,6 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\AuthService\AuthService.Application\AuthService.Application.csproj" />
       <ProjectReference Include="..\PaymentOrchestrator.Core\PaymentOrchestrator.Core.csproj" />
       <ProjectReference Include="..\PaymentOrchestrator.DataAccess\PaymentOrchestrator.DataAccess.csproj" />
     </ItemGroup>
