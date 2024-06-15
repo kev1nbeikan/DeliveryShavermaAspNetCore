@@ -4,15 +4,11 @@ using OrderService.DataAccess.Entities;
 
 namespace OrderService.DataAccess
 {
-    public class OrderServiceDbContext : DbContext
+    public class OrderServiceDbContext(DbContextOptions options) : DbContext(options)
     {
-        public OrderServiceDbContext(DbContextOptions options) : base(options)
-        {
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new CurrentOrderConfiguration());
+            modelBuilder.ApplyConfiguration(new OrderConfiguration());
             modelBuilder.ApplyConfiguration(new CanceledOrderConfiguration());
             modelBuilder.ApplyConfiguration(new LastOrderConfiguration());
         }
