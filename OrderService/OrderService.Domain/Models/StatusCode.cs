@@ -7,6 +7,6 @@ public enum StatusCode
     Cooking,
     WaitingCourier,
     Delivering,
-    WaitingClinet,
+    WaitingClient,
     Accepted
 }
