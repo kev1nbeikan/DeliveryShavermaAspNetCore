@@ -1,0 +1,156 @@
+﻿@model ProductListViewModel
+
+@{
+    ViewData["Title"] = "Menu Page";
+}
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Restaurant Menu</h1>
+    <div class="menu-grid">
+        <div class="product-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+            @foreach (var product in Model.Products)
+            {
+                <div class="product-card">
+                    <div class="product-card-inner" style="border: 1px solid #ccc; padding: 10px; border-radius: 5px; background-color: #f8f9fa; display: flex; flex-direction: column; align-items: center;">
+                        <img src="/no-image.svg" alt="Product Image" style="max-width: 100%; max-height: 150px; margin-bottom: 10px;">
+                        <div class="product-info text-center">
+                            <h5>@product.Title</h5>
+                            <p>@product.Description</p>
+                            <p>@product.Composition</p>
+                            <p>
+                                <strong>@product.Price.ToString("C")</strong>
+                            </p>
+                        </div>
+                        <button type="button" class="btn btn-warning" onclick="addToCart('@product.Id', '@product.Title', '@product.Price')">Добавить в корзину</button>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="cart">
+            <h2 class="text-center">Корзина</h2>
+            <div id="cart-items">
+                <!-- Корзина будет отображаться здесь -->
+            </div>
+            <div class="total">
+                <p>Итоговая сумма: <span id="totalAmount">0</span> Руб.</p>
+                <button type="button" class="btn btn-primary" onclick="checkout()">Оплатить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+    function truncateText(text, maxLength) {
+        if (text.length > maxLength) {
+            return text.substring(0, maxLength) + '...';
+        }
+        return text;
+    }
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        displayCart();
+
+        document.querySelectorAll('.product-info h5').forEach(element => {
+            element.textContent = truncateText(element.textContent, 10);
+        });
+    });
+
+    function addToCart(id, title, price) {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let product = cart.find(p => p.id === id);
+
+        if (product) {
+            product.quantity++;
+        } else {
+            cart.push({ id: id, title: title, price: parseFloat(price), quantity: 1 });
+        }
+
+        localStorage.setItem('cart', JSON.stringify(cart));
+        displayCart();
+    }
+
+    function displayCart() {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let cartContainer = document.getElementById('cart-items');
+        let totalAmountElem = document.getElementById('totalAmount');
+        cartContainer.innerHTML = '';
+        let totalAmount = 0;
+
+        if (cart.length === 0) {
+            cartContainer.innerHTML = '<p class="text-center">Корзина пуста</p>';
+            totalAmountElem.textContent = totalAmount.toFixed(2);
+            return;
+        }
+
+        cart.forEach(product => {
+            let productElem = document.createElement('div');
+            productElem.className = 'cart-item';
+            productElem.innerHTML = `
+                <div class="product-card" style="border: 1px solid #ccc; padding: 10px; border-radius: 5px; background-color: #f8f9fa;">
+                    <h5>${truncateText(product.title, 10)}</h5>
+                    <p>Цена: ${product.price.toFixed(2)} Руб.</p>
+                    <p>
+                        Количество:
+                        <button type="button" class="btn btn-sm btn-secondary" onclick="decreaseQuantity('${product.id}')">-</button>
+                        <input type="number" min="1" value="${product.quantity}" onchange="updateQuantity('${product.id}', this.value)" style="width: 50px;">
+                        <button type="button" class="btn btn-sm btn-secondary" onclick="increaseQuantity('${product.id}')">+</button>
+                    </p>
+                    <button type="button" class="btn btn-danger btn-sm" onclick="removeFromCart('${product.id}')">Удалить</button>
+                </div>
+            `;
+            cartContainer.appendChild(productElem);
+            totalAmount += product.price * product.quantity;
+        });
+
+        totalAmountElem.textContent = totalAmount.toFixed(2);
+    }
+
+    function decreaseQuantity(id) {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let product = cart.find(p => p.id === id);
+
+        if (product && product.quantity > 1) {
+            product.quantity--;
+            localStorage.setItem('cart', JSON.stringify(cart));
+            displayCart();
+        }
+    }
+
+    function increaseQuantity(id) {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let product = cart.find(p => p.id === id);
+
+        if (product) {
+            product.quantity++;
+            localStorage.setItem('cart', JSON.stringify(cart));
+            displayCart();
+        }
+    }
+
+    function updateQuantity(id, value) {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let product = cart.find(p => p.id === id);
+
+        if (product) {
+            product.quantity = parseInt(value);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            displayCart();
+        }
+    }
+
+    function removeFromCart(id) {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        cart = cart.filter(p => p.id !== id);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        displayCart();
+    }
+
+    function checkout() {
+        // Реализуйте логику для оплаты, например, отправку данных на сервер
+        alert('Оплата успешно выполнена!');
+        localStorage.removeItem('cart');
+        displayCart();
+    }
+</script>
+}
