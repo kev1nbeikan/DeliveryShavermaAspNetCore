@@ -1,6 +1,8 @@
-﻿namespace OrderService.DataAccess.Entities;
-    public class CanceledOrderEntity
-    {
+﻿using Newtonsoft.Json.Linq;
+
+namespace OrderService.DataAccess.Entities;
+public class CanceledOrderEntity
+{
     public Guid Id { get; set; }
 
 
@@ -11,14 +13,14 @@
     public Guid StoreId { get; set; }
 
 
-    public string Basket { get; set; } = string.Empty;
+    public JObject Basket { get; set; } = [];
 
 
     public int Price { get; set; }
 
     public int Grade { get; set; }
 
-    
+
     public int LastStatus { get; set; }
 
     public string ReasonOfCanceled { get; set; } = string.Empty;
