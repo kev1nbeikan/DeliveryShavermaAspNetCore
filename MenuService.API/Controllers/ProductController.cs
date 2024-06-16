@@ -83,8 +83,16 @@ public class ProductController : Controller
 	[HttpGet("adminstorepanel")]
 	public async Task<IActionResult> AdminStorePanel()
 	{
+		return await GetProducts();
+	}
+
+	[HttpGet("getproductsbyid")]
+	public async Task<IActionResult> GetProductsById([FromQuery] ProductListRequest request)
+	{
 		var products = await _productService.GetAllProducts();
 
-		return View(new ProductListViewModel(products));
+		var response = products.Where(p => request.Guids.Contains(p.Id)).ToList();
+
+		return Ok(response);
 	}
 }
