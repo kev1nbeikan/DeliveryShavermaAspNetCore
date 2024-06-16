@@ -14,7 +14,7 @@ namespace OrderService.DataAccess
         }
 
         public DbSet<CurrentOrderEntity> CurrentOrders { get; set; }
-        public DbSet<LastOrderEnity> LastOrders { get; set; }
+        public DbSet<LastOrderEntity> LastOrders { get; set; }
         public DbSet<CanceledOrderEntity> CanceledOrders { get; set; }
 
     }
