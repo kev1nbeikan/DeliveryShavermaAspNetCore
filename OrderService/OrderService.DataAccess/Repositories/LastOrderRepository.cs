@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OrderService.DataAccess.Entities;
 using OrderService.Domain.Models;
 
 namespace OrderService.DataAccess.Repositories;
@@ -19,10 +20,8 @@ public class LastOrderRepository(OrderServiceDbContext context)
                 b.CourierId,
                 b.StoreId,
                 b.Basket,
-                (StatusCode)b.Status,
                 b.Price,
                 b.Comment,
-                b.Cheque,
                 b.ClientAddress,
                 b.CourierNumber,
                 b.ClientNumber,
@@ -30,57 +29,72 @@ public class LastOrderRepository(OrderServiceDbContext context)
                 b.DeliveryTime,
                 b.OrderDate,
                 b.CookingDate,
-                b.DeliveryDate
+                b.DeliveryDate,
+                b.Cheque
                 ).Order)
             .ToList();
         return orders;
     }
     
-    public async Task<CurrentOrder> Get(Guid id)
+    public async Task<LastOrder> Get(Guid id)
     {
-        var orderEntity = await _context.CurrentOrders
+        var orderEntity = await _context.LastOrders
                               .AsNoTracking()
                               .FirstOrDefaultAsync(b => b.Id == id)
                           ?? throw new KeyNotFoundException();
 
-        var order = CurrentOrder.Create(
+        var order = LastOrder.Create(
             orderEntity.Id,
             orderEntity.ClientId,
             orderEntity.CourierId,
             orderEntity.StoreId,
             orderEntity.Basket,
-            (StatusCode)orderEntity.Status,
             orderEntity.Price,
             orderEntity.Comment,
             orderEntity.ClientAddress,
             orderEntity.CourierNumber,
             orderEntity.ClientNumber,
             orderEntity.CookingTime,
-            orderEntity.DeliveryTime);
+            orderEntity.DeliveryTime,
+            orderEntity.OrderDate,
+            orderEntity.CookingDate,
+            orderEntity.DeliveryDate,
+            orderEntity.Cheque
+            ).Order;
 
         return order;
     }
 
-    public async Task Create(CurrentOrder order)
+    public async Task Create(LastOrder order)
     {
-        var orderEntity = new CurrentOrderEntity
+        var orderEntity = new LastOrderEntity
         {
             Id = order.Id,
             ClientId = order.ClientId,
             CourierId = order.CourierId,
             StoreId = order.StoreId,
             Basket = order.Basket,
-            Status = (int)order.Status,
             Price = order.Price,
             Comment = order.Comment,
             ClientAddress = order.ClientAddress,
             CourierNumber = order.CourierNumber,
             ClientNumber = order.ClientNumber,
             CookingTime = order.CookingTime,
-            DeliveryTime = order.DeliveryTime
+            DeliveryTime = order.DeliveryTime,
+            OrderDate = DateTime.UtcNow,
+            CookingDate = DateTime.UtcNow,
+            DeliveryDate = DateTime.UtcNow,
+            Cheque =  order.Cheque
         };
 
-        await _context.CurrentOrders.AddAsync(orderEntity);
+        await _context.LastOrders.AddAsync(orderEntity);
         await _context.SaveChangesAsync();
     }
+    
+    // public async Task Delete(Guid id)
+    // {
+    //     await _context.CurrentOrders
+    //         .Where(b => b.Id == id)
+    //         .ExecuteDeleteAsync();
+    // }
 }
