@@ -8,10 +8,13 @@ public abstract class OrderBase
     public const int MaxNumberLength = 10;
     public const int MaxAddressLength = 250;
     public const int MaxCommentLength = 250;
+    public const int MaxChequeLength = 500;
+
     protected OrderBase(Guid id, Guid clientId, Guid courierId, Guid storeId,
         JObject basket, int price, string comment,
         string clientAddress, string courierNumber, string clientNumber,
-        TimeSpan cookingTime, TimeSpan deliveryTime)
+        TimeSpan cookingTime, TimeSpan deliveryTime, DateTime orderDate,
+        DateTime cookingDate, DateTime deliveryDate, string cheque)
     {
         Id = id;
         ClientId = clientId;
@@ -25,6 +28,10 @@ public abstract class OrderBase
         ClientNumber = clientNumber;
         CookingTime = cookingTime;
         DeliveryTime = deliveryTime;
+        OrderDate = orderDate;
+        CookingDate = cookingDate;
+        DeliveryDate = deliveryDate;
+        Cheque = cheque;
     }
 
     public Guid Id { get; }
@@ -39,13 +46,16 @@ public abstract class OrderBase
     public string ClientNumber { get; } = string.Empty;
     public TimeSpan CookingTime { get; } = TimeSpan.Zero;
     public TimeSpan DeliveryTime { get; } = TimeSpan.Zero;
+    public DateTime OrderDate { get; } = DateTime.UtcNow;
+    public DateTime CookingDate { get; } = DateTime.UtcNow;
+    public DateTime DeliveryDate { get; } = DateTime.UtcNow;
+    public string Cheque { get; } = String.Empty; // пока не уверен как хранить чек
 
-
-    public static String Check(
+    protected static String Check(
         Guid id, Guid clientId, Guid courierId, Guid storeId,
         JObject basket, int price, string comment,
         string clientAddress, string courierNumber, string clientNumber,
-        TimeSpan cookingTime, TimeSpan deliveryTime)
+        TimeSpan cookingTime, TimeSpan deliveryTime, string cheque)
     {
         string errorString = string.Empty;
 
@@ -58,9 +68,15 @@ public abstract class OrderBase
         if (string.IsNullOrEmpty(courierNumber) || courierNumber.Length > MaxNumberLength)
             errorString = "Error in the courier number, the value is empty or exceeds the maximum value";
 
+        if (comment.Length > MaxCommentLength)
+            errorString = "Error in the comment, the value is exceeds the maximum value";
+
         if (basket.Count > 0)
             errorString = "Error in the basket, the value is empty";
 
+        if (id == Guid.Empty)
+            errorString = "Error in id, value is empty";
+        
         if (clientId == Guid.Empty)
             errorString = "Error in clientId, value is empty";
 
@@ -79,6 +95,9 @@ public abstract class OrderBase
         if (deliveryTime < TimeSpan.Zero)
             errorString = "Error in deliveryTime, negative value for price";
         
+        if (string.IsNullOrEmpty(cheque) || cheque.Length > MaxChequeLength)
+            errorString = "Error in the cheque, the value is empty or exceeds the maximum value";
+
         return errorString;
     }
 }
