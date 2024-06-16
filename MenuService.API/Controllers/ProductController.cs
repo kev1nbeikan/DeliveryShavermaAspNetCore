@@ -3,6 +3,7 @@ using MenuService.API.Models;
 using MenuService.Core.Abstractions;
 using MenuService.Core.Models;
 using Microsoft.AspNetCore.Mvc;
+using UserService.Main.Contracts;
 
 namespace MenuService.API.Controllers;
 
@@ -10,81 +11,88 @@ namespace MenuService.API.Controllers;
 [Route("api/[controller]")]
 public class ProductController : Controller
 {
-	private readonly IProductService _productService;
+    private readonly IProductService _productService;
 
-	public ProductController(IProductService productService)
-	{
-		_productService = productService;
-	}
+    public ProductController(IProductService productService)
+    {
+        _productService = productService;
+    }
 
-	[HttpGet]
-	public async Task<IActionResult> GetProducts()
-	{
-		var products = await _productService.GetAllProducts();
+    [HttpGet]
+    public async Task<IActionResult> GetProducts()
+    {
+        var products = await _productService.GetAllProducts();
 
-		var response = products.Select(
-			p => new ProductResponse(p.Id, p.Title, p.Description, p.Composition, p.Price, p.ImagePath)
-		);
+        var response = products.Select(
+            p => new ProductResponse(p.Id, p.Title, p.Description, p.Composition, p.Price, p.ImagePath)
+        );
 
-		// return Ok(response);
-		return View(new ProductListViewModel(products));
-	}
+        // return Ok(response);
+        return View(new ProductListViewModel(products));
+    }
 
-	[HttpPost]
-	public async Task<IActionResult> CreateProduct([FromForm] ProductRequest request)
-	{
-		var (product, error) = Product.Create(
-			Guid.NewGuid(),
-			request.Title,
-			request.Description,
-			request.Composition,
-			request.Price,
-			request.ImagePath
-		);
 
-		if (!string.IsNullOrEmpty(error))
-		{
-			return BadRequest(error);
-		}
+    [HttpPost("Bucket")]
+    public IActionResult AddToBucket(List<CartItem> request)
+    {
+        return Ok(request);
+    }
 
-		var productId = await _productService.CreateProduct(product);
+    [HttpPost]
+    public async Task<IActionResult> CreateProduct([FromForm] ProductRequest request)
+    {
+        var (product, error) = Product.Create(
+            Guid.NewGuid(),
+            request.Title,
+            request.Description,
+            request.Composition,
+            request.Price,
+            request.ImagePath
+        );
 
-		// return Ok(productId);
-		return RedirectToAction(nameof(AdminStorePanel));
-	}
+        if (!string.IsNullOrEmpty(error))
+        {
+            return BadRequest(error);
+        }
 
-	[HttpPost("{id:guid}")]
-	public async Task<IActionResult> UpdateProduct(Guid id, [FromForm] ProductRequest request)
-	{
-		var productId = await _productService.UpdateProduct(
-			id,
-			request.Title,
-			request.Description,
-			request.Composition,
-			request.Price,
-			request.ImagePath
-		);
+        var productId = await _productService.CreateProduct(product);
 
-		// return Ok(productId);
+        // return Ok(productId);
+        return RedirectToAction(nameof(AdminStorePanel));
+    }
 
-		return RedirectToAction(nameof(AdminStorePanel));
-	}
+    [HttpPost("{id:guid}")]
+    public async Task<IActionResult> UpdateProduct(Guid id, [FromForm] ProductRequest request)
+    {
+        var productId = await _productService.UpdateProduct(
+            id,
+            request.Title,
+            request.Description,
+            request.Composition,
+            request.Price,
+            request.ImagePath
+        );
 
-	[HttpGet("{id:guid}")]
-	public async Task<IActionResult> DeleteProduct(Guid id)
-	{
-		await _productService.DeleteProduct(id);
+        // return Ok(productId);
 
-		// return Ok(id);
+        return RedirectToAction(nameof(AdminStorePanel));
+    }
 
-		return RedirectToAction(nameof(AdminStorePanel));
-	}
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> DeleteProduct(Guid id)
+    {
+        await _productService.DeleteProduct(id);
 
-	[HttpGet("adminstorepanel")]
-	public async Task<IActionResult> AdminStorePanel()
-	{
-		var products = await _productService.GetAllProducts();
+        // return Ok(id);
 
-		return View(new ProductListViewModel(products));
-	}
+        return RedirectToAction(nameof(AdminStorePanel));
+    }
+
+    [HttpGet("adminstorepanel")]
+    public async Task<IActionResult> AdminStorePanel()
+    {
+        var products = await _productService.GetAllProducts();
+
+        return View(new ProductListViewModel(products));
+    }
 }

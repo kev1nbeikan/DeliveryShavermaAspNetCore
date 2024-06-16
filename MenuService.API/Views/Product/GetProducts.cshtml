@@ -33,7 +33,7 @@
             </div>
             <div class="total">
                 <p>Итоговая сумма: <span id="totalAmount">0</span> Руб.</p>
-                <button type="button" class="btn btn-primary" onclick="checkout()">Оплатить</button>
+                <button type="button" class="btn btn-primary" onclick="prepareCartForSending()">Оплатить</button>
             </div>
         </div>
     </div>
@@ -152,5 +152,39 @@
         localStorage.removeItem('cart');
         displayCart();
     }
+
+
+    async function prepareCartForSending() {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        let simplifiedCart = cart.map(item => {
+            return { id: item.id, quantity: item.quantity };
+        });
+        
+        await sendDataToOtherDomain(cart);
+    }
+
+    async function sendDataToOtherDomain(data) {
+        try {
+            const response = await fetch('http://localhost:5276/User/Bucket', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                throw new Error('Ошибка HTTP: ' + response.status);
+            } else {
+                const html = await response.text();
+                const newWindow = window.open();
+                newWindow.document.write(html);
+            }
+
+            // Обработка успешного ответа, если необходимо
+        } catch (error) {
+            console.error('Ошибка при отправке данных на другой домен:', error);
+        }
+        }
 </script>
 }

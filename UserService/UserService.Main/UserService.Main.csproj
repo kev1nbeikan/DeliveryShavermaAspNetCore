@@ -12,4 +12,8 @@
       <_ContentIncludedByDefault Remove="Views\Shared\_ValidationScriptsPartial.cshtml" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\UserService.Core\UserService.Core.csproj" />
+    </ItemGroup>
+
 </Project>

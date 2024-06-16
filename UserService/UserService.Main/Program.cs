@@ -13,6 +13,11 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+
+app.UseCors(
+    policyBuilder => policyBuilder.AllowAnyHeader().WithOrigins("http://localhost:5002").Build()
+);
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
@@ -22,6 +27,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=User}/{action=Index}/{id?}");
 
 app.Run();
