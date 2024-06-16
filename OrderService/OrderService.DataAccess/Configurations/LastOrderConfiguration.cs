@@ -5,9 +5,9 @@ using OrderService.Domain.Models;
 
 namespace OrderService.DataAccess.Configurations
 {
-    public class LastOrderConfiguration : IEntityTypeConfiguration<LastOrderEnity>
+    public class LastOrderConfiguration : IEntityTypeConfiguration<LastOrderEntity>
     {
-        public void Configure(EntityTypeBuilder<LastOrderEnity> builder)
+        public void Configure(EntityTypeBuilder<LastOrderEntity> builder)
         {
             builder.HasKey(x => x.Id);
 
@@ -29,18 +29,18 @@ namespace OrderService.DataAccess.Configurations
                 .IsRequired();
 
             builder.Property(b => b.Comment)
-                .HasMaxLength(LastOrder.MaxCommentLength);
+                .HasMaxLength(OrderBase.MaxCommentLength);
 
             builder.Property(b => b.CourierNumber)
-                .HasMaxLength(LastOrder.MaxNumberLength)
+                .HasMaxLength(OrderBase.MaxNumberLength)
                 .IsRequired();
 
             builder.Property(b => b.ClientNumber)
-                .HasMaxLength(LastOrder.MaxCommentLength)
+                .HasMaxLength(OrderBase.MaxCommentLength)
                 .IsRequired();
 
             builder.Property(b => b.ClientAddress)
-                .HasMaxLength(LastOrder.MaxAddressLength)
+                .HasMaxLength(OrderBase.MaxAddressLength)
                 .IsRequired();
 
             //cheque grade

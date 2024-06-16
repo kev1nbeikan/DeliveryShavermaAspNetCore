@@ -33,18 +33,18 @@ namespace OrderService.DataAccess.Configurations
                 .IsRequired();
 
             builder.Property(b => b.Comment)
-                .HasMaxLength(LastOrder.MaxCommentLength);
+                .HasMaxLength(OrderBase.MaxCommentLength);
 
             builder.Property(b => b.CourierNumber)
-                .HasMaxLength(LastOrder.MaxNumberLength)
+                .HasMaxLength(OrderBase.MaxNumberLength)
                 .IsRequired();
 
             builder.Property(b => b.ClientNumber)
-                .HasMaxLength(LastOrder.MaxCommentLength)
+                .HasMaxLength(OrderBase.MaxCommentLength)
                 .IsRequired();
 
             builder.Property(b => b.ClientAddress)
-                .HasMaxLength(LastOrder.MaxAddressLength)
+                .HasMaxLength(OrderBase.MaxAddressLength)
                 .IsRequired();
         }
     }
