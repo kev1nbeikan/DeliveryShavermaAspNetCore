@@ -19,4 +19,9 @@
       <Folder Include="Migrations\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\PaymentOrchestratorService\PaymentOrchestrator.Core\PaymentOrchestrator.Core.csproj" />
+      <ProjectReference Include="..\UserService.Core\UserService.Core.csproj" />
+    </ItemGroup>
+
 </Project>

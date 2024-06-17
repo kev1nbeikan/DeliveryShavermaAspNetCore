@@ -1,4 +1,4 @@
-namespace Handler.Core;
+namespace Handler.Core.Common;
 
 public class MyUser
 {
