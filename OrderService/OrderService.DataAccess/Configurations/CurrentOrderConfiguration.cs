@@ -5,7 +5,7 @@ using OrderService.Domain.Models;
 
 namespace OrderService.DataAccess.Configurations
 {
-    public class OrderConfiguration: IEntityTypeConfiguration<CurrentOrderEntity>
+    public class CurrentOrderConfiguration: IEntityTypeConfiguration<CurrentOrderEntity>
     {
         public void Configure(EntityTypeBuilder<CurrentOrderEntity> builder)
         {
@@ -27,7 +27,7 @@ namespace OrderService.DataAccess.Configurations
             builder.Property(b => b.Status)
                 .IsRequired();
 
-            builder.ToTable(b => b.HasCheckConstraint("CK_CurrentOrder_Status", "Status >= 0 AND Status <= 6"));
+            builder.ToTable(b => b.HasCheckConstraint("CK_CurrentOrder_Status", $"Status >= 0 AND Status <= {StatusCode.Accepted}"));
 
             builder.Property(b => b.Price)
                 .IsRequired();
