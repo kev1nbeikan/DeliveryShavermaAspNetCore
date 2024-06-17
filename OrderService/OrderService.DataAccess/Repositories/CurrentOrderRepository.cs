@@ -39,6 +39,38 @@ public class CurrentOrderRepository(OrderServiceDbContext context) : ICurrentOrd
         return orders;
     }
 
+    public async Task<CurrentOrder> GetById(RoleCode role, Guid sourceId, Guid id)
+    {
+        var condition = BaseOrderRepository.GetCondition<CurrentOrderEntity>(role, sourceId);
+
+        var orderEntity = await context.CurrentOrders
+                              .AsNoTracking()
+                              .Where(condition)
+                              .FirstOrDefaultAsync(b => b.Id == id)
+                          ?? throw new KeyNotFoundException();
+
+        var order = CurrentOrder.Create(
+            orderEntity.Id,
+            orderEntity.ClientId,
+            orderEntity.CourierId,
+            orderEntity.StoreId,
+            orderEntity.Basket,
+            orderEntity.Price,
+            orderEntity.Comment,
+            orderEntity.ClientAddress,
+            orderEntity.CourierNumber,
+            orderEntity.ClientNumber,
+            orderEntity.CookingTime,
+            orderEntity.DeliveryTime,
+            orderEntity.OrderDate,
+            orderEntity.CookingDate,
+            orderEntity.DeliveryDate,
+            orderEntity.Cheque,
+            (StatusCode)orderEntity.Status).Order;
+        
+        return order;
+    }
+
     public async Task<StatusCode> GetStatus(RoleCode role, Guid sourceId, Guid id)
     {
         var condition = BaseOrderRepository.GetCondition<CurrentOrderEntity>(role, sourceId);
@@ -83,7 +115,7 @@ public class CurrentOrderRepository(OrderServiceDbContext context) : ICurrentOrd
             .ExecuteUpdateAsync(s => s
                 .SetProperty(b => b.DeliveryDate, b => deliveryDate));
     }
-    
+
     public async Task Delete(RoleCode role, Guid sourceId, Guid id)
     {
         var condition = BaseOrderRepository.GetCondition<CurrentOrderEntity>(role, sourceId);
@@ -93,7 +125,7 @@ public class CurrentOrderRepository(OrderServiceDbContext context) : ICurrentOrd
             .Where(condition)
             .ExecuteDeleteAsync();
     }
-    
+
     public async Task Create(CurrentOrder order)
     {
         var orderEntity = new CurrentOrderEntity
