@@ -1,18 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OrderService.DataAccess.Entities;
 using OrderService.Domain.Models;
+using OrderService.Domain.Abstractions;
 
 namespace OrderService.DataAccess.Repositories;
 
-public class LastOrderRepository(OrderServiceDbContext context)
+public class LastOrderRepository(OrderServiceDbContext context) : ILastOrderRepository
 {
-    private readonly OrderServiceDbContext _context = context;
-
-    public async Task<List<LastOrder>> Get()
+    public async Task<List<LastOrder>> Get(RoleCode role, Guid sourceId)
     {
-        var orderEntity = await _context.LastOrders
+        var condition = BaseOrderRepository.GetCondition<LastOrderEntity>(role, sourceId);
+
+        var orderEntity = await context.LastOrders
             .AsNoTracking()
-            .ToListAsync();
+            .Where(condition).
+            ToListAsync();
         
         var orders = orderEntity.Select(b => LastOrder.Create(
                 b.Id,
@@ -34,35 +36,6 @@ public class LastOrderRepository(OrderServiceDbContext context)
                 ).Order)
             .ToList();
         return orders;
-    }
-    
-    public async Task<LastOrder> Get(Guid id)
-    {
-        var orderEntity = await _context.LastOrders
-                              .AsNoTracking()
-                              .FirstOrDefaultAsync(b => b.Id == id)
-                          ?? throw new KeyNotFoundException();
-
-        var order = LastOrder.Create(
-            orderEntity.Id,
-            orderEntity.ClientId,
-            orderEntity.CourierId,
-            orderEntity.StoreId,
-            orderEntity.Basket,
-            orderEntity.Price,
-            orderEntity.Comment,
-            orderEntity.ClientAddress,
-            orderEntity.CourierNumber,
-            orderEntity.ClientNumber,
-            orderEntity.CookingTime,
-            orderEntity.DeliveryTime,
-            orderEntity.OrderDate,
-            orderEntity.CookingDate,
-            orderEntity.DeliveryDate,
-            orderEntity.Cheque
-            ).Order;
-
-        return order;
     }
 
     public async Task Create(LastOrder order)
@@ -87,14 +60,7 @@ public class LastOrderRepository(OrderServiceDbContext context)
             Cheque =  order.Cheque
         };
 
-        await _context.LastOrders.AddAsync(orderEntity);
-        await _context.SaveChangesAsync();
+        await context.LastOrders.AddAsync(orderEntity);
+        await context.SaveChangesAsync();
     }
-    
-    // public async Task Delete(Guid id)
-    // {
-    //     await _context.CurrentOrders
-    //         .Where(b => b.Id == id)
-    //         .ExecuteDeleteAsync();
-    // }
 }

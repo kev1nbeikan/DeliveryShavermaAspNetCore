@@ -1,17 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OrderService.DataAccess.Entities;
 using OrderService.Domain.Models;
+using OrderService.Domain.Abstractions;
 
 namespace OrderService.DataAccess.Repositories;
 
-public class CanceledOrderRepository(OrderServiceDbContext context)
+public class CanceledOrderRepository(OrderServiceDbContext context) : ICanceledOrderRepository
 {
-    private readonly OrderServiceDbContext _context = context;
-
-    public async Task<List<CanceledOrder>> Get()
+    public async Task<List<CanceledOrder>> Get(RoleCode role, Guid sourceId)
     {
-        var orderEntity = await _context.CanceledOrders
+        var condition = BaseOrderRepository.GetCondition<CanceledOrderEntity>(role, sourceId);
+
+        var orderEntity = await context.CanceledOrders
             .AsNoTracking()
+            .Where(condition)
             .ToListAsync();
         
         var orders = orderEntity.Select(b => CanceledOrder.Create(
@@ -33,11 +35,11 @@ public class CanceledOrderRepository(OrderServiceDbContext context)
                 b.Cheque,
                 (StatusCode)b.LastStatus,
                 b.ReasonOfCanceled
-                ).Order)
+            ).Order)
             .ToList();
         return orders;
     }
-    
+
     public async Task Create(CanceledOrder order)
     {
         var orderEntity = new CanceledOrderEntity
@@ -57,42 +59,12 @@ public class CanceledOrderRepository(OrderServiceDbContext context)
             OrderDate = DateTime.UtcNow,
             CookingDate = DateTime.UtcNow,
             DeliveryDate = DateTime.UtcNow,
-            Cheque =  order.Cheque,
+            Cheque = order.Cheque,
             LastStatus = (int)order.LastStatus,
             ReasonOfCanceled = order.ReasonOfCanceled
         };
 
-        await _context.CanceledOrders.AddAsync(orderEntity);
-        await _context.SaveChangesAsync();
+        await context.CanceledOrders.AddAsync(orderEntity);
+        await context.SaveChangesAsync();
     }
-    
-    // public async Task<CanceledOrder> Get(Guid id)
-    // {
-    //     var orderEntity = await _context.CanceledOrders
-    //                           .AsNoTracking()
-    //                           .FirstOrDefaultAsync(b => b.Id == id)
-    //                       ?? throw new KeyNotFoundException();
-    //
-    //     var order = CanceledOrder.Create(
-    //         orderEntity.Id,
-    //         orderEntity.ClientId,
-    //         orderEntity.CourierId,
-    //         orderEntity.StoreId,
-    //         orderEntity.Basket,
-    //         orderEntity.Price,
-    //         orderEntity.Comment,
-    //         orderEntity.ClientAddress,
-    //         orderEntity.CourierNumber,
-    //         orderEntity.ClientNumber,
-    //         orderEntity.CookingTime,
-    //         orderEntity.DeliveryTime,
-    //         orderEntity.OrderDate,
-    //         orderEntity.CookingDate,
-    //         orderEntity.DeliveryDate,
-    //         orderEntity.Cheque,
-    //         (StatusCode)orderEntity.LastStatus,
-    //         orderEntity.ReasonOfCanceled
-    //         ).Order;
-    //     return order;
-    // }
 }

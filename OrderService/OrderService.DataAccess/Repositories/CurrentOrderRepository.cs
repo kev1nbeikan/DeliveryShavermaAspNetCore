@@ -1,18 +1,22 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using OrderService.DataAccess.Entities;
 using OrderService.Domain.Models;
+using OrderService.Domain.Abstractions;
 
 namespace OrderService.DataAccess.Repositories;
 
-public class CurrentOrderRepository(OrderServiceDbContext context)
+public class CurrentOrderRepository(OrderServiceDbContext context) : ICurrentOrderRepository
 {
-    private readonly OrderServiceDbContext _context = context;
-    
-    public async Task<List<CurrentOrder>> Get()
+    public async Task<List<CurrentOrder>> Get(RoleCode role, Guid sourceId)
     {
-        var orderEntity = await _context.CurrentOrders
+        var condition = BaseOrderRepository.GetCondition<CurrentOrderEntity>(role, sourceId);
+
+        var orderEntity = await context.CurrentOrders
             .AsNoTracking()
+            .Where(condition)
             .ToListAsync();
+
         var orders = orderEntity.Select(b => CurrentOrder.Create(
                 b.Id,
                 b.ClientId,
@@ -35,35 +39,61 @@ public class CurrentOrderRepository(OrderServiceDbContext context)
         return orders;
     }
 
-    public async Task<CurrentOrder> Get(Guid id)
+    public async Task<StatusCode> GetStatus(RoleCode role, Guid sourceId, Guid id)
     {
-        var orderEntity = await _context.CurrentOrders
+        var condition = BaseOrderRepository.GetCondition<CurrentOrderEntity>(role, sourceId);
+
+        var orderEntity = await context.CurrentOrders
                               .AsNoTracking()
+                              .Where(condition)
                               .FirstOrDefaultAsync(b => b.Id == id)
                           ?? throw new KeyNotFoundException();
-
-        var order = CurrentOrder.Create(
-            orderEntity.Id,
-            orderEntity.ClientId,
-            orderEntity.CourierId,
-            orderEntity.StoreId,
-            orderEntity.Basket,
-            orderEntity.Price,
-            orderEntity.Comment,
-            orderEntity.ClientAddress,
-            orderEntity.CourierNumber,
-            orderEntity.ClientNumber,
-            orderEntity.CookingTime,
-            orderEntity.DeliveryTime,
-            orderEntity.OrderDate,
-            orderEntity.CookingDate,
-            orderEntity.DeliveryDate,
-            orderEntity.Cheque,
-            (StatusCode)orderEntity.Status).Order;
-
-        return order;
+        return (StatusCode)orderEntity.Status;
     }
 
+    public async Task ChangeStatus(RoleCode role, StatusCode status, Guid sourceId, Guid id)
+    {
+        var condition = BaseOrderRepository.GetCondition<CurrentOrderEntity>(role, sourceId);
+
+        await context.CurrentOrders
+            .Where(b => b.Id == id)
+            .Where(condition)
+            .ExecuteUpdateAsync(s => s
+                .SetProperty(b => b.Status, b => (int)status));
+    }
+
+    public async Task ChangeCookingDate(RoleCode role, DateTime cookingDate, Guid sourceId, Guid id)
+    {
+        var condition = BaseOrderRepository.GetCondition<CurrentOrderEntity>(role, sourceId);
+
+        await context.CurrentOrders
+            .Where(b => b.Id == id)
+            .Where(condition)
+            .ExecuteUpdateAsync(s => s
+                .SetProperty(b => b.CookingDate, b => cookingDate));
+    }
+
+    public async Task ChangeDeliveryDate(RoleCode role, DateTime deliveryDate, Guid sourceId, Guid id)
+    {
+        var condition = BaseOrderRepository.GetCondition<CurrentOrderEntity>(role, sourceId);
+
+        await context.CurrentOrders
+            .Where(b => b.Id == id)
+            .Where(condition)
+            .ExecuteUpdateAsync(s => s
+                .SetProperty(b => b.DeliveryDate, b => deliveryDate));
+    }
+    
+    public async Task Delete(RoleCode role, Guid sourceId, Guid id)
+    {
+        var condition = BaseOrderRepository.GetCondition<CurrentOrderEntity>(role, sourceId);
+
+        await context.CurrentOrders
+            .Where(b => b.Id == id)
+            .Where(condition)
+            .ExecuteDeleteAsync();
+    }
+    
     public async Task Create(CurrentOrder order)
     {
         var orderEntity = new CurrentOrderEntity
@@ -87,38 +117,7 @@ public class CurrentOrderRepository(OrderServiceDbContext context)
             Status = (int)order.Status
         };
 
-        await _context.CurrentOrders.AddAsync(orderEntity);
-        await _context.SaveChangesAsync();
-    }
-    
-    public async Task Delete(Guid id)
-    {
-        await _context.CurrentOrders
-            .Where(b => b.Id == id)
-            .ExecuteDeleteAsync();
-    }
-    
-    public async Task ChangeStatus(Guid id, StatusCode status)
-    {
-        await _context.CurrentOrders
-            .Where(b => b.Id == id)
-            .ExecuteUpdateAsync(s => s
-                .SetProperty(b => b.Status, b => (int)status));
-    }
-    
-    public async Task ChangeCookingDate(Guid id, DateTime cookingDate)
-    {
-        await _context.CurrentOrders
-            .Where(b => b.Id == id)
-            .ExecuteUpdateAsync(s => s
-                .SetProperty(b => b.CookingDate, b => cookingDate));
-    }
-    
-    public async Task ChangeDeliveryDate(Guid id, DateTime deliveryDate)
-    {
-        await _context.CurrentOrders
-            .Where(b => b.Id == id)
-            .ExecuteUpdateAsync(s => s
-                .SetProperty(b => b.DeliveryDate, b => deliveryDate));
+        await context.CurrentOrders.AddAsync(orderEntity);
+        await context.SaveChangesAsync();
     }
 }
