@@ -27,27 +27,27 @@ namespace OrderService.DataAccess.Configurations
             builder.Property(b => b.LastStatus)
                 .IsRequired();
 
-            builder.ToTable(b => b.HasCheckConstraint("CK_CurrentOrder_Status", "LastStatus >= 0 AND LastStatus <= 6"));
+            builder.ToTable(b => b.HasCheckConstraint("CK_CurrentOrder_Status", $"Status >= 0 AND Status <= {StatusCode.Accepted}"));
 
             builder.Property(b => b.ReasonOfCanceled)
-                .HasMaxLength(LastOrder.MaxCommentLength);
+                .HasMaxLength(OrderBase.MaxCommentLength);
 
             builder.Property(b => b.Price)
                 .IsRequired();
 
             builder.Property(b => b.Comment)
-                .HasMaxLength(LastOrder.MaxCommentLength);
+                .HasMaxLength(OrderBase.MaxCommentLength);
 
             builder.Property(b => b.CourierNumber)
-                .HasMaxLength(LastOrder.MaxNumberLength)
+                .HasMaxLength(OrderBase.MaxNumberLength)
                 .IsRequired();
 
             builder.Property(b => b.ClientNumber)
-                .HasMaxLength(LastOrder.MaxCommentLength)
+                .HasMaxLength(OrderBase.MaxCommentLength)
                 .IsRequired();
 
             builder.Property(b => b.ClientAddress)
-                .HasMaxLength(LastOrder.MaxAddressLength)
+                .HasMaxLength(OrderBase.MaxAddressLength)
                 .IsRequired();
         }
     }
