@@ -105,7 +105,8 @@ public class PaymentController : Controller
         var error = await _userService.Save(userId, paymentRequest.Address, paymentRequest.Comment);
         if (error.HasValue()) return BadRequest(error);
 
-        (var products, error) = _menuService.GetProducts(paymentRequest.ProductIds);
+        (var products, error) =
+            await _menuService.GetProducts(paymentRequest.ProductIdsAndQuantity.Select(x => x.Id).ToList());
         if (error.HasValue()) return BadRequest(error);
 
         var price = _paymentService.CalculatePayment(products!);

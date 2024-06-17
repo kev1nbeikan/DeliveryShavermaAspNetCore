@@ -1,6 +1,8 @@
-namespace Handler.Core.Abstractions;
+using Handler.Core.Payment;
+
+namespace Handler.Core.Abstractions.Services;
 
 public interface IMenuService
 {
-    (Product[] products, string? error) GetProducts(List<Guid> productIds);
+    Task<(Product[] products, string? error)> GetProducts(List<Guid> productIds);
 }

@@ -1,3 +1,4 @@
+using Handler.Core;
 using UserService.Core;
 using UserService.Main.Contracts;
 
@@ -9,4 +10,6 @@ public class BucketViewModel
     public List<string> Addresses { get; set; }
     public string SelectedAddress { get; set; }
     public string DefaultComment { get; set; }
+    
+    public string PhoneNumber { get; set; }
 }

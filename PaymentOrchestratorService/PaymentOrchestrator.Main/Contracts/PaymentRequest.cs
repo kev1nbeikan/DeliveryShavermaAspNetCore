@@ -1,3 +1,5 @@
+using Handler.Core.Payment;
+
 namespace HandlerService.Contracts;
 
-public record PaymentRequest(List<Guid> ProductIds, string Comment, string Address, String StoreId);
+public record PaymentRequest(List<BucketItem> ProductIdsAndQuantity, string Comment, string Address, String StoreId);

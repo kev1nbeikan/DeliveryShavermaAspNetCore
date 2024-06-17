@@ -3,6 +3,8 @@ using System.Runtime.InteropServices.JavaScript;
 using Handler.Core;
 using Handler.Core.Abstractions;
 using Handler.Core.Abstractions.Repositories;
+using Handler.Core.Abstractions.Services;
+using HandlerService.Infustucture.Extensions;
 
 namespace HandlerService.Application.Services;
 
@@ -15,9 +17,10 @@ public class MenuService : IMenuService
         _menuRepository = menuRepository;
     }
 
-    public (Product[] products, string? error) GetProducts(List<Guid> productIds)
+    public async Task<(Product[] products, string? error)> GetProducts(List<Guid> productIds)
     {
-        var products = new Product[productIds.Count];
+        var (products, error) = await _menuRepository.Get(productIds);
+        if (error.HasValue()) return ([], error);
 
         for (int i = 0; i < productIds.Count; i++)
         {

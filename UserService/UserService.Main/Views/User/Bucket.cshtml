@@ -23,23 +23,23 @@
         <div id="cart-items">
             @foreach (var product in Model.Products)
             {
-            <div class="cart-item mb-3">
-                <div class="product-card p-3 border rounded">
-                    <h5>@product.Title</h5>
-                    <p>Цена: @product.Price.ToString("0.##") Руб.</p>
-                    <p>
-                        Количество: @product.Quantity
-                        <button type="button" class="btn btn-sm btn-secondary" onclick="decreaseQuantity('@product.Id')">-</button>
-                        <input type="number" min="1" value="@product.Quantity" onchange="updateQuantity('@product.Id', this.value)" style="width: 50px;">
-                        <button type="button" class="btn btn-sm btn-secondary" onclick="increaseQuantity('@product.Id')">+</button>
-                    </p>
-                    <button type="button" class="btn btn-danger btn-sm" onclick="removeFromCart('@product.Id')">Удалить</button>
+                <div class="cart-item mb-3">
+                    <div class="product-card p-3 border rounded">
+                        <h5>@product.Title</h5>
+                        <p>Цена: @product.Price.ToString("0.##") Руб.</p>
+                        <p>
+                            Количество: @product.Quantity
+                            <button type="button" class="btn btn-sm btn-secondary" onclick="decreaseQuantity('@product.Id')">-</button>
+                            <input type="number" min="1" value="@product.Quantity" onchange="updateQuantity('@product.Id', this.value)" style="width: 50px;">
+                            <button type="button" class="btn btn-sm btn-secondary" onclick="increaseQuantity('@product.Id')">+</button>
+                        </p>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="removeFromCart('@product.Id')">Удалить</button>
+                    </div>
                 </div>
-            </div>
             }
         </div>
         <div class="total">
-            <p>Итоговая сумма: <span id="totalAmount">0</span> Руб.</p>
+            <p>Итоговая сумма: <span id="totalAmount">@Model.Products.Sum(x => x.Price * x.Quantity)</span> Руб.</p>
             <button type="button" class="btn btn-primary" onclick="checkout()">Оплатить</button>
         </div>
 
@@ -48,12 +48,14 @@
             <select id="addressSelect" onchange="addressSelectionChanged(this)" class="form-select mb-3">
                 @foreach (var address in Model.Addresses)
                 {
-                <option value="@address">@address</option>
+                    <option value="@address">@address</option>
                 }
                 <option value="custom">Введите новый адресс</option>
             </select>
 
             <input type="text" id="customAddressInput" placeholder="Введите свой адрес" oninput="customAddressChanged(this)" style="display: none;" class="form-control mb-3">
+
+            <input type="text" id="phoneNumber" placeholder="Введите свой номер" oninput="customAddressChanged(this)" style="display: none;" class="form-control mb-3">
 
             <label for="comment">Комментарий:</label>
             <input type="text" id="comment" value="@Model.DefaultComment" onclick="clearCommentField()" class="form-control">

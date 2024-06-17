@@ -15,7 +15,6 @@ builder.Services.AddDependenciesServices();
 
 builder.Services.Configure<ServicesOptions>(builder.Configuration.GetSection("Services"));
 
-Console.WriteLine(builder.Configuration.GetSection("Services").Get<ServicesOptions>().MenuUrl);
 
 var app = builder.Build();
 
