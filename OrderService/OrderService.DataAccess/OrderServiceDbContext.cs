@@ -8,7 +8,7 @@ namespace OrderService.DataAccess
     {
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new OrderConfiguration());
+            modelBuilder.ApplyConfiguration(new CurrentOrderConfiguration());
             modelBuilder.ApplyConfiguration(new CanceledOrderConfiguration());
             modelBuilder.ApplyConfiguration(new LastOrderConfiguration());
         }
