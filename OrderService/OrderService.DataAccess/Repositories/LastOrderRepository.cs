@@ -38,7 +38,7 @@ public class LastOrderRepository(OrderServiceDbContext context) : ILastOrderRepo
         return orders;
     }
 
-    public async Task Create(LastOrder order)
+    public async Task Create(CurrentOrder order)
     {
         var orderEntity = new LastOrderEntity
         {
