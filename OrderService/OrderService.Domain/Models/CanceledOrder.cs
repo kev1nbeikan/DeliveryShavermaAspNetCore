@@ -2,7 +2,7 @@
 
 namespace OrderService.Domain.Models;
 
-public class CanceledOrder : OrderBase
+public class CanceledOrder : BaseOrder
 {
     private CanceledOrder(Guid id, Guid clientId, Guid courierId, Guid storeId,
         JObject basket, int price, string comment, string clientAddress,

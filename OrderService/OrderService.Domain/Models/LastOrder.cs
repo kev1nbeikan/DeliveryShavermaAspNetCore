@@ -2,7 +2,7 @@
 
 namespace OrderService.Domain.Models;
 
-public class LastOrder : OrderBase
+public class LastOrder : BaseOrder
 {
     private LastOrder(Guid id, Guid clientId, Guid courierId, Guid storeId,
         JObject basket, int price, string comment, string clientAddress,

@@ -2,7 +2,7 @@
 
 namespace OrderService.Domain.Models;
 
-public abstract class OrderBase
+public abstract class BaseOrder
 {
     
     public const int MaxNumberLength = 10;
@@ -10,7 +10,7 @@ public abstract class OrderBase
     public const int MaxCommentLength = 250;
     public const int MaxChequeLength = 500;
 
-    protected OrderBase(Guid id, Guid clientId, Guid courierId, Guid storeId,
+    protected BaseOrder(Guid id, Guid clientId, Guid courierId, Guid storeId,
         JObject basket, int price, string comment,
         string clientAddress, string courierNumber, string clientNumber,
         TimeSpan cookingTime, TimeSpan deliveryTime, DateTime orderDate,

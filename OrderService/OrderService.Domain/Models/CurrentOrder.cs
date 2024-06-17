@@ -2,7 +2,7 @@
 
 namespace OrderService.Domain.Models;
 
-public class CurrentOrder : OrderBase
+public class CurrentOrder : BaseOrder
 {
     private CurrentOrder(Guid id, Guid clientId, Guid courierId, Guid storeId,
         JObject basket, int price, string comment,
