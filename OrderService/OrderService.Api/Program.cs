@@ -1,5 +1,8 @@
 using OrderService.DataAccess;
 using Microsoft.EntityFrameworkCore;
+using OrderService.Application.Service;
+using OrderService.DataAccess.Repositories;
+using OrderService.Domain.Abstractions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +18,11 @@ builder.Services.AddDbContext<OrderServiceDbContext>(
             .Configuration
             .GetConnectionString(nameof(OrderServiceDbContext)));
     });
+
+builder.Services.AddScoped<IOrder, Order>();
+builder.Services.AddScoped<ICurrentOrderRepository, CurrentOrderRepository>();
+builder.Services.AddScoped<ICanceledOrderRepository, CanceledOrderRepository>();
+builder.Services.AddScoped<ILastOrderRepository, LastOrderRepository>();
 
 var app = builder.Build();
 
