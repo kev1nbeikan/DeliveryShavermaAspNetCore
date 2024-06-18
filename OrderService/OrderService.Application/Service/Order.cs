@@ -49,7 +49,7 @@ public class Order(ICurrentOrderRepository currentOrderRepository,
         await _currentOrderRepository.Delete(role, sourceId, id);
     }
     
-    public async Task ChangeStatusCompleted (RoleCode role, Guid sourceId, Guid id, string reasonOfCanceled)
+    public async Task ChangeStatusCanceled (RoleCode role, Guid sourceId, Guid id, string reasonOfCanceled)
     {
             var order = await _currentOrderRepository.GetById(role, sourceId, id);
             await _canceledOrderRepository.Create(order, reasonOfCanceled);  
