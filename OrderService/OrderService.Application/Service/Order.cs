@@ -1,10 +1,10 @@
-﻿using OrderService.DataAccess.Repositories;
-using OrderService.Domain.Abstractions;
+﻿using OrderService.Domain.Abstractions;
 using OrderService.Domain.Models;
 
 namespace OrderService.Application.Service;
 
-public class CurrentOrderService(ICurrentOrderRepository currentOrderRepository, ILastOrderRepository lastOrderRepository, ICanceledOrderRepository canceledOrderRepository)
+public class Order(ICurrentOrderRepository currentOrderRepository, 
+    ILastOrderRepository lastOrderRepository, ICanceledOrderRepository canceledOrderRepository) : IOrder
 {
     private readonly ICurrentOrderRepository _currentOrderRepository = currentOrderRepository;
     private readonly ILastOrderRepository _lastOrderRepository = lastOrderRepository;
@@ -13,15 +13,6 @@ public class CurrentOrderService(ICurrentOrderRepository currentOrderRepository,
     public async Task<List<CurrentOrder>> GetCurrentOrders(RoleCode role, Guid sourceId)
     {
         return await _currentOrderRepository.Get(role, sourceId);
-    }
-    
-    public async Task<CurrentOrder> GetNewestOrder(RoleCode role, Guid sourceId)
-    {
-        var orders = await _currentOrderRepository.Get(role, sourceId);
-        var newestOrder = orders.FirstOrDefault(x =>
-                              x.OrderDate == orders.Max(o => o.OrderDate))
-            ?? throw new InvalidOperationException();
-        return newestOrder;
     }
     public async Task<List<LastOrder>> GetLastOrders(RoleCode role, Guid sourceId)
     {
@@ -33,25 +24,36 @@ public class CurrentOrderService(ICurrentOrderRepository currentOrderRepository,
         return await _canceledOrderRepository.Get(role, sourceId);
     }
     
-    public async Task ChangeStatus (RoleCode role, StatusCode status, Guid sourceId, Guid id)
+    public async Task<CurrentOrder> GetNewestOrder(RoleCode role, Guid sourceId)
+    {
+        var orders = await _currentOrderRepository.Get(role, sourceId);
+        var newestOrder = orders.FirstOrDefault(x =>
+                              x.OrderDate == orders.Max(o => o.OrderDate))
+                          ?? throw new InvalidOperationException();
+        return newestOrder;
+    }
+    
+    public async Task ChangeStatusActive (RoleCode role, StatusCode status, Guid sourceId, Guid id)
     {
         await _currentOrderRepository.ChangeStatus(role, status, sourceId, id);
         if (status == StatusCode.WaitingCourier)
             await _currentOrderRepository.ChangeCookingDate(role, DateTime.UtcNow, sourceId, id);
         if (status == StatusCode.WaitingClient)
             await _currentOrderRepository.ChangeDeliveryDate(role, DateTime.UtcNow, sourceId, id);
-        if (status == StatusCode.Accepted)
-        {
+    }
+    
+    public async Task ChangeStatusCompleted (RoleCode role, Guid sourceId, Guid id)
+    {
+        var order = await _currentOrderRepository.GetById(role, sourceId, id);
+        await _lastOrderRepository.Create(order);  
+        await _currentOrderRepository.Delete(role, sourceId, id);
+    }
+    
+    public async Task ChangeStatusCompleted (RoleCode role, Guid sourceId, Guid id, string reasonOfCanceled)
+    {
             var order = await _currentOrderRepository.GetById(role, sourceId, id);
-            await _lastOrderRepository.Create(order);
+            await _canceledOrderRepository.Create(order, reasonOfCanceled);  
             await _currentOrderRepository.Delete(role, sourceId, id);
-        }
-        if (status == StatusCode.Canceled)
-        {
-            var order = await _currentOrderRepository.GetById(role, sourceId, id);
-            await _canceledOrderRepository.Create(order, StatusCode.Canceled, ""); // поменять 
-            await _currentOrderRepository.Delete(role, sourceId, id);
-        }
     }
     
     public async Task<StatusCode> GetStatus(RoleCode role, Guid sourceId, Guid id)
