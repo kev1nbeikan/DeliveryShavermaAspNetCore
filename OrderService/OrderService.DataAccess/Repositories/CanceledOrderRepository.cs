@@ -40,7 +40,7 @@ public class CanceledOrderRepository(OrderServiceDbContext context) : ICanceledO
         return orders;
     }
 
-    public async Task Create(CurrentOrder order, StatusCode lastStatus, string reasonOfCanceled)
+    public async Task Create(CurrentOrder order, string reasonOfCanceled)
     {
         var orderEntity = new CanceledOrderEntity
         {
@@ -60,7 +60,7 @@ public class CanceledOrderRepository(OrderServiceDbContext context) : ICanceledO
             CookingDate = DateTime.UtcNow,
             DeliveryDate = DateTime.UtcNow,
             Cheque = order.Cheque,
-            LastStatus = (int)lastStatus,
+            LastStatus = (int)order.Status,
             ReasonOfCanceled = reasonOfCanceled
         };
 
