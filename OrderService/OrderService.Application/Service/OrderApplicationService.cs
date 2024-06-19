@@ -3,8 +3,8 @@ using OrderService.Domain.Models;
 
 namespace OrderService.Application.Service;
 
-public class Order(ICurrentOrderRepository currentOrderRepository, 
-    ILastOrderRepository lastOrderRepository, ICanceledOrderRepository canceledOrderRepository) : IOrder
+public class OrderApplicationService(ICurrentOrderRepository currentOrderRepository, 
+    ILastOrderRepository lastOrderRepository, ICanceledOrderRepository canceledOrderRepository) : IOrderApplicationService
 {
     private readonly ICurrentOrderRepository _currentOrderRepository = currentOrderRepository;
     private readonly ILastOrderRepository _lastOrderRepository = lastOrderRepository;
@@ -56,6 +56,14 @@ public class Order(ICurrentOrderRepository currentOrderRepository,
             await _currentOrderRepository.Delete(role, sourceId, id);
     }
     
+    public async Task<List<CurrentOrder>> GetNewOrdersByDate(RoleCode role, Guid sourceId, DateTime lastOrderDate)
+    {
+        var orders = await _currentOrderRepository.Get(role, sourceId);
+        var newestOrder = orders.Where(x => x.OrderDate > lastOrderDate)
+            .OrderBy(x => x.OrderDate)
+            .ToList();
+        return newestOrder;
+    }
     public async Task<StatusCode> GetStatus(RoleCode role, Guid sourceId, Guid id)
     {
         return await _currentOrderRepository.GetStatus(role , sourceId, id);
