@@ -5,9 +5,9 @@ namespace OrderService.Api.Contracts.Courier;
 
 public record CourierGetLast(
     Guid Id,
+    Guid StoreId,
     JObject Basket,
     string Comment,
-    string StoreAddress,
     TimeSpan DeliveryTime,
     DateTime OrderDate,
     DateTime CookingDate,
