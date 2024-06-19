@@ -11,10 +11,8 @@ public abstract class BaseOrder
     public const int MaxChequeLength = 500;
 
     protected BaseOrder(Guid id, Guid clientId, Guid courierId, Guid storeId,
-        JObject basket, int price, string comment,
-        string clientAddress, string courierNumber, string clientNumber,
-        TimeSpan cookingTime, TimeSpan deliveryTime, DateTime orderDate,
-        DateTime cookingDate, DateTime deliveryDate, string cheque)
+        JObject basket, int price, string comment, TimeSpan cookingTime, TimeSpan deliveryTime,
+        DateTime orderDate, DateTime cookingDate, DateTime deliveryDate, string cheque)
     {
         Id = id;
         ClientId = clientId;
@@ -23,9 +21,6 @@ public abstract class BaseOrder
         Basket = basket;
         Price = price;
         Comment = comment;
-        ClientAddress = clientAddress;
-        CourierNumber = courierNumber;
-        ClientNumber = clientNumber;
         CookingTime = cookingTime;
         DeliveryTime = deliveryTime;
         OrderDate = orderDate;
@@ -41,9 +36,6 @@ public abstract class BaseOrder
     public JObject Basket { get; } = [];
     public int Price { get; }
     public string Comment { get; } = string.Empty;
-    public string ClientAddress { get; } = string.Empty;
-    public string CourierNumber { get; } = string.Empty;
-    public string ClientNumber { get; } = string.Empty;
     public TimeSpan CookingTime { get; } = TimeSpan.Zero;
     public TimeSpan DeliveryTime { get; } = TimeSpan.Zero;
     public DateTime OrderDate { get; } = DateTime.UtcNow;
@@ -53,20 +45,10 @@ public abstract class BaseOrder
 
     protected static String Check(
         Guid id, Guid clientId, Guid courierId, Guid storeId,
-        JObject basket, int price, string comment,
-        string clientAddress, string courierNumber, string clientNumber,
-        TimeSpan cookingTime, TimeSpan deliveryTime, string cheque)
+        JObject basket, int price, string comment, TimeSpan cookingTime,
+        TimeSpan deliveryTime, string cheque)
     {
         string errorString = string.Empty;
-
-        if (string.IsNullOrEmpty(clientAddress) || clientAddress.Length > MaxAddressLength)
-            errorString = "Error in client address, the value is empty or exceeds the maximum value";
-
-        if (string.IsNullOrEmpty(clientNumber) || clientNumber.Length > MaxNumberLength)
-            errorString = "Error in client number, the value is empty or exceeds the maximum value";
-
-        if (string.IsNullOrEmpty(courierNumber) || courierNumber.Length > MaxNumberLength)
-            errorString = "Error in the courier number, the value is empty or exceeds the maximum value";
 
         if (comment.Length > MaxCommentLength)
             errorString = "Error in the comment, the value is exceeds the maximum value";
