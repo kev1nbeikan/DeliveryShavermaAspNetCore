@@ -11,6 +11,7 @@ namespace OrderService.DataAccess
             modelBuilder.ApplyConfiguration(new CurrentOrderConfiguration());
             modelBuilder.ApplyConfiguration(new CanceledOrderConfiguration());
             modelBuilder.ApplyConfiguration(new LastOrderConfiguration());
+            modelBuilder.ApplyConfiguration(new BaseOrderConfiguration());
         }
 
         public DbSet<CurrentOrderEntity> CurrentOrders { get; set; }

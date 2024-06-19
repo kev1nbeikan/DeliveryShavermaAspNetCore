@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using OrderService.DataAccess.Entities;
 using OrderService.Domain.Models;
+using OrderService.Domain.Models.Code;
 
 namespace OrderService.DataAccess.Configurations
 {
@@ -9,21 +10,6 @@ namespace OrderService.DataAccess.Configurations
     {
         public void Configure(EntityTypeBuilder<CanceledOrderEntity> builder)
         {
-            builder.HasKey(x => x.Id);
-
-            builder.Property(b => b.ClientId)
-                .IsRequired();
-
-            builder.Property(b => b.CourierId)
-                .IsRequired();
-
-            builder.Property(b => b.StoreId)
-                .IsRequired();
-
-            builder.Property(b => b.Basket)
-                .HasColumnType("jsonb")
-                .IsRequired();
-
             builder.Property(b => b.LastStatus)
                 .IsRequired();
             
@@ -33,24 +19,6 @@ namespace OrderService.DataAccess.Configurations
             
             builder.Property(b => b.ReasonOfCanceled)
                 .HasMaxLength(BaseOrder.MaxCommentLength);
-
-            builder.Property(b => b.Price)
-                .IsRequired();
-
-            builder.Property(b => b.Comment)
-                .HasMaxLength(BaseOrder.MaxCommentLength);
-
-            builder.Property(b => b.CourierNumber)
-                .HasMaxLength(BaseOrder.MaxNumberLength)
-                .IsRequired();
-
-            builder.Property(b => b.ClientNumber)
-                .HasMaxLength(BaseOrder.MaxCommentLength)
-                .IsRequired();
-
-            builder.Property(b => b.ClientAddress)
-                .HasMaxLength(BaseOrder.MaxAddressLength)
-                .IsRequired();
         }
     }
 }
