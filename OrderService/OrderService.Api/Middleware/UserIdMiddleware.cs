@@ -12,29 +12,27 @@ public class UserIdMiddleware(RequestDelegate next)
         var userIdString = GetFromCookiesOrHeaders(context, UserClaims.UserId);
         var roleString = GetFromCookiesOrHeaders(context, UserClaims.Role);
 
-
-        if (!Guid.TryParse(userIdString, out Guid userId) || string.IsNullOrEmpty(roleString))
+        if (!Guid.TryParse(userIdString, out Guid userId) || String.IsNullOrEmpty(roleString))
         {
             context.Response.StatusCode = StatusCodes.Status401Unauthorized;
             return;
         }
 
-
-        context.User = new ClaimsPrincipal(new[]
-        {
-            new ClaimsIdentity(new Claim[]
-            {
-                new Claim(UserClaims.UserId, userId.ToString()),
-                new Claim(UserClaims.Role, roleString)
-            }),
-        });
+        context.User = new ClaimsPrincipal(
+            new ClaimsIdentity(
+                new Claim[] { 
+                    new (UserClaims.UserId, userId.ToString()),
+                    new (UserClaims.Role, roleString)
+                }
+            )
+        );
 
         await _next(context);
     }
 
-    private string? GetFromCookiesOrHeaders(HttpContext context, string key)
+    private string GetFromCookiesOrHeaders(HttpContext context, string key)
     {
-        return context.Request.Headers[key].ToString() ??
-               context.Request.Cookies[key]?.ToString();
+        return context.Request.Cookies[key] ??
+               context.Request.Headers[key].ToString();
     }
 }
