@@ -1,5 +1,6 @@
 ﻿using OrderService.Domain.Abstractions;
 using OrderService.Domain.Models;
+using OrderService.Domain.Models.Code;
 
 namespace OrderService.Application.Service;
 
