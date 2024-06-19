@@ -104,7 +104,7 @@ public class PaymentController : Controller
 
         return Ok(paymentRequest);
         //
-        // var error = await _userService.Save(userId, paymentRequest.Address, paymentRequest.Comment);
+        var error = await _userService.Save(userId, paymentRequest.Address, paymentRequest.Comment);
         // if (error.HasValue()) return BadRequest(error);
         //
         // (var products, error) =

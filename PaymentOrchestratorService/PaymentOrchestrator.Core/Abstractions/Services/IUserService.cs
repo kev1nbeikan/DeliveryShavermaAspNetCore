@@ -1,6 +1,6 @@
 using Handler.Core.Common;
 
-namespace Handler.Core.Abstractions;
+namespace Handler.Core.Abstractions.Services;
 
 public interface IUserService
 {

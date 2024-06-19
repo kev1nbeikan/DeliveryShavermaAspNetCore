@@ -31,7 +31,7 @@ public class UserRepository : IUserRepository
         return null;
     }
 
-    public async Task<string?> SaveByUserId(MyUser user)
+    public async Task<string?> Save(MyUser user)
     {
         HttpResponseMessage response = await _httpClient.PostAsJsonAsync("/users", user);
 

@@ -1,5 +1,6 @@
 ﻿using Handler.Core;
 using Handler.Core.Abstractions;
+using Handler.Core.Abstractions.Services;
 using Handler.Core.Common;
 using HandlerService.Infustucture.Extensions;
 
@@ -20,7 +21,7 @@ public class UserService : IUserService
         return
             error.HasValue()
                 ? error
-                : await _userRepository.SaveByUserId(user!);
+                : await _userRepository.Save(user!);
     }
 
     public async Task<(MyUser?, string? error)> Get(Guid userId)
