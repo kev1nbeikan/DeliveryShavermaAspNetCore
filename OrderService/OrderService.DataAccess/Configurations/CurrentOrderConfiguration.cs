@@ -27,7 +27,9 @@ namespace OrderService.DataAccess.Configurations
             builder.Property(b => b.Status)
                 .IsRequired();
 
-            builder.ToTable(b => b.HasCheckConstraint("CK_CurrentOrder_Status", $"Status >= 0 AND Status <= {StatusCode.Accepted}"));
+            builder.ToTable(b => 
+                b.HasCheckConstraint("CK_CurrentOrder_Status", 
+                    $"\"Status\" >= 0 AND \"Status\" < {(int)StatusCode.Accepted}"));
 
             builder.Property(b => b.Price)
                 .IsRequired();

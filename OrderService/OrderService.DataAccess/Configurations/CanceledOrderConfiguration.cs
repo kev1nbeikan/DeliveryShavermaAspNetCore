@@ -26,9 +26,11 @@ namespace OrderService.DataAccess.Configurations
 
             builder.Property(b => b.LastStatus)
                 .IsRequired();
-
-            builder.ToTable(b => b.HasCheckConstraint("CK_CurrentOrder_Status", $"Status >= 0 AND Status <= {StatusCode.Accepted}"));
-
+            
+            builder.ToTable(t => 
+                t.HasCheckConstraint("CK_CanceledOrder_LastStatus", 
+                $"\"LastStatus\" >= 1 AND \"LastStatus\" < {(int)StatusCode.Accepted}"));
+            
             builder.Property(b => b.ReasonOfCanceled)
                 .HasMaxLength(BaseOrder.MaxCommentLength);
 
