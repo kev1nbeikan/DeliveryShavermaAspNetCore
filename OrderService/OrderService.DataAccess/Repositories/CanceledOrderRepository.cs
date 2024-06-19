@@ -16,7 +16,7 @@ public class CanceledOrderRepository(OrderServiceDbContext context) : ICanceledO
             .AsNoTracking()
             .Where(condition)
             .ToListAsync();
-        
+
         var orders = orderEntity.Select(b => CanceledOrder.Create(
                 b.Id,
                 b.ClientId,

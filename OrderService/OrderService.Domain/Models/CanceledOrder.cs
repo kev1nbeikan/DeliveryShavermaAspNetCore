@@ -15,6 +15,7 @@ public class CanceledOrder : BaseOrder
         LastStatus = lastStatus;
         ReasonOfCanceled = reasonOfCanceled;
     }
+
     public StatusCode LastStatus { get; }
     public string ReasonOfCanceled { get; } = string.Empty;
 
@@ -25,12 +26,12 @@ public class CanceledOrder : BaseOrder
     {
         string errorString = Check(id, clientId, courierId, storeId, basket,
             price, comment, cookingTime, deliveryTime, cheque);
-        
+
         if (string.IsNullOrEmpty(reasonOfCanceled) || reasonOfCanceled.Length > MaxCommentLength)
             errorString = "Error in reason of canceled, the value is empty or exceeds the maximum value";
 
         var order = new CanceledOrder(id, clientId, courierId, storeId, basket,
-            price, comment, cookingTime, deliveryTime, orderDate, cookingDate, 
+            price, comment, cookingTime, deliveryTime, orderDate, cookingDate,
             deliveryDate, cheque, lastStatus, reasonOfCanceled);
 
         return (order, errorString);

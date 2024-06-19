@@ -35,7 +35,7 @@ public class CurrentOrder : BaseOrder
         string errorString = Check(id, clientId, courierId, storeId, basket,
             price, comment, cookingTime,
             deliveryTime, cheque);
-        
+
         if (string.IsNullOrEmpty(clientAddress) || clientAddress.Length > MaxAddressLength)
             errorString = "Error in client address, the value is empty or exceeds the maximum value";
 
@@ -44,7 +44,7 @@ public class CurrentOrder : BaseOrder
 
         if (string.IsNullOrEmpty(courierNumber) || courierNumber.Length > MaxNumberLength)
             errorString = "Error in the courier number, the value is empty or exceeds the maximum value";
-        
+
         if (string.IsNullOrEmpty(storeAddress) || storeAddress.Length > MaxNumberLength)
             errorString = "Error in the store address, the value is empty or exceeds the maximum value";
 

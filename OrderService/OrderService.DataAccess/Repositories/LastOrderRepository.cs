@@ -14,9 +14,8 @@ public class LastOrderRepository(OrderServiceDbContext context) : ILastOrderRepo
 
         var orderEntity = await context.LastOrders
             .AsNoTracking()
-            .Where(condition).
-            ToListAsync();
-        
+            .Where(condition).ToListAsync();
+
         var orders = orderEntity.Select(b => LastOrder.Create(
                 b.Id,
                 b.ClientId,
@@ -31,7 +30,7 @@ public class LastOrderRepository(OrderServiceDbContext context) : ILastOrderRepo
                 b.CookingDate,
                 b.DeliveryDate,
                 b.Cheque
-                ).Order)
+            ).Order)
             .ToList();
         return orders;
     }
@@ -52,7 +51,7 @@ public class LastOrderRepository(OrderServiceDbContext context) : ILastOrderRepo
             OrderDate = DateTime.UtcNow,
             CookingDate = DateTime.UtcNow,
             DeliveryDate = DateTime.UtcNow,
-            Cheque =  order.Cheque
+            Cheque = order.Cheque
         };
 
         await context.LastOrders.AddAsync(orderEntity);

@@ -29,7 +29,7 @@ public class BaseOrderConfiguration : IEntityTypeConfiguration<BaseOrderEntity>
 
         builder.Property(b => b.Comment)
             .HasMaxLength(BaseOrder.MaxCommentLength);
-        
+
         builder.Property(b => b.Cheque)
             .HasMaxLength(BaseOrder.MaxChequeLength);
     }

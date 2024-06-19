@@ -20,9 +20,10 @@ public class UserIdMiddleware(RequestDelegate next)
 
         context.User = new ClaimsPrincipal(
             new ClaimsIdentity(
-                new Claim[] { 
-                    new (UserClaims.UserId, userId.ToString()),
-                    new (UserClaims.Role, roleString)
+                new Claim[]
+                {
+                    new(UserClaims.UserId, userId.ToString()),
+                    new(UserClaims.Role, roleString)
                 }
             )
         );
