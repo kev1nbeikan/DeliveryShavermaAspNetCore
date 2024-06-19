@@ -26,12 +26,8 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseCors(
-    policyBuilder => policyBuilder
-        .AllowAnyHeader()
-        .WithOrigins(AppBuilderUtils.GetOriginsString(app.Services.GetRequiredService<IOptions<ServicesOptions>>()))
-        .Build()
-);
+
+app.SetCorsPolicies(app.Services.GetService<IOptions<ServicesOptions>>()!);
 
 
 app.UseHttpsRedirection();

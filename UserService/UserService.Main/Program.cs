@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using UserService.DataAccess;
 using UserService.Main.Extensions;
 using UserService.Main.Middleware;
@@ -26,9 +27,8 @@ if (!app.Environment.IsDevelopment())
 }
 
 
-app.UseCors(
-    policyBuilder => policyBuilder.AllowAnyHeader().WithOrigins("http://localhost:5002").Build()
-);
+
+app.SetCorsPolicies(app.Services.GetService<IOptions<ServicesOptions>>());
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

@@ -31,35 +31,26 @@ public class UserController : Controller
 
 
     // [HttpPost("Bucket")]
-    public async Task<IActionResult> Bucket([FromBody] List<BucketItem> request)
+    public async Task<IActionResult> Bucket([FromBody] List<BucketItem> products)
     {
+        var viewModel = new BucketViewModel { Products = products };
+
         try
         {
             var userId = User.UserId();
             _logger.LogInformation("User {userId} requested bucket", userId);
             var user = await _userService.Get(userId);
 
-            return View(
-                new BucketViewModel
-                {
-                    Products = request,
-                    Addresses = user.Addresses,
-                    SelectedAddress = user.Addresses.Last(),
-                    DefaultComment = user.Comment
-                }
-            );
+            viewModel.Addresses = user.Addresses;
+            viewModel.PhoneNumber = user.PhoneNumber;
+            viewModel.DefaultComment = user.Comment;
+            viewModel.SelectedAddress = user.Addresses.First();
+
+            return View(viewModel);
         }
         catch (NotFoundException e)
         {
-            return View(
-                new BucketViewModel
-                {
-                    Products = request,
-                    Addresses = [],
-                    SelectedAddress = null,
-                    DefaultComment = ""
-                }
-            );
+            return View(viewModel);
         }
     }
 

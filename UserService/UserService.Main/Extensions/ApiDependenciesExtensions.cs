@@ -5,7 +5,7 @@ using UserService.DataAccess.Repositories;
 
 namespace UserService.Main.Extensions;
 
-public static class ApiExtensions
+public static class ApiDependenciesExtensions
 {
     public static IServiceCollection AddDependencyInjection(this IServiceCollection services)
     {

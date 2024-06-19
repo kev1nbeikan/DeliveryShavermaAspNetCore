@@ -23,7 +23,5 @@ public class MyUser
 
         return (new MyUser(userId!, address!, comment!, phoneNumber), error);
     }
-
-
-
+    
 }

@@ -31,4 +31,10 @@
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Reference Include="UserService.Core">
+        <HintPath>..\UserService.UnitTests\bin\Debug\net8.0\UserService.Core.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
 </Project>
