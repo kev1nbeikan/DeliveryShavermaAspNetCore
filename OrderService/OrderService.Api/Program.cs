@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using OrderService.Application.Service;
 using OrderService.DataAccess.Repositories;
 using OrderService.Domain.Abstractions;
+using OrderService.Api.Extensions;
+using OrderService.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +21,7 @@ builder.Services.AddDbContext<OrderServiceDbContext>(
             .GetConnectionString(nameof(OrderServiceDbContext)));
     });
 
-builder.Services.AddScoped<IOrder, Order>();
+builder.Services.AddScoped<IOrderApplicationService, OrderApplicationService>();
 builder.Services.AddScoped<ICurrentOrderRepository, CurrentOrderRepository>();
 builder.Services.AddScoped<ICanceledOrderRepository, CanceledOrderRepository>();
 builder.Services.AddScoped<ILastOrderRepository, LastOrderRepository>();
@@ -33,6 +35,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<UserIdMiddleware>();
 // app.UseHttpsRedirection();
 app.MapControllers();
 
