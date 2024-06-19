@@ -11,9 +11,6 @@ public abstract class BaseOrderEntity
     public JObject Basket { get; set; } = [];
     public int Price { get; set; }
     public string Comment { get; set; } = string.Empty;
-    public string ClientAddress { get; set; } = string.Empty;
-    public string CourierNumber { get; set; } = string.Empty;
-    public string ClientNumber { get; set; } = string.Empty;
     public TimeSpan CookingTime { get; set; } = TimeSpan.Zero;
     public TimeSpan DeliveryTime { get; set; } = TimeSpan.Zero;
     public DateTime OrderDate { get; set; } = DateTime.UtcNow;

@@ -2,6 +2,7 @@
 using OrderService.DataAccess.Entities;
 using OrderService.Domain.Models;
 using OrderService.Domain.Abstractions;
+using OrderService.Domain.Models.Code;
 
 namespace OrderService.DataAccess.Repositories;
 
@@ -24,9 +25,6 @@ public class LastOrderRepository(OrderServiceDbContext context) : ILastOrderRepo
                 b.Basket,
                 b.Price,
                 b.Comment,
-                b.ClientAddress,
-                b.CourierNumber,
-                b.ClientNumber,
                 b.CookingTime,
                 b.DeliveryTime,
                 b.OrderDate,
@@ -49,9 +47,6 @@ public class LastOrderRepository(OrderServiceDbContext context) : ILastOrderRepo
             Basket = order.Basket,
             Price = order.Price,
             Comment = order.Comment,
-            ClientAddress = order.ClientAddress,
-            CourierNumber = order.CourierNumber,
-            ClientNumber = order.ClientNumber,
             CookingTime = order.CookingTime,
             DeliveryTime = order.DeliveryTime,
             OrderDate = DateTime.UtcNow,

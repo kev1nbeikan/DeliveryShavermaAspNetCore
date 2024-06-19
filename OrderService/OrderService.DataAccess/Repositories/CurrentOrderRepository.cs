@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using OrderService.DataAccess.Entities;
 using OrderService.Domain.Models;
 using OrderService.Domain.Abstractions;
+using OrderService.Domain.Models.Code;
 
 namespace OrderService.DataAccess.Repositories;
 
@@ -25,6 +26,7 @@ public class CurrentOrderRepository(OrderServiceDbContext context) : ICurrentOrd
                 b.Basket,
                 b.Price,
                 b.Comment,
+                b.StoreAddress,
                 b.ClientAddress,
                 b.CourierNumber,
                 b.ClientNumber,
@@ -57,6 +59,7 @@ public class CurrentOrderRepository(OrderServiceDbContext context) : ICurrentOrd
             orderEntity.Basket,
             orderEntity.Price,
             orderEntity.Comment,
+            orderEntity.StoreAddress,
             orderEntity.ClientAddress,
             orderEntity.CourierNumber,
             orderEntity.ClientNumber,
@@ -67,7 +70,7 @@ public class CurrentOrderRepository(OrderServiceDbContext context) : ICurrentOrd
             orderEntity.DeliveryDate,
             orderEntity.Cheque,
             (StatusCode)orderEntity.Status).Order;
-        
+
         return order;
     }
 
@@ -116,6 +119,7 @@ public class CurrentOrderRepository(OrderServiceDbContext context) : ICurrentOrd
                 .SetProperty(b => b.DeliveryDate, b => deliveryDate));
     }
 
+
     public async Task Delete(RoleCode role, Guid sourceId, Guid id)
     {
         var condition = BaseOrderRepository.GetCondition<CurrentOrderEntity>(role, sourceId);
@@ -137,6 +141,7 @@ public class CurrentOrderRepository(OrderServiceDbContext context) : ICurrentOrd
             Basket = order.Basket,
             Price = order.Price,
             Comment = order.Comment,
+            StoreAddress = order.StoreAddress,
             ClientAddress = order.ClientAddress,
             CourierNumber = order.CourierNumber,
             ClientNumber = order.ClientNumber,
