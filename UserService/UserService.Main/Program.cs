@@ -1,14 +1,17 @@
 using Microsoft.EntityFrameworkCore;
 using UserService.DataAccess;
+using UserService.Main.Extensions;
+using UserService.Main.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<UserDbContext>(
     options => { options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(UserDbContext))); }
 );
+
+builder.Services.AddDependencyInjection();
 
 
 var app = builder.Build();
@@ -32,7 +35,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthorization();
+app.UseMiddleware<UserIdMiddleware>();
 
 app.MapControllerRoute(
     name: "default",

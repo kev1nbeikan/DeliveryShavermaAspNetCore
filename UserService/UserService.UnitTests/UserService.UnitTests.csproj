@@ -14,6 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\UserService.Application\UserService.Application.csproj" />
       <ProjectReference Include="..\UserService.DataAccess\UserService.DataAccess.csproj" />
     </ItemGroup>
 

@@ -41,6 +41,7 @@ public static class CookiesSaverBuilder
         cookiesSaver.SetDomains([
             serviceOptions.Value.StoreUrl,
             serviceOptions.Value.CouriersUrl,
+            serviceOptions.Value.OrderUrl,
         ]);
 
         return cookiesSaver;

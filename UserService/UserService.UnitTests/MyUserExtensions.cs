@@ -8,6 +8,7 @@ public static class MyUserExtensions
     {
         return user1.UserId == user2.UserId
                && user1.Comment == user2.Comment
+               && user1.PhoneNumber == user2.PhoneNumber
                && user1.Addresses.OrderBy(e => e).SequenceEqual(user2.Addresses.OrderBy(e => e));
     }
 }

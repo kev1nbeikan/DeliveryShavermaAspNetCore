@@ -1,4 +1,6 @@
-namespace UserService.Main.Contracts;
+using Handler.Core.Payment;
+
+namespace HandlerService.DataAccess.Repositories.Contracts;
 
 public record AddNewUserOrUpdateRequest(
     Guid UserId,

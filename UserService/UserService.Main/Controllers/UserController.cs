@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using UserService.Core;
+using UserService.Core.abstractions;
+using UserService.Core.Exceptions;
 using UserService.Main.Contracts;
 using UserService.Main.Extensions;
 using UserService.Main.Models;
@@ -20,33 +21,47 @@ public class UserController : Controller
     }
 
 
-    [HttpPost]
-    public async Task<IActionResult> AddNewOrUpdate([FromBody] AddNewUserOrUpdateRequest user)
+    [HttpPost("AddNewOrUpdate")]
+    public async Task<IActionResult> AddNewOrUpdate([FromBody] AddNewUserOrUpdateRequest userFields)
     {
-        
-        await _userService.AddNewOrUpdate(user);
+        await _userService.AddNewOrUpdate(userFields.UserId, userFields.Address, userFields.PhoneNumber,
+            userFields.Comment);
         return Ok();
     }
-    
 
-    [HttpPost("Bucket")]
+
+    // [HttpPost("Bucket")]
     public async Task<IActionResult> Bucket([FromBody] List<BucketItem> request)
     {
-        
-        var user = await _userService.Get(User.UserId());
+        try
+        {
+            var userId = User.UserId();
+            _logger.LogInformation("User {userId} requested bucket", userId);
+            var user = await _userService.Get(userId);
 
-        return View(
-            new BucketViewModel
-            {
-                Products = request,
-                Addresses = user.Addresses,
-                SelectedAddress = user.Addresses.Last(),
-                DefaultComment = user.Comment
-            }
-        );
+            return View(
+                new BucketViewModel
+                {
+                    Products = request,
+                    Addresses = user.Addresses,
+                    SelectedAddress = user.Addresses.Last(),
+                    DefaultComment = user.Comment
+                }
+            );
+        }
+        catch (NotFoundException e)
+        {
+            return View(
+                new BucketViewModel
+                {
+                    Products = request,
+                    Addresses = [],
+                    SelectedAddress = null,
+                    DefaultComment = ""
+                }
+            );
+        }
     }
-    
-    
 
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -54,10 +69,4 @@ public class UserController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
-}
-
-public interface IUserService
-{
-    Task<MyUser> Get(object userId);
-    Task AddNewOrUpdate(AddNewUserOrUpdateRequest user);
 }

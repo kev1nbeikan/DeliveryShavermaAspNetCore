@@ -10,6 +10,7 @@ public class BucketViewModel
     public List<string> Addresses { get; set; }
     public string SelectedAddress { get; set; }
     public string DefaultComment { get; set; }
-    
+
     public string PhoneNumber { get; set; }
+    public string DisplayStyleOfNewAddressInput => Addresses.Count == 0 ? "display: block" : "display: none";
 }

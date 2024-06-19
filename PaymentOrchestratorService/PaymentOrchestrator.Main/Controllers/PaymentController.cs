@@ -102,10 +102,9 @@ public class PaymentController : Controller
     {
         var userId = User.UserId();
 
-        return Ok(paymentRequest);
-        //
         var error = await _userService.Save(userId, paymentRequest.Address, paymentRequest.Comment);
-        // if (error.HasValue()) return BadRequest(error);
+        if (error.HasValue()) return BadRequest(error);
+        return Ok("Ok");
         //
         // (var products, error) =
         //     await _menuService.GetProducts(paymentRequest.ProductIdsAndQuantity.Select(x => x.Id).ToList());

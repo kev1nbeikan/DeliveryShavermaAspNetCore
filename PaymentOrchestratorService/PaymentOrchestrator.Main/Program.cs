@@ -1,6 +1,9 @@
+using Handler.Core.Common;
 using HandlerService.DataAccess.Repositories;
 using HandlerService.Extensions;
 using HandlerService.Middlewares;
+using HandlerService.Utils;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +11,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDependencies();
+
+builder.Services.Configure<ServicesOptions>(builder.Configuration.GetSection("Services"));
+
 
 var app = builder.Build();
 
@@ -21,7 +27,10 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseCors(
-    policyBuilder => policyBuilder.AllowAnyHeader().WithOrigins("http://localhost:5002").Build()
+    policyBuilder => policyBuilder
+        .AllowAnyHeader()
+        .WithOrigins(AppBuilderUtils.GetOriginsString(app.Services.GetRequiredService<IOptions<ServicesOptions>>()))
+        .Build()
 );
 
 
@@ -32,7 +41,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 
-
+app.UseMiddleware<UserMiddleware>();
 
 app.MapControllerRoute(
     name: "default",

@@ -23,8 +23,10 @@ public class CookiesSaver : IDisposable
         return this;
     }
 
-    public CookiesSaver Append(string key, string value)
+    public CookiesSaver Append(string key, string? value)
     {
+        
+        
         _cookies.Append(key, value);
         foreach (var domain in _domains)
         {

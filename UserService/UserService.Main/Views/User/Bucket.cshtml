@@ -53,9 +53,9 @@
                 <option value="custom">Введите новый адресс</option>
             </select>
 
-            <input type="text" id="customAddressInput" placeholder="Введите свой адрес" oninput="customAddressChanged(this)" style="display: none;" class="form-control mb-3">
+            <input type="text" id="customAddressInput" placeholder="Введите свой адрес" oninput="customAddressChanged(this)" style="@Model.DisplayStyleOfNewAddressInput" class="form-control mb-3">
 
-            <input type="text" id="phoneNumber" placeholder="Введите свой номер" oninput="customAddressChanged(this)" style="display: none;" class="form-control mb-3">
+            <input type="text" id="phoneNumber" placeholder="Введите свой номер" style="display: block;" class="form-control mb-3">
 
             <label for="comment">Комментарий:</label>
             <input type="text" id="comment" value="@Model.DefaultComment" onclick="clearCommentField()" class="form-control">
@@ -181,6 +181,17 @@
         displayCart();
     }
 
+    function getCookieValue(name) {
+        const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+        for (const cookie of cookies) {
+            const [cookieName, cookieValue] = cookie.split('=');
+            if (cookieName === name) {
+                return cookieValue;
+            }
+        }
+        return '';
+    }
+
     function checkout() {
         // Реализуйте логику для оплаты, например, отправку данных на сервер
         const cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -196,6 +207,7 @@
             ProductIdsAndQuantity: productIdsAndQuantity,
             Comment: comment,
             Address: address,
+            PhoneNumber: phoneNumber,
             StoreId: "" // Замените на ваш StoreId
         };
 
@@ -203,7 +215,9 @@
         fetch('http://localhost:5281/Payment/CalculatePayment/', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'UserId': getCookieValue('UserId'),
+                'Role': getCookieValue('Role')
             },
             body: JSON.stringify(paymentRequest)
         })

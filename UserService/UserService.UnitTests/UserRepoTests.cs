@@ -25,11 +25,10 @@ public class UserRepoTests
     {
         var newUser = MyUser.Create(Guid.NewGuid(), ["address1", "address2", "address3"], "comment").myUser;
 
-        var result = await _userRepository.Save(newUser!);
-        var user = await _userRepository.Get(result);
+        var result = await _userRepository.Add(newUser!);
+        var user = await _userRepository.Get(result.UserId);
 
         Assert.That(user.IsEqual(newUser), Is.True);
-        Assert.That(result, Is.EqualTo(newUser.UserId));
     }
 
 
@@ -38,7 +37,7 @@ public class UserRepoTests
     {
         var newUser = MyUser.Create(Guid.NewGuid(), ["address1", "address2", "address3"], "comment").myUser;
 
-        var userId = await _userRepository.Save(newUser!);
+        var userId = await _userRepository.Add(newUser!);
         var userToUpdate = await _userRepository.Get(newUser.UserId);
         userToUpdate!.Addresses.Add("ул бебринска");
         await _userRepository.Update(userToUpdate);

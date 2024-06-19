@@ -7,7 +7,7 @@ public static class UserEntityExtensions
 {
     public static MyUser? ToModel(this UserEntity entity)
     {
-        return MyUser.Create(entity.Id, entity.Addresses.Select(x => x.Address).ToList(), entity.Comment).myUser;
+        return MyUser.Create(entity.Id, entity.Addresses.Select(x => x.Address).ToList(), entity.Comment, entity.PhoneNumber).myUser;
     }
 
     public static List<string> ToStringList(this List<AddressEntity> addresses)

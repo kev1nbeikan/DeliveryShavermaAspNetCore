@@ -1,7 +1,9 @@
 using AuthService.Application.Services;
 using AuthService.Core;
 using AuthService.Core.Abstractions;
+using AuthService.Core.Common;
 using AuthService.Core.Exceptions;
+using AuthService.Core.Extensions;
 using AuthService.Main.Contracts;
 using AuthService.Main.Infostructure;
 using Microsoft.AspNetCore.Mvc;
@@ -43,13 +45,14 @@ public class CourierController : Controller
             var response = new LoginResponse
             {
                 UserId = userId.ToString(),
-                Role = "courier"
+                Role = RoleCode.Courier
             };
 
             using (var cookiesSaver = CookiesSaverBuilder.ForCourierAuth(Response.Cookies, _serviceOptions))
             {
                 cookiesSaver.Append(nameof(response.UserId), response.UserId);
-                cookiesSaver.Append(nameof(response.Role), response.Role);
+                cookiesSaver.Append(nameof(response.Role), response.Role.Value.ToIntString());
+
             }
 
             return Ok(response);

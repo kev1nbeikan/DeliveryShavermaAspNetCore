@@ -13,6 +13,8 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\AuthService\AuthService.Core\AuthService.Core.csproj" />
+      <ProjectReference Include="..\UserService.Application\UserService.Application.csproj" />
       <ProjectReference Include="..\UserService.Core\UserService.Core.csproj" />
       <ProjectReference Include="..\UserService.DataAccess\UserService.DataAccess.csproj" />
     </ItemGroup>

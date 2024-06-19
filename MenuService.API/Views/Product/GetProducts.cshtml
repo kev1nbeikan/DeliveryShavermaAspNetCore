@@ -163,12 +163,25 @@
         await sendDataToOtherDomain(cart);
     }
 
+    function getCookieValue(name) {
+        const cookies = document.cookie.split(';').map(cookie => cookie.trim());
+        for (const cookie of cookies) {
+            const [cookieName, cookieValue] = cookie.split('=');
+            if (cookieName === name) {
+                return cookieValue;
+            }
+        }
+        return '';
+    }
+
     async function sendDataToOtherDomain(data) {
         try {
             const response = await fetch('http://localhost:5276/User/Bucket', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'UserId': getCookieValue('UserId'),
+                    'Role': getCookieValue('Role')
                 },
                 body: JSON.stringify(data)
             });

@@ -17,11 +17,11 @@ public class UserRepository : IUserRepository
     }
 
 
-    public async Task<Guid> Save(MyUser user)
+    public async Task<MyUser> Add(MyUser user)
     {
         await _userDbContext.Users.AddAsync(user.ToUserEntity());
         await _userDbContext.SaveChangesAsync();
-        return user.UserId;
+        return user;
     }
 
     public async Task<bool> Update(MyUser user)
@@ -42,10 +42,7 @@ public class UserRepository : IUserRepository
         var user = await _userDbContext.Users.AsNoTracking()
             .Where(x => x.Id == id)
             .FirstOrDefaultAsync();
-        if (user == null)
-        {
-            throw new NotFoundException("User not found");
-        }
+        if (user == null) return null;
 
         user.Addresses =
             _userDbContext.Addresses.AsNoTracking().Where(a => a.UserEntityId == user.Id).ToList();
