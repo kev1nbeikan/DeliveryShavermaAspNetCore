@@ -1,12 +1,12 @@
-﻿using MenuService.Core.Models;
+﻿using MenuService.API.Contracts;
 
 namespace MenuService.API.Models;
 
 public class ProductListViewModel
 {
-	public List<Product> Products { get; }
+	public IEnumerable<ProductResponse> Products { get; }
 
-	public ProductListViewModel(List<Product> products)
+	public ProductListViewModel(IEnumerable<ProductResponse> products)
 	{
 		Products = products;
 	}

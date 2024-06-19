@@ -3,7 +3,7 @@
 @{
 }
 
-<form class="form-inline row g-3" asp-controller="Product" asp-action="CreateProduct" method="POST">
+<form class="form-inline row g-3" asp-controller="Product" asp-action="CreateProduct" method="POST" enctype="multipart/form-data">
     <div class="input-group-append">
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createModal">
             Create product
@@ -40,8 +40,8 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <div class="input-group">
-                            <input type="text" class="form-control" asp-for="ImagePath" placeholder="File" aria-label="Default">
+                        <div class="custom-file">
+                            <input type="file" class="custom-file-input" asp-for="File">
                         </div>
                     </div>
                 </div>

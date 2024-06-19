@@ -1,5 +1,4 @@
-﻿
-using MenuService.Core.Models;
+﻿using MenuService.Core.Models;
 using MenuService.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -27,7 +26,6 @@ public class ProductConfiguration : IEntityTypeConfiguration<ProductEntity>
 		builder.Property(p => p.Price)
 			.IsRequired();
 
-		builder.Property(p => p.ImagePath)
-			.IsRequired();
+		builder.Property(p => p.ImagePath);
 	}
 }
