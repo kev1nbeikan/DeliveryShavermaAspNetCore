@@ -2,14 +2,16 @@ using Handler.Core;
 using Handler.Core.Abstractions;
 using Handler.Core.Abstractions.Services;
 using Handler.Core.HanlderService;
+using Handler.Core.Payment;
 
 namespace HandlerService.Application.Services;
 
 public class PaymentService : IPaymentService
 {
-    public int CalculatePayment(Product[] products)
+    public int CalculatePayment(Product[] products, List<BucketItem> productIdsAndQuantity)
     {
-        return (int)products.Sum(x => x.Price);
+        return products.Sum(p =>
+            p.Price * productIdsAndQuantity.Where(x => p.Id == x.Id).Select(x => x.Quantity).First());
     }
 
     public List<PaymentType> GetPaymentTypes()

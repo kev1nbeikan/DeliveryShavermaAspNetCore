@@ -7,7 +7,7 @@ public class MyUser
     public string Comment { get; set; }
     public string PhoneNumber { get; }
 
-    public MyUser(Guid userId, List<string> address, string comment, string phoneNumber, List<string> addresses)
+    public MyUser(Guid userId, List<string> address, string comment, string phoneNumber)
     {
         UserId = userId;
         Addresses = address;

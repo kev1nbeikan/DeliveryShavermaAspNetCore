@@ -16,7 +16,7 @@ public static class MyUserExtensions
         };
     }
 
-    private static List<AddressEntity> ToAddressEntity(this List<string> addresses, Guid userId)
+    public static List<AddressEntity> ToAddressEntity(this List<string> addresses, Guid userId)
     {
         return addresses.Select(x => new AddressEntity
         {
@@ -24,4 +24,6 @@ public static class MyUserExtensions
             UserEntityId = userId
         }).ToList();
     }
+    
+    
 }

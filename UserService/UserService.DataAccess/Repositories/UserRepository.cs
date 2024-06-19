@@ -26,22 +26,29 @@ public class UserRepository : IUserRepository
 
     public async Task<bool> Update(MyUser user)
     {
-        var userEntity = user.ToUserEntity();
+        var userEntity = await _userDbContext.Users.FirstOrDefaultAsync(x => x.Id == user.UserId);
+        if (userEntity == null) return false;
 
-        _userDbContext.Users.Update(userEntity);
-        return await _userDbContext.SaveChangesAsync() > 0;
+        userEntity.Comment = user.Comment;
+        userEntity.Addresses = user.Addresses.ToAddressEntity(userEntity.Id);
+        userEntity.PhoneNumber = user.PhoneNumber;
+
+        await _userDbContext.SaveChangesAsync();
+        return true;
     }
 
     public async Task<MyUser?> Get(Guid id)
     {
-        var result = await _userDbContext.Users.AsNoTracking().Where(x => x.Id == id)
-            .Include(x => x.Addresses)
+        var user = await _userDbContext.Users.AsNoTracking()
+            .Where(x => x.Id == id)
             .FirstOrDefaultAsync();
-        if (result == null)
+        if (user == null)
         {
             throw new NotFoundException("User not found");
         }
 
-        return result?.ToUserEntity();
+        user.Addresses =
+            _userDbContext.Addresses.AsNoTracking().Where(a => a.UserEntityId == user.Id).ToList();
+        return user?.ToModel();
     }
 }

@@ -20,6 +20,9 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseCors(
+    policyBuilder => policyBuilder.AllowAnyHeader().WithOrigins("http://localhost:5002").Build()
+);
 
 
 app.UseHttpsRedirection();
@@ -27,6 +30,7 @@ app.UseStaticFiles();
 
 
 app.UseRouting();
+
 
 
 

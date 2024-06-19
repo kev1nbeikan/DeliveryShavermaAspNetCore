@@ -5,7 +5,7 @@ namespace UserService.DataAccess.Extentions;
 
 public static class UserEntityExtensions
 {
-    public static MyUser? ToUserEntity(this UserEntity entity)
+    public static MyUser? ToModel(this UserEntity entity)
     {
         return MyUser.Create(entity.Id, entity.Addresses.Select(x => x.Address).ToList(), entity.Comment).myUser;
     }

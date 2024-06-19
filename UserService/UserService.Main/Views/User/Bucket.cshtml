@@ -183,9 +183,49 @@
 
     function checkout() {
         // Реализуйте логику для оплаты, например, отправку данных на сервер
-        alert('Оплата успешно выполнена!');
-        localStorage.removeItem('cart');
-        displayCart();
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const productIdsAndQuantity = cart.map(item => {
+            return { id: item.id, quantity: item.quantity };
+        });
+        const comment = document.getElementById('comment').value;
+        const addressSelect = document.getElementById('addressSelect');
+        const address = addressSelect.value === 'custom' ? document.getElementById('customAddressInput').value : addressSelect.value;
+        const phoneNumber = document.getElementById('phoneNumber').value; 
+
+        const paymentRequest = {
+            ProductIdsAndQuantity: productIdsAndQuantity,
+            Comment: comment,
+            Address: address,
+            StoreId: "" // Замените на ваш StoreId
+        };
+
+        // Отправляем запрос на сервер
+        fetch('http://localhost:5281/Payment/CalculatePayment/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(paymentRequest)
+        })
+            .then(response => {
+                if (response.ok) {
+                    // Обработка успешного ответа
+                    return response.text();
+                } else {
+                    // Обработка ошибки
+                    return response.text().then(error => Promise.reject(error));
+                }
+            })
+            .then(data => {
+                // Обновляем страницу
+                document.getElementById('cart-items').innerHTML = data;
+            })
+            .catch(error => {
+                // Обработка ошибки
+                console.error(error);
+                // Отобразите сообщение об ошибке на странице
+                alert('Произошла ошибка при оформлении заказа. Пожалуйста, попробуйте позже.');
+            });
     }
 
     function addressSelectionChanged(select) {
