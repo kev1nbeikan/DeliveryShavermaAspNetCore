@@ -9,7 +9,7 @@ public class CurrentOrder : BaseOrder
         JObject basket, int price, string comment, string storeAddress,
         string clientAddress, string courierNumber, string clientNumber,
         TimeSpan cookingTime, TimeSpan deliveryTime, DateTime orderDate,
-        DateTime cookingDate, DateTime deliveryDate, string cheque, StatusCode status)
+        DateTime? cookingDate, DateTime? deliveryDate, string cheque, StatusCode status)
         : base(id, clientId, courierId, storeId, basket, price, comment,
             cookingTime, deliveryTime, orderDate, cookingDate, deliveryDate, cheque)
     {
@@ -30,7 +30,7 @@ public class CurrentOrder : BaseOrder
         Guid courierId, Guid storeId, JObject basket, int price, string comment,
         string storeAddress, string clientAddress, string courierNumber, string clientNumber,
         TimeSpan cookingTime, TimeSpan deliveryTime, DateTime orderDate,
-        DateTime cookingDate, DateTime deliveryDate, string cheque, StatusCode status)
+        DateTime? cookingDate, DateTime? deliveryDate, string cheque, StatusCode status)
     {
         string errorString = Check(id, clientId, courierId, storeId, basket,
             price, comment, cookingTime,

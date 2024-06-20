@@ -10,5 +10,5 @@ public record CourierGetLast(
     string Comment,
     TimeSpan DeliveryTime,
     DateTime OrderDate,
-    DateTime CookingDate,
-    DateTime DeliveryDate);
+    DateTime? CookingDate,
+    DateTime? DeliveryDate);

@@ -9,4 +9,4 @@ public record StoreGetLast(
     string Comment,
     TimeSpan CookingTime,
     DateTime OrderDate,
-    DateTime CookingDate);
+    DateTime? CookingDate);

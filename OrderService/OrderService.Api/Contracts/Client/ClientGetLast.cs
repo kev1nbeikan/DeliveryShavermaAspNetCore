@@ -9,5 +9,5 @@ public record ClientGetLast(
     int Price,
     string Comment,
     DateTime OrderDate,
-    DateTime DeliveryDate,
+    DateTime? DeliveryDate,
     string Cheque);
