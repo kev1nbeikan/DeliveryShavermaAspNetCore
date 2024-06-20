@@ -2,7 +2,6 @@
 using OrderService.Api.Contracts.Client;
 using OrderService.Api.Extensions;
 using OrderService.Domain.Abstractions;
-using OrderService.Domain.Models;
 using OrderService.Domain.Models.Code;
 
 namespace OrderService.Api.Controllers;
@@ -14,7 +13,7 @@ public class ClientController(IOrderApplicationService orderApplicationService) 
     private readonly IOrderApplicationService _orderApplicationService = orderApplicationService;
 
     [HttpGet("current")]
-    public async Task<ActionResult<List<ClientGetCurrent>>> GetCurrent(int filter)
+    public async Task<ActionResult<List<ClientGetCurrent>>> GetCurrent()
     {
         var userId = User.UserId();
         var role = (RoleCode)Enum.Parse(typeof(RoleCode), User.Role());
@@ -29,7 +28,7 @@ public class ClientController(IOrderApplicationService orderApplicationService) 
     }
 
     [HttpGet("last")]
-    public async Task<ActionResult<List<ClientGetLast>>> GetLast(int filter)
+    public async Task<ActionResult<List<ClientGetLast>>> GetLast()
     {
         var userId = User.UserId();
         var role = (RoleCode)Enum.Parse(typeof(RoleCode), User.Role());
@@ -44,7 +43,7 @@ public class ClientController(IOrderApplicationService orderApplicationService) 
     }
 
     [HttpGet("canceled")]
-    public async Task<ActionResult<List<ClientGetCanceled>>> GetCanceled(int filter)
+    public async Task<ActionResult<List<ClientGetCanceled>>> GetCanceled()
     {
         var userId = User.UserId();
         var role = (RoleCode)Enum.Parse(typeof(RoleCode), User.Role());
@@ -57,4 +56,18 @@ public class ClientController(IOrderApplicationService orderApplicationService) 
                 b.OrderDate, b.Cheque, b.LastStatus, b.ReasonOfCanceled));
         return Ok(response);
     }
+
+    [HttpPut("{orderId:Guid}/accepted")] 
+    public async Task<ActionResult> ChangeStatusAccepted(Guid orderId)
+    {
+        var userId = User.UserId();
+        var role = (RoleCode)Enum.Parse(typeof(RoleCode), User.Role());
+        
+        await _orderApplicationService.ChangeStatusCompleted(role, userId, orderId);
+        return Ok();
+    }
 }
+
+
+
+
