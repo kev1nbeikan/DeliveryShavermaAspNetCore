@@ -1,10 +1,9 @@
 using System.Net.Http.Json;
 using Handler.Core;
 using Handler.Core.Abstractions;
+using Handler.Core.Abstractions.Repositories;
 using Handler.Core.Common;
-using Handler.Core.Payment;
-using HandlerService.DataAccess.Repositories.Contracts;
-using Microsoft.Extensions.Configuration;
+using Handler.Core.Contracts;
 using Microsoft.Extensions.Options;
 
 namespace HandlerService.DataAccess.Repositories;
@@ -13,15 +12,14 @@ public class UserRepository : IUserRepository
 {
     private readonly HttpClient _httpClient;
 
-    public UserRepository(IOptions<ServicesOptions> options)
+    public UserRepository(IOptions<ServicesOptions> options, IHttpClientFactory httpClientFactory)
     {
-        _httpClient = new HttpClient();
-        _httpClient.BaseAddress = new Uri(options.Value.UsersUrl ?? throw new Exception("userUrl not found"));
+        _httpClient = httpClientFactory.CreateClient(nameof(options.Value.UsersUrl));
     }
 
     public async Task<MyUser?> Get(Guid userId)
     {
-        HttpResponseMessage response = await _httpClient.GetAsync($"/users/{userId}");
+        HttpResponseMessage response = await _httpClient.GetAsync($"/user/{userId}");
 
         if (response.IsSuccessStatusCode)
         {
@@ -33,19 +31,24 @@ public class UserRepository : IUserRepository
 
     public async Task<string?> Save(MyUser user)
     {
-        HttpResponseMessage response = await _httpClient.PostAsJsonAsync("/users/AddNewOrUpdate", user);
+        HttpResponseMessage response = await _httpClient.PostAsJsonAsync("/use/AddNewOrUpdate", user);
 
         return response.IsSuccessStatusCode
             ? null
             : "user not saved";
     }
 
-    public async Task<string?> Save(Guid userId, List<BucketItem> productIdsAndQuantity, string comment, string address,
-        string phoneNumber, string storeId)
+    public async Task<string?> AddNewOrUpdate(AddNewUserOrUpdateUserFields fields)
     {
-        AddNewUserOrUpdateRequest request = new(userId, productIdsAndQuantity, comment, address, phoneNumber, storeId);
+        var httpRequest = new HttpRequestMessage()
+        {
+            Method = HttpMethod.Post,
+            Content = JsonContent.Create(fields),
+            RequestUri = new Uri("/user/AddNewOrUpdate/AddNewOrUpdate", UriKind.Relative)
+        };
 
-        HttpResponseMessage response = await _httpClient.PostAsJsonAsync("/users/AddNewOrUpdate", request);
+        HttpResponseMessage response = await _httpClient.SendAsync(httpRequest);
+
 
         return response.IsSuccessStatusCode
             ? null

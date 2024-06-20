@@ -4,6 +4,6 @@ namespace Handler.Core.Abstractions.Services;
 
 public interface IUserService
 {
-    Task<string?> Save(Guid userId, string address, string comment);
+    Task<string?> AddNewOrUpdate(Guid userId, string address, string comment, string phoneNumber);
     Task<(MyUser?, string? error)> Get(Guid userId);
 }

@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using UserService.Core.Common;
 using UserService.DataAccess;
 using UserService.Main.Extensions;
 using UserService.Main.Middleware;
@@ -9,10 +10,15 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<UserDbContext>(
-    options => { options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(UserDbContext))); }
+    options =>
+    {
+        options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(UserDbContext)));
+    }
 );
 
 builder.Services.AddDependencyInjection();
+
+builder.Services.Configure<ServiceOptions>(builder.Configuration.GetSection("Services"));
 
 
 var app = builder.Build();
@@ -27,8 +33,14 @@ if (!app.Environment.IsDevelopment())
 }
 
 
+app.SetCorsPolicies(app.Services.GetService<IOptions<ServiceOptions>>());
 
-app.SetCorsPolicies(app.Services.GetService<IOptions<ServicesOptions>>());
+
+app.Use((context, @delegate) =>
+{
+    Console.WriteLine(context.Request.Path);
+    return @delegate(context);
+});
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

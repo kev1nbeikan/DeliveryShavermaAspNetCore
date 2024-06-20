@@ -1,8 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using UserService.Core;
-using UserService.Core.abstractions;
-using UserService.Core.Exceptions;
-using UserService.DataAccess.Entities;
+using UserService.Core.Abstractions;
+using UserService.DataAccess.Extensions;
 using UserService.DataAccess.Extentions;
 
 namespace UserService.DataAccess.Repositories;

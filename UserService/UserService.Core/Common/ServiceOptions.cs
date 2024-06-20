@@ -1,6 +1,6 @@
 namespace UserService.Core.Common;
 
-public class ServicesOptions
+public class ServiceOptions
 {
     public string OrderUrl { get; set; }
     public string CouriersUrl { get; set; }

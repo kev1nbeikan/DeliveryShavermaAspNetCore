@@ -9,17 +9,13 @@ public class FakeDbContext(DbContextOptions<UserDbContext> options) : UserDbCont
     public static FakeDbContext? Create(string connectionString)
     {
         var contextOptions = new DbContextOptionsBuilder<UserDbContext>()
-            .UseInMemoryDatabase("FakeDbContextTest")
-            .ConfigureWarnings(b => b.Ignore(InMemoryEventId.TransactionIgnoredWarning))
+            .UseNpgsql(connectionString)
             .Options;
 
         return new FakeDbContext(contextOptions);
     }
-    
+
     public void SetupData()
     {
-        
-        
     }
-    
 }

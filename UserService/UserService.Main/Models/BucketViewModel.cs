@@ -1,5 +1,3 @@
-using Handler.Core;
-using UserService.Core;
 using UserService.Main.Contracts;
 
 namespace UserService.Main.Models;

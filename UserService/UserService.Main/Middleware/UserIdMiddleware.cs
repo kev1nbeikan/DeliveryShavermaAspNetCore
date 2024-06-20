@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
-using Handler.Core;
+using UserService.Core.Common;
+
 
 namespace UserService.Main.Middleware;
 
@@ -9,21 +10,22 @@ public class UserIdMiddleware(RequestDelegate next)
 
     public async Task Invoke(HttpContext context)
     {
-        var userIdString = GetFromCookiesOrHeaders(context, UserClaims.UserId);
-        var roleString = GetFromCookiesOrHeaders(context, UserClaims.Role);
+        var userIdString = GetFromCookiesOrHeaders(context, UserClaimsStrings.UserId);
+        var roleString = GetFromCookiesOrHeaders(context, UserClaimsStrings.Role);
 
 
         if (!Guid.TryParse(userIdString, out Guid userId) || string.IsNullOrEmpty(roleString))
         {
-            return;
+            await _next(context);
+
         }
 
         context.User = new ClaimsPrincipal(
             new ClaimsIdentity(
                 new Claim[]
                 {
-                    new(UserClaims.UserId, userId.ToString()),
-                    new(UserClaims.Role, roleString)
+                    new(UserClaimsStrings.UserId, userId.ToString()),
+                    new(UserClaimsStrings.Role, roleString)
                 }
             )
         );

@@ -1,12 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using UserService.Core;
-using UserService.Core.abstractions;
-using UserService.DataAccess;
-using UserService.DataAccess.Extentions;
+using UserService.Core.Abstractions;
 using UserService.DataAccess.Repositories;
 using UserService.UnitTests.Fixtures;
-using UserService.UnitTests.Utils;
 
 namespace UserService.UnitTests;
 

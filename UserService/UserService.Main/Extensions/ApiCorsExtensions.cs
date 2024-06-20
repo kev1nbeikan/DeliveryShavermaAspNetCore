@@ -1,18 +1,21 @@
-using Handler.Core.Common;
 using Microsoft.Extensions.Options;
+using UserService.Core.Common;
 
 namespace UserService.Main.Extensions;
 
 public static class ApiCorsExtensions
 {
-    public static void SetCorsPolicies(this IApplicationBuilder services, IOptions<ServicesOptions> optionsServices)
+    public static void SetCorsPolicies(this IApplicationBuilder services, IOptions<ServiceOptions>? optionsServices)
     {
+        ArgumentNullException.ThrowIfNull(optionsServices);
+
         services.UseCors(
             policyBuilder => policyBuilder
                 .AllowAnyHeader()
                 .WithOrigins(optionsServices.Value.MenuUrl, optionsServices.Value.UsersUrl,
-                    optionsServices.Value.PaymentOrchestratorUrl)
-                .Build()
-        );
+                    optionsServices.Value.PaymentOrchestratorUrl,
+        optionsServices.Value.PaymentOrchestratorUrl)
+            .Build()
+            );
     }
 }

@@ -1,11 +1,11 @@
-using Handler.Core.Common;
 using Microsoft.Extensions.Options;
+using UserService.Core.Common;
 
 namespace UserService.Main.Utils;
 
 public static class AppBuilderUtils
 {
-    public static string GetOriginsString(IOptions<ServicesOptions> options)
+    public static string GetOriginsString(IOptions<ServiceOptions> options)
     {
         return string.Join("; ", [
             options.Value.MenuUrl,

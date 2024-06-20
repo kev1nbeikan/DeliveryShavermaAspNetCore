@@ -14,6 +14,9 @@ builder.Services.AddDependencies();
 
 builder.Services.Configure<ServicesOptions>(builder.Configuration.GetSection("Services"));
 
+builder.Services.AddHttpClient();
+
+builder.Services.AddServicesHttpClient(builder.Configuration.GetSection("Services").Get<ServicesOptions>());
 
 var app = builder.Build();
 

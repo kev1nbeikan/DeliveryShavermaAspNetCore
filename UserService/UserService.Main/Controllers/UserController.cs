@@ -1,6 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using UserService.Core.abstractions;
+using UserService.Core.Abstractions;
 using UserService.Core.Exceptions;
 using UserService.Main.Contracts;
 using UserService.Main.Extensions;
@@ -24,9 +24,10 @@ public class UserController : Controller
     [HttpPost("AddNewOrUpdate")]
     public async Task<IActionResult> AddNewOrUpdate([FromBody] AddNewUserOrUpdateRequest userFields)
     {
+        _logger.LogInformation($"User requested AddNewOrUpdate {userFields}");
         await _userService.AddNewOrUpdate(userFields.UserId, userFields.Address, userFields.PhoneNumber,
             userFields.Comment);
-        return Ok();
+        return BadRequest("User updated");
     }
 
 

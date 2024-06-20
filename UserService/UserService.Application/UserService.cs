@@ -1,5 +1,5 @@
 ﻿using UserService.Core;
-using UserService.Core.abstractions;
+using UserService.Core.Abstractions;
 using UserService.Core.Exceptions;
 
 namespace UserService.Application;
@@ -40,10 +40,9 @@ public class UserService : IUserService
         {
             return await _userRepository.Add(newUser);
         }
-        else
-        {
-            return await UpdateExistingUser(existingUser, newUser);
-        }
+
+        return await UpdateExistingUser(existingUser, newUser);
+
     }
 
     private MyUser CreateUserModel(Guid userId, List<string> address, string phoneNumber, string comment)
@@ -57,7 +56,7 @@ public class UserService : IUserService
         return createUserResult.myUser!;
     }
 
-    private async Task<MyUser?> UpdateExistingUser(MyUser existingUser, MyUser newUser)
+    private async Task<MyUser> UpdateExistingUser(MyUser existingUser, MyUser newUser)
     {
         existingUser.MergeWith(newUser);
         if (await _userRepository.Update(existingUser))

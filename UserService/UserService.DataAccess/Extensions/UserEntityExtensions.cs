@@ -1,7 +1,7 @@
 using UserService.Core;
 using UserService.DataAccess.Entities;
 
-namespace UserService.DataAccess.Extentions;
+namespace UserService.DataAccess.Extensions;
 
 public static class UserEntityExtensions
 {

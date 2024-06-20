@@ -1,4 +1,8 @@
-namespace UserService.Core.abstractions;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace UserService.Core.Abstractions;
 
 public interface IUserService
 {

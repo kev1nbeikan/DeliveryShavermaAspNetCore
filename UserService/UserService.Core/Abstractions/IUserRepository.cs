@@ -1,4 +1,4 @@
-namespace UserService.Core.abstractions;
+namespace UserService.Core.Abstractions;
 
 public interface IUserRepository
 {

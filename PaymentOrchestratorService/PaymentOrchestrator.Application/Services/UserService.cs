@@ -1,7 +1,9 @@
 ﻿using Handler.Core;
 using Handler.Core.Abstractions;
+using Handler.Core.Abstractions.Repositories;
 using Handler.Core.Abstractions.Services;
 using Handler.Core.Common;
+using Handler.Core.Contracts;
 using HandlerService.Infustucture.Extensions;
 
 namespace HandlerService.Application.Services;
@@ -15,13 +17,17 @@ public class UserService : IUserService
         _userRepository = userRepository;
     }
 
-    public async Task<string?> Save(Guid userId, string address, string comment)
+    public async Task<string?> AddNewOrUpdate(Guid userId, string address, string comment, string phoneNumber)
     {
-        var (user, error) = MyUser.Create(userId, [address], comment);
+        var (user, error) = MyUser.Create(userId, [address], comment, phoneNumber);
+        AddNewUserOrUpdateUserFields fields = new(userId, address, comment, phoneNumber);
+        
+
+
         return
             error.HasValue()
                 ? error
-                : await _userRepository.Save(user!);
+                : await _userRepository.AddNewOrUpdate(fields);
     }
 
     public async Task<(MyUser?, string? error)> Get(Guid userId)

@@ -101,8 +101,9 @@ public class PaymentController : Controller
     public async Task<IActionResult> Payment(PaymentRequest paymentRequest)
     {
         var userId = User.UserId();
-
-        var error = await _userService.Save(userId, paymentRequest.Address, paymentRequest.Comment);
+        _logger.LogInformation($"User {userId} requested Payment with body {paymentRequest}");
+        var error = await _userService.AddNewOrUpdate(userId, paymentRequest.Address, paymentRequest.Comment,
+            paymentRequest.PhoneNumber);
         if (error.HasValue()) return BadRequest(error);
         return Ok("Ok");
         //
