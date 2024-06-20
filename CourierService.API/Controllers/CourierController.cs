@@ -11,9 +11,12 @@ public class CourierController : Controller
 {
 	private readonly ICourierService _courierService;
 
-	public CourierController(ICourierService courierService)
+	private readonly IOrdersApiClient _ordersApiClient;
+
+	public CourierController(ICourierService courierService, IOrdersApiClient ordersApiClient)
 	{
 		_courierService = courierService;
+		_ordersApiClient = ordersApiClient;
 	}
 
 	[HttpGet]
@@ -21,7 +24,17 @@ public class CourierController : Controller
 	{
 		var couriers = await _courierService.GetAllCouriers();
 
-		var response = couriers.Select(c => new CourierResponse(c.Id, c.Email, c.Password));
+		var response = couriers.Select(c => new CourierResponse(c.Id, c.Email, c.Password, c.Status));
+
+		return Ok(response);
+	}
+
+	[HttpGet("getcourierbyid")]
+	public async Task<IActionResult> GetCourierById([FromQuery] CourierListRequest request)
+	{
+		var couriers = await _courierService.GetAllCouriers();
+
+		var response = couriers.Where(p => request.Guids.Contains(p.Id)).ToList();
 
 		return Ok(response);
 	}
@@ -32,7 +45,8 @@ public class CourierController : Controller
 		var (courier, error) = Courier.Create(
 			Guid.NewGuid(),
 			request.email,
-			request.password
+			request.password,
+			status: default
 		);
 
 		if (!string.IsNullOrEmpty(error))
@@ -46,9 +60,15 @@ public class CourierController : Controller
 	}
 
 	[HttpPut("{id:guid}")]
-	public async Task<IActionResult> UpdateCourier(Guid id, [FromBody] CourierRequest request)
+	public async Task<IActionResult> UpdateCourier(Guid id, string email, string password)
 	{
-		return Ok(await _courierService.UpdateCourier(id, request.email, request.password));
+		return Ok(await _courierService.UpdateCourier(id, email, password));
+	}
+
+	[HttpPut("status/{id:guid}")]
+	public async Task<IActionResult> UpdateCourierStatus(Guid id, bool status)
+	{
+		return Ok(await _courierService.UpdateCourier(id, status));
 	}
 
 	[HttpDelete("{id:guid}")]
@@ -56,4 +76,19 @@ public class CourierController : Controller
 	{
 		return Ok(await _courierService.DeleteCourier(id));
 	}
+
+	[HttpGet("orders/courier/last")]
+	public async Task<IActionResult> GetLastOrder()
+	{
+		try
+		{
+			var latestOrder = _ordersApiClient.GetLatestOrderAsync();
+			return Ok(latestOrder);
+		}
+		catch (Exception ex)
+		{
+			return StatusCode(500, $"Ошибка сервера: {ex.Message}");
+		}
+	}
 }
+

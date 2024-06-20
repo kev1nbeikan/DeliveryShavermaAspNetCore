@@ -4,11 +4,12 @@ public class Courier
 {
 	private const int MIN_PASSWORD_LENGTH = 8;
 
-	private Courier(Guid id, string email, string password)
+	private Courier(Guid id, string email, string password, bool status)
 	{
 		Id = id;
 		Email = email;
 		Password = password;
+		Status = status;
 	}
 
 	public Guid Id { get; }
@@ -17,7 +18,9 @@ public class Courier
 
 	public string Password { get; }
 
-	public static (Courier Courier, string Error) Create(Guid id, string email, string password)
+	public bool Status { get; } = false;
+
+	public static (Courier Courier, string Error) Create(Guid id, string email, string password, bool status)
 	{
 		var error = string.Empty;
 
@@ -31,7 +34,7 @@ public class Courier
 			error = "Password is null or password is less than 8 chars";
 		}
 
-		var courier = new Courier(id, email, password);
+		var courier = new Courier(id, email, password, status);
 
 		return (courier, error);
 	}

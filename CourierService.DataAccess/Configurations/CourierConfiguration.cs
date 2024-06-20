@@ -15,5 +15,7 @@ public class CourierConfiguration : IEntityTypeConfiguration<CourierEntity>
 
 		builder.Property(c => c.Password)
 			.IsRequired();
+
+		builder.Property(c => c.Status);
 	}
 }

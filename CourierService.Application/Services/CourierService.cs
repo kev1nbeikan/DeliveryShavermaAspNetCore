@@ -27,6 +27,11 @@ public class CourierService : ICourierService
 		return await _courierRepository.Update(id, email, password);
 	}
 
+	public async Task<Guid> UpdateCourier(Guid id, bool status)
+	{
+		return await _courierRepository.Update(id, status);
+	}
+
 	public async Task<Guid> DeleteCourier(Guid id)
 	{
 		return await _courierRepository.Delete(id);

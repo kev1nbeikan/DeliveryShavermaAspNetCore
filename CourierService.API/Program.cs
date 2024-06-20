@@ -1,3 +1,4 @@
+using CourierService.Application.Services;
 using CourierService.Core.Abstractions;
 using CourierService.DataAccess;
 using CourierService.DataAccess.Repositories;
@@ -11,12 +12,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddHttpClient();
+
 builder.Services.AddDbContext<CourierDbContext>(
 	options => { options.UseNpgsql(builder.Configuration.GetConnectionString("default")); }
 );
 
 builder.Services.AddScoped<ICourierService, CourierService.Application.Services.CourierService>();
 builder.Services.AddScoped<ICourierRepository, CourierRepository>();
+
+builder.Services.AddTransient<IOrdersApiClient, OrdersApiClient>();
 
 var app = builder.Build();
 

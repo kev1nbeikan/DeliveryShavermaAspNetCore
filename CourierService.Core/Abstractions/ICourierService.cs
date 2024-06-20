@@ -11,4 +11,6 @@ public interface ICourierService
 	Task<List<Courier>> GetAllCouriers();
 
 	Task<Guid> UpdateCourier(Guid id, string email, string password);
+
+	Task<Guid> UpdateCourier(Guid id, bool status);
 }

@@ -19,7 +19,7 @@ public class CourierRepository : ICourierRepository
 		var courierEntities = await _dbContext.Couriers.ToListAsync();
 
 		var couriers = courierEntities
-			.Select(c => Courier.Create(c.Id, c.Email, c.Password).Courier)
+			.Select(c => Courier.Create(c.Id, c.Email, c.Password, c.Status).Courier)
 			.ToList();
 
 		return couriers;
@@ -47,6 +47,17 @@ public class CourierRepository : ICourierRepository
 				s => s
 					.SetProperty(c => c.Email, c => email)
 					.SetProperty(c => c.Password, c => password)
+			);
+
+		return id;
+	}
+
+	public async Task<Guid> Update(Guid id, bool status)
+	{
+		await _dbContext.Couriers.Where(c => c.Id == id)
+			.ExecuteUpdateAsync(
+				s => s
+					.SetProperty(c => c.Status, c => status)
 			);
 
 		return id;
