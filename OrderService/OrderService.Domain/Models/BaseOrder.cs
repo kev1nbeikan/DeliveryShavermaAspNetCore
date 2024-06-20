@@ -12,7 +12,7 @@ public abstract class BaseOrder
 
     protected BaseOrder(Guid id, Guid clientId, Guid courierId, Guid storeId,
         JObject basket, int price, string comment, TimeSpan cookingTime, TimeSpan deliveryTime,
-        DateTime orderDate, DateTime cookingDate, DateTime deliveryDate, string cheque)
+        DateTime orderDate, DateTime? cookingDate, DateTime? deliveryDate, string cheque)
     {
         Id = id;
         ClientId = clientId;
@@ -39,8 +39,8 @@ public abstract class BaseOrder
     public TimeSpan CookingTime { get; } = TimeSpan.Zero;
     public TimeSpan DeliveryTime { get; } = TimeSpan.Zero;
     public DateTime OrderDate { get; } = DateTime.UtcNow;
-    public DateTime CookingDate { get; } = DateTime.UtcNow;
-    public DateTime DeliveryDate { get; } = DateTime.UtcNow;
+    public DateTime? CookingDate { get; } = DateTime.UtcNow;
+    public DateTime? DeliveryDate { get; } = DateTime.UtcNow;
     public string Cheque { get; } = String.Empty; // пока не уверен как хранить чек
 
     protected static String Check(

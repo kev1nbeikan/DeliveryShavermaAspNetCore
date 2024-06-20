@@ -14,7 +14,7 @@ public abstract class BaseOrderEntity
     public TimeSpan CookingTime { get; set; } = TimeSpan.Zero;
     public TimeSpan DeliveryTime { get; set; } = TimeSpan.Zero;
     public DateTime OrderDate { get; set; } = DateTime.UtcNow;
-    public DateTime CookingDate { get; set; } = DateTime.UtcNow;
-    public DateTime DeliveryDate { get; set; } = DateTime.UtcNow;
+    public DateTime? CookingDate { get; set; } = DateTime.UtcNow;
+    public DateTime? DeliveryDate { get; set; } = DateTime.UtcNow;
     public string Cheque { get; set; } = String.Empty;
 }
