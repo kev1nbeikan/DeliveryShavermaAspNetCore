@@ -7,8 +7,8 @@ public class CanceledOrder : BaseOrder
 {
     private CanceledOrder(Guid id, Guid clientId, Guid courierId, Guid storeId,
         JObject basket, int price, string comment, TimeSpan cookingTime,
-        TimeSpan deliveryTime, DateTime orderDate, DateTime cookingDate,
-        DateTime deliveryDate, string cheque, StatusCode lastStatus, string reasonOfCanceled)
+        TimeSpan deliveryTime, DateTime orderDate, DateTime? cookingDate,
+        DateTime? deliveryDate, string cheque, StatusCode lastStatus, string reasonOfCanceled)
         : base(id, clientId, courierId, storeId, basket, price, comment,
             cookingTime, deliveryTime, orderDate, cookingDate, deliveryDate, cheque)
     {
@@ -21,8 +21,8 @@ public class CanceledOrder : BaseOrder
 
     public static (CanceledOrder Order, string Error) Create(Guid id, Guid clientId,
         Guid courierId, Guid storeId, JObject basket, int price, string comment, TimeSpan cookingTime,
-        TimeSpan deliveryTime, DateTime orderDate, DateTime cookingDate, DateTime deliveryDate,
-        string cheque, StatusCode lastStatus, String reasonOfCanceled)
+        TimeSpan deliveryTime, DateTime orderDate, DateTime? cookingDate, DateTime? deliveryDate,
+        string cheque, StatusCode lastStatus, string reasonOfCanceled)
     {
         string errorString = Check(id, clientId, courierId, storeId, basket,
             price, comment, cookingTime, deliveryTime, cheque);
