@@ -37,27 +37,27 @@ public class OrderApplicationService(
         return newestOrder;
     }
 
-    public async Task ChangeStatusActive(RoleCode role, StatusCode status, Guid sourceId, Guid id)
+    public async Task ChangeStatusActive(RoleCode role, StatusCode status, Guid sourceId, Guid orderId)
     {
-        await _currentOrderRepository.ChangeStatus(role, status, sourceId, id);
+        await _currentOrderRepository.ChangeStatus(role, status, sourceId, orderId);
         if (status == StatusCode.WaitingCourier)
-            await _currentOrderRepository.ChangeCookingDate(role, DateTime.UtcNow, sourceId, id);
+            await _currentOrderRepository.ChangeCookingDate(role, DateTime.UtcNow, sourceId, orderId);
         if (status == StatusCode.WaitingClient)
-            await _currentOrderRepository.ChangeDeliveryDate(role, DateTime.UtcNow, sourceId, id);
+            await _currentOrderRepository.ChangeDeliveryDate(role, DateTime.UtcNow, sourceId, orderId);
     }
 
-    public async Task ChangeStatusCompleted(RoleCode role, Guid sourceId, Guid id)
+    public async Task ChangeStatusCompleted(RoleCode role, Guid sourceId, Guid orderId)
     {
-        var order = await _currentOrderRepository.GetById(role, sourceId, id);
+        var order = await _currentOrderRepository.GetById(role, sourceId, orderId);
         await _lastOrderRepository.Create(order);
-        await _currentOrderRepository.Delete(role, sourceId, id);
+        await _currentOrderRepository.Delete(role, sourceId, orderId);
     }
 
-    public async Task ChangeStatusCanceled(RoleCode role, Guid sourceId, Guid id, string reasonOfCanceled)
+    public async Task ChangeStatusCanceled(RoleCode role, Guid sourceId, Guid orderId, string reasonOfCanceled)
     {
-        var order = await _currentOrderRepository.GetById(role, sourceId, id);
+        var order = await _currentOrderRepository.GetById(role, sourceId, orderId);
         await _canceledOrderRepository.Create(order, reasonOfCanceled);
-        await _currentOrderRepository.Delete(role, sourceId, id);
+        await _currentOrderRepository.Delete(role, sourceId, orderId);
     }
 
     public async Task<List<CurrentOrder>> GetNewOrdersByDate(RoleCode role, Guid sourceId, DateTime lastOrderDate)
@@ -72,5 +72,10 @@ public class OrderApplicationService(
     public async Task<StatusCode> GetStatus(RoleCode role, Guid sourceId, Guid id)
     {
         return await _currentOrderRepository.GetStatus(role, sourceId, id);
+    }
+
+    public async Task CreateCurrentOrder(CurrentOrder order)
+    {
+        await _currentOrderRepository.Create(order);
     }
 }
