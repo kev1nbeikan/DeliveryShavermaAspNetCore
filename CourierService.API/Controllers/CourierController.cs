@@ -90,5 +90,21 @@ public class CourierController : Controller
 			return StatusCode(500, $"Ошибка сервера: {ex.Message}");
 		}
 	}
-}
 
+	[HttpGet("orders/order_id/status")]
+	public async Task<IActionResult> GetOrderStatus()
+	{
+		try
+		{
+			var orders = await _ordersApiClient.GetCurrentOrdersAsync();
+
+			var firstOrderStatus = orders.FirstOrDefault()?.Status;
+
+			return Ok(firstOrderStatus);
+		}
+		catch (Exception ex)
+		{
+			return StatusCode(500, $"Внутренняя ошибка сервера: {ex.Message}");
+		}
+	}
+}

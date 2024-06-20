@@ -40,4 +40,27 @@ public class OrdersApiClient : IOrdersApiClient
 
 		return result;
 	}
+
+	public async Task<List<CourierGetCurrent>> GetCurrentOrdersAsync()
+	{
+		var baseUrl = _configuration["OrdersApi:BaseUrl"];
+		var response = await _httpClient.GetAsync($"{baseUrl}/current");
+
+		if (!response.IsSuccessStatusCode)
+		{
+			throw new Exception("Ошибка при получении данных из OrdersApi");
+		}
+
+		var json = await response.Content.ReadAsStringAsync();
+
+		var result = JsonSerializer.Deserialize<List<CourierGetCurrent>>(
+			json,
+			new JsonSerializerOptions
+			{
+				PropertyNameCaseInsensitive = true
+			}
+		);
+
+		return result;
+	}
 }
