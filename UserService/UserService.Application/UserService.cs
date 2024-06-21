@@ -9,18 +9,11 @@ public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
 
-    public UserService(IUserRepository userRepository, ILogger<UserService> logger)
+    public UserService(IUserRepository userRepository)
     {
         _userRepository = userRepository;
-        logger.LogInformation("created user service");
     }
 
-    /// <summary>
-    /// Получает пользователя по его ID.
-    /// </summary>
-    /// <param name="userId">ID пользователя.</param>
-    /// <returns>Объект пользователя, если он найден.</returns>
-    /// <exception cref="NotFoundException">Возникает, если пользователь не найден.</exception>
     public async Task<MyUser> Get(Guid userId)
     {
         var user = await _userRepository.Get(userId);
@@ -33,29 +26,13 @@ public class UserService : IUserService
         return user;
     }
 
-    /// <summary>
-    /// Сохраняет нового пользователя.
-    /// </summary>
-    /// <param name="user">Объект пользователя.</param>
-    /// <exception cref="ArgumentException">Возникает, если объект пользователя не валиден.</exception>
     public async Task Save(MyUser user)
     {
         await _userRepository.Add(user);
     }
 
-    /// <summary>
-    /// Обновляет или создает пользователя.
-    /// </summary>
-    /// <param name="userId">ID пользователя.</param>
-    /// <param name="address">Адрес пользователя.</param>
-    /// <param name="phoneNumber">Номер телефона пользователя.</param>
-    /// <param name="comment">Комментарий пользователя.</param>
-    /// <returns>Объект пользователя.</returns>
-    /// <exception cref="ArgumentException">Возникает, если данные пользователя не валидны.</exception>
-    /// <exception cref="FailToUpdateRepositoryException{T}">Возникает, если не удалось обновить пользователя в репозитории.</exception>
     public async Task<MyUser> Upsert(Guid userId, string address, string phoneNumber, string comment)
     {
-        
         var newUser = CreateUserModel(userId, new List<string> { address }, phoneNumber, comment);
 
         var existingUser = await _userRepository.Get(userId);
@@ -68,15 +45,6 @@ public class UserService : IUserService
         return await UpdateExistingUser(existingUser, address, phoneNumber, comment);
     }
 
-    /// <summary>
-    /// Добавляет нового пользователя.
-    /// </summary>
-    /// <param name="userId">ID пользователя.</param>
-    /// <param name="addresses">Список адресов пользователя.</param>
-    /// <param name="phoneNumber">Номер телефона пользователя.</param>
-    /// <param name="comment">Комментарий пользователя.</param>
-    /// <returns>Объект пользователя.</returns>
-    /// <exception cref="ArgumentException">Возникает, если данные пользователя не валидны.</exception>
     public async Task<MyUser> Add(Guid userId, List<string> addresses, string phoneNumber, string comment)
     {
         var user = CreateUserModel(userId, addresses, comment, phoneNumber);
