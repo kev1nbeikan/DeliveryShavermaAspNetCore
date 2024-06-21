@@ -66,7 +66,7 @@ public static class AppServiceDependenciesExtensions
     private static void AddUserDependencies(this IServiceCollection serviceProvider)
     {
         serviceProvider.AddSingleton<IUserService, UserService>();
-        serviceProvider.AddSingleton<IUserRepository, UserRepoRefit>();
+        serviceProvider.AddSingleton<IUserRepository, UserRepository>();
         serviceProvider.AddHttpClient<UserRepository>();
 
     }

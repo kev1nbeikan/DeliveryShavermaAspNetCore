@@ -17,7 +17,7 @@ public class UserIdMiddleware(RequestDelegate next)
         if (!Guid.TryParse(userIdString, out Guid userId) || string.IsNullOrEmpty(roleString))
         {
             await _next(context);
-
+            return;
         }
 
         context.User = new ClaimsPrincipal(

@@ -38,20 +38,20 @@ public class UserRepository : IUserRepository
 
     public async Task<string?> Upsert(UpsertFields fields)
     {
+        // TODO fix response in userService
         var httpRequest = new HttpRequestMessage()
         {
             Method = HttpMethod.Post,
             Content = JsonContent.Create(fields),
             RequestUri = new Uri("/user/AddNewOrUpdate/AddNewOrUpdate", UriKind.Relative),
-            Version = new Version(1, 1)
+            Version = new Version(2, 0)
         };
 
-        Console.WriteLine($"version request {httpRequest.Version}");
-        HttpResponseMessage response = _httpClient.Send(httpRequest);
-        Console.WriteLine($"version response {response.Version}");
+        HttpResponseMessage response = await _httpClient.SendAsync(httpRequest);
+        var content = await response.Content.ReadAsStringAsync();
 
-        return response.IsSuccessStatusCode
+        return string.IsNullOrEmpty(content)
             ? null
-            : await response.Content.ReadAsStringAsync();
+            : content;
     }
 }

@@ -26,11 +26,11 @@ public class UserController : Controller
     [HttpPost("AddNewOrUpdate")]
     public async Task<IActionResult> AddNewOrUpdate([FromBody, Required] UpsertUserRequest request)
     {
-        _logger.LogInformation($"User requested AddNewOrUpdate {request}");
+        _logger.LogInformation($"AddNewOrUpdateCalled. User requested AddNewOrUpdate {request}");
 
         if (request == null)
         {
-            return BadRequest("Payload required");
+            return Ok();
         }
 
         try
@@ -42,7 +42,7 @@ public class UserController : Controller
         catch (Exception e) when (
             e is ArgumentException or FailToUpdateRepositoryException<MyUser>)
         {
-            return BadRequest(e.Message);
+            return Ok(e.Message);
         }
     }
 

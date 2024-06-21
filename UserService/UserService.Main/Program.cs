@@ -20,8 +20,6 @@ builder.Services.AddDependencyInjection();
 
 builder.Services.Configure<ServiceOptions>(builder.Configuration.GetSection("Services"));
 
-
-
 var app = builder.Build();
 
 
@@ -37,16 +35,9 @@ if (!app.Environment.IsDevelopment())
 app.SetCorsPolicies(app.Services.GetService<IOptions<ServiceOptions>>());
 
 
-app.Use((context, @delegate) =>
-{
-    Console.WriteLine(context.Request.Path);
-    return @delegate(context);
-});
-
+app.UseRouting();
 
 app.UseStaticFiles();
-
-app.UseRouting();
 
 app.UseMiddleware<UserIdMiddleware>();
 

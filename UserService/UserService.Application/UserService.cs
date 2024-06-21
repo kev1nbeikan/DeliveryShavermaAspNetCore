@@ -1,4 +1,5 @@
-﻿using UserService.Core;
+﻿using Microsoft.Extensions.Logging;
+using UserService.Core;
 using UserService.Core.Abstractions;
 using UserService.Core.Exceptions;
 
@@ -8,9 +9,10 @@ public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
 
-    public UserService(IUserRepository userRepository)
+    public UserService(IUserRepository userRepository, ILogger<UserService> logger)
     {
         _userRepository = userRepository;
+        logger.LogInformation("created user service");
     }
 
     /// <summary>
@@ -53,6 +55,7 @@ public class UserService : IUserService
     /// <exception cref="FailToUpdateRepositoryException{T}">Возникает, если не удалось обновить пользователя в репозитории.</exception>
     public async Task<MyUser> Upsert(Guid userId, string address, string phoneNumber, string comment)
     {
+        
         var newUser = CreateUserModel(userId, new List<string> { address }, phoneNumber, comment);
 
         var existingUser = await _userRepository.Get(userId);
