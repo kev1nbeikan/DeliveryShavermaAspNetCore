@@ -14,6 +14,6 @@ public static class AppHttpClientsExtensions
             {
                 httpClient.BaseAddress =
                     new Uri(options.UsersUrl ?? throw new Exception($"{nameof(options.UsersUrl)} not found"));
-            }).AddHttpMessageHandler<MyHttpMessageHandler>();
+            });
     }
 }
