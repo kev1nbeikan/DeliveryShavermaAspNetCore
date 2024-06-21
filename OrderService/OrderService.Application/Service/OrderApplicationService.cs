@@ -28,13 +28,13 @@ public class OrderApplicationService(
         return await _canceledOrderRepository.Get(role, sourceId);
     }
 
-    public async Task<CurrentOrder> GetNewestOrder(RoleCode role, Guid sourceId)
+    public async Task<CurrentOrder> GetOldestActive(RoleCode role, Guid sourceId)
     {
         var orders = await _currentOrderRepository.Get(role, sourceId);
-        var newestOrder = orders.FirstOrDefault(x =>
-                              x.OrderDate == orders.Max(o => o.OrderDate))
+        var oldestActive = orders.FirstOrDefault(x =>
+                              x.OrderDate == orders.Min(o => o.OrderDate))
                           ?? throw new InvalidOperationException();
-        return newestOrder;
+        return oldestActive;
     }
 
     public async Task ChangeStatusActive(RoleCode role, StatusCode status, Guid sourceId, Guid orderId)
