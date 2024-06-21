@@ -5,6 +5,7 @@ using Handler.Core.Abstractions.UseCases;
 using HandlerService.Application.Services;
 using HandlerService.Application.UseCases;
 using HandlerService.Controllers;
+using HandlerService.DataAccess;
 using HandlerService.DataAccess.Repositories;
 using HandlerService.DataAccess.Repositories.MessageHandler;
 
@@ -17,7 +18,7 @@ public static class AppServiceDependenciesExtensions
         serviceProvider.AddMenuDependencies();
         serviceProvider.AddOrderDependencies();
         serviceProvider.AddHandlerDependencies();
-        serviceProvider.AddCurierDependencies();
+        serviceProvider.AddCourierDependencies();
         serviceProvider.AddUserDependencies();
         serviceProvider.AddStoreDependencies();
         serviceProvider.AddPaymentDependencies();
@@ -54,7 +55,7 @@ public static class AppServiceDependenciesExtensions
         serviceProvider.AddSingleton<IPaymentService, PaymentService>();
     }
 
-    private static void AddCurierDependencies(this IServiceCollection serviceProvider)
+    private static void AddCourierDependencies(this IServiceCollection serviceProvider)
     {
         serviceProvider.AddSingleton<ICurierService, CurierService>();
         serviceProvider.AddSingleton<ICurierRepository, CurierRepository>();
@@ -65,7 +66,7 @@ public static class AppServiceDependenciesExtensions
     private static void AddUserDependencies(this IServiceCollection serviceProvider)
     {
         serviceProvider.AddSingleton<IUserService, UserService>();
-        serviceProvider.AddSingleton<IUserRepository, UserRepoRestSharp>();
+        serviceProvider.AddSingleton<IUserRepository, UserRepoRefit>();
         serviceProvider.AddHttpClient<UserRepository>();
 
     }

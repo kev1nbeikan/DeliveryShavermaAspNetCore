@@ -1,7 +1,9 @@
 using Handler.Core.Common;
+using HandlerService.DataAccess.Repositories.MessageHandler;
 using HandlerService.Extensions;
 using HandlerService.Middlewares;
 using Microsoft.Extensions.Options;
+using Refit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,12 @@ builder.Services.AddDependencies();
 builder.Services.Configure<ServicesOptions>(builder.Configuration.GetSection("Services"));
 
 builder.Services.AddServicesHttpClients(builder.Configuration.GetSection("Services").Get<ServicesOptions>());
+
+builder.Services.AddRefitClient<IServiceClient>()
+    .ConfigureHttpClient(c =>
+    {
+        c.BaseAddress = new Uri("https://localhost:7227/");
+    }).AddDefaultLogger();
 
 var app = builder.Build();
 
