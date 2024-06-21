@@ -1,4 +1,5 @@
 ﻿using CourierService.API.Contracts;
+using CourierService.API.Models;
 using CourierService.Core.Abstractions;
 using CourierService.Core.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -65,10 +66,12 @@ public class CourierController : Controller
 		return Ok(await _courierService.UpdateCourier(id, email, password));
 	}
 
-	[HttpPut("status/{id:guid}")]
+	[HttpPost("status/{id:guid}")]
 	public async Task<IActionResult> UpdateCourierStatus(Guid id, bool status)
 	{
-		return Ok(await _courierService.UpdateCourier(id, status));
+		await _courierService.UpdateCourier(id, status);
+
+		return RedirectToAction(nameof(CourierProfile));
 	}
 
 	[HttpDelete("{id:guid}")]
@@ -106,5 +109,11 @@ public class CourierController : Controller
 		{
 			return StatusCode(500, $"Внутренняя ошибка сервера: {ex.Message}");
 		}
+	}
+
+	[HttpGet("profile")]
+	public async Task<IActionResult> CourierProfile()
+	{
+		return View(new CourierViewModel());
 	}
 }
