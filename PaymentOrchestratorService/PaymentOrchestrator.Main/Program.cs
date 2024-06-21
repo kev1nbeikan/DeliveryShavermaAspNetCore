@@ -1,8 +1,6 @@
 using Handler.Core.Common;
-using HandlerService.DataAccess.Repositories;
 using HandlerService.Extensions;
 using HandlerService.Middlewares;
-using HandlerService.Utils;
 using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,9 +12,7 @@ builder.Services.AddDependencies();
 
 builder.Services.Configure<ServicesOptions>(builder.Configuration.GetSection("Services"));
 
-builder.Services.AddHttpClient();
-
-builder.Services.AddServicesHttpClient(builder.Configuration.GetSection("Services").Get<ServicesOptions>());
+builder.Services.AddServicesHttpClients(builder.Configuration.GetSection("Services").Get<ServicesOptions>());
 
 var app = builder.Build();
 

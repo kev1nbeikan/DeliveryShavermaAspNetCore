@@ -31,14 +31,10 @@ public class UserRepository : IUserRepository
 
     public async Task<string?> Save(MyUser user)
     {
-        HttpResponseMessage response = await _httpClient.PostAsJsonAsync("/use/AddNewOrUpdate", user);
-
-        return response.IsSuccessStatusCode
-            ? null
-            : "user not saved";
+        throw new NotImplementedException();
     }
 
-    public async Task<string?> AddNewOrUpdate(AddNewUserOrUpdateUserFields fields)
+    public async Task<string?> Upsert(UpsertFields fields)
     {
         var httpRequest = new HttpRequestMessage()
         {
@@ -47,11 +43,10 @@ public class UserRepository : IUserRepository
             RequestUri = new Uri("/user/AddNewOrUpdate/AddNewOrUpdate", UriKind.Relative)
         };
 
-        HttpResponseMessage response = await _httpClient.SendAsync(httpRequest);
 
-
+        HttpResponseMessage response = await _httpClient.PostAsJsonAsync("/user/AddNewOrUpdate/AddNewOrUpdate", fields);
         return response.IsSuccessStatusCode
             ? null
-            : "user not saved";
+            : await response.Content.ReadAsStringAsync();
     }
 }

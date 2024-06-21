@@ -6,6 +6,7 @@ using HandlerService.Application.Services;
 using HandlerService.Application.UseCases;
 using HandlerService.Controllers;
 using HandlerService.DataAccess.Repositories;
+using HandlerService.DataAccess.Repositories.MessageHandler;
 
 namespace HandlerService.Extensions;
 
@@ -21,6 +22,8 @@ public static class AppServiceDependenciesExtensions
         serviceProvider.AddStoreDependencies();
         serviceProvider.AddPaymentDependencies();
         serviceProvider.AddSingleton<IGetOrderLogisticUseCase, GetOrderLogisticUseCase>();
+
+        serviceProvider.AddTransient<MyHttpMessageHandler>();
     }
 
     private static void AddMenuDependencies(this IServiceCollection serviceProvider)

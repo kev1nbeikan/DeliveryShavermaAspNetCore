@@ -29,9 +29,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthService.Infostructure", "AuthService\AuthService.Infostructure\AuthService.Infostructure.csproj", "{F7CE2D4F-52BD-4F77-86B4-3858BBDEF8D1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UserService", "UserService", "{95846674-FD30-4ED7-940E-2BC12A792BFB}"
-	ProjectSection(SolutionItems) = preProject
-		Utils\AppBuilderUtils.cs = Utils\AppBuilderUtils.cs
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Core", "UserService\UserService.Core\UserService.Core.csproj", "{880C8364-6B4C-4A44-ABB7-7DACCF6A3A91}"
 EndProject

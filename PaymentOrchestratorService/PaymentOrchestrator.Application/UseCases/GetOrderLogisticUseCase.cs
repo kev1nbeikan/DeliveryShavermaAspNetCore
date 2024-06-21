@@ -1,5 +1,6 @@
 using Handler.Core;
 using Handler.Core.Abstractions;
+using Handler.Core.Abstractions.Services;
 using Handler.Core.Abstractions.UseCases;
 using Handler.Core.Contracts;
 using Handler.Core.HanlderService;

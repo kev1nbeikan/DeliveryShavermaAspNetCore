@@ -1,11 +1,11 @@
 using Handler.Core.Common;
-using Microsoft.Extensions.Options;
+using HandlerService.DataAccess.Repositories.MessageHandler;
 
 namespace HandlerService.Extensions;
 
 public static class AppHttpClientsExtensions
 {
-    public static void AddServicesHttpClient(this IServiceCollection services, ServicesOptions? options)
+    public static void AddServicesHttpClients(this IServiceCollection services, ServicesOptions? options)
     {
         ArgumentNullException.ThrowIfNull(options);
 
@@ -13,7 +13,7 @@ public static class AppHttpClientsExtensions
             httpClient =>
             {
                 httpClient.BaseAddress =
-                    new Uri(options.UsersUrl ?? throw new Exception("paymentUrl not found"));
-            });
+                    new Uri(options.UsersUrl ?? throw new Exception($"{nameof(options.UsersUrl)} not found"));
+            }).AddHttpMessageHandler<MyHttpMessageHandler>();
     }
 }

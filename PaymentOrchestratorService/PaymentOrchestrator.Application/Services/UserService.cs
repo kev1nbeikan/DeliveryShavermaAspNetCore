@@ -20,14 +20,12 @@ public class UserService : IUserService
     public async Task<string?> AddNewOrUpdate(Guid userId, string address, string comment, string phoneNumber)
     {
         var (user, error) = MyUser.Create(userId, [address], comment, phoneNumber);
-        AddNewUserOrUpdateUserFields fields = new(userId, address, comment, phoneNumber);
+        UpsertFields fields = new(userId, comment, address, phoneNumber);
         
-
-
         return
             error.HasValue()
                 ? error
-                : await _userRepository.AddNewOrUpdate(fields);
+                : await _userRepository.Upsert(fields);
     }
 
     public async Task<(MyUser?, string? error)> Get(Guid userId)

@@ -1,4 +1,6 @@
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using Handler.Core.Common;
 using Microsoft.AspNetCore.Mvc;
 using UserService.Core.Abstractions;
 using UserService.Core.Exceptions;
@@ -22,12 +24,26 @@ public class UserController : Controller
 
 
     [HttpPost("AddNewOrUpdate")]
-    public async Task<IActionResult> AddNewOrUpdate([FromBody] AddNewUserOrUpdateRequest userFields)
+    public async Task<IActionResult> AddNewOrUpdate([FromBody, Required] UpsertUserRequest request)
     {
-        _logger.LogInformation($"User requested AddNewOrUpdate {userFields}");
-        await _userService.AddNewOrUpdate(userFields.UserId, userFields.Address, userFields.PhoneNumber,
-            userFields.Comment);
-        return BadRequest("User updated");
+        _logger.LogInformation($"User requested AddNewOrUpdate {request}");
+
+        if (request == null)
+        {
+            return BadRequest("Payload required");
+        }
+
+        try
+        {
+            await _userService.Upsert(request.UserId, request.Address, request.PhoneNumber,
+                request.Comment);
+            return Ok();
+        }
+        catch (Exception e) when (
+            e is ArgumentException or FailToUpdateRepositoryException<MyUser>)
+        {
+            return BadRequest(e.Message);
+        }
     }
 
 

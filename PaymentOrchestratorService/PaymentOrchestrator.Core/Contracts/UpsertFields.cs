@@ -1,6 +1,6 @@
 namespace Handler.Core.Contracts;
 
-public record AddNewUserOrUpdateUserFields(
+public record UpsertFields(
     Guid UserId,
     string Comment,
     string Address,

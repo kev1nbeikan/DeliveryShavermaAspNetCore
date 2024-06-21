@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using UserService.Core;
 using UserService.Core.Abstractions;
+using UserService.DataAccess.Entities;
 using UserService.DataAccess.Extensions;
-using UserService.DataAccess.Extentions;
 
 namespace UserService.DataAccess.Repositories;
 
@@ -29,8 +29,26 @@ public class UserRepository : IUserRepository
         if (userEntity == null) return false;
 
         userEntity.Comment = user.Comment;
-        userEntity.Addresses = user.Addresses.ToAddressEntity(userEntity.Id);
+        userEntity.Addresses = user.Addresses.ToAddressEntities(user.UserId);
         userEntity.PhoneNumber = user.PhoneNumber;
+
+
+        await _userDbContext.SaveChangesAsync();
+        return true;
+    }
+
+
+    public async Task<bool> Update(MyUser user, string newAddress, string newComment, string newPhoneNumber)
+    {
+        var userEntity = await _userDbContext.Users
+            .FirstOrDefaultAsync(x => x.Id == user.UserId);
+        if (userEntity == null) return false;
+
+        userEntity.Comment = newComment;
+        userEntity.PhoneNumber = newPhoneNumber;
+
+        if (!user.Addresses.Contains(newAddress))
+            _userDbContext.Addresses.Add(newAddress.ToAddressEntity(user.UserId));
 
         await _userDbContext.SaveChangesAsync();
         return true;

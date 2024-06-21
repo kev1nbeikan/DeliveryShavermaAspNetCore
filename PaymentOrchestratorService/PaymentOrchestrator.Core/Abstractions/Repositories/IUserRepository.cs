@@ -7,5 +7,5 @@ public interface IUserRepository
 {
     Task<MyUser?> Get(Guid userId);
     Task<string?> Save(MyUser user);
-    Task<string?> AddNewOrUpdate(AddNewUserOrUpdateUserFields fields);
+    Task<string?> Upsert(UpsertFields fields);
 }

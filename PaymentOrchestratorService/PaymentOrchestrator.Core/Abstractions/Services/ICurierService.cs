@@ -1,4 +1,6 @@
-namespace HandlerService.Controllers;
+using HandlerService.Controllers;
+
+namespace Handler.Core.Abstractions.Services;
 
 public interface ICurierService
 {
