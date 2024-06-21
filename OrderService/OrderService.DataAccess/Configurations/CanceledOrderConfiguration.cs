@@ -10,6 +10,8 @@ namespace OrderService.DataAccess.Configurations
     {
         public void Configure(EntityTypeBuilder<CanceledOrderEntity> builder)
         {
+            new BaseOrderConfiguration<CanceledOrderEntity>().Configure(builder);
+
             builder.Property(b => b.LastStatus)
                 .IsRequired();
 

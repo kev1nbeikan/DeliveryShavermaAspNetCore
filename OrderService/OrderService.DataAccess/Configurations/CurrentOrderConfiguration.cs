@@ -10,6 +10,8 @@ namespace OrderService.DataAccess.Configurations
     {
         public void Configure(EntityTypeBuilder<CurrentOrderEntity> builder)
         {
+            new BaseOrderConfiguration<CurrentOrderEntity>().Configure(builder);
+
             builder.Property(b => b.Status)
                 .IsRequired();
 

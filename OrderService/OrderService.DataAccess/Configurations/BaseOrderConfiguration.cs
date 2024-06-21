@@ -5,9 +5,10 @@ using OrderService.Domain.Models;
 
 namespace OrderService.DataAccess.Configurations;
 
-public class BaseOrderConfiguration : IEntityTypeConfiguration<BaseOrderEntity>
+public class BaseOrderConfiguration<T> : IEntityTypeConfiguration<T> 
+    where T : BaseOrderEntity
 {
-    public void Configure(EntityTypeBuilder<BaseOrderEntity> builder)
+    public void Configure(EntityTypeBuilder<T> builder)
     {
         builder.HasKey(x => x.Id);
 
