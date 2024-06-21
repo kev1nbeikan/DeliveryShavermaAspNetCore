@@ -1,5 +1,5 @@
+using System.Net;
 using Handler.Core.Common;
-using HandlerService.DataAccess.Repositories.MessageHandler;
 
 namespace HandlerService.Extensions;
 
@@ -14,6 +14,8 @@ public static class AppHttpClientsExtensions
             {
                 httpClient.BaseAddress =
                     new Uri(options.UsersUrl ?? throw new Exception($"{nameof(options.UsersUrl)} not found"));
+                httpClient.DefaultRequestVersion = HttpVersion.Version20;
             });
+        ;
     }
 }

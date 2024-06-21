@@ -98,7 +98,7 @@ public class PaymentController : Controller
     }
 
 
-    public async Task<IActionResult> Payment(PaymentRequest paymentRequest)
+    public async Task<IActionResult> Payment([FromBody] PaymentRequest paymentRequest)
     {
         
         var userId = User.UserId();

@@ -12,10 +12,8 @@ public static class ApiCorsExtensions
         services.UseCors(
             policyBuilder => policyBuilder
                 .AllowAnyHeader()
-                .WithOrigins(optionsServices.Value.MenuUrl, optionsServices.Value.UsersUrl,
-                    optionsServices.Value.PaymentOrchestratorUrl,
-        optionsServices.Value.PaymentOrchestratorUrl)
-            .Build()
-            );
+                .WithOrigins(optionsServices.Value.MenuUrl, optionsServices.Value.UsersUrl)
+                .Build()
+        );
     }
 }

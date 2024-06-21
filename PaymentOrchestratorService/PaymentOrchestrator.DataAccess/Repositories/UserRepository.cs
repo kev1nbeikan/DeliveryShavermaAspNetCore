@@ -1,6 +1,5 @@
 using System.Net.Http.Json;
 using Handler.Core;
-using Handler.Core.Abstractions;
 using Handler.Core.Abstractions.Repositories;
 using Handler.Core.Common;
 using Handler.Core.Contracts;
@@ -15,6 +14,9 @@ public class UserRepository : IUserRepository
     public UserRepository(IOptions<ServicesOptions> options, IHttpClientFactory httpClientFactory)
     {
         _httpClient = httpClientFactory.CreateClient(nameof(options.Value.UsersUrl));
+        _httpClient.BaseAddress = new Uri("https://localhost:7227");
+        _httpClient.DefaultRequestHeaders.Remove("protocol-version");
+        _httpClient.DefaultRequestHeaders.Add("min-protocol-version", "1.0");
     }
 
     public async Task<MyUser?> Get(Guid userId)
@@ -40,11 +42,14 @@ public class UserRepository : IUserRepository
         {
             Method = HttpMethod.Post,
             Content = JsonContent.Create(fields),
-            RequestUri = new Uri("/user/AddNewOrUpdate/AddNewOrUpdate", UriKind.Relative)
+            RequestUri = new Uri("/user/AddNewOrUpdate/AddNewOrUpdate", UriKind.Relative),
+            Version = new Version(1, 1)
         };
 
+        Console.WriteLine($"version request {httpRequest.Version}");
+        HttpResponseMessage response = _httpClient.Send(httpRequest);
+        Console.WriteLine($"version response {response.Version}");
 
-        HttpResponseMessage response = await _httpClient.PostAsJsonAsync("/user/AddNewOrUpdate/AddNewOrUpdate", fields);
         return response.IsSuccessStatusCode
             ? null
             : await response.Content.ReadAsStringAsync();

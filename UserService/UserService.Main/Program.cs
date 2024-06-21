@@ -21,6 +21,7 @@ builder.Services.AddDependencyInjection();
 builder.Services.Configure<ServiceOptions>(builder.Configuration.GetSection("Services"));
 
 
+
 var app = builder.Build();
 
 
@@ -42,7 +43,7 @@ app.Use((context, @delegate) =>
     return @delegate(context);
 });
 
-app.UseHttpsRedirection();
+
 app.UseStaticFiles();
 
 app.UseRouting();
