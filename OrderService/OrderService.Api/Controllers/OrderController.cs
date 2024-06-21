@@ -60,16 +60,6 @@ public class OrderController(IOrderApplicationService orderApplicationService) :
         await _orderApplicationService.CreateCurrentOrder(order);
         return Ok();
     }
-    
-    [HttpPut("{orderId:Guid}/canceled")]
-    public async Task<ActionResult> ChangeStatusCanceled(Guid orderId, [FromBody] string reasonOfCanceled)
-    {
-        var userId = User.UserId();
-        var role = (RoleCode)Enum.Parse(typeof(RoleCode), User.Role());
-        
-        await _orderApplicationService.ChangeStatusCanceled(role, userId, orderId, reasonOfCanceled);
-        return Ok();
-    }
 }
 
 
