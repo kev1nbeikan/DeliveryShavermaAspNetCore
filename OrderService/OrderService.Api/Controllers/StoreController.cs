@@ -41,18 +41,6 @@ public class StoreController(IOrderApplicationService orderApplicationService) :
                 b.OrderDate, b.CookingDate));
         return Ok(response);
     }
-
-    [HttpGet("latest_order")]
-    public async Task<ActionResult<StoreGetCurrent>> GetLatestOrder()
-    {
-        var userId = User.UserId();
-        var role = (RoleCode)Enum.Parse(typeof(RoleCode), User.Role());
-
-        var order = await _orderApplicationService.GetNewestOrder(role, userId);
-        var response = new StoreGetCurrent(order.Id, order.Status, order.Basket, order.Comment,
-            order.ClientNumber, order.DeliveryTime);
-        return Ok(response);
-    }
     
     [HttpGet("get_new_orders/{lastOrderDate:Datetime}")]
     public async Task<ActionResult<List<StoreGetCurrent>>> GetNewOrderByDate(DateTime lastOrderDate)
@@ -74,6 +62,16 @@ public class StoreController(IOrderApplicationService orderApplicationService) :
         var role = (RoleCode)Enum.Parse(typeof(RoleCode), User.Role());
         
         await _orderApplicationService.ChangeStatusActive(role, Domain.Models.Code.StatusCode.WaitingCourier, userId, orderId);
+        return Ok();
+    }
+    
+    [HttpPut("{orderId:Guid}/canceled")]
+    public async Task<ActionResult> ChangeStatusCanceled(Guid orderId, [FromBody] string reasonOfCanceled)
+    {
+        var userId = User.UserId();
+        var role = (RoleCode)Enum.Parse(typeof(RoleCode), User.Role());
+        
+        await _orderApplicationService.ChangeStatusCanceled(role, userId, orderId, reasonOfCanceled);
         return Ok();
     }
 }
