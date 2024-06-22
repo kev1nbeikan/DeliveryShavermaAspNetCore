@@ -11,7 +11,6 @@ namespace OrderService.Api.Controllers;
 public class CourierController(IOrderApplicationService orderApplicationService) : ControllerBase
 {
     private readonly IOrderApplicationService _orderApplicationService = orderApplicationService;
-    [HttpGet]
     [HttpGet("current")]
     public async Task<ActionResult<List<CourierGetCurrent>>> GetCurrent()
     {

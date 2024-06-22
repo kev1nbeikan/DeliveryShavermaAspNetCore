@@ -11,7 +11,6 @@ namespace OrderService.Api.Controllers;
 public class StoreController(IOrderApplicationService orderApplicationService) : ControllerBase
 {
     private readonly IOrderApplicationService _orderApplicationService = orderApplicationService;
-    [HttpGet]
     [HttpGet("current")]
     public async Task<ActionResult<List<StoreGetCurrent>>> GetCurrent()
     {
