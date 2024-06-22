@@ -2,7 +2,6 @@
 
 public enum StatusCode
 {
-    Canceled,
     Cooking,
     WaitingCourier,
     Delivering,
