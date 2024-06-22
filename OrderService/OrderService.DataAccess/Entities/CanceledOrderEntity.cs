@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace OrderService.DataAccess.Entities;
+﻿namespace OrderService.DataAccess.Entities;
 
 public class CanceledOrderEntity : BaseOrderEntity
 {

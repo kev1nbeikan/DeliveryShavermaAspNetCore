@@ -5,7 +5,7 @@ namespace OrderService.Domain.Models;
 public class LastOrder : BaseOrder
 {
     private LastOrder(Guid id, Guid clientId, Guid courierId, Guid storeId,
-        JObject basket, int price, string comment, TimeSpan cookingTime,
+        string basket, int price, string comment, TimeSpan cookingTime,
         TimeSpan deliveryTime, DateTime orderDate, DateTime? cookingDate,
         DateTime? deliveryDate, string cheque)
         : base(id, clientId, courierId, storeId, basket, price, comment,
@@ -14,7 +14,7 @@ public class LastOrder : BaseOrder
     }
 
     public static (LastOrder Order, string Error) Create(Guid id, Guid clientId,
-        Guid courierId, Guid storeId, JObject basket, int price, string comment,
+        Guid courierId, Guid storeId, string basket, int price, string comment,
         TimeSpan cookingTime, TimeSpan deliveryTime, DateTime orderDate,
         DateTime? cookingDate, DateTime? deliveryDate, string cheque)
     {

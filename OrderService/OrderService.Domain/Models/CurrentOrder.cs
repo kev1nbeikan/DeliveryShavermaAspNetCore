@@ -6,7 +6,7 @@ namespace OrderService.Domain.Models;
 public class CurrentOrder : BaseOrder
 {
     private CurrentOrder(Guid id, Guid clientId, Guid courierId, Guid storeId,
-        JObject basket, int price, string comment, string storeAddress,
+        string basket, int price, string comment, string storeAddress,
         string clientAddress, string courierNumber, string clientNumber,
         TimeSpan cookingTime, TimeSpan deliveryTime, DateTime orderDate,
         DateTime? cookingDate, DateTime? deliveryDate, string cheque, StatusCode status)
@@ -27,7 +27,7 @@ public class CurrentOrder : BaseOrder
     public string ClientNumber { get; } = string.Empty;
 
     public static (CurrentOrder Order, string Error) Create(Guid id, Guid clientId,
-        Guid courierId, Guid storeId, JObject basket, int price, string comment,
+        Guid courierId, Guid storeId, string basket, int price, string comment,
         string storeAddress, string clientAddress, string courierNumber, string clientNumber,
         TimeSpan cookingTime, TimeSpan deliveryTime, DateTime orderDate,
         DateTime? cookingDate, DateTime? deliveryDate, string cheque, StatusCode status)

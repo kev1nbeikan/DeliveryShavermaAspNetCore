@@ -5,7 +5,7 @@ namespace OrderService.Api.Contracts.Client;
 
 public record ClientGetCanceled(
     Guid Id,
-    JObject Basket,
+    string Basket,
     int Price,
     string Comment,
     DateTime OrderDate,
