@@ -2,6 +2,7 @@ using System.Text;
 using System.Text.Json;
 using Handler.Core;
 using Handler.Core.Abstractions.Repositories;
+using Handler.Core.Common;
 using Microsoft.Extensions.Configuration;
 
 namespace HandlerService.DataAccess.Repositories;

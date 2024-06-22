@@ -10,7 +10,7 @@ using UserService.Main.Models;
 
 namespace UserService.Main.Controllers;
 
-[Route("[controller]/[action]")]
+[Route("[controller]")]
 public class UserController : Controller
 {
     private readonly ILogger<UserController> _logger;
@@ -22,13 +22,26 @@ public class UserController : Controller
         _userService = userService;
     }
 
-
-    [HttpPost("AddNewOrUpdate")]
-    public async Task<IActionResult> AddNewOrUpdate([FromBody, Required] UpsertUserRequest? request)
+    [HttpGet("{userId:Guid}")]
+    public async Task<IActionResult> Get(Guid userId)
     {
-        _logger.LogInformation($"AddNewOrUpdateCalled. User requested AddNewOrUpdate {request}");
+        try
+        {
+            var user = await _userService.Get(userId);
+            return Ok(user);
+        }
+        catch (NotFoundException e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
 
-        if (request == null) return BadRequest("payload requred");
+    [HttpPost("upsert")]
+    public async Task<IActionResult> Upsert([FromBody, Required] UpsertUserRequest? request)
+    {
+        _logger.LogInformation($"Upsert. User requested body = {request}");
+
+        if (request == null) return BadRequest("payload required");
 
         try
         {
@@ -44,6 +57,7 @@ public class UserController : Controller
     }
 
 
+    [HttpPost("bucket")]
     public async Task<IActionResult> Bucket([FromBody] List<BucketItem> products)
     {
         var viewModel = new BucketViewModel { Products = products };

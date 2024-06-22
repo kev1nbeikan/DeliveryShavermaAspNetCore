@@ -14,14 +14,13 @@ public class UserRepository : IUserRepository
     public UserRepository(IOptions<ServicesOptions> options, IHttpClientFactory httpClientFactory)
     {
         _httpClient = httpClientFactory.CreateClient(nameof(options.Value.UsersUrl));
-        _httpClient.BaseAddress = new Uri("https://localhost:7227");
-        _httpClient.DefaultRequestHeaders.Remove("protocol-version");
-        _httpClient.DefaultRequestHeaders.Add("min-protocol-version", "1.0");
     }
 
     public async Task<MyUser?> Get(Guid userId)
     {
         HttpResponseMessage response = await _httpClient.GetAsync($"/user/{userId}");
+        
+        Console.WriteLine(await response.Content.ReadAsStringAsync());
 
         if (response.IsSuccessStatusCode)
         {
@@ -38,12 +37,11 @@ public class UserRepository : IUserRepository
 
     public async Task<string?> Upsert(UpsertFields fields)
     {
-        // TODO fix response in userService
         var httpRequest = new HttpRequestMessage()
         {
             Method = HttpMethod.Post,
             Content = JsonContent.Create(fields),
-            RequestUri = new Uri("/user/AddNewOrUpdate/AddNewOrUpdate", UriKind.Relative),
+            RequestUri = new Uri("/user/upsert", UriKind.Relative),
             Version = new Version(2, 0)
         };
 

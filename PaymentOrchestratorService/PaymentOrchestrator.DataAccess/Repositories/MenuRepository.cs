@@ -1,7 +1,10 @@
 using System.Net.Http.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Handler.Core;
 using Handler.Core.Abstractions.Repositories;
 using Handler.Core.Common;
+using HandlerService.Infustucture;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
@@ -13,12 +16,18 @@ public class MenuRepository : IMenuRepository
 
     public MenuRepository(IHttpClientFactory httpClientFactory, IOptions<ServicesOptions> options)
     {
-        _httpClient = httpClientFactory.CreateClient(options.Value.MenuUrl);
+        _httpClient = httpClientFactory.CreateClient(nameof(options.Value.MenuUrl));
     }
 
     public async Task<(Product[] products, string? error)> Get(List<Guid> productIds)
     {
-        HttpResponseMessage response = await _httpClient.PostAsJsonAsync("menu", productIds);
+        var requestUri = new UriBuilder()
+        {
+            Query = QueryUtils.GetQueryString(productIds),
+            Path = "api/product/getproductsbyid"
+        }.Uri.PathAndQuery;
+
+        HttpResponseMessage response = await _httpClient.GetAsync(requestUri);
 
         if (!response.IsSuccessStatusCode) return ([], "Failed to fetch menu data");
 

@@ -6,4 +6,11 @@ public static class StringExtensions
     {
         return !string.IsNullOrEmpty(str);
     }
+
+    public static string MakeEmptyIfNull(this string? str)
+    {
+        return string.IsNullOrEmpty(str)
+            ? string.Empty
+            : str;
+    }
 }

@@ -4,6 +4,7 @@ using Handler.Core;
 using Handler.Core.Abstractions;
 using Handler.Core.Abstractions.Repositories;
 using Handler.Core.Abstractions.Services;
+using Handler.Core.Common;
 using HandlerService.Infustucture.Extensions;
 
 namespace HandlerService.Application.Services;
@@ -21,20 +22,6 @@ public class MenuService : IMenuService
     {
         var (products, error) = await _menuRepository.Get(productIds);
         if (error.HasValue()) return ([], error);
-
-        for (int i = 0; i < productIds.Count; i++)
-        {
-            products[i] = Product.Create(
-                productIds[i],
-                "title",
-                "bebrae",
-                "desc",
-                100,
-                "123123123"
-            ).product;
-        }
-
-
         return (products, null);
     }
 }

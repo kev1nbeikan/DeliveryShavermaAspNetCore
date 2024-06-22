@@ -1,25 +1,33 @@
+using System.Text.Json.Serialization;
+
 namespace Handler.Core.Common;
 
-public class MyUser
-{
-    public Guid UserId { get; set; }
-    public List<string> Addresses { get; set; }
-    public string Comment { get; set; }
-    public string PhoneNumber { get; }
-
-    private MyUser(Guid userId, List<string> address, string comment, string phoneNumber)
+    public class MyUser
     {
-        UserId = userId;
-        Addresses = address;
-        Comment = comment;
-        PhoneNumber = phoneNumber;
-    }
+        public Guid UserId { get; set; }
+        public List<string> Addresses { get; set; }
+        public string Comment { get; set; }
+        public string PhoneNumber { get; set; }
 
-    public static (MyUser? myUser, string? error) Create(Guid userId, List<string> address,
-        string comment, string phoneNumber)
-    {
-        string? error = null;
+        public MyUser(Guid userId, List<string> addresses, string comment, string phoneNumber)
+        {
+            UserId = userId;
+            Addresses = addresses;
+            Comment = comment;
+            PhoneNumber = phoneNumber;
+        }
 
-        return (new MyUser(userId!, address!, comment!, phoneNumber), error);
+
+        public static (MyUser? myUser, string? error) Create(Guid userId, List<string> address,
+            string comment, string phoneNumber = "")
+        {
+            string? error = null;
+            
+            if (string.IsNullOrEmpty(phoneNumber)) error = "Phone number is required";
+            if (address.Count == 0) error = "Address is required";
+            
+
+            return (new MyUser(userId!, address!, comment!, phoneNumber), error);
+        }
+        
     }
-}

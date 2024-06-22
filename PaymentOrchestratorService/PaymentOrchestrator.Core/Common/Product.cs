@@ -1,8 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿namespace Handler.Core.Common;
 
-namespace Handler.Core;
-
-[Table("product", Schema = "public")]
 public class Product
 {
     public const int MAX_TITLE_LENGTH = 32;
@@ -11,7 +8,7 @@ public class Product
 
     public const int MAX_COMPOSITION_LENGTH = 128;
 
-    private Product(Guid id, string title, string description, string composition, int price, string imagePath)
+    public Product(Guid id, string title, string description, string composition, int price, string imagePath)
     {
         Id = id;
         Title = title;
@@ -23,15 +20,15 @@ public class Product
 
     public Guid Id { get; }
 
-    public string Title { get; } = string.Empty;
+    public string Title { get; }
 
-    public string Description { get; } = string.Empty;
+    public string Description { get; }
 
-    public string Composition { get; } = string.Empty;
+    public string Composition { get; }
 
     public int Price { get; }
 
-    public string ImagePath { get; } = string.Empty;
+    public string ImagePath { get; }
 
     public static (Product product, string error) Create(
         Guid id,

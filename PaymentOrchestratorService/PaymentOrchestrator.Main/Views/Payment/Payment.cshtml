@@ -10,7 +10,7 @@
 <div class="container mt-5">
     <h2 class="text-center mb-4">Оплата</h2>
 
-    <form id="paymentForm" method="post" action="/payment/paymentConfirm" class="needs-validation">
+    <form id="paymentForm" method="post" action="http://localhost:5281/payment/PaymentConfirm" class="needs-validation">
 
         <div class="row">
             <div class="col-md-8">
@@ -31,7 +31,7 @@
                     <div class="card-body">
                         <h3 class="card-title mb-3">Выбор способа оплаты:</h3>
                         <div class="form-check mb-2">
-                            <input type="radio" name="paymentType" value="Card" class="form-check-input" required>
+                            <input type="radio" onclick="toggleCardFields()" name="paymentType" value="Card" class="form-check-input" required>
                             <label class="form-check-label"> Оплата картой</label>
                         </div>
                         <div class="form-check mb-2">

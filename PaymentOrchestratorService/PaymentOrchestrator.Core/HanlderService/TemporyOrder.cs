@@ -1,9 +1,11 @@
-﻿namespace Handler.Core.HanlderService
+﻿using Handler.Core.Common;
+
+namespace Handler.Core.HanlderService
 {
     /// <summary>
     /// Represents a temporary order that inherits certain fields from the Order class to store it in the database until payment is confirmed.
     /// </summary>
-    public class TemporyOrder
+    public record TemporyOrder
     {
         public const int MAX_NUMBER_LENGHT = 10;
         public const int MAX_ADDRESS_LENGHT = 250;

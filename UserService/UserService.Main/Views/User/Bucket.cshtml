@@ -222,18 +222,21 @@
             },
             body: JSON.stringify(paymentRequest)
         })
-            .then(response => {
+            .then(async response => {
                 if (response.ok) {
                     // Обработка успешного ответа
-                    return response.text();
+                    const html = await response.text();
+                    const newWindow = window.open();
+                    newWindow.document.write(html);
+                    
                 } else {
                     // Обработка ошибки
                     return response.text().then(error => Promise.reject(error));
                 }
             })
-            .then(data => {
+            .then(async data => {
                 // Обновляем страницу
-                document.getElementById('cart-items').innerHTML = data;
+
             })
             .catch(error => {
                 // Обработка ошибки

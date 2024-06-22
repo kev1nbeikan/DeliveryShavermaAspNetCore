@@ -28,7 +28,7 @@ public class UseControllerTests
     public async Task AddNewOrUpdate()
     {
         var userId = Guid.NewGuid();
-        await _userController.AddNewOrUpdate(new UpsertUserRequest
+        await _userController.Upsert(new UpsertUserRequest
         (
             userId,
             "comment",
@@ -36,7 +36,7 @@ public class UseControllerTests
             "+7894649189789"
         ));
 
-        await _userController.AddNewOrUpdate(new UpsertUserRequest
+        await _userController.Upsert(new UpsertUserRequest
         (
             userId,
             "comment",

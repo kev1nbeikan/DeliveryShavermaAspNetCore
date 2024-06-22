@@ -1,5 +1,6 @@
 using Handler.Core;
 using Handler.Core.Abstractions.Repositories;
+using Handler.Core.Common;
 using HandlerService.Controllers;
 
 namespace HandlerService.Application.Services;

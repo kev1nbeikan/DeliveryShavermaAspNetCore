@@ -56,27 +56,26 @@ public class PaymentController : Controller
     }
 
     [HttpPost]
-    public IActionResult CalculatePayment([FromBody] PaymentRequest paymentRequest)
-    {
-        return RedirectToAction("Payment", paymentRequest);
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> PaymentConfirm(PaymentConfirmRequest paymentConfirmRequest)
+    public async Task<IActionResult> PaymentConfirm([FromForm] PaymentConfirmRequest paymentConfirmRequest)
     {
         string? error;
 
         var temporyOrder = _temporaryOrderService.Get(paymentConfirmRequest.OrderId);
+        _logger.LogInformation(temporyOrder.ToString());
+        
         if (temporyOrder == null) return BadRequest("Order not found: try make order again");
+        (var myUser, error) = await _userService.Get(User.UserId());
+        if (error.HasValue()) return BadRequest(error);
 
+        return Ok(myUser);
         (var orderLogistic, error) = await _getOrderLogistic.Invoke(temporyOrder);
         if (error.HasValue()) return BadRequest(error);
 
         (error, var cheque) = _paymentService.ConfirmPayment(temporyOrder, paymentConfirmRequest.ToPaymentInfo());
         if (error.HasValue()) return BadRequest(error);
 
-        (var myUser, error) = await _userService.Get(User.UserId());
-        if (error.HasValue()) return BadRequest(error);
+        // (var myUser, error) = await _userService.Get(User.UserId());
+        // if (error.HasValue()) return BadRequest(error);
 
         (var order, error) = await _orderService.Save(
             temporyOrder.Id,
@@ -100,33 +99,31 @@ public class PaymentController : Controller
 
     public async Task<IActionResult> Payment([FromBody] PaymentRequest paymentRequest)
     {
-        
         var userId = User.UserId();
         _logger.LogInformation($"User {userId} requested Payment with body {paymentRequest}");
-        var error = await _userService.AddNewOrUpdate(userId, paymentRequest.Address, paymentRequest.Comment,
+        var error = await _userService.Upsert(userId, paymentRequest.Address, paymentRequest.Comment,
             paymentRequest.PhoneNumber);
         if (error.HasValue()) return BadRequest(error);
-        return Ok("Ok");
-        //
-        // (var products, error) =
-        //     await _menuService.GetProducts(paymentRequest.ProductIdsAndQuantity.Select(x => x.Id).ToList());
-        // if (error.HasValue()) return BadRequest(error);
-        //
-        // var price = _paymentService.CalculatePayment(products, paymentRequest.ProductIdsAndQuantity);
-        //
-        // (var paymentOrder, error) = _temporaryOrderService.Save(Guid.NewGuid(), userId, products, price,
-        //     paymentRequest.Address,
-        //     paymentRequest.Comment);
-        // if (error.HasValue()) return BadRequest(error);
-        //
-        //
-        // return View(new PaymentViewModel()
-        // {
-        //     Order = paymentOrder!,
-        //     PaymentRequest = paymentRequest!,
-        //     Products = products,
-        //     Price = price!,
-        //     PaymentTypes = _paymentService.GetPaymentTypes()
-        // });
+
+        (var products, error) =
+            await _menuService.GetProducts(paymentRequest.ProductIdsAndQuantity.Select(x => x.Id).ToList());
+        if (error.HasValue()) return BadRequest(error);
+
+        var price = _paymentService.CalculatePayment(products, paymentRequest.ProductIdsAndQuantity);
+
+        (var paymentOrder, error) = _temporaryOrderService.Save(Guid.NewGuid(), userId, products, price,
+            paymentRequest.Address,
+            paymentRequest.Comment);
+        if (error.HasValue()) return BadRequest(error);
+
+
+        return View(new PaymentViewModel()
+        {
+            Order = paymentOrder!,
+            PaymentRequest = paymentRequest!,
+            Products = products,
+            Price = price!,
+            PaymentTypes = _paymentService.GetPaymentTypes()
+        });
     }
 }

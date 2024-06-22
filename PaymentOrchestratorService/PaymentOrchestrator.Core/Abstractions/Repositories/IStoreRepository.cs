@@ -1,3 +1,5 @@
+using Handler.Core.Common;
+
 namespace Handler.Core.Abstractions.Repositories;
 
 public interface IStoreRepository

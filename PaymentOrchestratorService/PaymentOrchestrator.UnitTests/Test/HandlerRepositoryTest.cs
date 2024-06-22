@@ -1,5 +1,6 @@
 using Handler.Core;
 using Handler.Core.Abstractions.Repositories;
+using Handler.Core.Common;
 using Handler.Core.HanlderService;
 using HandlerService.DataAccess.Repositories;
 using HandlerService.UnitTests.Utils;

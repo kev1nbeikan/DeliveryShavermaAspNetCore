@@ -1,4 +1,5 @@
 using Handler.Core;
+using Handler.Core.Common;
 using Handler.Core.HanlderService;
 using HandlerService.Contracts;
 using HandlerService.Controllers;

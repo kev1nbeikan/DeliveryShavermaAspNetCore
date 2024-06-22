@@ -14,6 +14,8 @@ public static class AppHttpClientsExtensions
             {
                 httpClient.BaseAddress =
                     new Uri(options.UsersUrl ?? throw new Exception($"{nameof(options.UsersUrl)} not found"));
+                Console.WriteLine($"user url:{httpClient.BaseAddress}");
+
             });
 
         services.AddHttpClient(nameof(options.MenuUrl),
@@ -21,6 +23,7 @@ public static class AppHttpClientsExtensions
             {
                 httpClient.BaseAddress =
                     new Uri(options.MenuUrl ?? throw new Exception($"{nameof(options.MenuUrl)} not found"));
+                Console.WriteLine($"menu url:{httpClient.BaseAddress}");
             });
     }
 }
