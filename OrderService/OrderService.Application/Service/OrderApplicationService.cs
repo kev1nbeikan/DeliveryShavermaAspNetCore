@@ -63,7 +63,9 @@ public class OrderApplicationService(
     public async Task<List<CurrentOrder>> GetNewOrdersByDate(RoleCode role, Guid sourceId, DateTime lastOrderDate)
     {
         var orders = await _currentOrderRepository.Get(role, sourceId);
-        var newestOrder = orders.Where(x => x.OrderDate > lastOrderDate)
+        var newestOrder = orders
+            .Where(x => x.Status <= StatusCode.WaitingCourier)
+            .Where(x => x.OrderDate > lastOrderDate)
             .OrderBy(x => x.OrderDate)
             .ToList();
         return newestOrder;
