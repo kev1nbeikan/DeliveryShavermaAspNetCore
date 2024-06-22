@@ -17,7 +17,7 @@ public class UserService : IUserService
         _userRepository = userRepository;
     }
 
-    public async Task<string?> AddNewOrUpdate(Guid userId, string address, string comment, string phoneNumber)
+    public async Task<string?> Upsert(Guid userId, string address, string comment, string phoneNumber)
     {
         var (user, error) = MyUser.Create(userId, [address], comment, phoneNumber);
         UpsertFields fields = new(userId, comment, address, phoneNumber);
