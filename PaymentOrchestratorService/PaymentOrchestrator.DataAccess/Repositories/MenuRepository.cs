@@ -1,20 +1,19 @@
 using System.Net.Http.Json;
 using Handler.Core;
 using Handler.Core.Abstractions.Repositories;
+using Handler.Core.Common;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace HandlerService.DataAccess.Repositories;
 
 public class MenuRepository : IMenuRepository
 {
     private readonly HttpClient _httpClient;
-    private readonly IConfiguration _configuration;
 
-    public MenuRepository(HttpClient httpClient, IConfiguration configuration)
+    public MenuRepository(IHttpClientFactory httpClientFactory, IOptions<ServicesOptions> options)
     {
-        _httpClient = httpClient;
-        _configuration = configuration;
-        httpClient.BaseAddress = new Uri(configuration["menuUrl"] ?? throw new Exception("menuUrl not found"));
+        _httpClient = httpClientFactory.CreateClient(options.Value.MenuUrl);
     }
 
     public async Task<(Product[] products, string? error)> Get(List<Guid> productIds)

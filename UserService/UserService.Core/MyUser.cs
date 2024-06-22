@@ -23,6 +23,10 @@ public class MyUser
         string comment, string phoneNumber = "")
     {
         string? error = null;
+        
+        if (string.IsNullOrEmpty(phoneNumber)) error = "Phone number is required";
+        if (address.Count == 0) error = "Address is required";
+        
 
         return (new MyUser(userId!, address!, comment!, phoneNumber), error);
     }

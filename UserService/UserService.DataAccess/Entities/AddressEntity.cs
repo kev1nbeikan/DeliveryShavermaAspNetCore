@@ -1,3 +1,5 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace UserService.DataAccess.Entities;
 
 public class AddressEntity

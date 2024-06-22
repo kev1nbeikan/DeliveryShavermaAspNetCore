@@ -24,14 +24,11 @@ public class UserController : Controller
 
 
     [HttpPost("AddNewOrUpdate")]
-    public async Task<IActionResult> AddNewOrUpdate([FromBody, Required] UpsertUserRequest request)
+    public async Task<IActionResult> AddNewOrUpdate([FromBody, Required] UpsertUserRequest? request)
     {
         _logger.LogInformation($"AddNewOrUpdateCalled. User requested AddNewOrUpdate {request}");
 
-        if (request == null)
-        {
-            return Ok();
-        }
+        if (request == null) return BadRequest("payload requred");
 
         try
         {
@@ -42,12 +39,11 @@ public class UserController : Controller
         catch (Exception e) when (
             e is ArgumentException or FailToUpdateRepositoryException<MyUser>)
         {
-            return Ok(e.Message);
+            return BadRequest(e.Message);
         }
     }
 
 
-    // [HttpPost("Bucket")]
     public async Task<IActionResult> Bucket([FromBody] List<BucketItem> products)
     {
         var viewModel = new BucketViewModel { Products = products };

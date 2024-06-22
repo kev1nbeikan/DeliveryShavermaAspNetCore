@@ -14,8 +14,13 @@ public static class AppHttpClientsExtensions
             {
                 httpClient.BaseAddress =
                     new Uri(options.UsersUrl ?? throw new Exception($"{nameof(options.UsersUrl)} not found"));
-                httpClient.DefaultRequestVersion = HttpVersion.Version20;
             });
-        ;
+
+        services.AddHttpClient(nameof(options.MenuUrl),
+            httpClient =>
+            {
+                httpClient.BaseAddress =
+                    new Uri(options.MenuUrl ?? throw new Exception($"{nameof(options.MenuUrl)} not found"));
+            });
     }
 }

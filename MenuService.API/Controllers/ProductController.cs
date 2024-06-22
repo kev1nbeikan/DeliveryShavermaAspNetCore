@@ -30,13 +30,7 @@ public class ProductController : Controller
         // return Ok(response);
         return View(new ProductListViewModel(products));
     }
-
-
-    [HttpPost("Bucket")]
-    public IActionResult AddToBucket(List<CartItem> request)
-    {
-        return Ok(request);
-    }
+    
 
     [HttpPost]
     public async Task<IActionResult> CreateProduct([FromForm] ProductRequest request)

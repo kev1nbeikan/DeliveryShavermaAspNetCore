@@ -18,6 +18,7 @@ public class UserDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new AddressConfiguration());
+        modelBuilder.ApplyConfiguration(new UserConfiguration());
     }
 
     public DbSet<UserEntity> Users { get; set; }

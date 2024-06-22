@@ -56,7 +56,7 @@
 
             <input type="text" id="customAddressInput" placeholder="Введите свой адрес" oninput="customAddressChanged(this)" style="@Model.DisplayStyleOfNewAddressInput" class="form-control mb-3">
 
-            <input type="text" id="phoneNumber" placeholder="Введите свой номер" style="display: block;" class="form-control mb-3">
+            <input type="text" id="phoneNumber" placeholder="Введите свой номер" value=@Model.PhoneNumber style="display: block;" class="form-control mb-3">
 
             <label for="comment">Комментарий:</label>
             <input type="text" id="comment" value="@Model.DefaultComment" onclick="clearCommentField()" class="form-control">

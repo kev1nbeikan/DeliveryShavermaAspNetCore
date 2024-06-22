@@ -1,5 +1,3 @@
-using System.Runtime.CompilerServices;
-using UserService.Application.Contracts;
 using UserService.Core;
 
 namespace UserService.Application;

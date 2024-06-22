@@ -33,7 +33,7 @@ public class UserService : IUserService
 
     public async Task<MyUser> Upsert(Guid userId, string address, string phoneNumber, string comment)
     {
-        var newUser = CreateUserModel(userId, new List<string> { address }, phoneNumber, comment);
+        var newUser = CreateUserModel(userId, [address,], phoneNumber, comment);
 
         var existingUser = await _userRepository.Get(userId);
 
@@ -41,8 +41,10 @@ public class UserService : IUserService
         {
             return await _userRepository.Add(newUser);
         }
-
-        return await UpdateExistingUser(existingUser, address, phoneNumber, comment);
+        else
+        {
+            return await UpdateExistingUser(existingUser, address, phoneNumber, comment);
+        }
     }
 
     public async Task<MyUser> Add(Guid userId, List<string> addresses, string phoneNumber, string comment)
