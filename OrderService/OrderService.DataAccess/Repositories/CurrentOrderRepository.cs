@@ -88,13 +88,21 @@ public class CurrentOrderRepository(OrderServiceDbContext context) : ICurrentOrd
 
     public async Task ChangeStatus(RoleCode role, StatusCode status, Guid sourceId, Guid id)
     {
+        if (!Enum.IsDefined(typeof(StatusCode), status))
+            throw new ArgumentException("Invalid status value.", nameof(status));
+
         var condition = BaseOrderRepository.GetCondition<CurrentOrderEntity>(role, sourceId);
 
-        await context.CurrentOrders
-            .Where(b => b.Id == id)
+        var order = await context.CurrentOrders
             .Where(condition)
-            .ExecuteUpdateAsync(s => s
-                .SetProperty(b => b.Status, b => (int)status));
+            .FirstOrDefaultAsync(b => b.Id == id) ?? throw new KeyNotFoundException();
+        
+        if ((int)status <= order.Status)
+            throw new ArgumentException("New status cannot be less than or equal to the current status.");
+        
+        order.Status = (int)status;
+        
+        await context.SaveChangesAsync();
     }
 
     public async Task ChangeCookingDate(RoleCode role, DateTime cookingDate, Guid sourceId, Guid id)
