@@ -22,4 +22,8 @@
       <_ContentIncludedByDefault Remove="Views\Home\Privacy.cshtml" />
     </ItemGroup>
 
+    <ItemGroup>
+      <UpToDateCheckInput Remove="Views\Home\Home.cshtml" />
+    </ItemGroup>
+
 </Project>

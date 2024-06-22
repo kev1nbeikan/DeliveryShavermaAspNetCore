@@ -40,8 +40,7 @@ public class ProductController : Controller
 			)
 		);
 
-		// return Ok(response); 
-		return View(new ProductListViewModel(response));
+		return Ok(response);
 	}
 
 	[HttpPost]
@@ -77,9 +76,6 @@ public class ProductController : Controller
 			return BadRequest(error);
 		}
 
-		var productId = await _productService.CreateProduct(product);
-
-		// return Ok(productId);
 		return RedirectToAction(nameof(AdminStorePanel));
 	}
 
@@ -154,14 +150,13 @@ public class ProductController : Controller
 
 		await _productService.DeleteProduct(id);
 
-		// return Ok(id);
 		return RedirectToAction(nameof(AdminStorePanel));
 	}
 
 	[HttpGet("adminstorepanel")]
 	public async Task<IActionResult> AdminStorePanel()
 	{
-		return await GetProducts();
+		return await ProductsMenu();
 	}
 
 	[HttpGet("getproductsbyid")]
@@ -172,5 +167,15 @@ public class ProductController : Controller
 		var response = products.Where(p => request.Guids.Contains(p.Id)).ToList();
 
 		return Ok(response);
+	}
+
+	[HttpGet("menu")]
+	public async Task<IActionResult> ProductsMenu()
+	{
+		var products = await GetProducts() as OkObjectResult;
+
+		var response = products.Value as IEnumerable<ProductResponse>;
+
+		return View(new ProductListViewModel(response));
 	}
 }
