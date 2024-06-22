@@ -2,19 +2,13 @@ using HandlerService.Controllers;
 
 namespace Handler.Core.Contracts;
 
-public class OrderLogistic
+public record OrderLogistic
 {
-    public OrderLogistic()
-    {
-        Delivery = new OrderTaskInfo<Curier>();
-        Cooking = new OrderTaskInfo<Guid>();
-    }
-
-    public OrderTaskInfo<Curier> Delivery { get; set; }
-    public OrderTaskInfo<Guid> Cooking { get; set; }
+    public OrderTaskInfo<Curier> Delivery { get; set; } = new();
+    public OrderTaskInfo<Guid> Cooking { get; set; } = new();
 }
 
-public class OrderTaskInfo<T>
+public record OrderTaskInfo<T>
 {
     public T? Perfomer { get; set; }
     public TimeSpan Time { get; set; }
