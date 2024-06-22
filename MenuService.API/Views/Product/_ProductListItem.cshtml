@@ -1,5 +1,4 @@
-﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
-@model MenuService.Core.Models.Product;
+﻿@model MenuService.API.Contracts.ProductResponse;
 
 <tr>
     <th scope="row">@Model.Id</th>
@@ -8,21 +7,23 @@
     <td>@Model.Composition</td>
     <td>@Model.Price</td>
     <td style="text-align: center">
-        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">
+        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                data-bs-target="#editModal-@Model.Id">
             Edit
         </button>
     </td>
     <td style="text-align: center">
-        <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+        <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                data-bs-target="#deleteModal-@Model.Id">
             Delete
         </button>
     </td>
 </tr>
 
-
 <!-- Edit Modal -->
-<form class="form-inline row g-3" asp-controller="Product" asp-action="UpdateProduct" asp-route-id="@Model.Id" method="POST">
-    <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+<form class="form-inline row g-3" asp-controller="Product" asp-action="UpdateProduct" asp-route-id="@Model.Id"
+      method="POST" enctype="multipart/form-data">
+    <div class="modal fade" id="editModal-@Model.Id" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -32,34 +33,45 @@
                 <div class="modal-body">
                     <div class="input-group mb-3">
                         <div class="input-group">
-                            <input type="text" class="form-control" asp-for="Title" placeholder="Title" aria-label="Default">
+                            <img id="currentImage-@Model.Id" src="~/uploads/@Model.ImagePath" alt="Current Image"
+                                 style="max-width: 100%; margin-bottom: 10px;">
                         </div>
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group">
-                            <textarea class="form-control" asp-for="Description" placeholder="Description" aria-label="Default" style="height: 17px"></textarea>
+                            <input type="text" class="form-control" asp-for="Title" placeholder="Title"
+                                   aria-label="Default">
                         </div>
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group">
-                            <input type="text" class="form-control" asp-for="Composition" placeholder="Composition" aria-label="Default">
+                            <textarea class="form-control" asp-for="Description" placeholder="Description"
+                                      aria-label="Default" style="height: 17px"></textarea>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group">
+                            <input type="text" class="form-control" asp-for="Composition" placeholder="Composition"
+                                   aria-label="Default">
                         </div>
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group">
                             <span class="input-group-text">$</span>
-                            <input type="text" class="form-control" asp-for="Price" placeholder="Price" aria-label="Amount (to the nearest dollar)">
+                            <input type="text" class="form-control" asp-for="Price" placeholder="Price"
+                                   aria-label="Amount (to the nearest dollar)">
                         </div>
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group">
-                            <input type="text" class="form-control" asp-for="ImagePath" placeholder="File" aria-label="Default">
+                            <input type="file" class="form-control" name="File" aria-label="File"
+                                   onchange="previewImage(event, 'currentImage-@Model.Id')">
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>
@@ -67,8 +79,9 @@
 </form>
 
 <!-- Delete Modal -->
-<form class="form-inline row g-3" asp-controller="Product" asp-action="DeleteProduct" method="GET">
-    <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+<form class="form-inline row g-3" asp-controller="Product" asp-action="DeleteProduct" asp-route-id="@Model.Id"
+      method="GET">
+    <div class="modal fade" id="deleteModal-@Model.Id" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -86,3 +99,14 @@
         </div>
     </div>
 </form>
+
+<script>
+    function previewImage(event, imgId) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            var output = document.getElementById(imgId);
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>

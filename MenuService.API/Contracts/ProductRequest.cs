@@ -5,4 +5,4 @@ public record ProductRequest(
 	string Description,
 	string Composition,
 	int Price,
-	string ImagePath);
+	IFormFile? File);
