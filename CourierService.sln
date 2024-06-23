@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourierService.API", "CourierService.API\CourierService.API.csproj", "{D5B3DDB5-A3AD-46D6-A56A-926157FD95D4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourierService.API", "CourierService/CourierService.API\CourierService.API.csproj", "{D5B3DDB5-A3AD-46D6-A56A-926157FD95D4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourierService.Core", "CourierService.Core\CourierService.Core.csproj", "{5517A6E0-B1BE-4A49-9055-1ACB81F48A51}"
 EndProject
