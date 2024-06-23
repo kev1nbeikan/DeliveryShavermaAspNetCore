@@ -1,11 +1,11 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using OrderService.Domain.Models;
 using OrderService.Domain.Models.Code;
 
 namespace OrderService.Api.Contracts.Client;
 
 public record ClientGetCanceled(
     Guid Id,
-    string Basket,
+    List<BasketItem> Basket,
     int Price,
     string Comment,
     DateTime OrderDate,

@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using OrderService.Domain.Models;
 using OrderService.Domain.Models.Code;
 
 namespace OrderService.Api.Contracts.Client;
@@ -6,7 +6,7 @@ namespace OrderService.Api.Contracts.Client;
 public record ClientGetCurrent(
     Guid Id,
     StatusCode Status,
-    string Basket,
+    List<BasketItem> Basket,
     int Price,
     string Comment,
     string ClientAddress,

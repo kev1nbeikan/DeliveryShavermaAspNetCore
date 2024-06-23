@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using OrderService.Domain.Models;
 
 namespace OrderService.Api.Contracts.Order;
 
@@ -7,7 +7,7 @@ public record OrderCreateRequest(
     Guid ClientId,
     Guid CourierId,
     Guid StoreId,
-    string Basket,
+    List<BasketItem> Basket,
     int Price,
     string Comment,
     string StoreAddress,

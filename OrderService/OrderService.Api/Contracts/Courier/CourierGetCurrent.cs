@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using OrderService.Domain.Models;
 using OrderService.Domain.Models.Code;
 
 namespace OrderService.Api.Contracts.Courier;
@@ -6,7 +6,7 @@ namespace OrderService.Api.Contracts.Courier;
 public record CourierGetCurrent(
     Guid Id,
     StatusCode Status,
-    string Basket,
+    List<BasketItem> Basket,
     string Comment,
     string StoreAddress,
     string ClientAddress,

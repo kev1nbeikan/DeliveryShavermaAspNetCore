@@ -1,11 +1,12 @@
-﻿using Newtonsoft.Json.Linq;
+﻿
+using OrderService.Domain.Models;
 
 namespace OrderService.Api.Contracts.Courier;
 
 public record CourierGetLast(
     Guid Id,
     Guid StoreId,
-    string Basket,
+    List<BasketItem> Basket,
     string Comment,
     TimeSpan DeliveryTime,
     DateTime OrderDate,

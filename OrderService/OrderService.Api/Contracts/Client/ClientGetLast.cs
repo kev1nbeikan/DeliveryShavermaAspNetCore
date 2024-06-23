@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using OrderService.Domain.Models;
 
 namespace OrderService.Api.Contracts.Client;
 
 public record ClientGetLast(
     Guid Id,
-    string Basket,
+    List<BasketItem> Basket,
     int Price,
     string Comment,
     DateTime OrderDate,
