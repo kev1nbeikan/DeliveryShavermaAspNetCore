@@ -38,13 +38,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Main", "UserSer
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MenuService", "MenuService", "{77BC2B36-0266-4211-A75D-4F1E8EB34FB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MenuService.API", "MenuService.API\MenuService.API.csproj", "{65B97344-4C22-433F-9EDF-214AE29B0DDA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MenuService.API", "MenuService/MenuService.API\MenuService.API.csproj", "{65B97344-4C22-433F-9EDF-214AE29B0DDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MenuService.Application", "MenuService.Application\MenuService.Application.csproj", "{A3BDBE24-D33A-4195-B739-0CBD2EF99F4D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MenuService.Application", "MenuService/MenuService.Application\MenuService.Application.csproj", "{A3BDBE24-D33A-4195-B739-0CBD2EF99F4D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MenuService.Core", "MenuService.Core\MenuService.Core.csproj", "{52918BC8-0EB3-4309-9F37-FF435CA8D744}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MenuService.Core", "MenuService/MenuService.Core\MenuService.Core.csproj", "{52918BC8-0EB3-4309-9F37-FF435CA8D744}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MenuService.DataAccess", "MenuService.DataAccess\MenuService.DataAccess.csproj", "{DA5B7236-F57E-4E63-BD81-36631DB08525}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MenuService.DataAccess", "MenuService/MenuService.DataAccess\MenuService.DataAccess.csproj", "{DA5B7236-F57E-4E63-BD81-36631DB08525}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.DataAccess", "UserService\UserService.DataAccess\UserService.DataAccess.csproj", "{C6BC1A55-44FD-4A79-9419-963D9C544ED3}"
 EndProject
