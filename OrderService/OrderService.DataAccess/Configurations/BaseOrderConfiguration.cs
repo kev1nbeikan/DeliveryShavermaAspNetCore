@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using OrderService.DataAccess.Entities;
 using OrderService.Domain.Models;
+using OrderService.Domain.Models.Order;
 
 namespace OrderService.DataAccess.Configurations;
 
