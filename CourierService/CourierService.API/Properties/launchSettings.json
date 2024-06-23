@@ -4,27 +4,17 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-<<<<<<<< HEAD:MenuService/MenuService.API/Properties/launchSettings.json
-      "applicationUrl": "http://localhost:29721",
-      "sslPort": 44306
-========
       "applicationUrl": "http://localhost:62693",
       "sslPort": 44343
->>>>>>>> refs/heads/CourierService:CourierService/CourierService.API/Properties/launchSettings.json
     }
   },
   "profiles": {
     "http": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-<<<<<<<< HEAD:MenuService/MenuService.API/Properties/launchSettings.json
-      "launchBrowser": true,
-      "applicationUrl": "http://localhost:5002",
-========
       "launchBrowser": false,
       "launchUrl": "swagger",
       "applicationUrl": "http://localhost:5202",
->>>>>>>> refs/heads/CourierService:CourierService/CourierService.API/Properties/launchSettings.json
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -33,12 +23,8 @@
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
-<<<<<<<< HEAD:MenuService/MenuService.API/Properties/launchSettings.json
-      "applicationUrl": "https://localhost:7227;http://localhost:5276",
-========
       "launchUrl": "swagger",
       "applicationUrl": "https://localhost:7210;http://localhost:5202",
->>>>>>>> refs/heads/CourierService:CourierService/CourierService.API/Properties/launchSettings.json
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
