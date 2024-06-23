@@ -1,5 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+
+
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PaymentOrchestrator", "PaymentOrchestrator", "{E61A4B9F-C195-4EC3-93D4-AD7C441C97D9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentOrchestrator.Main", "PaymentOrchestratorService\PaymentOrchestrator.Main\PaymentOrchestrator.Main.csproj", "{7777FE6F-A757-4279-A19C-65379C2DFA5F}"
@@ -50,6 +52,20 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.Application", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService.UnitTests", "UserService\UserService.UnitTests\UserService.UnitTests.csproj", "{9328E6D2-10B1-49C3-B5E1-693CCD39B607}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OrderService", "OrderService", "{74E96023-971B-4AA1-8467-FACA3A89EFD5}"
+EndProject
+
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderService.Api", "OrderService\OrderService.Api\OrderService.Api.csproj", "{59A3DAC8-D385-47C7-B6FC-92860A69A544}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderService.Application", "OrderService\OrderService.Application\OrderService.Application.csproj", "{F068143E-42F8-4176-88E3-796B40A61065}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderService.DataAccess", "OrderService\OrderService.DataAccess\OrderService.DataAccess.csproj", "{B0CC410A-29C3-4ECD-A400-63BC17CC7D97}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderService.Domain", "OrderService\OrderService.Domain\OrderService.Domain.csproj", "{01561EC0-82A4-44B0-8F91-704498693DE0}"
+EndProject
+
+
+
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -140,6 +156,22 @@ Global
 		{9328E6D2-10B1-49C3-B5E1-693CCD39B607}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9328E6D2-10B1-49C3-B5E1-693CCD39B607}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9328E6D2-10B1-49C3-B5E1-693CCD39B607}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59A3DAC8-D385-47C7-B6FC-92860A69A544}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59A3DAC8-D385-47C7-B6FC-92860A69A544}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59A3DAC8-D385-47C7-B6FC-92860A69A544}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59A3DAC8-D385-47C7-B6FC-92860A69A544}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F068143E-42F8-4176-88E3-796B40A61065}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F068143E-42F8-4176-88E3-796B40A61065}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F068143E-42F8-4176-88E3-796B40A61065}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F068143E-42F8-4176-88E3-796B40A61065}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01561EC0-82A4-44B0-8F91-704498693DE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01561EC0-82A4-44B0-8F91-704498693DE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01561EC0-82A4-44B0-8F91-704498693DE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01561EC0-82A4-44B0-8F91-704498693DE0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0CC410A-29C3-4ECD-A400-63BC17CC7D97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0CC410A-29C3-4ECD-A400-63BC17CC7D97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0CC410A-29C3-4ECD-A400-63BC17CC7D97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0CC410A-29C3-4ECD-A400-63BC17CC7D97}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{7777FE6F-A757-4279-A19C-65379C2DFA5F} = {E61A4B9F-C195-4EC3-93D4-AD7C441C97D9}
@@ -163,5 +195,9 @@ Global
 		{C6BC1A55-44FD-4A79-9419-963D9C544ED3} = {95846674-FD30-4ED7-940E-2BC12A792BFB}
 		{5B8EB4A5-6323-4B9E-A1C9-3F3497C72DC1} = {95846674-FD30-4ED7-940E-2BC12A792BFB}
 		{9328E6D2-10B1-49C3-B5E1-693CCD39B607} = {95846674-FD30-4ED7-940E-2BC12A792BFB}
+		{59A3DAC8-D385-47C7-B6FC-92860A69A544} = {74E96023-971B-4AA1-8467-FACA3A89EFD5}
+		{F068143E-42F8-4176-88E3-796B40A61065} = {74E96023-971B-4AA1-8467-FACA3A89EFD5}
+		{01561EC0-82A4-44B0-8F91-704498693DE0} = {74E96023-971B-4AA1-8467-FACA3A89EFD5}
+		{B0CC410A-29C3-4ECD-A400-63BC17CC7D97} = {74E96023-971B-4AA1-8467-FACA3A89EFD5}
 	EndGlobalSection
 EndGlobal
