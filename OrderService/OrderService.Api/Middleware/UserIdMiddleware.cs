@@ -14,7 +14,8 @@ public class UserIdMiddleware(RequestDelegate next)
 
         if (!Guid.TryParse(userIdString, out Guid userId) || String.IsNullOrEmpty(roleString))
         {
-            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            // context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            await _next(context);
             return;
         }
 
