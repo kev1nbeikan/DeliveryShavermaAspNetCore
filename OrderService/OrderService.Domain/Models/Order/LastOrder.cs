@@ -1,11 +1,9 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace OrderService.Domain.Models;
+﻿namespace OrderService.Domain.Models.Order;
 
 public class LastOrder : BaseOrder
 {
     private LastOrder(Guid id, Guid clientId, Guid courierId, Guid storeId,
-        string basket, int price, string comment, TimeSpan cookingTime,
+        List<BasketItem> basket, int price, string comment, TimeSpan cookingTime,
         TimeSpan deliveryTime, DateTime orderDate, DateTime? cookingDate,
         DateTime? deliveryDate, string cheque)
         : base(id, clientId, courierId, storeId, basket, price, comment,
@@ -14,7 +12,7 @@ public class LastOrder : BaseOrder
     }
 
     public static (LastOrder Order, string Error) Create(Guid id, Guid clientId,
-        Guid courierId, Guid storeId, string basket, int price, string comment,
+        Guid courierId, Guid storeId, List<BasketItem> basket, int price, string comment,
         TimeSpan cookingTime, TimeSpan deliveryTime, DateTime orderDate,
         DateTime? cookingDate, DateTime? deliveryDate, string cheque)
     {

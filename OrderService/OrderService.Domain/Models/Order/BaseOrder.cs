@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace OrderService.Domain.Models;
+﻿namespace OrderService.Domain.Models.Order;
 
 public abstract class BaseOrder
 {
@@ -11,7 +9,7 @@ public abstract class BaseOrder
     public const int MaxChequeLength = 500;
 
     protected BaseOrder(Guid id, Guid clientId, Guid courierId, Guid storeId,
-        string basket, int price, string comment, TimeSpan cookingTime, TimeSpan deliveryTime,
+        List<BasketItem> basket, int price, string comment, TimeSpan cookingTime, TimeSpan deliveryTime,
         DateTime orderDate, DateTime? cookingDate, DateTime? deliveryDate, string cheque)
     {
         Id = id;
@@ -33,7 +31,7 @@ public abstract class BaseOrder
     public Guid ClientId { get; }
     public Guid CourierId { get; }
     public Guid StoreId { get; }
-    public string Basket { get; } = string.Empty;
+    public List<BasketItem> Basket { get; }
     public int Price { get; }
     public string Comment { get; } = string.Empty;
     public TimeSpan CookingTime { get; } = TimeSpan.Zero;
@@ -45,7 +43,7 @@ public abstract class BaseOrder
 
     protected static String Check(
         Guid id, Guid clientId, Guid courierId, Guid storeId,
-        string basket, int price, string comment, TimeSpan cookingTime,
+        List<BasketItem> basket, int price, string comment, TimeSpan cookingTime,
         TimeSpan deliveryTime, string cheque)
     {
         string errorString = string.Empty;
@@ -53,9 +51,9 @@ public abstract class BaseOrder
         if (comment.Length > MaxCommentLength)
             errorString = "Error in the comment, the value is exceeds the maximum value";
 
-        if (string.IsNullOrEmpty(basket))
+        if (basket.Count == 0)
             errorString = "Error in the basket, the value is empty";
-
+        
         if (id == Guid.Empty)
             errorString = "Error in id, value is empty";
         

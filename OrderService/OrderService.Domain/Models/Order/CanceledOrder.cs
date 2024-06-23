@@ -1,12 +1,11 @@
-﻿using Newtonsoft.Json.Linq;
-using OrderService.Domain.Models.Code;
+﻿using OrderService.Domain.Models.Code;
 
-namespace OrderService.Domain.Models;
+namespace OrderService.Domain.Models.Order;
 
 public class CanceledOrder : BaseOrder
 {
     private CanceledOrder(Guid id, Guid clientId, Guid courierId, Guid storeId,
-        string basket, int price, string comment, TimeSpan cookingTime,
+        List<BasketItem> basket, int price, string comment, TimeSpan cookingTime,
         TimeSpan deliveryTime, DateTime orderDate, DateTime? cookingDate,
         DateTime? deliveryDate, string cheque, StatusCode lastStatus, string reasonOfCanceled)
         : base(id, clientId, courierId, storeId, basket, price, comment,
@@ -20,7 +19,7 @@ public class CanceledOrder : BaseOrder
     public string ReasonOfCanceled { get; } = string.Empty;
 
     public static (CanceledOrder Order, string Error) Create(Guid id, Guid clientId,
-        Guid courierId, Guid storeId, string basket, int price, string comment, TimeSpan cookingTime,
+        Guid courierId, Guid storeId, List<BasketItem> basket, int price, string comment, TimeSpan cookingTime,
         TimeSpan deliveryTime, DateTime orderDate, DateTime? cookingDate, DateTime? deliveryDate,
         string cheque, StatusCode lastStatus, string reasonOfCanceled)
     {
@@ -29,7 +28,7 @@ public class CanceledOrder : BaseOrder
 
         if (string.IsNullOrEmpty(reasonOfCanceled) || reasonOfCanceled.Length > MaxCommentLength)
             errorString = "Error in reason of canceled, the value is empty or exceeds the maximum value";
-
+       
         var order = new CanceledOrder(id, clientId, courierId, storeId, basket,
             price, comment, cookingTime, deliveryTime, orderDate, cookingDate,
             deliveryDate, cheque, lastStatus, reasonOfCanceled);

@@ -1,12 +1,11 @@
-﻿using Newtonsoft.Json.Linq;
-using OrderService.Domain.Models.Code;
+﻿using OrderService.Domain.Models.Code;
 
-namespace OrderService.Domain.Models;
+namespace OrderService.Domain.Models.Order;
 
 public class CurrentOrder : BaseOrder
 {
     private CurrentOrder(Guid id, Guid clientId, Guid courierId, Guid storeId,
-        string basket, int price, string comment, string storeAddress,
+        List<BasketItem> basket, int price, string comment, string storeAddress,
         string clientAddress, string courierNumber, string clientNumber,
         TimeSpan cookingTime, TimeSpan deliveryTime, DateTime orderDate,
         DateTime? cookingDate, DateTime? deliveryDate, string cheque, StatusCode status)
@@ -27,7 +26,7 @@ public class CurrentOrder : BaseOrder
     public string ClientNumber { get; } = string.Empty;
 
     public static (CurrentOrder Order, string Error) Create(Guid id, Guid clientId,
-        Guid courierId, Guid storeId, string basket, int price, string comment,
+        Guid courierId, Guid storeId, List<BasketItem> basket, int price, string comment,
         string storeAddress, string clientAddress, string courierNumber, string clientNumber,
         TimeSpan cookingTime, TimeSpan deliveryTime, DateTime orderDate,
         DateTime? cookingDate, DateTime? deliveryDate, string cheque, StatusCode status)
