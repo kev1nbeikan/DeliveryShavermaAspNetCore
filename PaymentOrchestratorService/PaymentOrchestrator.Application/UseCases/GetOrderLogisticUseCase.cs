@@ -23,6 +23,21 @@ public class GetOrderLogisticUseCase : IGetOrderLogisticUseCase
 
     public async Task<(OrderLogistic? orderTimings, string? error)> Invoke(TemporyOrder temporyOrder)
     {
+        return (new OrderLogistic()
+        {
+            Delivery = new OrderTaskInfo<Curier>()
+            {
+                Perfomer = null,
+                Time = TimeSpan.Zero
+            },
+            Cooking = new OrderTaskInfo<Guid>()
+            {
+                Perfomer = Guid.NewGuid(),
+                Time = TimeSpan.Zero
+            }
+        }, null);
+
+
         var result = new OrderLogistic();
 
         (result.Delivery.Perfomer, result.Delivery.Time) =

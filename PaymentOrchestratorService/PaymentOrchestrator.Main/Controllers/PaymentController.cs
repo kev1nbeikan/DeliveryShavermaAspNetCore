@@ -61,21 +61,18 @@ public class PaymentController : Controller
         string? error;
 
         var temporyOrder = _temporaryOrderService.Get(paymentConfirmRequest.OrderId);
-        _logger.LogInformation(temporyOrder.ToString());
-        
-        if (temporyOrder == null) return BadRequest("Order not found: try make order again");
-        (var myUser, error) = await _userService.Get(User.UserId());
-        if (error.HasValue()) return BadRequest(error);
+        _logger.LogInformation(temporyOrder?.ToString());
 
-        return Ok(myUser);
+        if (temporyOrder == null) return BadRequest("Order not found: try make order again");
+
         (var orderLogistic, error) = await _getOrderLogistic.Invoke(temporyOrder);
         if (error.HasValue()) return BadRequest(error);
 
         (error, var cheque) = _paymentService.ConfirmPayment(temporyOrder, paymentConfirmRequest.ToPaymentInfo());
         if (error.HasValue()) return BadRequest(error);
 
-        // (var myUser, error) = await _userService.Get(User.UserId());
-        // if (error.HasValue()) return BadRequest(error);
+        (var myUser, error) = await _userService.Get(User.UserId());
+        if (error.HasValue()) return BadRequest(error);
 
         (var order, error) = await _orderService.Save(
             temporyOrder.Id,
@@ -101,6 +98,7 @@ public class PaymentController : Controller
     {
         var userId = User.UserId();
         _logger.LogInformation($"User {userId} requested Payment with body {paymentRequest}");
+
         var error = await _userService.Upsert(userId, paymentRequest.Address, paymentRequest.Comment,
             paymentRequest.PhoneNumber);
         if (error.HasValue()) return BadRequest(error);
@@ -111,9 +109,9 @@ public class PaymentController : Controller
 
         var price = _paymentService.CalculatePayment(products, paymentRequest.ProductIdsAndQuantity);
 
-        (var paymentOrder, error) = _temporaryOrderService.Save(Guid.NewGuid(), userId, products, price,
-            paymentRequest.Address,
-            paymentRequest.Comment);
+        (var paymentOrder, error) = _temporaryOrderService.Save(
+            Guid.NewGuid(), userId, products, price, paymentRequest.Address, paymentRequest.Comment
+        );
         if (error.HasValue()) return BadRequest(error);
 
 
