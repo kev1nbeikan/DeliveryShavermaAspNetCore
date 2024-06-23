@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
 using OrderService.DataAccess.Entities;
 using OrderService.Domain.Models;
 using OrderService.Domain.Abstractions;
 using OrderService.Domain.Models.Code;
+using OrderService.Domain.Models.Order;
 
 namespace OrderService.DataAccess.Repositories;
 
@@ -21,7 +23,8 @@ public class LastOrderRepository(OrderServiceDbContext context) : ILastOrderRepo
                 b.ClientId,
                 b.CourierId,
                 b.StoreId,
-                b.Basket,
+                JsonSerializer.Deserialize<List<BasketItem>>(b.Basket) 
+                ?? throw new ArgumentException("Basket cannot be null", nameof(orderEntity)),
                 b.Price,
                 b.Comment,
                 b.CookingTime,
@@ -43,7 +46,7 @@ public class LastOrderRepository(OrderServiceDbContext context) : ILastOrderRepo
             ClientId = order.ClientId,
             CourierId = order.CourierId,
             StoreId = order.StoreId,
-            Basket = order.Basket,
+            Basket = JsonSerializer.Serialize(order.Basket),
             Price = order.Price,
             Comment = order.Comment,
             CookingTime = order.CookingTime,
