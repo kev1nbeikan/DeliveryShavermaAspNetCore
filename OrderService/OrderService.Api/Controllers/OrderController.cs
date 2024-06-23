@@ -12,18 +12,20 @@ namespace OrderService.Api.Controllers;
 public class OrderController(IOrderApplicationService orderApplicationService) : ControllerBase
 {
     private readonly IOrderApplicationService _orderApplicationService = orderApplicationService;
-    [HttpGet("{orderId:Guid}")]
+
+    [HttpGet("status/{orderId:Guid}")]
     public async Task<ActionResult<int>> GetStatus(Guid orderId)
     {
         var userId = User.UserId();
         var role = (RoleCode)Enum.Parse(typeof(RoleCode), User.Role());
 
         var status = await _orderApplicationService.GetStatus(role, userId, orderId);
+
         return Ok((int)status);
     }
 
     [HttpPost]
-    public async Task<ActionResult> CreateOrder([FromBody]OrderCreateRequest request)
+    public async Task<ActionResult> CreateOrder([FromBody] OrderCreateRequest request)
     {
         // var userId = User.UserId();
         // var role = (RoleCode)Enum.Parse(typeof(RoleCode), User.Role());
@@ -57,11 +59,8 @@ public class OrderController(IOrderApplicationService orderApplicationService) :
             };
             return BadRequest(problemDetails);
         }
+
         await _orderApplicationService.CreateCurrentOrder(order);
         return Ok();
     }
 }
-
-
-
-

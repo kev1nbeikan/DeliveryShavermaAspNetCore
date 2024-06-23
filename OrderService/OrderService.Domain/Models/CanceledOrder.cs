@@ -6,7 +6,7 @@ namespace OrderService.Domain.Models;
 public class CanceledOrder : BaseOrder
 {
     private CanceledOrder(Guid id, Guid clientId, Guid courierId, Guid storeId,
-        JObject basket, int price, string comment, TimeSpan cookingTime,
+        string basket, int price, string comment, TimeSpan cookingTime,
         TimeSpan deliveryTime, DateTime orderDate, DateTime? cookingDate,
         DateTime? deliveryDate, string cheque, StatusCode lastStatus, string reasonOfCanceled)
         : base(id, clientId, courierId, storeId, basket, price, comment,
@@ -20,7 +20,7 @@ public class CanceledOrder : BaseOrder
     public string ReasonOfCanceled { get; } = string.Empty;
 
     public static (CanceledOrder Order, string Error) Create(Guid id, Guid clientId,
-        Guid courierId, Guid storeId, JObject basket, int price, string comment, TimeSpan cookingTime,
+        Guid courierId, Guid storeId, string basket, int price, string comment, TimeSpan cookingTime,
         TimeSpan deliveryTime, DateTime orderDate, DateTime? cookingDate, DateTime? deliveryDate,
         string cheque, StatusCode lastStatus, string reasonOfCanceled)
     {

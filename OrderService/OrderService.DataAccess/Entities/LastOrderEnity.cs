@@ -1,5 +1,5 @@
 ﻿namespace OrderService.DataAccess.Entities;
 
-public class LastOrderEntity : BaseOrderEntity
+public class  LastOrderEntity : BaseOrderEntity
 {
 }

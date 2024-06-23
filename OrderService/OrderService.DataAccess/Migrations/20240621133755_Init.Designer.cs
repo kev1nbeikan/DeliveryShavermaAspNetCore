@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Newtonsoft.Json.Linq;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using OrderService.DataAccess;
 
@@ -13,8 +12,8 @@ using OrderService.DataAccess;
 namespace OrderService.DataAccess.Migrations
 {
     [DbContext(typeof(OrderServiceDbContext))]
-    [Migration("20240618110352_initial")]
-    partial class initial
+    [Migration("20240621133755_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,33 +31,24 @@ namespace OrderService.DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<JObject>("Basket")
+                    b.Property<string>("Basket")
                         .IsRequired()
                         .HasColumnType("jsonb");
 
                     b.Property<string>("Cheque")
                         .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ClientAddress")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("character varying(250)");
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<Guid>("ClientId")
                         .HasColumnType("uuid");
-
-                    b.Property<string>("ClientNumber")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("character varying(250)");
 
                     b.Property<string>("Comment")
                         .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("character varying(250)");
 
-                    b.Property<DateTime>("CookingDate")
+                    b.Property<DateTime?>("CookingDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<TimeSpan>("CookingTime")
@@ -67,12 +57,7 @@ namespace OrderService.DataAccess.Migrations
                     b.Property<Guid>("CourierId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("CourierNumber")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)");
-
-                    b.Property<DateTime>("DeliveryDate")
+                    b.Property<DateTime?>("DeliveryDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<TimeSpan>("DeliveryTime")
@@ -109,13 +94,14 @@ namespace OrderService.DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<JObject>("Basket")
+                    b.Property<string>("Basket")
                         .IsRequired()
                         .HasColumnType("jsonb");
 
                     b.Property<string>("Cheque")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<string>("ClientAddress")
                         .IsRequired()
@@ -135,7 +121,7 @@ namespace OrderService.DataAccess.Migrations
                         .HasMaxLength(250)
                         .HasColumnType("character varying(250)");
 
-                    b.Property<DateTime>("CookingDate")
+                    b.Property<DateTime?>("CookingDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<TimeSpan>("CookingTime")
@@ -149,7 +135,7 @@ namespace OrderService.DataAccess.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("character varying(10)");
 
-                    b.Property<DateTime>("DeliveryDate")
+                    b.Property<DateTime?>("DeliveryDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<TimeSpan>("DeliveryTime")
@@ -163,6 +149,11 @@ namespace OrderService.DataAccess.Migrations
 
                     b.Property<int>("Status")
                         .HasColumnType("integer");
+
+                    b.Property<string>("StoreAddress")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
 
                     b.Property<Guid>("StoreId")
                         .HasColumnType("uuid");
@@ -181,33 +172,24 @@ namespace OrderService.DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<JObject>("Basket")
+                    b.Property<string>("Basket")
                         .IsRequired()
                         .HasColumnType("jsonb");
 
                     b.Property<string>("Cheque")
                         .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ClientAddress")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("character varying(250)");
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<Guid>("ClientId")
                         .HasColumnType("uuid");
-
-                    b.Property<string>("ClientNumber")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("character varying(250)");
 
                     b.Property<string>("Comment")
                         .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("character varying(250)");
 
-                    b.Property<DateTime>("CookingDate")
+                    b.Property<DateTime?>("CookingDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<TimeSpan>("CookingTime")
@@ -216,12 +198,7 @@ namespace OrderService.DataAccess.Migrations
                     b.Property<Guid>("CourierId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("CourierNumber")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)");
-
-                    b.Property<DateTime>("DeliveryDate")
+                    b.Property<DateTime?>("DeliveryDate")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<TimeSpan>("DeliveryTime")

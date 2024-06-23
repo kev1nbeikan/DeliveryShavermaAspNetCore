@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace OrderService.DataAccess.Entities;
+﻿namespace OrderService.DataAccess.Entities;
 
 public abstract class BaseOrderEntity
 {
@@ -8,7 +6,7 @@ public abstract class BaseOrderEntity
     public Guid ClientId { get; set; }
     public Guid CourierId { get; set; }
     public Guid StoreId { get; set; }
-    public JObject Basket { get; set; } = [];
+    public string Basket { get; set; } = string.Empty;
     public int Price { get; set; }
     public string Comment { get; set; } = string.Empty;
     public TimeSpan CookingTime { get; set; } = TimeSpan.Zero;

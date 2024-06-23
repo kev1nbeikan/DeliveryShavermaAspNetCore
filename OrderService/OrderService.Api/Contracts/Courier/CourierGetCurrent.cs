@@ -6,7 +6,7 @@ namespace OrderService.Api.Contracts.Courier;
 public record CourierGetCurrent(
     Guid Id,
     StatusCode Status,
-    JObject Basket,
+    string Basket,
     string Comment,
     string StoreAddress,
     string ClientAddress,

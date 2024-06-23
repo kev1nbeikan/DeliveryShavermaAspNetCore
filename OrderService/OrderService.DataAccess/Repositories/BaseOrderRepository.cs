@@ -1,6 +1,5 @@
 ﻿using System.Linq.Expressions;
 using OrderService.DataAccess.Entities;
-using OrderService.Domain.Models;
 using OrderService.Domain.Models.Code;
 
 namespace OrderService.DataAccess.Repositories;

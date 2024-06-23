@@ -6,7 +6,7 @@ namespace OrderService.Api.Contracts.Store;
 public record StoreGetCurrent(
     Guid Id,
     StatusCode Status,
-    JObject Basket,
+    string Basket,
     string Comment,
     string CourierNumber,
     TimeSpan CookingTime);

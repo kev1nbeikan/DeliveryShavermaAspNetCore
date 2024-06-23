@@ -6,7 +6,7 @@ namespace OrderService.Api.Contracts.Client;
 public record ClientGetCurrent(
     Guid Id,
     StatusCode Status,
-    JObject Basket,
+    string Basket,
     int Price,
     string Comment,
     string ClientAddress,

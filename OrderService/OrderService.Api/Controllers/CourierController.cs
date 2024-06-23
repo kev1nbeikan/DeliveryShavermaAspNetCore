@@ -11,21 +11,6 @@ namespace OrderService.Api.Controllers;
 public class CourierController(IOrderApplicationService orderApplicationService) : ControllerBase
 {
     private readonly IOrderApplicationService _orderApplicationService = orderApplicationService;
-    [HttpGet]
-    [HttpGet("current")]
-    public async Task<ActionResult<List<CourierGetCurrent>>> GetCurrent()
-    {
-        var userId = User.UserId();
-        var role = (RoleCode)Enum.Parse(typeof(RoleCode), User.Role());
-
-        var orders = await _orderApplicationService.GetCurrentOrders(role, userId);
-        if (orders.Count == 0)
-            return NoContent();
-        var response = orders.Select(b =>
-            new CourierGetCurrent(b.Id, b.Status, b.Basket, b.Comment, b.StoreAddress,
-                b.ClientAddress, b.ClientNumber, b.DeliveryTime));
-        return Ok(response);
-    }
 
     [HttpGet("last")]
     public async Task<ActionResult<List<CourierGetLast>>> GetLast()
@@ -42,7 +27,7 @@ public class CourierController(IOrderApplicationService orderApplicationService)
         return Ok(response);
     }
     
-    [HttpGet("active")]
+    [HttpGet]
     public async Task<ActionResult<CourierGetCurrent>> GetOldestActive()
     {
         var userId = User.UserId();
