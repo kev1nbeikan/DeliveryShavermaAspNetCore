@@ -5,7 +5,7 @@ namespace StoreService.Core;
 public class Store()
 {
     public Guid Id { get; init; }
-    public StoreStatus Status { get; init; }
+    public StoreStatus Status { get; set; }
 
     public static Store Create(Guid id, StoreStatus status)
     {

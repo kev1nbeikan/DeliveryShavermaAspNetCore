@@ -5,5 +5,9 @@ namespace StoreService.Core.Abstractions;
 
 public interface IStoreRepository
 {
-    Task<Store> GetStore(Guid storeId);
+    Task Add(Store store);
+
+    Task<Store?> Get(Guid storeId);
+
+    Task<bool> Update(Store store);
 }

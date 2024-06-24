@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using StoreService.Core;
 using StoreService.Core.Abstractions;
+using StoreService.Core.Exceptions;
 using StoreService.DataAccess.Extensions;
 
 namespace StoreService.DataAccess.Repositories;
@@ -25,9 +26,12 @@ public class StoreInventoryRepository : IStoreInventoryRepository
 
     public async Task Add(ProductInventory productInventory)
     {
+        await EnsureValidToAdd(productInventory);
+
         await _storeDbContext.StoreProductsInventory.AddAsync(productInventory.ToEntity());
         await _storeDbContext.SaveChangesAsync();
     }
+
 
     public async Task<ProductInventory?> GetById(Guid storeId, Guid productId)
     {
@@ -50,5 +54,13 @@ public class StoreInventoryRepository : IStoreInventoryRepository
         productInventoryEntity.Quantity = productInventory.Quantity;
 
         return await _storeDbContext.SaveChangesAsync() > 0;
+    }
+
+    private async Task EnsureValidToAdd(ProductInventory productInventory)
+    {
+        if (await GetById(productInventory.StoreId, productInventory.ProductId) is not null)
+        {
+            throw new DuplicateEntryException<ProductInventory>(nameof(ProductInventory), productInventory);
+        }
     }
 }

@@ -1,8 +1,8 @@
 using StoreService.Core;
 using StoreService.Core.Abstractions;
 using StoreService.DataAccess.Repositories;
-using StoreService.UnitTest.Extensions;
 using StoreService.UnitTest.Fixtures;
+using StoreService.UnitTest.Utils;
 
 namespace StoreService.UnitTest;
 
@@ -30,7 +30,7 @@ public class StoreInventoryRepositoryTests
 
         var productFromRepo = await _storeInventoryRepository.GetById(product.StoreId, product.ProductId);
         Assert.That(productFromRepo, Is.Not.Null);
-        ProductAssert.AssertAreEqual(product, productFromRepo);
+        CustomAsserts.AssertAreEqual(product, productFromRepo);
     }
 
     [Test]
@@ -51,6 +51,6 @@ public class StoreInventoryRepositoryTests
         
         Assert.That(updateResult, Is.True);
         Assert.That(productFromRepo, Is.Not.Null);
-        ProductAssert.AssertAreEqual(product, productFromRepo);
+        CustomAsserts.AssertAreEqual(product, productFromRepo);
     }
 }
