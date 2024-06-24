@@ -148,7 +148,7 @@ public class CurrentOrderRepository(OrderServiceDbContext context) : ICurrentOrd
             ClientId = order.ClientId,
             CourierId = order.CourierId,
             StoreId = order.StoreId,
-            Basket = BasketConverter.ToBasketString(order.Basket),
+            Basket = order.Basket,
             Price = order.Price,
             Comment = order.Comment,
             StoreAddress = order.StoreAddress,

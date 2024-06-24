@@ -1,3 +1,5 @@
+using System;
+
 namespace StoreService.Core;
 
 public class Store()

@@ -45,7 +45,7 @@ public class LastOrderRepository(OrderServiceDbContext context) : ILastOrderRepo
             ClientId = order.ClientId,
             CourierId = order.CourierId,
             StoreId = order.StoreId,
-            Basket = BasketConverter.ToBasketString(order.Basket),
+            Basket = order.Basket,
             Price = order.Price,
             Comment = order.Comment,
             CookingTime = order.CookingTime,
