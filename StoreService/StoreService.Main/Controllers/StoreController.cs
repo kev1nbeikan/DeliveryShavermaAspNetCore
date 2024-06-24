@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using StoreService.Core;
+using StoreService.Core.Abstractions;
 
 namespace StoreService.Main.Controllers;
 
@@ -20,7 +21,15 @@ public class StoreController : ControllerBase
     [HttpGet("cookingtime/{storeId}")]
     public async Task<IActionResult> Check(Guid storeId, List<ProductInventory> products)
     {
-        TimeSpan cookingTime = await _storeService.GetCookingTime(storeId, products);
-        return Ok(cookingTime);
+        try
+        {
+            var cookingTime = await _storeService.GetCookingTime(storeId, products);
+            return Ok(cookingTime);
+        }
+        catch (StoreServiceException e)
+        {
+            _logger.LogError(e, e.Message);
+            return BadRequest(e.Message);
+        }
     }
 }

@@ -10,20 +10,20 @@ public static class AppHttpClientsExtensions
         ArgumentNullException.ThrowIfNull(options);
 
         services.AddHttpClient(nameof(options.UsersUrl),
-            httpClient =>
-            {
-                httpClient.BaseAddress =
-                    new Uri(options.UsersUrl ?? throw new Exception($"{nameof(options.UsersUrl)} not found"));
-                Console.WriteLine($"user url:{httpClient.BaseAddress}");
-
-            });
+            httpClient => { SetBaseAddressWithLogging(options.UsersUrl, httpClient, nameof(options.UsersUrl)); });
 
         services.AddHttpClient(nameof(options.MenuUrl),
-            httpClient =>
-            {
-                httpClient.BaseAddress =
-                    new Uri(options.MenuUrl ?? throw new Exception($"{nameof(options.MenuUrl)} not found"));
-                Console.WriteLine($"menu url:{httpClient.BaseAddress}");
-            });
+            httpClient => { SetBaseAddressWithLogging(options.MenuUrl, httpClient, nameof(options.MenuUrl)); });
+
+
+        services.AddHttpClient(nameof(options.StoreUrl),
+            httpClient => { SetBaseAddressWithLogging(options.StoreUrl, httpClient, nameof(options.StoreUrl)); });
+    }
+
+    private static void SetBaseAddressWithLogging(string url, HttpClient httpClient, string httpClientName)
+    {
+        httpClient.BaseAddress =
+            new Uri(url ?? throw new Exception($"{httpClientName} not found"));
+        Console.WriteLine($"{httpClientName}: {httpClient.BaseAddress}");
     }
 }

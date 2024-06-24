@@ -1,8 +1,6 @@
-using StoreService.Core;
-using StoreService.Core.Abstractions;
 using StoreService.Core.Exceptions;
 
-namespace StoreService.Main.Controllers;
+namespace StoreService.Core.Abstractions;
 
 public interface IStoreService
 {
@@ -21,6 +19,6 @@ public interface IStoreService
     ///     <see cref="StoreNotFoundException"/>
     ///     <see cref="StoreClosedException"/>
     ///     <see cref="UnavailableProductsException"/>
-    /// </exception>
+    /// </exception>ё
     Task<TimeSpan> GetCookingTime(Guid storeId, List<ProductInventory> products);
 }
