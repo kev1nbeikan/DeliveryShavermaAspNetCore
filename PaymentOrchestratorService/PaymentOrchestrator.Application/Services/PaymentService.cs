@@ -9,7 +9,7 @@ namespace HandlerService.Application.Services;
 
 public class PaymentService : IPaymentService
 {
-    public int CalculatePayment(Product[] products, List<BucketItem> productIdsAndQuantity)
+    public int CalculatePayment(Product[] products, List<ProductQuantity> productIdsAndQuantity)
     {
         return products.Sum(p =>
             p.Price * productIdsAndQuantity.Where(x => p.Id == x.Id).Select(x => x.Quantity).First());

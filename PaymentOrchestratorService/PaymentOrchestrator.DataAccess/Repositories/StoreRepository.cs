@@ -3,6 +3,7 @@ using System.Text.Json;
 using Handler.Core;
 using Handler.Core.Abstractions.Repositories;
 using Handler.Core.Common;
+using Handler.Core.Payment;
 using Microsoft.Extensions.Configuration;
 
 namespace HandlerService.DataAccess.Repositories;
@@ -17,14 +18,13 @@ public class StoreRepository : IStoreRepository
         _httpClient.BaseAddress = new Uri(configuration["StoreUrl"] ?? throw new Exception("StoreUrl not found"));
     }
 
-    public async Task<(TimeSpan cookingTime, string? error)> GetCokingTime(Guid storeId, Product[] basket)
+    public async Task<(TimeSpan cookingTime, string? error)> GetCokingTime(Guid storeId, List<ProductQuantity> basket)
     {
         var json = JsonSerializer.Serialize(basket);
         var request = new HttpRequestMessage
         {
             Method = HttpMethod.Get,
             RequestUri = new Uri(_httpClient.BaseAddress!.PathAndQuery + "/cooking-time/" + storeId),
-
             Content = new StringContent(json, Encoding.UTF8, "application/json")
         };
 

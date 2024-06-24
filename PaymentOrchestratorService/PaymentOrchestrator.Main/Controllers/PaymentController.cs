@@ -110,7 +110,7 @@ public class PaymentController : Controller
         var price = _paymentService.CalculatePayment(products, paymentRequest.ProductIdsAndQuantity);
 
         (var paymentOrder, error) = _temporaryOrderService.Save(
-            Guid.NewGuid(), userId, products, price, paymentRequest.Address, paymentRequest.Comment
+            Guid.NewGuid(), userId, products, paymentRequest.ProductIdsAndQuantity, price, paymentRequest.Address, paymentRequest.Comment
         );
         if (error.HasValue()) return BadRequest(error);
 

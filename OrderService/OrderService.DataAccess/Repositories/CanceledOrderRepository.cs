@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using OrderService.DataAccess.Entities;
-using OrderService.Domain.Models;
+using OrderService.DataAccess.utils;
 using OrderService.Domain.Abstractions;
 using OrderService.Domain.Models.Code;
+using OrderService.Domain.Models.Order;
 
 namespace OrderService.DataAccess.Repositories;
 
@@ -22,7 +23,7 @@ public class CanceledOrderRepository(OrderServiceDbContext context) : ICanceledO
                 b.ClientId,
                 b.CourierId,
                 b.StoreId,
-                b.Basket,
+                BasketConverter.ToBasketItem(b.Basket),
                 b.Price,
                 b.Comment,
                 b.CookingTime,
@@ -46,7 +47,7 @@ public class CanceledOrderRepository(OrderServiceDbContext context) : ICanceledO
             ClientId = order.ClientId,
             CourierId = order.CourierId,
             StoreId = order.StoreId,
-            Basket = order.Basket,
+            Basket = BasketConverter.ToBasketString(order.Basket),
             Price = order.Price,
             Comment = order.Comment,
             CookingTime = order.CookingTime,

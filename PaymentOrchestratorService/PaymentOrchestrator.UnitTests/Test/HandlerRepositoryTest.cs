@@ -2,6 +2,7 @@ using Handler.Core;
 using Handler.Core.Abstractions.Repositories;
 using Handler.Core.Common;
 using Handler.Core.HanlderService;
+using Handler.Core.Payment;
 using HandlerService.DataAccess.Repositories;
 using HandlerService.UnitTests.Utils;
 using NUnit.Framework;
@@ -24,6 +25,7 @@ public class PaymentRepositoryTest
         TemporyOrder temporyOrder = TemporyOrder.Create(
             Guid.NewGuid(),
             new Product[] { },
+            new List<ProductQuantity>(),
             100, "comment", "address", Guid.NewGuid(), Guid.NewGuid()).Order!;
 
         var error = _handlerRepository.Save(temporyOrder);
@@ -40,6 +42,7 @@ public class PaymentRepositoryTest
         TemporyOrder temporyOrder = TemporyOrder.Create(
             Guid.NewGuid(),
             new Product[] { },
+            new List<ProductQuantity>(),
             100, "comment", "address", Guid.NewGuid(), Guid.NewGuid()).Order!;
 
         var error = _handlerRepository.Save(temporyOrder);

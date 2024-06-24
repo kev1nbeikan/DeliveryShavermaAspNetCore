@@ -42,7 +42,7 @@ public static class AppServiceDependenciesExtensions
     private static void AddHandlerDependencies(this IServiceCollection serviceProvider)
     {
         serviceProvider.AddSingleton<IHandlerRepository, HandlerRepository>();
-        serviceProvider.AddSingleton<IHandlerOrderService, HandlerOrderService>();
+        serviceProvider.AddSingleton<IHandlerOrderService, TemporyOrderService>();
         serviceProvider.AddHttpClient<HandlerRepository>();
     }
     
