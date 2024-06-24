@@ -6,7 +6,7 @@ using StoreService.UnitTest.Fixtures;
 
 namespace StoreService.UnitTest;
 
-public class Tests
+public class StoreInventoryRepositoryTests
 {
     private IStoreInventoryRepository _storeInventoryRepository;
 
@@ -29,6 +29,27 @@ public class Tests
         await _storeInventoryRepository.Add(product);
 
         var productFromRepo = await _storeInventoryRepository.GetById(product.StoreId, product.ProductId);
+        Assert.That(productFromRepo, Is.Not.Null);
+        ProductAssert.AssertAreEqual(product, productFromRepo);
+    }
+
+    [Test]
+    public async Task AddAndUpdate()
+    {
+        var product = new ProductInventory
+        {
+            ProductId = Guid.NewGuid(),
+            StoreId = Guid.NewGuid(),
+            Quantity = 10
+        };
+
+        await _storeInventoryRepository.Add(product);
+
+        product.Quantity = 20;
+        var updateResult = await _storeInventoryRepository.Update(product);
+
+        var productFromRepo = await _storeInventoryRepository.GetById(product.StoreId, product.ProductId);
+        Assert.That(updateResult, Is.True);
         Assert.That(productFromRepo, Is.Not.Null);
         ProductAssert.AssertAreEqual(product, productFromRepo);
     }

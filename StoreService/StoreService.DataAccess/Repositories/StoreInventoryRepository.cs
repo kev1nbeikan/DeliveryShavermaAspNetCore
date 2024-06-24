@@ -31,15 +31,22 @@ public class StoreInventoryRepository : IStoreInventoryRepository
 
     public async Task<ProductInventory?> GetById(Guid storeId, Guid productId)
     {
-        var productInventoryEntity = await _storeDbContext.StoreProductsInventory.Where(p =>
-            p.ProductId == productId &&
-            p.StoreId == storeId).FirstOrDefaultAsync();
+        var productInventoryEntity = await _storeDbContext.StoreProductsInventory
+            .Where(p =>
+                p.ProductId == productId &&
+                p.StoreId == storeId)
+            .FirstOrDefaultAsync();
         return productInventoryEntity?.ToCore();
     }
 
-    public Task Update(ProductInventory productInventory)
+    public async Task<bool> Update(ProductInventory productInventory)
     {
-        _storeDbContext.Update(productInventory.ToEntity());
-        return _storeDbContext.SaveChangesAsync();
+        await _storeDbContext.StoreProductsInventory
+            .Where(p =>
+                p.ProductId == productInventory.ProductId)
+            .ExecuteUpdateAsync(s => s
+                .SetProperty(p => p.Quantity, p => productInventory.Quantity)
+            );
+        return await _storeDbContext.SaveChangesAsync() > 0;
     }
 }

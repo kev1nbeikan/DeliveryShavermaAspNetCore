@@ -4,9 +4,9 @@ namespace StoreService.Core;
 
 public class ProductInventory
 {
-    public Guid ProductId { get; init; }
-    public Guid StoreId { get; init; }
-    public int Quantity { get; init; }
+    public Guid ProductId { get; set; }
+    public Guid StoreId { get; set; }
+    public int Quantity { get; set; }
 
 
     public ProductInventory(Guid productId, int quantity, Guid storeId)
