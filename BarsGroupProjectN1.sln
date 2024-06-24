@@ -78,6 +78,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StoreService", "StoreServic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreService.Main", "StoreService/StoreService.Main\StoreService.Main.csproj", "{DDE743E2-ECA1-47E8-96CA-489214235CE7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreService.Core", "StoreService\StoreService.Core\StoreService.Core.csproj", "{85564C7A-8081-4DF6-987E-3D56EEF3A387}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreService.Application", "StoreService\StoreService.Application\StoreService.Application.csproj", "{1874CF00-FFA1-4363-8617-BD09ED77E877}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreService.DataAccess", "StoreService\StoreService.DataAccess\StoreService.DataAccess.csproj", "{B804F441-42CA-4175-BF3D-4C7F048A7806}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreService.UnitTest", "StoreService\StoreService.UnitTest\StoreService.UnitTest.csproj", "{113BD5AC-227D-47A6-BE98-470F3A9A8F5F}"
+EndProject
 
 
 Global
