@@ -169,10 +169,10 @@ public class CurrentOrderRepository(OrderServiceDbContext context) : ICurrentOrd
     private void ValidateStatus(StatusCode status, CurrentOrderEntity order)
     {
         if (!Enum.IsDefined(typeof(StatusCode), status))
-            throw new ArgumentException("Invalid status value.", nameof(status));
+            throw new ArgumentException($"Invalid status value. Current status: {(StatusCode)order.Status}, new status: {status}", nameof(status));
         if ((int)status <= order.Status)
-            throw new ArgumentException("New status cannot be less than or equal to the current status.");
-        if ((int)status - 1 == order.Status)
-            throw new ArgumentException("New status skips previous states.");
+            throw new ArgumentException($"New status cannot be less than or equal to the current status. Current status: {(StatusCode)order.Status}, new status: {status}", nameof(status));
+        if ((int)status - 1 != order.Status)
+            throw new ArgumentException($"New status skips previous states. Current status: {(StatusCode)order.Status}, new status: {status}", nameof(status));
     }
 }
