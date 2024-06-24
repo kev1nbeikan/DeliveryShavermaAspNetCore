@@ -1,4 +1,5 @@
-﻿@model CourierViewModel;
+﻿@using CourierService.Core.Models.Code
+@model CourierViewModel;
 
 @{
     ViewData["Title"] = "Service Page";
@@ -9,21 +10,43 @@
         <h1 class="text-center mb-4">Courier Profile Menu</h1>
         <div class="menu-grid">
             <div class="input-group-append">
-                @{
-                    switch (@Model.Status)
-                    {
-                        case false:
-                            <a type="submit" class="btn btn-primary">
-                                Не на работе
-                            </a>
-                            break;
-                        case true:
-                            <button type="submit" class="btn btn-success">
-                                На работе
-                            </button>
-                            break;
-                    }
+                @switch (@Model.Status)
+                {
+                    case CourierStatusCode.NotWork:
+                        <button type="submit" name="status" value="NotWork" class="btn btn-outline-primary">
+                            Не на работе
+                        </button>
+                        <button type="submit" name="status" value="OnWork" class="btn btn-primary">
+                            На работе
+                        </button>
+                        <button type="submit" name="status" value="Active" class="btn btn-primary">
+                            Активен
+                        </button>
+                        break;
+                    case CourierStatusCode.OnWork:
+                        <button type="submit" name="status" value="NotWork" class="btn btn-primary">
+                            Не на работе
+                        </button>
+                        <button type="submit" name="status" value="OnWork" class="btn btn-outline-primary">
+                            На работе
+                        </button>
+                        <button type="submit" name="status" value="Active" class="btn btn-primary">
+                            Активен
+                        </button>
+                        break;
+                    case CourierStatusCode.Active:
+                        <button type="submit" name="status" value="NotWork" class="btn btn-primary">
+                            Не на работе
+                        </button>
+                        <button type="submit" name="status" value="OnWork" class="btn btn-primary">
+                            На работе
+                        </button>
+                        <button type="submit" name="status" value="Active" class="btn btn-outline-primary">
+                            Активен
+                        </button>
+                        break;
                 }
+                <input type="hidden" name="id" value="@Model.Id" />
             </div>
         </div>
     </div>

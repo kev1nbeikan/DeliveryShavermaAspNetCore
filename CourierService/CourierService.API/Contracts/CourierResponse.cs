@@ -1,3 +1,5 @@
-﻿namespace CourierService.API.Contracts;
+﻿using CourierService.Core.Models.Code;
 
-public record CourierResponse(Guid id, string email, string password, bool status);
+namespace CourierService.API.Contracts;
+
+public record CourierResponse(Guid id, string email, string password, CourierStatusCode status);

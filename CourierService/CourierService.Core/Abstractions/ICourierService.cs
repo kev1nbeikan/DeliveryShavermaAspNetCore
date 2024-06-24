@@ -1,4 +1,5 @@
 ﻿using CourierService.Core.Models;
+using CourierService.Core.Models.Code;
 
 namespace CourierService.Core.Abstractions;
 
@@ -12,5 +13,5 @@ public interface ICourierService
 
 	Task<Guid> UpdateCourier(Guid id, string email, string password);
 
-	Task<Guid> UpdateCourier(Guid id, bool status);
+	Task<Guid> UpdateCourier(Guid id, CourierStatusCode status);
 }

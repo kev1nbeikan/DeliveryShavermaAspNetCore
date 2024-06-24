@@ -2,6 +2,7 @@
 using CourierService.API.Models;
 using CourierService.Core.Abstractions;
 using CourierService.Core.Models;
+using CourierService.Core.Models.Code;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CourierService.API.Controllers;
@@ -67,7 +68,7 @@ public class CourierController : Controller
 	}
 
 	[HttpPost("status/{id:guid}")]
-	public async Task<IActionResult> UpdateCourierStatus(Guid id, bool status)
+	public async Task<IActionResult> UpdateCourierStatus(Guid id, CourierStatusCode status)
 	{
 		await _courierService.UpdateCourier(id, status);
 
