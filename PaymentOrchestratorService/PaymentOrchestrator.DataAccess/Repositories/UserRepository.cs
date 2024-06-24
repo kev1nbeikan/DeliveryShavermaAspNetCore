@@ -7,19 +7,17 @@ using Microsoft.Extensions.Options;
 
 namespace HandlerService.DataAccess.Repositories;
 
-public class UserRepository : IUserRepository
+public class UserRepository : RepositoryHttpClientBase, IUserRepository
 {
-    private readonly HttpClient _httpClient;
-
-    public UserRepository(IOptions<ServicesOptions> options, IHttpClientFactory httpClientFactory)
+    public UserRepository(IOptions<ServicesOptions> options, IHttpClientFactory httpClientFactory) :
+        base(nameof(options.Value.UsersUrl), httpClientFactory)
     {
-        _httpClient = httpClientFactory.CreateClient(nameof(options.Value.UsersUrl));
     }
 
     public async Task<MyUser?> Get(Guid userId)
     {
         HttpResponseMessage response = await _httpClient.GetAsync($"/user/{userId}");
-        
+
         Console.WriteLine(await response.Content.ReadAsStringAsync());
 
         if (response.IsSuccessStatusCode)
