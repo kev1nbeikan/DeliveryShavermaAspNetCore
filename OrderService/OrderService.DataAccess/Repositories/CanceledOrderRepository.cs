@@ -3,6 +3,7 @@ using OrderService.DataAccess.Entities;
 using OrderService.Domain.Models;
 using OrderService.Domain.Abstractions;
 using OrderService.Domain.Models.Code;
+using OrderService.Domain.Models.Order;
 
 namespace OrderService.DataAccess.Repositories;
 
