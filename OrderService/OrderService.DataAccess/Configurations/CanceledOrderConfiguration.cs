@@ -18,6 +18,9 @@ namespace OrderService.DataAccess.Configurations
 
             builder.Property(b => b.ReasonOfCanceled)
                 .HasMaxLength(BaseOrder.MaxCommentLength);
+            
+            builder.Property(b => b.CanceledDate)
+                .IsRequired();
         }
     }
 }

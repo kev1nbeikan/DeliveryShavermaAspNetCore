@@ -35,7 +35,8 @@ public class CanceledOrderRepository(OrderServiceDbContext context) : ICanceledO
                 b.DeliveryDate,
                 b.Cheque,
                 (StatusCode)b.LastStatus,
-                b.ReasonOfCanceled
+                b.ReasonOfCanceled,
+                b.CanceledDate
             ).Order)
             .ToList();
         return orders;
@@ -59,7 +60,8 @@ public class CanceledOrderRepository(OrderServiceDbContext context) : ICanceledO
             DeliveryDate = order.DeliveryDate,
             Cheque = order.Cheque,
             LastStatus = (int)order.Status,
-            ReasonOfCanceled = reasonOfCanceled
+            ReasonOfCanceled = reasonOfCanceled,
+            CanceledDate = DateTime.Now
         };
 
         await context.CanceledOrders.AddAsync(orderEntity);
