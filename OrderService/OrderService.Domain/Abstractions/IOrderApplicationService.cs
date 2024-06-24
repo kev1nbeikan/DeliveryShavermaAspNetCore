@@ -8,7 +8,7 @@ public interface IOrderApplicationService
 	Task<List<CurrentOrder>> GetCurrentOrders(RoleCode role, Guid sourceId);
 	Task<List<LastOrder>> GetLastOrders(RoleCode role, Guid sourceId);
 	Task<List<CanceledOrder>> GetCanceledOrders(RoleCode role, Guid sourceId);
-	Task<CurrentOrder> GetOldestActive(RoleCode role, Guid sourceId);
+	Task<CurrentOrder?> GetOldestActive(RoleCode role, Guid sourceId);
 	Task ChangeStatusActive(RoleCode role, StatusCode status, Guid sourceId, Guid orderId);
 	Task ChangeStatusCompleted(RoleCode role, Guid sourceId, Guid orderId);
 	Task ChangeStatusCanceled(RoleCode role, Guid sourceId, Guid orderId, string reasonOfCanceled);
