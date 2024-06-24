@@ -46,9 +46,9 @@ public class StoreInventoryRepositoryTests
         await _storeInventoryRepository.Add(product);
 
         product.Quantity = 20;
-        var updateResult = await _storeInventoryRepository.Update(product);
-
+        var updateResult = await _storeInventoryRepository.UpdateQuantity(product);
         var productFromRepo = await _storeInventoryRepository.GetById(product.StoreId, product.ProductId);
+        
         Assert.That(updateResult, Is.True);
         Assert.That(productFromRepo, Is.Not.Null);
         ProductAssert.AssertAreEqual(product, productFromRepo);

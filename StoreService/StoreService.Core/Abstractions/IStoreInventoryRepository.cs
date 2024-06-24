@@ -9,5 +9,5 @@ public interface IStoreInventoryRepository
     Task<List<ProductInventory>> GetByIds(Guid storeId, List<Guid> productsIds);
     Task Add(ProductInventory productInventory);
     Task<ProductInventory?> GetById(Guid storeId, Guid productId);
-    Task<bool> Update(ProductInventory productInventory);
+    Task<bool> UpdateQuantity(ProductInventory productInventory);
 }

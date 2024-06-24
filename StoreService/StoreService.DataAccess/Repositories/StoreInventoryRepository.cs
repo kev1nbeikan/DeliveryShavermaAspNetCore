@@ -16,7 +16,7 @@ public class StoreInventoryRepository : IStoreInventoryRepository
 
     public async Task<List<ProductInventory>> GetByIds(Guid storeId, List<Guid> productsIds)
     {
-        var productsInventory = await _storeDbContext.StoreProductsInventory.Where(p =>
+        var productsInventory = await _storeDbContext.StoreProductsInventory.AsNoTracking().Where(p =>
             p.StoreId == storeId &&
             productsIds.Contains(p.ProductId)).Select(p => p.ToCore()
         ).ToListAsync();
@@ -25,13 +25,13 @@ public class StoreInventoryRepository : IStoreInventoryRepository
 
     public async Task Add(ProductInventory productInventory)
     {
-        await _storeDbContext.AddAsync(productInventory.ToEntity());
+        await _storeDbContext.StoreProductsInventory.AddAsync(productInventory.ToEntity());
         await _storeDbContext.SaveChangesAsync();
     }
 
     public async Task<ProductInventory?> GetById(Guid storeId, Guid productId)
     {
-        var productInventoryEntity = await _storeDbContext.StoreProductsInventory
+        var productInventoryEntity = await _storeDbContext.StoreProductsInventory.AsNoTracking()
             .Where(p =>
                 p.ProductId == productId &&
                 p.StoreId == storeId)
@@ -39,14 +39,16 @@ public class StoreInventoryRepository : IStoreInventoryRepository
         return productInventoryEntity?.ToCore();
     }
 
-    public async Task<bool> Update(ProductInventory productInventory)
+    public async Task<bool> UpdateQuantity(ProductInventory productInventory)
     {
-        await _storeDbContext.StoreProductsInventory
-            .Where(p =>
-                p.ProductId == productInventory.ProductId)
-            .ExecuteUpdateAsync(s => s
-                .SetProperty(p => p.Quantity, p => productInventory.Quantity)
-            );
+        var productInventoryEntity = await _storeDbContext.StoreProductsInventory
+            .FirstOrDefaultAsync(
+                x => x.ProductId == productInventory.ProductId && x.StoreId == productInventory.StoreId);
+
+        if (productInventoryEntity is null) return false;
+
+        productInventoryEntity.Quantity = productInventory.Quantity;
+
         return await _storeDbContext.SaveChangesAsync() > 0;
     }
 }
