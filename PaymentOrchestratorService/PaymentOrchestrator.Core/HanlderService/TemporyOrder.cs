@@ -1,4 +1,5 @@
 ﻿using Handler.Core.Common;
+using Handler.Core.Payment;
 
 namespace Handler.Core.HanlderService
 {
@@ -13,6 +14,7 @@ namespace Handler.Core.HanlderService
 
         public TemporyOrder(Guid id,
             Product[] basket,
+            List<ProductQuantity> productIdsAndQuantity,
             int price,
             string comment,
             string clientAddress,
@@ -26,6 +28,7 @@ namespace Handler.Core.HanlderService
             ClientAddress = clientAddress;
             ClientId = clientId;
             StoreId = storeId;
+            ProductIdsAndQuantity = productIdsAndQuantity;
         }
 
 
@@ -49,9 +52,12 @@ namespace Handler.Core.HanlderService
 
         public string ClientAddress { get; } = string.Empty;
 
+        public List<ProductQuantity> ProductIdsAndQuantity { get; }
+
 
         public static (TemporyOrder? Order, string? Error) Create(Guid id,
             Product[] basket,
+            List<ProductQuantity> productIdsAndQuantity,
             int price,
             string comment,
             string clientAddress,
@@ -83,6 +89,7 @@ namespace Handler.Core.HanlderService
 
             var task = new TemporyOrder(id,
                 basket!,
+                productIdsAndQuantity,
                 price,
                 comment,
                 clientAddress,

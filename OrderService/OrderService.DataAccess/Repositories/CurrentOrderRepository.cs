@@ -1,9 +1,11 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using OrderService.DataAccess.Entities;
+using OrderService.DataAccess.utils;
 using OrderService.Domain.Models;
 using OrderService.Domain.Abstractions;
 using OrderService.Domain.Models.Code;
+using OrderService.Domain.Models.Order;
 
 namespace OrderService.DataAccess.Repositories;
 
@@ -23,7 +25,7 @@ public class CurrentOrderRepository(OrderServiceDbContext context) : ICurrentOrd
                 b.ClientId,
                 b.CourierId,
                 b.StoreId,
-                b.Basket,
+                BasketConverter.ToBasketItem(b.Basket),
                 b.Price,
                 b.Comment,
                 b.StoreAddress,
@@ -56,7 +58,7 @@ public class CurrentOrderRepository(OrderServiceDbContext context) : ICurrentOrd
             orderEntity.ClientId,
             orderEntity.CourierId,
             orderEntity.StoreId,
-            orderEntity.Basket,
+            BasketConverter.ToBasketItem(orderEntity.Basket),
             orderEntity.Price,
             orderEntity.Comment,
             orderEntity.StoreAddress,

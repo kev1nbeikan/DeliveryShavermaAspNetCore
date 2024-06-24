@@ -42,19 +42,19 @@ public class GetOrderLogisticUseCase : IGetOrderLogisticUseCase
 
         (result.Delivery.Perfomer, result.Delivery.Time) =
             await _curierService.GetCurier(temporyOrder.ClientAddress);
-        if (result.Delivery.Perfomer == null) return ExecuteErrorResult("Curier is not found");
+        if (result.Delivery.Perfomer == null) return CreateErrorResult("Curier is not found");
 
         (result.Cooking.Time, var error) =
-            await _storeService.GetCookingTime(temporyOrder.StoreId, temporyOrder.Basket);
+            await _storeService.GetCookingTime(temporyOrder.StoreId, temporyOrder.ProductIdsAndQuantity);
         result.Cooking.Perfomer = temporyOrder.StoreId;
 
-        if (error.HasValue()) return ExecuteErrorResult(error);
+        if (error.HasValue()) return CreateErrorResult(error);
 
         return (result, null);
     }
 
 
-    private (OrderLogistic? orderTimings, string error) ExecuteErrorResult(string error)
+    private (OrderLogistic? orderTimings, string error) CreateErrorResult(string error)
     {
         return (null, error);
     }

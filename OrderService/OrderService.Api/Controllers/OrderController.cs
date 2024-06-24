@@ -4,6 +4,7 @@ using OrderService.Api.Extensions;
 using OrderService.Domain.Abstractions;
 using OrderService.Domain.Models;
 using OrderService.Domain.Models.Code;
+using OrderService.Domain.Models.Order;
 
 namespace OrderService.Api.Controllers;
 
