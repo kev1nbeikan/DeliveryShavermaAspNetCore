@@ -34,6 +34,8 @@ public class CourierController(IOrderApplicationService orderApplicationService)
         var role = (RoleCode)Enum.Parse(typeof(RoleCode), User.Role());
 
         var order = await _orderApplicationService.GetOldestActive(role, userId);
+        if (order is null)
+            return NoContent();
         var response = new CourierGetCurrent(order.Id, order.Status, order.Basket, order.Comment,
             order.StoreAddress, order.ClientAddress, order.ClientNumber, order.DeliveryTime);
         return Ok(response);
