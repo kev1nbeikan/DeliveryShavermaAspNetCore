@@ -51,9 +51,9 @@ public class LastOrderRepository(OrderServiceDbContext context) : ILastOrderRepo
             Comment = order.Comment,
             CookingTime = order.CookingTime,
             DeliveryTime = order.DeliveryTime,
-            OrderDate = DateTime.UtcNow,
-            CookingDate = DateTime.UtcNow,
-            DeliveryDate = DateTime.UtcNow,
+            OrderDate = order.OrderDate,
+            CookingDate = order.CookingDate,
+            DeliveryDate = order.DeliveryDate,
             Cheque = order.Cheque
         };
 
