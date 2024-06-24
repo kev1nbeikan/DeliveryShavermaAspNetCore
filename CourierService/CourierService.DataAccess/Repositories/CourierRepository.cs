@@ -1,5 +1,6 @@
 ﻿using CourierService.Core.Abstractions;
 using CourierService.Core.Models;
+using CourierService.Core.Models.Code;
 using CourierService.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -52,7 +53,7 @@ public class CourierRepository : ICourierRepository
 		return id;
 	}
 
-	public async Task<Guid> Update(Guid id, bool status)
+	public async Task<Guid> Update(Guid id, CourierStatusCode status)
 	{
 		await _dbContext.Couriers.Where(c => c.Id == id)
 			.ExecuteUpdateAsync(

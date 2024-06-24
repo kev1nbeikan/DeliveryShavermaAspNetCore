@@ -1,5 +1,6 @@
 ﻿using CourierService.Core.Abstractions;
 using CourierService.Core.Models;
+using CourierService.Core.Models.Code;
 
 namespace CourierService.Application.Services;
 
@@ -27,7 +28,7 @@ public class CourierService : ICourierService
 		return await _courierRepository.Update(id, email, password);
 	}
 
-	public async Task<Guid> UpdateCourier(Guid id, bool status)
+	public async Task<Guid> UpdateCourier(Guid id, CourierStatusCode status)
 	{
 		return await _courierRepository.Update(id, status);
 	}

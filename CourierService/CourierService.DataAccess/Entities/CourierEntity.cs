@@ -1,4 +1,6 @@
-﻿namespace CourierService.DataAccess.Entities;
+﻿using CourierService.Core.Models.Code;
+
+namespace CourierService.DataAccess.Entities;
 
 public class CourierEntity
 {
@@ -8,5 +10,5 @@ public class CourierEntity
 
 	public string Password { get; set; }
 
-	public bool Status { get; set; }
+	public CourierStatusCode Status { get; set; }
 }
