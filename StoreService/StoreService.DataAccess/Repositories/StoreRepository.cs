@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using StoreService.Core;
 using StoreService.Core.Abstractions;
+using StoreService.Core.Exceptions;
 using StoreService.DataAccess.Extensions;
 
 namespace StoreService.DataAccess.Repositories;
@@ -32,7 +33,20 @@ public class StoreRepository : IStoreRepository
 
     public async Task Add(Store store)
     {
+        await EnsureValidToAdd(store);
         await _storeDbContext.Stores.AddAsync(store.ToEntity());
         await _storeDbContext.SaveChangesAsync();
+    }
+
+    private async Task EnsureValidToAdd(Store store)
+    {
+        if (await Get(store.Id) is not null)
+        {
+            throw new DuplicateEntryException<Store>(
+                "You can add the store with the same id",
+                nameof(StoreRepository),
+                store
+            );
+        }
     }
 }

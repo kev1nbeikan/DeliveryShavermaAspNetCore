@@ -60,7 +60,10 @@ public class StoreInventoryRepository : IStoreInventoryRepository
     {
         if (await GetById(productInventory.StoreId, productInventory.ProductId) is not null)
         {
-            throw new DuplicateEntryException<ProductInventory>(nameof(ProductInventory), productInventory);
+            throw new DuplicateEntryException<ProductInventory>(
+                "You can't add the same product twice in the same store",
+                nameof(StoreInventoryRepository),
+                productInventory);
         }
     }
 }

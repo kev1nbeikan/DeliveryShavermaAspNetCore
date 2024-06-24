@@ -11,7 +11,8 @@ public class StoreService : IStoreService
     private readonly IGetCookingTimeUseCase _getCookingTimeUseCase;
     private readonly IStoreProductsService _storeProductsService;
 
-    public StoreService(IStoreRepository storeRepository, IGetCookingTimeUseCase getCookingTimeUseCase, IStoreProductsService storeProductsService)
+    public StoreService(IStoreRepository storeRepository, IGetCookingTimeUseCase getCookingTimeUseCase,
+        IStoreProductsService storeProductsService)
     {
         _storeRepository = storeRepository;
         _getCookingTimeUseCase = getCookingTimeUseCase;
@@ -20,16 +21,18 @@ public class StoreService : IStoreService
 
     public async Task<TimeSpan> GetCookingTime(Guid storeId, List<ProductInventory> products)
     {
+        await EnsureValidStoreAndProducts(storeId, products);
+
+        return _getCookingTimeUseCase.GetCookingTime(storeId, products);
+    }
+
+    private async Task EnsureValidStoreAndProducts(Guid storeId, List<ProductInventory> products)
+    {
         var store = await _storeRepository.Get(storeId);
+        if (store is null) throw new StoreNotFoundException(storeId);
         if (store.Status != StoreStatus.Open)
-            throw new NotFoundException<Guid>("store is closed", storeId);
-
+            throw new StoreClosedException(storeId);
         if (!await _storeProductsService.CheckProductsCount(storeId, products))
-        {
-            throw new NotFoundException<List<ProductInventory>>("not enough products in store", products);
-        }
-
-        TimeSpan time = _getCookingTimeUseCase.GetCookingTime(storeId, products);
-        return time;
+            throw new UnavailableProductsException(products);
     }
 }
