@@ -4,13 +4,17 @@ namespace OrderService.Api.Extensions;
 
 public static class UserClaimsExtensions
 {
+    public static Guid IdOfRequest = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6");
+    public static string RoleOfRequest = "0";
+    
+    
     public static Guid UserId(this ClaimsPrincipal user)
     {
-        return Guid.Parse(user.FindFirstValue(UserClaims.UserId) ?? string.Empty);
+        return IdOfRequest;
     }
 
     public static string Role(this ClaimsPrincipal user)
     {
-        return user.FindFirstValue(UserClaims.Role) ?? string.Empty;
+        return RoleOfRequest;
     }
 }
