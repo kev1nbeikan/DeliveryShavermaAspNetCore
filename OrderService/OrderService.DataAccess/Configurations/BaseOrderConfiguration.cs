@@ -34,5 +34,16 @@ public class BaseOrderConfiguration<T> : IEntityTypeConfiguration<T>
 
         builder.Property(b => b.Cheque)
             .HasMaxLength(BaseOrder.MaxChequeLength);
+
+        builder
+            .HasIndex(b => b.ClientId);
+
+        builder
+            .HasIndex(b => b.CourierId);
+        
+        builder
+            .HasIndex(b => b.StoreId);
+        
+        
     }
 }
