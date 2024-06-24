@@ -30,8 +30,10 @@ public class StoreService : IStoreService
     {
         var store = await _storeRepository.Get(storeId);
         if (store is null) throw new StoreNotFoundException(storeId);
+        
         if (store.Status != StoreStatus.Open)
             throw new StoreClosedException(storeId);
+        
         if (!await _storeProductsService.CheckProductsCount(storeId, products))
             throw new UnavailableProductsException(products);
     }
