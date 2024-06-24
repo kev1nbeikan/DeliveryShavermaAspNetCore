@@ -3,7 +3,7 @@
 public enum RoleCode
 {
     Client,
-    Store,
     Courier,
+    Store,
     Admin
 }
