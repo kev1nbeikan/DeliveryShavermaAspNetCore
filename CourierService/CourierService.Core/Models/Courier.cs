@@ -1,10 +1,12 @@
-﻿namespace CourierService.Core.Models;
+﻿using CourierService.Core.Models.Code;
+
+namespace CourierService.Core.Models;
 
 public class Courier
 {
 	private const int MIN_PASSWORD_LENGTH = 8;
 
-	private Courier(Guid id, string email, string password, bool status)
+	private Courier(Guid id, string email, string password, CourierStatusCode status)
 	{
 		Id = id;
 		Email = email;
@@ -18,9 +20,13 @@ public class Courier
 
 	public string Password { get; }
 
-	public bool Status { get; } = false;
+	public CourierStatusCode Status { get; }
 
-	public static (Courier Courier, string Error) Create(Guid id, string email, string password, bool status)
+	public static (Courier Courier, string Error) Create(
+		Guid id,
+		string email,
+		string password,
+		CourierStatusCode status)
 	{
 		var error = string.Empty;
 

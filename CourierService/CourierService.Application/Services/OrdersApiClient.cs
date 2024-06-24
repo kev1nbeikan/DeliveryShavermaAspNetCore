@@ -21,7 +21,7 @@ public class OrdersApiClient : IOrdersApiClient
 	{
 		var baseUrl = _configuration["OrdersApi:BaseUrl"];
 
-		var response = await _httpClient.GetAsync($"{baseUrl}/latest_order");
+		var response = await _httpClient.GetAsync($"{baseUrl}/active");
 
 		if (!response.IsSuccessStatusCode)
 		{

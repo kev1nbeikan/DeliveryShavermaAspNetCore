@@ -1,8 +1,10 @@
-﻿namespace CourierService.API.Models;
+﻿using CourierService.Core.Models.Code;
+
+namespace CourierService.API.Models;
 
 public class CourierViewModel
 {
 	public Guid Id { get; set; }
 
-	public bool Status { get; set; }
+	public CourierStatusCode Status { get; set; }
 }
