@@ -8,8 +8,6 @@
 
     <ItemGroup>
       <Folder Include="Configuration\" />
-      <Folder Include="Entities\" />
-      <Folder Include="Repositories\" />
     </ItemGroup>
 
     <ItemGroup>
@@ -19,6 +17,10 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\StoreService.Core\StoreService.Core.csproj" />
     </ItemGroup>
 
 </Project>

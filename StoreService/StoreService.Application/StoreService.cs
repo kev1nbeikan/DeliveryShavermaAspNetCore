@@ -18,7 +18,7 @@ public class StoreService : IStoreService
         _storeProductsService = storeProductsService;
     }
 
-    public async Task<TimeSpan> GetCookingTime(Guid storeId, List<ProductQuantity> products)
+    public async Task<TimeSpan> GetCookingTime(Guid storeId, List<ProductInventory> products)
     {
         var store = await _storeRepository.GetStore(storeId);
         if (store.Status != StoreStatus.Open)
@@ -26,7 +26,7 @@ public class StoreService : IStoreService
 
         if (!await _storeProductsService.CheckProductsCount(storeId, products))
         {
-            throw new NotFoundException<List<ProductQuantity>>("not enough products in store", products);
+            throw new NotFoundException<List<ProductInventory>>("not enough products in store", products);
         }
 
         TimeSpan time = _cookingTimerService.GetCookingTime(storeId, products);

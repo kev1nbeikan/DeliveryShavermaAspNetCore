@@ -18,7 +18,7 @@ public class StoreController : ControllerBase
 
 
     [HttpGet("cookingtime/{storeId}")]
-    public async Task<IActionResult> Check(Guid storeId, List<ProductQuantity> products)
+    public async Task<IActionResult> Check(Guid storeId, List<ProductInventory> products)
     {
         TimeSpan cookingTime = await _storeService.GetCookingTime(storeId, products);
         return Ok(cookingTime);
