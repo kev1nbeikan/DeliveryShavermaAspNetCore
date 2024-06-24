@@ -16,4 +16,15 @@ public abstract class CustomAsserts
         Assert.That(actual.Id, Is.EqualTo(expected.Id));
         Assert.That(actual.Status, Is.EqualTo(expected.Status));
     }
+
+    public static void AssertAreEqual(List<ProductInventory> actual, List<ProductInventory> expected)
+    {
+        foreach (var actualProductInventory in actual)
+        {
+            var expectedProductInventory =
+                expected.FirstOrDefault(x => x.ProductId == actualProductInventory.ProductId)!;
+
+            AssertAreEqual(expectedProductInventory, actualProductInventory);
+        }
+    }
 }
