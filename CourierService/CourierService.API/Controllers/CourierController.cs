@@ -116,8 +116,10 @@ public class CourierController : Controller
 	[HttpGet("profile")]
 	public async Task<IActionResult> CourierProfile()
 	{
-
-		User.UserId();
-		return View(new CourierViewModel());
+		
+		return View(new CourierViewModel()
+		{
+			Id = User.UserId()
+		});
 	}
 }
