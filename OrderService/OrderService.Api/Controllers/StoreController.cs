@@ -2,7 +2,7 @@
 using OrderService.Api.Contracts.Store;
 using OrderService.Api.Extensions;
 using OrderService.Domain.Abstractions;
-using OrderService.Domain.Models.Code;
+using OrderService.Domain.Common.Code;
 
 namespace OrderService.Api.Controllers;
 
@@ -19,7 +19,7 @@ public class StoreController(IOrderApplicationService orderApplicationService) :
         var role = (RoleCode)Enum.Parse(typeof(RoleCode), User.Role());
 
         var orders = (await _orderApplicationService.GetCurrentOrders(role, userId))
-                .Where(x => x.Status <= Domain.Models.Code.StatusCode.WaitingCourier).ToList();
+                .Where(x => x.Status <= Domain.Common.Code.StatusCode.WaitingCourier).ToList();
         
         if (orders.Count == 0)
             return NoContent();
@@ -58,18 +58,18 @@ public class StoreController(IOrderApplicationService orderApplicationService) :
         return Ok(response);
     }
 
-    [HttpPut("{orderId:Guid}/waitingCourier")]
+    [HttpPut("waitingCourier/{orderId:Guid}")]
     public async Task<ActionResult> ChangeStatusWaitingCourier(Guid orderId)
     {
         var userId = User.UserId();
         var role = (RoleCode)Enum.Parse(typeof(RoleCode), User.Role());
 
-        await _orderApplicationService.ChangeStatusActive(role, Domain.Models.Code.StatusCode.WaitingCourier, userId,
+        await _orderApplicationService.ChangeStatusActive(role, Domain.Common.Code.StatusCode.WaitingCourier, userId,
             orderId);
         return Ok();
     }
 
-    [HttpPut("{orderId:Guid}/canceled")]
+    [HttpPut("canceled/{orderId:Guid}")]
     public async Task<ActionResult> ChangeStatusCanceled(Guid orderId, [FromBody] string reasonOfCanceled)
     {
         var userId = User.UserId();
