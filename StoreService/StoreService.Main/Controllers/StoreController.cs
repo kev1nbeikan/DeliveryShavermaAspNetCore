@@ -5,7 +5,7 @@ using StoreService.Core.Abstractions;
 namespace StoreService.Main.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("[controller]/api/v1.0")]
 public class StoreController : ControllerBase
 {
     private readonly ILogger<StoreController> _logger;

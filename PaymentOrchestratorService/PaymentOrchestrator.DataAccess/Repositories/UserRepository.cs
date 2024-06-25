@@ -40,7 +40,6 @@ public class UserRepository : RepositoryHttpClientBase, IUserRepository
             Method = HttpMethod.Post,
             Content = JsonContent.Create(fields),
             RequestUri = new Uri("/user/upsert", UriKind.Relative),
-            Version = new Version(2, 0)
         };
 
         HttpResponseMessage response = await _httpClient.SendAsync(httpRequest);
