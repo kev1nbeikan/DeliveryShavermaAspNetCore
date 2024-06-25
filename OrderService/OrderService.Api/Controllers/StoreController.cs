@@ -31,12 +31,12 @@ public class StoreController(IOrderApplicationService orderApplicationService) :
     }
 
     [HttpGet("last")]
-    public async Task<ActionResult<List<StoreGetLast>>> GetLast()
+    public async Task<ActionResult<List<StoreGetLast>>> GetHistory()
     {
         var userId = User.UserId();
         var role = (RoleCode)Enum.Parse(typeof(RoleCode), User.Role());
 
-        var orders = await _orderApplicationService.GetLastOrders(role, userId);
+        var orders = await _orderApplicationService.GetHistoryOrders(role, userId);
         if (orders.Count == 0)
             return NoContent();
         var response = orders.Select(b =>

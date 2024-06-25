@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using OrderService.DataAccess;
@@ -11,9 +12,11 @@ using OrderService.DataAccess;
 namespace OrderService.DataAccess.Migrations
 {
     [DbContext(typeof(OrderServiceDbContext))]
-    partial class OrderServiceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240624175604_delete_check_constraitnt")]
+    partial class delete_check_constraitnt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,9 +34,6 @@ namespace OrderService.DataAccess.Migrations
                     b.Property<string>("Basket")
                         .IsRequired()
                         .HasColumnType("jsonb");
-
-                    b.Property<DateTime>("CanceledDate")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Cheque")
                         .IsRequired()

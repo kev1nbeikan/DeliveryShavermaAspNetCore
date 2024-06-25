@@ -13,12 +13,12 @@ public class CourierController(IOrderApplicationService orderApplicationService)
     private readonly IOrderApplicationService _orderApplicationService = orderApplicationService;
 
     [HttpGet("last")]
-    public async Task<ActionResult<List<CourierGetLast>>> GetLast()
+    public async Task<ActionResult<List<CourierGetLast>>> GetHistory()
     {
         var userId = User.UserId();
         var role = (RoleCode)Enum.Parse(typeof(RoleCode), User.Role());
 
-        var orders = await _orderApplicationService.GetLastOrders(role, userId);
+        var orders = await _orderApplicationService.GetHistoryOrders(role, userId);
         if (orders.Count == 0)
             return NoContent();
         var response = orders.Select(b =>
@@ -34,6 +34,8 @@ public class CourierController(IOrderApplicationService orderApplicationService)
         var role = (RoleCode)Enum.Parse(typeof(RoleCode), User.Role());
 
         var order = await _orderApplicationService.GetOldestActive(role, userId);
+        if (order is null)
+            return NoContent();
         var response = new CourierGetCurrent(order.Id, order.Status, order.Basket, order.Comment,
             order.StoreAddress, order.ClientAddress, order.ClientNumber, order.DeliveryTime);
         return Ok(response);
