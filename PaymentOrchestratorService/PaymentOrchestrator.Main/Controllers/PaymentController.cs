@@ -65,8 +65,9 @@ public class PaymentController : Controller
 
         if (temporyOrder == null) return BadRequest("Order not found: try make order again");
 
-        (var orderLogistic, error) = await _getOrderLogistic.Invoke(temporyOrder);
+        (var orderLogistic, error) = await _getOrderLogistic.Execute(temporyOrder);
         if (error.HasValue()) return BadRequest(error);
+        return Ok(orderLogistic);
 
         (error, var cheque) = _paymentService.ConfirmPayment(temporyOrder, paymentConfirmRequest.ToPaymentInfo());
         if (error.HasValue()) return BadRequest(error);

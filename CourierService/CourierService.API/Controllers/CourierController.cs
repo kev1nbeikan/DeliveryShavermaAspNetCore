@@ -1,4 +1,5 @@
 ﻿using CourierService.API.Contracts;
+using CourierService.API.Extensions;
 using CourierService.API.Models;
 using CourierService.Core.Abstractions;
 using CourierService.Core.Models;
@@ -115,6 +116,10 @@ public class CourierController : Controller
 	[HttpGet("profile")]
 	public async Task<IActionResult> CourierProfile()
 	{
-		return View(new CourierViewModel());
+		
+		return View(new CourierViewModel()
+		{
+			Id = User.UserId()
+		});
 	}
 }

@@ -10,4 +10,5 @@ public interface IStoreRepository
     Task<Store?> Get(Guid storeId);
 
     Task<bool> Update(Store store);
+    Task<StoreStatus?> GetStatus(Guid storeId);
 }

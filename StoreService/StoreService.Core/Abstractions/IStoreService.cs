@@ -21,4 +21,8 @@ public interface IStoreService
     ///     <see cref="UnavailableProductsException"/>
     /// </exception>ё
     Task<TimeSpan> GetCookingTime(Guid storeId, List<ProductInventory> products);
+
+    Task<StoreStatus> GetStatus(Guid storeId);
+    Task<Store> GetOrAddNewStore(Guid storeId);
+    Task UpdateStatus(Guid storeId, StoreStatus status);
 }

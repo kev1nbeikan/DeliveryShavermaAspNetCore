@@ -23,12 +23,18 @@ public class StoreRepository : IStoreRepository
 
     public async Task<bool> Update(Store store)
     {
-        var storeEntity = _storeDbContext.Stores.FirstOrDefault(s => s.Id == store.Id);
+        var storeEntity = await _storeDbContext.Stores.FirstOrDefaultAsync(s => s.Id == store.Id);
         if (storeEntity is null) return false;
 
         storeEntity.Status = store.Status;
 
         return await _storeDbContext.SaveChangesAsync() > 0;
+    }
+
+    public async Task<StoreStatus?> GetStatus(Guid storeId)
+    {
+        var store = await _storeDbContext.Stores.FirstOrDefaultAsync(s => s.Id == storeId);
+        return store?.Status;
     }
 
     public async Task Add(Store store)

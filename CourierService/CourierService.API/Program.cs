@@ -1,3 +1,4 @@
+using CourierService.API.Middleware;
 using CourierService.Application.Services;
 using CourierService.Core.Abstractions;
 using CourierService.DataAccess;
@@ -38,7 +39,8 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 
-app.UseAuthorization();
+app.UseMiddleware<UserIdMiddleware>();
+
 
 app.UseRouting();
 
