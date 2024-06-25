@@ -4,17 +4,15 @@ using Handler.Core;
 using Handler.Core.Abstractions.Repositories;
 using Handler.Core.Common;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace HandlerService.DataAccess.Repositories;
 
-public class StoreRepository : IStoreRepository
+public class StoreRepository : RepositoryHttpClientBase, IStoreRepository
 {
-    private readonly HttpClient _httpClient;
-
-    public StoreRepository(HttpClient httpClient, IConfiguration configuration)
+    public StoreRepository(IHttpClientFactory httpClientFactory, IOptions<ServicesOptions> options) :
+        base(nameof(options.Value.StoreUrl), httpClientFactory)
     {
-        _httpClient = httpClient;
-        _httpClient.BaseAddress = new Uri(configuration["StoreUrl"] ?? throw new Exception("StoreUrl not found"));
     }
 
     public async Task<(TimeSpan cookingTime, string? error)> GetCokingTime(Guid storeId, Product[] basket)
