@@ -3,7 +3,7 @@ using StoreService.Core.Abstractions;
 
 namespace StoreService.Application;
 
-public class GetGetCookingTimeUseCase : IGetCookingTimeUseCase
+public class GetCookingTimeUseCase : IGetCookingTimeUseCase
 {
     private static readonly TimeSpan DefaultCookingTime = TimeSpan.FromMinutes(5);
 

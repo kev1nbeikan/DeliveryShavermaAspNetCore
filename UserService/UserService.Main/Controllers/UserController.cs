@@ -64,7 +64,7 @@ public class UserController : Controller
     [HttpPost("bucket")]
     public async Task<IActionResult> Bucket([FromBody] List<BucketItem> products)
     {
-        if (ModelState.IsValid) return BadRequest();
+        if (!ModelState.IsValid) return BadRequest();
         
         var viewModel = new BucketViewModel { Products = products };
 

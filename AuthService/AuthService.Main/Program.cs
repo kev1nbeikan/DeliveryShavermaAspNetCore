@@ -33,6 +33,12 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.Use(async (context, next) =>
+{
+    Console.WriteLine($"app.Use execute {context.Response}");
+    await context.Response.WriteAsync("app.Use execute");
+    await next();
+});
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=User}/{action=Index}/{id?}");

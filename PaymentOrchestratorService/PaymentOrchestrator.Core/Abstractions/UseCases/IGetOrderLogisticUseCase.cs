@@ -5,5 +5,5 @@ namespace Handler.Core.Abstractions.UseCases;
 
 public interface IGetOrderLogisticUseCase
 {
-    Task<(OrderLogistic? orderTimings, string? error)> Invoke(TemporyOrder temporyOrder);
+    Task<(OrderLogistic? orderTimings, string? error)> Execute(TemporyOrder temporyOrder);
 }
