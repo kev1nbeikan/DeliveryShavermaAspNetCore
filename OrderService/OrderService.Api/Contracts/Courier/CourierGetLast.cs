@@ -1,5 +1,5 @@
 ﻿
-using OrderService.Domain.Models;
+using OrderService.Domain.Common;
 
 namespace OrderService.Api.Contracts.Courier;
 
