@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<AuthDbContext>(
-    options => { options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(AuthDbContext))); }
+	options => { options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(AuthDbContext))); }
 );
 
 builder.Services.AddDependenciesServices();
@@ -21,8 +21,8 @@ var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
-    app.UseHsts();
+	app.UseExceptionHandler("/Home/Error");
+	app.UseHsts();
 }
 
 
@@ -34,7 +34,8 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=User}/{action=Index}/{id?}");
+	name: "default",
+	pattern: "{controller=User}/{action=Index}/{id?}"
+);
 
 app.Run();

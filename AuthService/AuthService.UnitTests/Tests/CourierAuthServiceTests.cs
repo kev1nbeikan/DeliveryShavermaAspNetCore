@@ -1,5 +1,6 @@
 using AuthService.Application.Services;
 using AuthService.Application.Utils;
+using AuthService.Core.Abstractions;
 using AuthService.DataAccess.Repositories;
 using AuthService.UnitTests.Fixtures;
 using NUnit.Framework;
