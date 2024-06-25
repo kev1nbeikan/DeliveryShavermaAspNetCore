@@ -49,7 +49,6 @@ public class StoreService : IStoreService
         if (store is null) throw new StoreNotFoundException(storeId);
 
         var storeUpdated = Store.Create(storeId, status);
-
         await _storeRepository.Update(storeUpdated);
     }
 
