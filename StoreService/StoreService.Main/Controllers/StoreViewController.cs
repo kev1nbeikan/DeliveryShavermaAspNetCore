@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using StoreService.Core.Abstractions;
 using StoreService.Main.Extensions;
-using StoreService.Main.Views.Store;
+using StoreService.Main.Models;
 
 namespace StoreService.Main.Controllers;
 
@@ -9,9 +9,9 @@ namespace StoreService.Main.Controllers;
 public class StoreViewController : Controller
 {
     private readonly IStoreService _storeService;
-    private readonly ILogger _logger;
+    private readonly ILogger<StoreApiController> _logger;
 
-    public StoreViewController(IStoreService storeService, ILogger logger)
+    public StoreViewController(IStoreService storeService, ILogger<StoreApiController> logger)
     {
         _storeService = storeService;
         _logger = logger;
@@ -22,7 +22,7 @@ public class StoreViewController : Controller
         try
         {
             var store = await _storeService.GetOrAddNewStore(User.UserId());
-            return View(new IndexView
+            return View(new IndexViewModel
             {
                 Store = store
             });

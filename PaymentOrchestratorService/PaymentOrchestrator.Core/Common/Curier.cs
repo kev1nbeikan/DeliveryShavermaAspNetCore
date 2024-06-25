@@ -1,4 +1,4 @@
-namespace HandlerService.Controllers;
+namespace Handler.Core.Common;
 
 public class Curier
 {

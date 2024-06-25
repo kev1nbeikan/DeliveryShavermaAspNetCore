@@ -65,14 +65,14 @@ public class StoreApiController : ControllerBase
         }
     }
 
-    [HttpPost("status/{status}")]
-    public async Task<IActionResult> SetStatus(StoreStatus status)
+    [HttpPost("status")]
+    public async Task<IActionResult> SetStatus([FromForm] StoreStatus status)
     {
         try
         {
             var storeId = User.UserId();
             await _storeService.UpdateStatus(storeId, status);
-            return Ok();
+            return Ok(await _storeService.GetStatus(storeId));
         }
         catch (StoreServiceException e)
         {
