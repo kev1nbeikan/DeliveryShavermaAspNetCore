@@ -13,7 +13,8 @@ using UserService.Main.Models;
 
 namespace UserService.Main.Controllers;
 
-[Route("[controller]")]
+// [Route("[controller]")]
+[Route("")]
 public class UserController : Controller
 {
     private readonly ILogger<UserController> _logger;
@@ -104,15 +105,14 @@ public class UserController : Controller
     
         if (response.IsSuccessStatusCode)
         {
-            var json = await response.Content.ReadAsStringAsync();
+            if (String.IsNullOrEmpty(await response.Content.ReadAsStringAsync()))
+                return BadRequest("No objects");
+            var orders = await response.Content.ReadFromJsonAsync<List<OrderGetResponse>>();
 
-            _logger.LogInformation($"{json}");
-            var orders = JsonSerializer.Deserialize<List<OrderGetResponse>>(json);
             if (orders is null)
                 return BadRequest("No objects");
             
-            var ordersViewModel = new OrdersViewModel { Orders = orders }; 
-
+            var ordersViewModel = new OrdersViewModel { Orders = orders };
             return View("Order", ordersViewModel); 
         }
         else
