@@ -1,9 +1,11 @@
 ﻿using System.Linq.Expressions;
+using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using OrderService.DataAccess.Entities;
 using OrderService.Domain.Models;
 using OrderService.Domain.Abstractions;
 using OrderService.Domain.Models.Code;
+using OrderService.Domain.Models.Order;
 
 namespace OrderService.DataAccess.Repositories;
 
@@ -23,7 +25,8 @@ public class CurrentOrderRepository(OrderServiceDbContext context) : ICurrentOrd
                 b.ClientId,
                 b.CourierId,
                 b.StoreId,
-                b.Basket,
+                JsonSerializer.Deserialize<List<BasketItem>>(b.Basket)
+                ?? throw new ArgumentException("Basket cannot be null", nameof(orderEntity)),
                 b.Price,
                 b.Comment,
                 b.StoreAddress,
@@ -56,7 +59,8 @@ public class CurrentOrderRepository(OrderServiceDbContext context) : ICurrentOrd
             orderEntity.ClientId,
             orderEntity.CourierId,
             orderEntity.StoreId,
-            orderEntity.Basket,
+            JsonSerializer.Deserialize<List<BasketItem>>(orderEntity.Basket)
+            ?? throw new ArgumentException("Basket cannot be null", nameof(orderEntity)),
             orderEntity.Price,
             orderEntity.Comment,
             orderEntity.StoreAddress,
@@ -88,20 +92,16 @@ public class CurrentOrderRepository(OrderServiceDbContext context) : ICurrentOrd
 
     public async Task ChangeStatus(RoleCode role, StatusCode status, Guid sourceId, Guid id)
     {
-        if (!Enum.IsDefined(typeof(StatusCode), status))
-            throw new ArgumentException("Invalid status value.", nameof(status));
-
         var condition = BaseOrderRepository.GetCondition<CurrentOrderEntity>(role, sourceId);
 
         var order = await context.CurrentOrders
             .Where(condition)
             .FirstOrDefaultAsync(b => b.Id == id) ?? throw new KeyNotFoundException();
-        
-        if ((int)status <= order.Status)
-            throw new ArgumentException("New status cannot be less than or equal to the current status.");
+
+        ValidateStatus(status, order);
         
         order.Status = (int)status;
-        
+
         await context.SaveChangesAsync();
     }
 
@@ -146,7 +146,7 @@ public class CurrentOrderRepository(OrderServiceDbContext context) : ICurrentOrd
             ClientId = order.ClientId,
             CourierId = order.CourierId,
             StoreId = order.StoreId,
-            Basket = order.Basket,
+            Basket = JsonSerializer.Serialize(order.Basket),
             Price = order.Price,
             Comment = order.Comment,
             StoreAddress = order.StoreAddress,
@@ -164,5 +164,15 @@ public class CurrentOrderRepository(OrderServiceDbContext context) : ICurrentOrd
 
         await context.CurrentOrders.AddAsync(orderEntity);
         await context.SaveChangesAsync();
+    }
+    
+    private void ValidateStatus(StatusCode status, CurrentOrderEntity order)
+    {
+        if (!Enum.IsDefined(typeof(StatusCode), status))
+            throw new ArgumentException($"Invalid status value. Current status: {(StatusCode)order.Status}, new status: {status}", nameof(status));
+        if ((int)status <= order.Status)
+            throw new ArgumentException($"New status cannot be less than or equal to the current status. Current status: {(StatusCode)order.Status}, new status: {status}", nameof(status));
+        if ((int)status - 1 != order.Status)
+            throw new ArgumentException($"New status skips previous states. Current status: {(StatusCode)order.Status}, new status: {status}", nameof(status));
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
 using OrderService.DataAccess.Entities;
 using OrderService.Domain.Models;
 using OrderService.Domain.Abstractions;
@@ -23,7 +24,8 @@ public class CanceledOrderRepository(OrderServiceDbContext context) : ICanceledO
                 b.ClientId,
                 b.CourierId,
                 b.StoreId,
-                b.Basket,
+                JsonSerializer.Deserialize<List<BasketItem>>(b.Basket) 
+                ?? throw new ArgumentException("Basket cannot be null", nameof(orderEntity)),
                 b.Price,
                 b.Comment,
                 b.CookingTime,
@@ -33,7 +35,8 @@ public class CanceledOrderRepository(OrderServiceDbContext context) : ICanceledO
                 b.DeliveryDate,
                 b.Cheque,
                 (StatusCode)b.LastStatus,
-                b.ReasonOfCanceled
+                b.ReasonOfCanceled,
+                b.CanceledDate
             ).Order)
             .ToList();
         return orders;
@@ -47,17 +50,18 @@ public class CanceledOrderRepository(OrderServiceDbContext context) : ICanceledO
             ClientId = order.ClientId,
             CourierId = order.CourierId,
             StoreId = order.StoreId,
-            Basket = order.Basket,
+            Basket = JsonSerializer.Serialize(order.Basket),
             Price = order.Price,
             Comment = order.Comment,
             CookingTime = order.CookingTime,
             DeliveryTime = order.DeliveryTime,
-            OrderDate = DateTime.UtcNow,
-            CookingDate = DateTime.UtcNow,
-            DeliveryDate = DateTime.UtcNow,
+            OrderDate = order.OrderDate,
+            CookingDate = order.CookingDate,
+            DeliveryDate = order.DeliveryDate,
             Cheque = order.Cheque,
             LastStatus = (int)order.Status,
-            ReasonOfCanceled = reasonOfCanceled
+            ReasonOfCanceled = reasonOfCanceled,
+            CanceledDate = DateTime.Now
         };
 
         await context.CanceledOrders.AddAsync(orderEntity);

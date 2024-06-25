@@ -1,6 +1,6 @@
 ﻿using OrderService.Domain.Abstractions;
-using OrderService.Domain.Models;
 using OrderService.Domain.Models.Code;
+using OrderService.Domain.Models.Order;
 
 namespace OrderService.Application.Service;
 
@@ -18,7 +18,7 @@ public class OrderApplicationService(
         return await _currentOrderRepository.Get(role, sourceId);
     }
 
-    public async Task<List<LastOrder>> GetLastOrders(RoleCode role, Guid sourceId)
+    public async Task<List<LastOrder>> GetHistoryOrders(RoleCode role, Guid sourceId)
     {
         return await _lastOrderRepository.Get(role, sourceId);
     }
@@ -28,12 +28,12 @@ public class OrderApplicationService(
         return await _canceledOrderRepository.Get(role, sourceId);
     }
 
-    public async Task<CurrentOrder> GetOldestActive(RoleCode role, Guid sourceId)
+    public async Task<CurrentOrder?> GetOldestActive(RoleCode role, Guid sourceId)
     {
         var orders = await _currentOrderRepository.Get(role, sourceId);
         var oldestActive = orders.FirstOrDefault(x =>
-                              x.OrderDate == orders.Min(o => o.OrderDate))
-                          ?? throw new InvalidOperationException();
+                              x.OrderDate == orders.Min(o => o.OrderDate) 
+                              && x.Status is StatusCode.WaitingCourier or StatusCode.Delivering);
         return oldestActive;
     }
 
@@ -49,6 +49,8 @@ public class OrderApplicationService(
     public async Task ChangeStatusCompleted(RoleCode role, Guid sourceId, Guid orderId)
     {
         var order = await _currentOrderRepository.GetById(role, sourceId, orderId);
+        if (order.Status != StatusCode.WaitingClient) 
+            throw new Exception("You can complete only accepted orders");
         await _lastOrderRepository.Create(order);
         await _currentOrderRepository.Delete(role, sourceId, orderId);
     }
@@ -56,6 +58,10 @@ public class OrderApplicationService(
     public async Task ChangeStatusCanceled(RoleCode role, Guid sourceId, Guid orderId, string reasonOfCanceled)
     {
         var order = await _currentOrderRepository.GetById(role, sourceId, orderId);
+        if (role == RoleCode.Courier && order.Status is not (StatusCode.WaitingCourier or StatusCode.Delivering)) 
+            throw new Exception($"Courier cannot cancel the order with the current status. Current status = {(StatusCode)order.Status}");
+        if (role == RoleCode.Store && order.Status is not StatusCode.Cooking) 
+            throw new Exception($"Store cannot cancel the order with the current status. Current status = {(StatusCode)order.Status}");
         await _canceledOrderRepository.Create(order, reasonOfCanceled);
         await _currentOrderRepository.Delete(role, sourceId, orderId);
     }

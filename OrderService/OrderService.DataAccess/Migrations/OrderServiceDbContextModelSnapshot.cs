@@ -32,6 +32,9 @@ namespace OrderService.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("jsonb");
 
+                    b.Property<DateTime>("CanceledDate")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<string>("Cheque")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -79,10 +82,13 @@ namespace OrderService.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CanceledOrders", t =>
-                        {
-                            t.HasCheckConstraint("CK_CanceledOrder_LastStatus", "\"LastStatus\" >= 1 AND \"LastStatus\" < 5");
-                        });
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("CourierId");
+
+                    b.HasIndex("StoreId");
+
+                    b.ToTable("CanceledOrders");
                 });
 
             modelBuilder.Entity("OrderService.DataAccess.Entities.CurrentOrderEntity", b =>
@@ -157,10 +163,13 @@ namespace OrderService.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CurrentOrders", t =>
-                        {
-                            t.HasCheckConstraint("CK_CurrentOrder_Status", "\"Status\" >= 0 AND \"Status\" < 5");
-                        });
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("CourierId");
+
+                    b.HasIndex("StoreId");
+
+                    b.ToTable("CurrentOrders");
                 });
 
             modelBuilder.Entity("OrderService.DataAccess.Entities.LastOrderEntity", b =>
@@ -211,6 +220,12 @@ namespace OrderService.DataAccess.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("CourierId");
+
+                    b.HasIndex("StoreId");
 
                     b.ToTable("LastOrders");
                 });

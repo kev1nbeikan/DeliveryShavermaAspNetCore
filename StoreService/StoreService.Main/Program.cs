@@ -1,7 +1,19 @@
+using Microsoft.EntityFrameworkCore;
+using StoreService.DataAccess;
+using StoreService.Main.Extensions;
+using StoreService.Main.Middleware;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<StoreDbContext>(options =>
+    {
+        options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(StoreDbContext)));
+    }
+);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddDi();
 
 var app = builder.Build();
 
@@ -9,16 +21,18 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
+
+
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
 app.UseStaticFiles();
+
+app.UseMiddleware<UserIdMiddleware>();
 
 app.UseRouting();
 
-app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",

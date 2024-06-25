@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using OrderService.Api.Contracts.Order;
 using OrderService.Api.Extensions;
 using OrderService.Domain.Abstractions;
-using OrderService.Domain.Models;
 using OrderService.Domain.Models.Code;
+using OrderService.Domain.Models.Order;
 
 namespace OrderService.Api.Controllers;
 
@@ -62,5 +63,32 @@ public class OrderController(IOrderApplicationService orderApplicationService) :
 
         await _orderApplicationService.CreateCurrentOrder(order);
         return Ok();
+    }
+    
+    
+    [HttpPut ("test/{Id:Guid}")]
+    public async Task<ActionResult> ChangeId(Guid Id)
+    {
+        UserClaimsExtensions.IdOfRequest = Id;
+        return Ok(UserClaimsExtensions.IdOfRequest);
+    }
+    
+    [HttpPut ("test/{role:int}")]
+    public async Task<ActionResult> ChangeStatus(int role)
+    {
+        UserClaimsExtensions.RoleOfRequest = role.ToString();
+        return Ok(UserClaimsExtensions.RoleOfRequest);
+    }
+    
+    [HttpGet ("test/id")]
+    public async Task<ActionResult> GetId()
+    {
+        return Ok(UserClaimsExtensions.IdOfRequest);
+    }
+    
+    [HttpGet ("test/role")]
+    public async Task<ActionResult> GetRole()
+    {
+        return Ok(UserClaimsExtensions.RoleOfRequest);
     }
 }

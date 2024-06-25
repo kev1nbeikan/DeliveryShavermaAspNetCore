@@ -44,7 +44,7 @@ public class CurrentOrder : BaseOrder
         if (string.IsNullOrEmpty(courierNumber) || courierNumber.Length > MaxNumberLength)
             errorString = "Error in the courier number, the value is empty or exceeds the maximum value";
 
-        if (string.IsNullOrEmpty(storeAddress) || storeAddress.Length > MaxNumberLength)
+        if (string.IsNullOrEmpty(storeAddress) || storeAddress.Length > MaxAddressLength)
             errorString = "Error in the store address, the value is empty or exceeds the maximum value";
 
         var order = new CurrentOrder(id, clientId, courierId, storeId, basket,

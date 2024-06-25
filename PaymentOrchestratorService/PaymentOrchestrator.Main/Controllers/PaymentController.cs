@@ -65,8 +65,9 @@ public class PaymentController : Controller
 
         if (temporyOrder == null) return BadRequest("Order not found: try make order again");
 
-        (var orderLogistic, error) = await _getOrderLogistic.Invoke(temporyOrder);
+        (var orderLogistic, error) = await _getOrderLogistic.Execute(temporyOrder);
         if (error.HasValue()) return BadRequest(error);
+        return Ok(orderLogistic);
 
         (error, var cheque) = _paymentService.ConfirmPayment(temporyOrder, paymentConfirmRequest.ToPaymentInfo());
         if (error.HasValue()) return BadRequest(error);
@@ -110,8 +111,7 @@ public class PaymentController : Controller
         var price = _paymentService.CalculatePayment(products, paymentRequest.ProductIdsAndQuantity);
 
         (var paymentOrder, error) = _temporaryOrderService.Save(
-            Guid.NewGuid(), userId, products, price, paymentRequest.Address, paymentRequest.Comment
-        );
+            Guid.NewGuid(), userId, products, price, paymentRequest.Address, paymentRequest.Comment, paymentRequest.ProductIdsAndQuantity);
         if (error.HasValue()) return BadRequest(error);
 
 

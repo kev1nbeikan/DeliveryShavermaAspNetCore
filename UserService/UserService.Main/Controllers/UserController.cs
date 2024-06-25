@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using Handler.Core.Common;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using UserService.Core.Abstractions;
 using UserService.Core.Exceptions;
@@ -23,8 +24,10 @@ public class UserController : Controller
     }
 
     [HttpGet("{userId:Guid}")]
-    public async Task<IActionResult> Get(Guid userId)
+    public async Task<IActionResult> GetByUserId(Guid userId)
     {
+        if (!ModelState.IsValid) return BadRequest();
+        
         try
         {
             var user = await _userService.Get(userId);
@@ -39,7 +42,8 @@ public class UserController : Controller
     [HttpPost("upsert")]
     public async Task<IActionResult> Upsert([FromBody, Required] UpsertUserRequest? request)
     {
-        _logger.LogInformation($"Upsert. User requested body = {request}");
+        if (!ModelState.IsValid) return BadRequest();
+        _logger.LogInformation("Upsert. User requested body = {Request}", request);
 
         if (request == null) return BadRequest("payload required");
 
@@ -60,12 +64,14 @@ public class UserController : Controller
     [HttpPost("bucket")]
     public async Task<IActionResult> Bucket([FromBody] List<BucketItem> products)
     {
+        if (!ModelState.IsValid) return BadRequest();
+        
         var viewModel = new BucketViewModel { Products = products };
 
         try
         {
             var userId = User.UserId();
-            _logger.LogInformation("User {userId} requested bucket", userId);
+            _logger.LogInformation("User {UserId} requested bucket", userId);
             var user = await _userService.Get(userId);
 
             viewModel.Addresses = user.Addresses;

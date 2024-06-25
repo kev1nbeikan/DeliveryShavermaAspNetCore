@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using OrderService.DataAccess.Entities;
 using OrderService.Domain.Models;
+using OrderService.Domain.Models.Order;
 
 namespace OrderService.DataAccess.Configurations;
 
@@ -33,5 +34,16 @@ public class BaseOrderConfiguration<T> : IEntityTypeConfiguration<T>
 
         builder.Property(b => b.Cheque)
             .HasMaxLength(BaseOrder.MaxChequeLength);
+
+        builder
+            .HasIndex(b => b.ClientId);
+
+        builder
+            .HasIndex(b => b.CourierId);
+        
+        builder
+            .HasIndex(b => b.StoreId);
+        
+        
     }
 }
