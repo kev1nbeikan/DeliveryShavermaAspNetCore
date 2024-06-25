@@ -15,6 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\CourierService\CourierService.Application\CourierService.Application.csproj" />
       <ProjectReference Include="..\AuthService.Application\AuthService.Application.csproj" />
       <ProjectReference Include="..\AuthService.DataAccess\AuthService.DataAccess.csproj" />
     </ItemGroup>
