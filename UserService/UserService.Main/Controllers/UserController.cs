@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Net;
+using System.Text.Json;
 using Handler.Core.Common;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -84,6 +86,38 @@ public class UserController : Controller
         catch (NotFoundException e)
         {
             return View(viewModel);
+        }
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> Order()
+    {
+        // if (ModelState.IsValid) return BadRequest();
+
+        var userId = User.UserId();
+        
+        _logger.LogInformation("User {UserId} requested order", userId);
+        
+        var httpClient = new HttpClient(); 
+        httpClient.BaseAddress = new Uri("http://localhost:5106");  
+        var response = await httpClient.GetAsync("orders/client/current"); 
+    
+        if (response.IsSuccessStatusCode)
+        {
+            var json = await response.Content.ReadAsStringAsync();
+
+            _logger.LogInformation($"{json}");
+            var orders = JsonSerializer.Deserialize<List<OrderGetResponse>>(json);
+            if (orders is null)
+                return BadRequest("No objects");
+            
+            var ordersViewModel = new OrdersViewModel { Orders = orders }; 
+
+            return View("Order", ordersViewModel); 
+        }
+        else
+        {
+            return BadRequest();
         }
     }
 
