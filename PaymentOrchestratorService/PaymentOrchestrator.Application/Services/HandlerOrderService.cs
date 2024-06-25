@@ -5,6 +5,7 @@ using Handler.Core.Abstractions.Services;
 using Handler.Core.Common;
 using Handler.Core.Extensions;
 using Handler.Core.HanlderService;
+using Handler.Core.Payment;
 
 namespace HandlerService.Application.Services;
 
@@ -20,11 +21,12 @@ public class HandlerOrderService : IHandlerOrderService
     public (TemporyOrder? order, string? error) Save(Guid newGuid, Guid userId, Product[] products,
         int price,
         string address,
-        string comment)
+        string comment, List<BucketItem> productAndQuantity)
     {
         var (order, error) = TemporyOrder.Create(
             newGuid,
-            products,
+            products, 
+            productAndQuantity,
             price,
             comment,
             address,

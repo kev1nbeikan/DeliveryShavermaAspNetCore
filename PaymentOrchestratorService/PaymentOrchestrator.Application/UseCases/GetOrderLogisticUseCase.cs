@@ -45,7 +45,7 @@ public class GetOrderLogisticUseCase : IGetOrderLogisticUseCase
         if (result.Delivery.Perfomer == null) return ExecuteErrorResult("Curier is not found");
 
         (result.Cooking.Time, var error) =
-            await _storeService.GetCookingTime(temporyOrder.StoreId, temporyOrder.Basket);
+            await _storeService.GetCookingTime(temporyOrder.StoreId, temporyOrder.ProductAndQuantity);
         result.Cooking.Perfomer = temporyOrder.StoreId;
 
         if (error.HasValue()) return ExecuteErrorResult(error);

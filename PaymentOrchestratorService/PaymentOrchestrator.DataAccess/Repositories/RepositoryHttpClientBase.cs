@@ -7,7 +7,7 @@ public abstract class RepositoryHttpClientBase()
 {
     protected readonly HttpClient _httpClient;
 
-    public RepositoryHttpClientBase(string httpClientName, IHttpClientFactory httpClientFactory) : this()
+    protected RepositoryHttpClientBase(string httpClientName, IHttpClientFactory httpClientFactory) : this()
     {
         _httpClient = httpClientFactory.CreateClient(httpClientName);
     }

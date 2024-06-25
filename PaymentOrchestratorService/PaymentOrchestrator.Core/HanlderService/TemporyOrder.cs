@@ -1,4 +1,5 @@
 ﻿using Handler.Core.Common;
+using Handler.Core.Payment;
 
 namespace Handler.Core.HanlderService
 {
@@ -13,6 +14,7 @@ namespace Handler.Core.HanlderService
 
         public TemporyOrder(Guid id,
             Product[] basket,
+            List<BucketItem> productAndQuantity,
             int price,
             string comment,
             string clientAddress,
@@ -26,6 +28,7 @@ namespace Handler.Core.HanlderService
             ClientAddress = clientAddress;
             ClientId = clientId;
             StoreId = storeId;
+            productAndQuantity = productAndQuantity;
         }
 
 
@@ -38,7 +41,9 @@ namespace Handler.Core.HanlderService
         public Guid StoreId { get; }
 
 
-        public Product[] Basket { get; } = []; // проверка значений словаря
+        public Product[] Basket { get; } = [];
+
+        public List<BucketItem> ProductAndQuantity { get; } = [];
 
 
         public int Price { get; }
@@ -52,6 +57,7 @@ namespace Handler.Core.HanlderService
 
         public static (TemporyOrder? Order, string? Error) Create(Guid id,
             Product[] basket,
+            List<BucketItem> productQuantity,
             int price,
             string comment,
             string clientAddress,
@@ -80,9 +86,12 @@ namespace Handler.Core.HanlderService
             if (price < 0)
                 errorString = "Error in price, negative value for price";
 
+            if (productQuantity.Count != basket.Length)
+                errorString = "Incorrect productQuantity or basket";
 
             var task = new TemporyOrder(id,
                 basket!,
+                productQuantity,
                 price,
                 comment,
                 clientAddress,
