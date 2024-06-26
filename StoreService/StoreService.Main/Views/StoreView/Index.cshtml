@@ -1,0 +1,70 @@
+@using StoreService.Core
+@model IndexViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Предприятие</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+    <style>
+        .btn-group-toggle .btn {
+            border-radius: 30px; 
+            padding: 10px 20px;  
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">
+        Предприятие🏪
+        <span id="store-status" class="badge badge-@(Model.Store.Status == StoreStatus.Open ? "success" : "danger") ml-2">
+            @(Model.Store.Status == StoreStatus.Open ? "В работе" : "Закрыто")
+        </span>
+    </h1>
+
+    <form action="api/v1.0/status"
+          method="post" class="form-inline" data-ajax="true"
+          data-ajax-method="POST" data-ajax-mode="replace">
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            @foreach (var status in Enum.GetValues(typeof(StoreStatus)))
+            {
+                var isActive = status.Equals(Model.Store.Status);
+                var buttonClass = isActive ? "btn-secondary" : "btn-primary";
+                <input type="radio" class="btn @buttonClass" name="status"
+                       value="@status" id="@status.ToString().ToLower()" @(isActive ? "checked" : "")>
+                <label class="btn @buttonClass" for="@status.ToString().ToLower()">@status</label>
+            }
+
+            <button type="submit" class="btn btn-success ml-2">Обновить</button>
+            <div id="status-area"></div>
+        </div>
+    </form>
+</div>
+
+<script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.min.js"></script>
+<script>
+    // Обновляем статус магазина после успешной отправки формы
+    $(document).on("ajaxComplete", function (event, xhr, settings) {
+        if (xhr.status === 200 && settings.type === 'POST') {
+            var status = xhr.responseJSON;
+            var statusElement = $('#store-status');
+            var statusText = status === '@( ((int)StoreStatus.Open ).ToString())' ? 'В работе' : 'Закрыто';
+            var badgeClass = status === '@( ((int)StoreStatus.Open ).ToString())' ? 'success' : 'danger';
+
+            statusElement.text(statusText);
+            statusElement.removeClass().addClass('badge badge-' + badgeClass);
+        } else if (xhr.status === 400 && settings.type === 'POST') {
+            var statusElement = $('#status-area');
+            statusElement.innerHTML = ( xhr.responseJSON.message );
+        }
+    });
+</script>
+</body>
+</html>

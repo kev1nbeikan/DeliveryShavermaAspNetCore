@@ -1,9 +1,8 @@
-﻿using OrderService.Domain.Common;
-using OrderService.Domain.Common.Code;
+﻿using UserService.Core;
 
-namespace OrderService.Api.Contracts.Client;
+namespace UserService.Main.Contracts;
 
-public record ClientGetCurrent(
+public record OrderGetResponse(
     Guid Id,
     StatusCode Status,
     List<BasketItem> Basket,

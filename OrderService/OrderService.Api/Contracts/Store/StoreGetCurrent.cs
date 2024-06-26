@@ -1,5 +1,5 @@
-﻿using OrderService.Domain.Models;
-using OrderService.Domain.Models.Code;
+﻿using OrderService.Domain.Common;
+using OrderService.Domain.Common.Code;
 
 namespace OrderService.Api.Contracts.Store;
 

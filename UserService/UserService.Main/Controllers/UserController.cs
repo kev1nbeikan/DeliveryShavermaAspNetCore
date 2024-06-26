@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Net;
+using System.Text.Json;
 using Handler.Core.Common;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +13,8 @@ using UserService.Main.Models;
 
 namespace UserService.Main.Controllers;
 
-[Route("[controller]")]
+// [Route("[controller]")]
+[Route("")]
 public class UserController : Controller
 {
     private readonly ILogger<UserController> _logger;
@@ -84,6 +87,37 @@ public class UserController : Controller
         catch (NotFoundException e)
         {
             return View(viewModel);
+        }
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> Order()
+    {
+        // if (ModelState.IsValid) return BadRequest();
+
+        var userId = User.UserId();
+        
+        _logger.LogInformation("User {UserId} requested order", userId);
+        
+        var httpClient = new HttpClient(); 
+        httpClient.BaseAddress = new Uri("http://localhost:5106");  
+        var response = await httpClient.GetAsync("orders/client/current"); 
+    
+        if (response.IsSuccessStatusCode)
+        {
+            if (String.IsNullOrEmpty(await response.Content.ReadAsStringAsync()))
+                return BadRequest("No objects");
+            var orders = await response.Content.ReadFromJsonAsync<List<OrderGetResponse>>();
+
+            if (orders is null)
+                return BadRequest("No objects");
+            
+            var ordersViewModel = new OrdersViewModel { Orders = orders };
+            return View("Order", ordersViewModel); 
+        }
+        else
+        {
+            return BadRequest();
         }
     }
 

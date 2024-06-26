@@ -2,10 +2,10 @@
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using OrderService.DataAccess.Entities;
-using OrderService.Domain.Models;
 using OrderService.Domain.Abstractions;
-using OrderService.Domain.Models.Code;
-using OrderService.Domain.Models.Order;
+using OrderService.Domain.Common;
+using OrderService.Domain.Common.Code;
+using OrderService.Domain.Models;
 
 namespace OrderService.DataAccess.Repositories;
 

@@ -39,10 +39,11 @@ app.UseRouting();
 
 app.UseStaticFiles();
 
-app.UseMiddleware<UserIdMiddleware>();
+// app.UseMiddleware<UserIdMiddleware>();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=User}/{action=Index}/{id?}");
+    pattern: "{controller=User}/{action=Order}/{id?}", 
+    defaults: new { controller = "User", action = "Order" });
 
 app.Run();

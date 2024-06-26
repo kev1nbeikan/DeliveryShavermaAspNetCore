@@ -1,12 +1,18 @@
 using OrderService.DataAccess;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using OrderService.Application.Service;
 using OrderService.DataAccess.Repositories;
 using OrderService.Domain.Abstractions;
 using OrderService.Api.Extensions;
 using OrderService.Api.Middleware;
+using OrderService.Domain.Common;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<ServicesOptions>(builder.Configuration.GetSection("Services"));
+
+builder.Services.AddServicesHttpClients(builder.Configuration.GetSection("Services").Get<ServicesOptions>());
 
 builder.Services.AddControllers();
 
@@ -28,12 +34,15 @@ builder.Services.AddScoped<ILastOrderRepository, LastOrderRepository>();
 
 var app = builder.Build();
 
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.SetCorsPolicies(app.Services.GetService<IOptions<ServicesOptions>>());
 
 // app.UseMiddleware<UserIdMiddleware>();
 // app.UseHttpsRedirection();

@@ -1,0 +1,94 @@
+﻿@model OrdersViewModel
+
+@{
+    ViewBag.Title = "Orders";
+    Layout = "_Layout";
+}
+
+<h2>Orders</h2>
+
+<table class="table table-striped table-bordered table-hover text-center" style="width: 100%;">
+    <thead>
+    <tr>
+        <th>OrderId</th>
+        <th>Status</th>
+        <th>Price</th>
+        <th>Comment</th>
+        <th>Client Address</th>
+        <th>Courier Number</th>
+        <th>Client Number</th>
+        <th>Cheque</th>
+        <th>Basket</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var order in Model.Orders)
+    {
+        <tr>
+            <td style="vertical-align: middle;">@order.Id</td>
+            <td style="vertical-align: middle;">@order.Status</td>
+            <td style="vertical-align: middle;">@order.Price</td>
+            <td style="vertical-align: middle;">@order.Comment</td>
+            <td style="vertical-align: middle;">@order.ClientAddress</td>
+            <td style="vertical-align: middle;">@order.CourierNumber</td>
+            <td style="vertical-align: middle;">@order.ClientNumber</td>
+            <td style="vertical-align: middle;">@order.Cheque</td>
+            <td style="vertical-align: middle;">
+                @foreach (var item in order.Basket)
+                {
+                    <li>@item.ProductId - @item.Amount - @item.Price</li>
+                }
+            </td>
+            <td style="vertical-align: middle;">
+                <button class="btn btn-secondary" onclick="cancelOrder('@order.Id')">Cancel</button>
+                <input type="text" id="reason-@order.Id" placeholder="Причина отмены">
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+@* <script> *@
+@*     function cancelOrder(orderId) { *@
+@*             $.ajax({ *@
+@*                 url: "http://localhost:5106/orders/client/test", *@
+@*                 type: "Get", *@
+@*                 success: function(response) { *@
+@* $1$                    console.log(result); // Здесь вы можете обработать результат запроса#1# *@
+@*                     alert("Заказ отменен!"); *@
+@*                 }, *@
+@*                 error: function(error) { *@
+@*                     console.error(error); // Здесь обрабатывайте ошибки *@
+@*                     alert("Ошибка при отмене заказа."); *@
+@*                 } *@
+@*             }); *@
+@*     } *@
+@* </script> *@
+
+<script>
+    function cancelOrder(orderId) {
+        let confirmation = confirm("Вы уверены, что хотите отменить заказ " + orderId + "?");
+        if (confirmation) {
+            let reason = document.getElementById("reason-" + orderId).value;
+            alert(reason)
+            $.ajax({
+                url: "http://localhost:5106/orders/client/cancel/" + orderId,
+                type: "PUT",
+                data: JSON.stringify({ reasonOfCanceled: reason }),
+                contentType: "application/json",
+                success: function(response) {
+                    console.log(response);
+                    alert("Заказ отменен!");
+                },
+                error: function(error) {
+                    console.error(error);
+                    alert("Ошибка при отмене заказа.");
+                }
+            });
+            alert("Заказ " + orderId + " был отменен.");
+        } else {
+            alert("Отмена заказа " + orderId + " отменена.");
+        }
+    }
+</script>

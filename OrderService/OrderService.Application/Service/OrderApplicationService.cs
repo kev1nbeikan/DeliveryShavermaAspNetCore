@@ -1,6 +1,6 @@
 ﻿using OrderService.Domain.Abstractions;
-using OrderService.Domain.Models.Code;
-using OrderService.Domain.Models.Order;
+using OrderService.Domain.Common.Code;
+using OrderService.Domain.Models;
 
 namespace OrderService.Application.Service;
 

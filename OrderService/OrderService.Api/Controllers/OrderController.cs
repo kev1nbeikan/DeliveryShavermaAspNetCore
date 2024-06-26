@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using OrderService.Api.Contracts.Order;
 using OrderService.Api.Extensions;
 using OrderService.Domain.Abstractions;
-using OrderService.Domain.Models.Code;
-using OrderService.Domain.Models.Order;
+using OrderService.Domain.Common.Code;
+using OrderService.Domain.Models;
 
 namespace OrderService.Api.Controllers;
 
@@ -49,7 +49,7 @@ public class OrderController(IOrderApplicationService orderApplicationService) :
             null,
             null,
             request.Cheque,
-            Domain.Models.Code.StatusCode.Cooking);
+            Domain.Common.Code.StatusCode.Cooking);
 
         if (!string.IsNullOrEmpty(errorString))
         {

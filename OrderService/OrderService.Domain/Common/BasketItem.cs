@@ -1,4 +1,4 @@
-﻿namespace OrderService.Domain.Models;
+﻿namespace OrderService.Domain.Common;
 
 public struct BasketItem
 {

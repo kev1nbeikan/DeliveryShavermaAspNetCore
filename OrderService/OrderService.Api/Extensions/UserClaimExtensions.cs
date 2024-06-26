@@ -4,7 +4,7 @@ namespace OrderService.Api.Extensions;
 
 public static class UserClaimsExtensions
 {
-    public static Guid IdOfRequest = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6");
+    public static Guid IdOfRequest = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa3");
     public static string RoleOfRequest = "0";
     
     
