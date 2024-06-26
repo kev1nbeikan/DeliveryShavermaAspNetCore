@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OrderService.Api.Contracts.Common;
 using OrderService.Api.Contracts.Store;
 using OrderService.Api.Extensions;
 using OrderService.Domain.Abstractions;
@@ -70,12 +71,12 @@ public class StoreController(IOrderApplicationService orderApplicationService) :
     }
 
     [HttpPut("canceled/{orderId:Guid}")]
-    public async Task<ActionResult> ChangeStatusCanceled(Guid orderId, [FromBody] string reasonOfCanceled)
+    public async Task<ActionResult> ChangeStatusCanceled(Guid orderId, [FromBody] CancelOrderRequest cancelOrderRequest)
     {
         var userId = User.UserId();
         var role = (RoleCode)Enum.Parse(typeof(RoleCode), User.Role());
 
-        await _orderApplicationService.ChangeStatusCanceled(role, userId, orderId, reasonOfCanceled);
+        await _orderApplicationService.ChangeStatusCanceled(role, userId, orderId, cancelOrderRequest.ReasonOfCanceled);
         return Ok();
     }
 }

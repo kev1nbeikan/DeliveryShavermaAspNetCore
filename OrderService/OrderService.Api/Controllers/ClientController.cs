@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OrderService.Api.Contracts.Client;
+using OrderService.Api.Contracts.Common;
 using OrderService.Api.Extensions;
 using OrderService.Domain.Abstractions;
 using OrderService.Domain.Common.Code;
@@ -85,22 +86,24 @@ public class ClientController(IOrderApplicationService orderApplicationService, 
     }
     
     [HttpPut("cancel/{orderId:Guid}")]
-    public async Task<ActionResult> ChangeStatusCanceled(Guid orderId, [FromBody] string reasonOfCanceled)
+    public async Task<ActionResult> ChangeStatusCanceled(Guid orderId, [FromBody] CancelOrderRequest cancelOrderRequest)
     {
         var userId = User.UserId();
         var role = (RoleCode)Enum.Parse(typeof(RoleCode), User.Role());
 
         _logger.LogInformation(
             "Order Cancellation Request. User id = {userId}, role = {role}, orderId = {orderId}, reasonOfCanceled = {reasonOfCanceled}",
-            userId, role, orderId, reasonOfCanceled);
+            userId, role, orderId, cancelOrderRequest.ReasonOfCanceled);
         
-        await _orderApplicationService.ChangeStatusCanceled(role, userId, orderId, reasonOfCanceled);
+        await _orderApplicationService.ChangeStatusCanceled(role, userId, orderId, cancelOrderRequest.ReasonOfCanceled);
         return Ok();
     }
     
-    [HttpGet("test")]
-    public async Task<ActionResult<string>> Test()
+    [HttpPut("test")]
+    public async Task<ActionResult<string>> Test([FromBody] CancelOrderRequest reasonOfCanceled)
     {
+        _logger.LogInformation(
+            "TEST=TEST=TEST=TEST=TEST=TEST=TEST=TEST=TEST=TEST=TEST=TEST= {reasoOfCanceled.ReasonOfCanceled}", reasonOfCanceled.ReasonOfCanceled);
         return Ok("test Order");
     }
 }

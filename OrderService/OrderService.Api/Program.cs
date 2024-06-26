@@ -10,9 +10,24 @@ using OrderService.Domain.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.Configure<ServicesOptions>(builder.Configuration.GetSection("Services"));
+// builder.Services.Configure<ServicesOptions>(builder.Configuration.GetSection("Services"));
 
-builder.Services.AddServicesHttpClients(builder.Configuration.GetSection("Services").Get<ServicesOptions>());
+// builder.Services.AddServicesHttpClients(builder.Configuration.GetSection("Services").Get<ServicesOptions>());
+
+builder.Services.AddCors(
+    options =>
+    {
+        options.AddPolicy(
+            "AllowAllOrigins",
+            policyBuilder =>
+            {
+                policyBuilder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }
+        );
+    }
+);
 
 builder.Services.AddControllers();
 
@@ -42,7 +57,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.SetCorsPolicies(app.Services.GetService<IOptions<ServicesOptions>>());
+// app.SetCorsPolicies(app.Services.GetService<IOptions<ServicesOptions>>());
+
+app.UseCors("AllowAllOrigins");
 
 // app.UseMiddleware<UserIdMiddleware>();
 // app.UseHttpsRedirection();
