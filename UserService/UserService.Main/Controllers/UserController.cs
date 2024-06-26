@@ -99,26 +99,26 @@ public class UserController : Controller
         
         _logger.LogInformation("User {UserId} requested order", userId);
         
-        var httpClient = new HttpClient(); 
-        httpClient.BaseAddress = new Uri("http://localhost:5106");  
-        var response = await httpClient.GetAsync("orders/client/current"); 
+        // var httpClient = new HttpClient(); 
+        // httpClient.BaseAddress = new Uri("http://localhost:5106");  
+        // var response = await httpClient.GetAsync("orders/client/current"); 
     
-        if (response.IsSuccessStatusCode)
-        {
-            if (String.IsNullOrEmpty(await response.Content.ReadAsStringAsync()))
-                return BadRequest("No objects");
-            var orders = await response.Content.ReadFromJsonAsync<List<OrderGetResponse>>();
-
-            if (orders is null)
-                return BadRequest("No objects");
-            
-            var ordersViewModel = new OrdersViewModel { Orders = orders };
+        // if (response.IsSuccessStatusCode)
+        // {
+        //     if (String.IsNullOrEmpty(await response.Content.ReadAsStringAsync()))
+        //         return BadRequest("No objects");
+        //     var orders = await response.Content.ReadFromJsonAsync<List<OrderGetResponse>>();
+        //
+        //     if (orders is null)
+        //         return BadRequest("No objects");
+        //     
+        //     var ordersViewModel = new OrdersViewModel { Orders = orders };
+        // }
+        // else
+        // {
+        //     return BadRequest();
+        // }
             return View("Order"); 
-        }
-        else
-        {
-            return BadRequest();
-        }
     }
 
 
