@@ -113,7 +113,7 @@ public class UserController : Controller
                 return BadRequest("No objects");
             
             var ordersViewModel = new OrdersViewModel { Orders = orders };
-            return View("Order", ordersViewModel); 
+            return View("Order"); 
         }
         else
         {
