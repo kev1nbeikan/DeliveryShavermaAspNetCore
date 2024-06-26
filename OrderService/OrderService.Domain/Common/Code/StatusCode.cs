@@ -6,5 +6,4 @@ public enum StatusCode
     WaitingCourier,
     Delivering,
     WaitingClient,
-    Accepted
 }
