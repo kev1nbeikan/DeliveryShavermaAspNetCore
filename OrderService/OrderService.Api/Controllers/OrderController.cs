@@ -21,7 +21,8 @@ public class OrderController(IOrderApplicationService orderApplicationService) :
         var role = (RoleCode)Enum.Parse(typeof(RoleCode), User.Role());
 
         var status = await _orderApplicationService.GetStatus(role, userId, orderId);
-
+        var textStatus = StatusCodeToString.StatusMapping[status]; 
+        
         return Ok((int)status);
     }
 
