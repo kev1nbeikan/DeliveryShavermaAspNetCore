@@ -10,16 +10,18 @@
 <table id="ordersTable" class="table table-striped table-bordered table-hover text-center" style="width: 100%; vertical-align: middle;">
     <thead>
     <tr>
-        <th>OrderId</th>
-        <th>Status</th>
-        <th>Price</th>
-        <th>Comment</th>
-        <th>Client Address</th>
-        <th>Courier Number</th>
-        <th>Client Number</th>
-        <th>Cheque</th>
-        <th>Basket</th>
-        <th>Actions</th>
+        <th style="vertical-align: middle;" >Номер заказа</th>
+        <th style="vertical-align: middle;" >Статус</th>
+        <th style="vertical-align: middle;" >Цена</th>
+        <th style="vertical-align: middle;" >Комментарий</th>
+        <th style="vertical-align: middle;" >Аддресс клиента</th>
+        <th style="vertical-align: middle;" >Номер курьера</th>
+        <th style="vertical-align: middle;"  >Номер клиента</th>
+        @*
+        <th>Чек</th>
+        *@
+        <th style="vertical-align: middle;" >Корзина</th>
+        <th></th>
     </tr>
     </thead>
     <tbody>
@@ -28,9 +30,17 @@
 
 <script>
     
-    const STATUS_CHECK_INTERVAL = 1000; 
-    
+    const STATUS_CHECK_INTERVAL = 1000;
+    const SERVER_CHECK_INTERVAL = 5000;
+
     let ordersToCheck = [];
+
+    const StatusMapping = {
+        "0": "Готовится",
+        "1": "Доставляется",
+        "2": "Прибыл к клиенту",
+        "3": "Ожидает курьра"
+    };
     
     window.onload = function() {
         getOrders();
@@ -39,9 +49,13 @@
     function getOrders() {
         fetch('http://localhost:5106/orders/client/current')
             .then(response => {
-                if (!response.ok) {
-                    throw new Error(`Can not take current orders. URL: ${response.url}. Error = ${response.status} - ${response.statusText}`);                }
-                return response.json();
+                if (response.status === 200) {
+                    return response.json();
+                } else if (response.status === 204) {
+                    throw new Error("204");
+                    } else {
+                    throw new Error();
+                }
             })
             .then(data => {
                 displayOrders(data);
@@ -49,7 +63,12 @@
             })
             .catch(error => {
                 console.error('Ошибка при получении данных:', error);
-                });
+                if (error.message === "204") {
+                    displayError("Текущих заказов нету 😓");
+                }else{
+                    displayError("Ошибка при подключению к серверу");
+                }
+            });
     }
 
     function displayOrders(orders) {
@@ -61,20 +80,24 @@
             const row = ordersTable.insertRow();
 
             row.insertCell().textContent = order.id;
-            row.insertCell().textContent = order.status;
+            row.insertCell().textContent = StatusMapping[order.status];
             row.insertCell().textContent = order.price;
             row.insertCell().textContent = order.comment;
             row.insertCell().textContent = order.clientAddress;
             row.insertCell().textContent = order.courierNumber;
             row.insertCell().textContent = order.clientNumber;
+            @*
             row.insertCell().textContent = order.cheque;
+            *@
 
             const basketCell = row.insertCell();
             order.basket.forEach(item => {
                 const listItem = document.createElement('li');
-                listItem.textContent = `${item.productId} - ${item.amount} - ${item.price}`;
+                listItem.textContent = `${item.name} - Количество: ${item.amount} - Цена: ${item.price}`;
                 basketCell.appendChild(listItem);
             });
+            row.cells[7].style.textAlign = 'left';
+
 
             const actionsCell = row.insertCell();
             const cancelButton = document.createElement('button');
@@ -90,8 +113,42 @@
             actionsCell.appendChild(reasonInput);
         });
     }
-
     function cancelOrder(orderId) {
+        // Получаем ссылку на модальное окно
+        const confirmCancelModal = document.getElementById('confirmCancelModal');
+        // Получаем ссылку на кнопку "Да" в модальном окне
+        const confirmCancelBtn = document.getElementById('confirmCancelBtn');
+
+        // Устанавливаем обработчик клика на кнопку "Да"
+        confirmCancelBtn.onclick = () => {
+            // Закрываем модальное окно
+            confirmCancelModal.hide();
+
+            // Получаем причину отмены из input
+            const reason = document.getElementById(`reason-${orderId}`).value;
+
+            fetch(`http://localhost:5106/orders/client/cancel/${orderId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ reasonOfCanceled: reason })
+            })
+                .then(response => {
+                    getOrders();
+                    alert('Заказ отменен');
+                    console.log('Заказ отменен', response);
+                })
+                .catch(error => {
+                    alert('Произошла ошибка');
+                    console.error('Ошибка при отмене заказа:', error);
+                });
+        };
+
+        // Покажите модальное окно
+        confirmCancelModal.show(); // Удалите лишний вызов
+    }
+    @*function cancelOrder(orderId) {
         let confirmation = confirm(`Вы уверены, что хотите отменить заказ id = ${orderId}?`);
         if (confirmation) {
         
@@ -114,7 +171,7 @@
                 console.error('Ошибка при отмене заказа:', error);
             });
         }
-    }
+    }*@
     
     async function checkOrderStatus() {
         const promises = ordersToCheck.map(async (orderId) => {
@@ -138,8 +195,35 @@
         const rows = ordersTable.querySelectorAll('tr');
         const orderRow = Array.from(rows).find(row => row.cells[0].textContent === orderId.toString());
         if (orderRow) {
-            orderRow.cells[1].textContent = newStatus;
+            orderRow.cells[1].textContent = StatusMapping[newStatus];
         }
     }
 
+    function displayError(message) {
+        const ordersTable = document.getElementById('ordersTable').getElementsByTagName('tbody')[0];
+        ordersTable.innerHTML = '';
+
+        const row = ordersTable.insertRow();
+        const cell = row.insertCell();
+        cell.colSpan = 10; 
+        cell.textContent = message;
+    }
 </script>
+
+<div class="modal fade" id="confirmCancelModal" tabindex="-1" aria-labelledby="confirmCancelModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmCancelModalLabel">Подтверждение отмены заказа</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Вы уверены, что хотите отменить заказ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
+                <button type="button" class="btn btn-primary" id="confirmCancelBtn">Да, отменить</button>
+            </div>
+        </div>
+    </div>
+</div>
