@@ -11,9 +11,10 @@ public class UserIdMiddleware(RequestDelegate next)
 	{
 		var userIdString = GetFromCookiesOrHeaders(context, UserClaimsStrings.UserId);
 		var roleString = GetFromCookiesOrHeaders(context, UserClaimsStrings.Role);
+		var codeString = GetFromCookiesOrHeaders(context, UserClaimsStrings.Code);
 
-
-		if (!Guid.TryParse(userIdString, out Guid userId) || string.IsNullOrEmpty(roleString))
+		if (!Guid.TryParse(userIdString, out Guid userId) || string.IsNullOrEmpty(roleString) ||
+		    string.IsNullOrEmpty(codeString))
 		{
 			await _next(context);
 			return;
@@ -24,7 +25,8 @@ public class UserIdMiddleware(RequestDelegate next)
 				new Claim[]
 				{
 					new(UserClaimsStrings.UserId, userId.ToString()),
-					new(UserClaimsStrings.Role, roleString)
+					new(UserClaimsStrings.Role, roleString),
+					new(UserClaimsStrings.Code, codeString)
 				}
 			)
 		);
