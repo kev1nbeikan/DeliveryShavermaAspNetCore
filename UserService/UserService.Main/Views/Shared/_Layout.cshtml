@@ -29,23 +29,6 @@
     <main role="main" class="pb-3">
         @RenderBody()
     </main>
-    <div class="modal fade" id="confirmCancelModal" tabindex="-1" aria-labelledby="confirmCancelModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="confirmCancelModalLabel">Подтверждение отмены заказа</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Вы уверены, что хотите отменить заказ?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
-                    <button type="button" class="btn btn-primary" id="confirmCancelBtn">Да, отменить</button>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
 <footer class="border-top footer text-muted">
@@ -55,9 +38,10 @@
 </footer>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="~/js/site.js" asp-append-version="true"></script>
-<script src="~/js/cancelWindow.js" asp-append-version="true"></script>
 <script src="~/js/order.js" asp-append-version="true"></script>
+<script src="~/js/acceptWindow.js" asp-append-version="true"></script>
+<script src="~/js/cancelWindow.js" asp-append-version="true"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
 @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
