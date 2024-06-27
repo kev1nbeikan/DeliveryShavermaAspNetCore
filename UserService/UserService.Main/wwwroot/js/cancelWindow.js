@@ -1,33 +1,33 @@
-﻿const confirmButton = document.getElementById("confirm");
-const cancelButton = document.getElementById("cancel");
-const conformationWindow = document.getElementById("conformationWindow");
-let _orderId = "";
+﻿const confirmButtonCancel = document.getElementById("confirmCancel");
+const cancelButtonCancel = document.getElementById("cancelCancel");
+const conformationWindowCancel = document.getElementById("conformationWindowCancel");
+let _orderIdCancel = "";
 
-function openConformationWindow(orderId) {
-    conformationWindow.classList.remove("hidden");
+function openConformationWindowCancel(orderId) {
+    conformationWindowCancel.classList.remove("hidden");
     document.getElementById("reason").focus();
-    _orderId = orderId;
+    _orderIdCancel = orderId;
 }
 
-confirmButton.addEventListener("click", () => {
+confirmButtonCancel.addEventListener("click", () => {
     const reasonTextArea = document.getElementById("reason")
     const reason = reasonTextArea.value;
     if (reason.trim() === '') {
         reasonTextArea.style.backgroundColor = "#FFF5F5";
     } else {
-        conformationWindow.classList.add("hidden");
+        conformationWindowCancel.classList.add("hidden");
         cancelOrder(reasonTextArea.value);
         reasonTextArea.style.backgroundColor = "#FFFFFF";
         document.getElementById("reason").value = "";
     }
 });
 
-cancelButton.addEventListener("click", () => {
-    conformationWindow.classList.add("hidden");
+cancelButtonCancel.addEventListener("click", () => {
+    conformationWindowCancel.classList.add("hidden");
 });
 
 function cancelOrder(reasonOfCanceled) {
-    fetch(`http://localhost:5106/orders/client/cancel/${_orderId}`, {
+    fetch(`http://localhost:5106/orders/client/cancel/${_orderIdCancel}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
