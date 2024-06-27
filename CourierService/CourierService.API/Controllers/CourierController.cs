@@ -69,7 +69,7 @@ public class CourierController : Controller
 	}
 
 	[HttpPost("status/{id:guid}")]
-	public async Task<IActionResult> UpdateCourierStatus(Guid id, CourierStatusCode status)
+	public async Task<IActionResult> UpdateCourierStatus(Guid id, [FromForm] CourierStatusCode status)
 	{
 		await _courierService.UpdateCourier(id, status);
 
@@ -116,10 +116,12 @@ public class CourierController : Controller
 	[HttpGet("profile")]
 	public async Task<IActionResult> CourierProfile()
 	{
-		
-		return View(new CourierViewModel()
-		{
-			Id = User.UserId()
-		});
+		return View(
+			new CourierViewModel()
+			{
+				Id = User.UserId(),
+				Status = User.Code()
+			}
+		);
 	}
 }

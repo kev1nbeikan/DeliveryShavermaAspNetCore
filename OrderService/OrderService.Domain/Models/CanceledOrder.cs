@@ -1,6 +1,7 @@
-﻿using OrderService.Domain.Models.Code;
+﻿using OrderService.Domain.Common;
+using OrderService.Domain.Common.Code;
 
-namespace OrderService.Domain.Models.Order;
+namespace OrderService.Domain.Models;
 
 public class CanceledOrder : BaseOrder
 {

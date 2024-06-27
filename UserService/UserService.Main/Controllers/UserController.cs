@@ -13,7 +13,8 @@ using UserService.Main.Models;
 
 namespace UserService.Main.Controllers;
 
-[Route("[controller]")]
+// [Route("[controller]")]
+[Route("")]
 public class UserController : Controller
 {
     private readonly ILogger<UserController> _logger;
@@ -98,27 +99,26 @@ public class UserController : Controller
         
         _logger.LogInformation("User {UserId} requested order", userId);
         
-        var httpClient = new HttpClient(); 
-        httpClient.BaseAddress = new Uri("http://localhost:5106");  
-        var response = await httpClient.GetAsync("orders/client/current"); 
+        // var httpClient = new HttpClient(); 
+        // httpClient.BaseAddress = new Uri("http://localhost:5106");  
+        // var response = await httpClient.GetAsync("orders/client/current"); 
     
-        if (response.IsSuccessStatusCode)
-        {
-            var json = await response.Content.ReadAsStringAsync();
-
-            _logger.LogInformation($"{json}");
-            var orders = JsonSerializer.Deserialize<List<OrderGetResponse>>(json);
-            if (orders is null)
-                return BadRequest("No objects");
-            
-            var ordersViewModel = new OrdersViewModel { Orders = orders }; 
-
-            return View("Order", ordersViewModel); 
-        }
-        else
-        {
-            return BadRequest();
-        }
+        // if (response.IsSuccessStatusCode)
+        // {
+        //     if (String.IsNullOrEmpty(await response.Content.ReadAsStringAsync()))
+        //         return BadRequest("No objects");
+        //     var orders = await response.Content.ReadFromJsonAsync<List<OrderGetResponse>>();
+        //
+        //     if (orders is null)
+        //         return BadRequest("No objects");
+        //     
+        //     var ordersViewModel = new OrdersViewModel { Orders = orders };
+        // }
+        // else
+        // {
+        //     return BadRequest();
+        // }
+            return View("Order"); 
     }
 
 

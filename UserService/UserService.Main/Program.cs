@@ -43,7 +43,7 @@ app.UseStaticFiles();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=User}/{action=Index}/{id?}",
-    defaults: new { controller = "User", action = "Index" });
+    pattern: "{controller=User}/{action=Order}/{id?}", 
+    defaults: new { controller = "User", action = "Order" });
 
 app.Run();

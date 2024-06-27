@@ -13,7 +13,15 @@ public static class UserClaimsExtensions
 
 	public static RoleCode Role(this ClaimsPrincipal user)
 	{
-		return RoleCode.Client;
+		return RoleCode.Courier;
 		// return user.FindFirstValue(UserClaims.Role);
+	}
+
+	public static CourierStatusCode Code(this ClaimsPrincipal user)
+	{
+		return (CourierStatusCode) Enum.Parse(
+			typeof(CourierStatusCode),
+			user.FindFirstValue(UserClaimsStrings.Code) ?? CourierStatusCode.NotWork.ToString()
+		);
 	}
 }

@@ -1,4 +1,6 @@
-﻿namespace OrderService.Domain.Models.Order;
+﻿using OrderService.Domain.Common;
+
+namespace OrderService.Domain.Models;
 
 public class LastOrder : BaseOrder
 {
