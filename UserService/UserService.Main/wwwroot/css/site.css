@@ -24,3 +24,41 @@ body {
 #ordersTable th {
   vertical-align: middle;
 }
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn:hover {
+  opacity: 0.8;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.actions-cell{
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+}
+
+.order-cancel-button{
+  background-color: #d9534f;
+  color: white;
+}
+
+.order-accept-button{
+  background-color: #5cb85c;
+  color: white;
+}
+
+#statusCell{
+  font-weight: bold;
+}
