@@ -182,7 +182,12 @@
     async function checkOrderStatus() {
         const promises = ordersToCheck.map(async (orderId) => {
             try {
-                const response = await fetch(`http://localhost:5106/orders/status/${orderId}`);
+                const response = await fetch(`http://localhost:5106/orders/status/${orderId}`, {
+                    headers: {
+                        'UserId': getCookie('UserId'),
+                        'Role': getCookie('Role')
+                    }
+                });
                 if (response.ok) {
                     const orderData = await response.text();
                     updateOrderStatus(orderId, orderData);
