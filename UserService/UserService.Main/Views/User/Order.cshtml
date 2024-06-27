@@ -42,16 +42,18 @@
         "3": "Ожидает курьра"
     };
     
+    const AuthHeaders = {
+        'UserId': getCookie('UserId'),
+        'Role': getCookie('Role')
+    };
+    
     window.onload = function() {
         getOrders();
         setInterval(checkOrderStatus, STATUS_CHECK_INTERVAL);
     };
     function getOrders() {
         fetch('http://localhost:5106/orders/client/current', {
-                headers: {
-                    'UserId': getCookie('UserId'),
-                    'Role': getCookie('Role')
-                }
+                headers: AuthHeaders
             }
         )
             .then(response => {
@@ -183,10 +185,7 @@
         const promises = ordersToCheck.map(async (orderId) => {
             try {
                 const response = await fetch(`http://localhost:5106/orders/status/${orderId}`, {
-                    headers: {
-                        'UserId': getCookie('UserId'),
-                        'Role': getCookie('Role')
-                    }
+                    headers: AuthHeaders
                 });
                 if (response.ok) {
                     const orderData = await response.text();
