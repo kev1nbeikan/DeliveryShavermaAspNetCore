@@ -86,12 +86,5 @@ public class CourierController : Controller
 		}
 	}
 
-	[Authorize]
-	[HttpGet("logout")]
-	public async Task<IActionResult> Logout()
-	{
-		await _courierAuthService.Logout();
-
-		return RedirectToAction(nameof(Login));
-	}
+	
 }

@@ -61,7 +61,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("AllowAllOrigins");
 
-// app.UseMiddleware<UserIdMiddleware>();
+app.UseMiddleware<UserIdMiddleware>();
 // app.UseHttpsRedirection();
 app.MapControllers();
 

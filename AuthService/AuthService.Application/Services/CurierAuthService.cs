@@ -10,69 +10,60 @@ namespace AuthService.Application.Services;
 
 public class CourierAuthService : ICourierAuthService
 {
-	private readonly IPasswordHasher _passwordHasher;
-	private readonly ICourierAuthRepo _courierAuthRepository;
-	private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IPasswordHasher _passwordHasher;
+    private readonly ICourierAuthRepo _courierAuthRepository;
 
-	public CourierAuthService(
-		IPasswordHasher passwordHasher,
-		ICourierAuthRepo courierAuthRepository,
-		IHttpContextAccessor httpContextAccessor)
-	{
-		_passwordHasher = passwordHasher;
-		_courierAuthRepository = courierAuthRepository;
-		_httpContextAccessor = httpContextAccessor;
-	}
+    public CourierAuthService(IPasswordHasher passwordHasher,
+        ICourierAuthRepo courierAuthRepository)
+    {
+        _passwordHasher = passwordHasher;
+        _courierAuthRepository = courierAuthRepository;
+    }
 
-	public async Task<CourierAuth> Register(string login, string password)
-	{
-		var courier = await _courierAuthRepository.GetByLogin(login);
+    public async Task<CourierAuth> Register(string login, string password)
+    {
+        var courier = await _courierAuthRepository.GetByLogin(login);
 
-		if (courier != null)
-		{
-			throw new UniqeConstraitException("courier with this username already exists");
-		}
+        if (courier != null)
+        {
+            throw new UniqeConstraitException("courier with this username already exists");
+        }
 
-		var hashedPassword = _passwordHasher.Generate(password);
+        var hashedPassword = _passwordHasher.Generate(password);
 
-		var newCourier = CourierAuth.Create(Guid.NewGuid(), login, hashedPassword);
+        var newCourier = CourierAuth.Create(Guid.NewGuid(), login, hashedPassword);
 
-		await _courierAuthRepository.Add(newCourier);
+        await _courierAuthRepository.Add(newCourier);
 
-		return newCourier;
-	}
+        return newCourier;
+    }
 
-	public async Task<Guid> Login(string login, string password)
-	{
-		var courier = await _courierAuthRepository.GetByLogin(login);
+    public async Task<Guid> Login(string login, string password)
+    {
+        var courier = await _courierAuthRepository.GetByLogin(login);
 
-		if (courier == null)
-		{
-			throw new NotFoundException("courier not found");
-		}
+        if (courier == null)
+        {
+            throw new NotFoundException("courier not found");
+        }
 
-		if (!_passwordHasher.Verify(password, courier.PasswordHash))
-		{
-			throw new IncorectPasswordException(courier.Login);
-		}
+        if (!_passwordHasher.Verify(password, courier.PasswordHash))
+        {
+            throw new IncorectPasswordException(courier.Login);
+        }
 
-		return courier.Id;
-	}
+        return courier.Id;
+    }
 
-	public async Task<CourierAuth> GetCourier(Guid id)
-	{
-		var courier = await _courierAuthRepository.GetById(id);
+    public async Task<CourierAuth> GetCourier(Guid id)
+    {
+        var courier = await _courierAuthRepository.GetById(id);
 
-		if (courier == null)
-		{
-			throw new NotFoundException("courier not found");
-		}
+        if (courier == null)
+        {
+            throw new NotFoundException("courier not found");
+        }
 
-		return courier;
-	}
-
-	public Task Logout()
-	{
-		return _httpContextAccessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-	}
+        return courier;
+    }
 }

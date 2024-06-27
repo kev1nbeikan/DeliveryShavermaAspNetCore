@@ -39,7 +39,7 @@ app.UseRouting();
 
 app.UseStaticFiles();
 
-// app.UseMiddleware<UserIdMiddleware>();
+app.UseMiddleware<UserIdMiddleware>();
 
 app.MapControllerRoute(
     name: "default",
