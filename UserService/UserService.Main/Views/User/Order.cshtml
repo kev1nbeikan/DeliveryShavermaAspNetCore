@@ -1,7 +1,7 @@
 ﻿@model OrdersViewModel
 
 @{
-    ViewBag.Title = "Orders";
+    ViewBag.Title = "Заказы";
     Layout = "_Layout";
 }
 
@@ -10,17 +10,13 @@
 <table id="ordersTable" class="table table-striped table-bordered table-hover text-center" style="width: 100%; vertical-align: middle;">
     <thead>
     <tr>
-        <th style="vertical-align: middle;">Номер заказа</th>
-        <th style="vertical-align: middle;">Статус</th>
-        <th style="vertical-align: middle;">Цена</th>
-        <th style="vertical-align: middle;">Комментарий</th>
-        <th style="vertical-align: middle;">Аддресс клиента</th>
-        <th style="vertical-align: middle;">Номер курьера</th>
-        <th style="vertical-align: middle;">Номер клиента</th>
-        @*
-        <th>Чек</th>
-        *@
-        <th style="vertical-align: middle;">Корзина</th>
+        <th>Статус</th>
+        <th>Корзина</th>
+        <th>Комментарий</th>
+        <th>Аддресс клиента</th>
+        <th>Номер курьера</th>
+        <th>Номер клиента</th>
+        <th>Цена</th>
         <th></th>
     </tr>
     </thead>
@@ -28,12 +24,11 @@
     </tbody>
 </table>
 
-@await Html.PartialAsync("_ConfirmationWindowPartial")
+@await Html.PartialAsync("_CancelWindowPartial")
 
 <script>
     window.onload = function() {
         getOrders();
         setInterval(checkOrderStatus, STATUS_CHECK_INTERVAL);
-        init(document);
     };
 </script>
