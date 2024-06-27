@@ -5,6 +5,7 @@ using Handler.Core;
 using Handler.Core.Abstractions.Repositories;
 using Handler.Core.Common;
 using Handler.Core.Payment;
+using HandlerService.DataAccess.Contracts;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
@@ -17,15 +18,17 @@ public class StoreRepository : RepositoryHttpClientBase, IStoreRepository
     {
     }
 
-    public async Task<(TimeSpan cookingTime, string? error)> GetCokingTime(Guid storeId, List<BucketItem> basket)
+    public async Task<(TimeSpan cookingTime, string? error)> GetCokingTime(string clientAddress,
+        List<BucketItem> basket)
     {
+        var body = new GetCookingTimeRequest(clientAddress, basket);
+
         var request = new HttpRequestMessage
         {
             Method = HttpMethod.Get,
-            Content = JsonContent.Create(basket),
-            RequestUri = new Uri($"store/api/v1.0/cookingtime/{storeId}", UriKind.Relative)
+            Content = JsonContent.Create(body),
+            RequestUri = new Uri("store/api/v1.0/cookingtime", UriKind.Relative)
         };
-
 
         var response = await _httpClient.SendAsync(request);
 

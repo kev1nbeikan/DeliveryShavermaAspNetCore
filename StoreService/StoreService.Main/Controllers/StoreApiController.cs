@@ -35,8 +35,8 @@ public class StoreApiController : ControllerBase
     }
 
 
-    [HttpGet("cookingtime/{storeId}")]
-    public async Task<IActionResult> Check(Guid storeId, List<ProductInventory> products)
+    [HttpGet("cookingtime")]
+    public async Task<IActionResult> Check()
     {
         try
         {

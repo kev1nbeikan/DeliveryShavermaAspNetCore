@@ -12,6 +12,9 @@ using HandlerService.Models;
 
 namespace HandlerService.Controllers;
 
+
+[ApiController]
+[Route("[controller]/[action]")]
 public class PaymentController : Controller
 {
     private readonly ILogger<PaymentController> _logger;
