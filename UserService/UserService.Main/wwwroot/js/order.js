@@ -44,14 +44,17 @@ function getOrders() {
 }
 
 function displayOrders(orders) {
-    const ordersTable = document.getElementById('ordersTable').getElementsByTagName('tbody')[0];
+    const ordersTable = document.getElementById('ordersTable')
+        .getElementsByTagName('tbody')[0];
 
     ordersTable.innerHTML = '';
 
     orders.forEach(order => {
         const row = ordersTable.insertRow();
-        
-        row.insertCell().textContent = StatusMapping[order.status];
+
+        const statusCell = row.insertCell();
+        statusCell.id = 'statusCell';
+        statusCell.textContent = StatusMapping[order.status];
         
         const basketCell = row.insertCell();
         basketCell.id = 'basketCell';
@@ -68,37 +71,23 @@ function displayOrders(orders) {
         row.insertCell().textContent = order.price;
 
         const actionsCell = row.insertCell();
+        actionsCell.classList.add('actions-cell');
+        
         const cancelButton = document.createElement('button');
         cancelButton.classList.add('btn', 'btn-secondary', 'order-cancel-button');
         cancelButton.textContent = 'Отменить';
-        cancelButton.onclick = () => openConformationWindow(order.id);
+        cancelButton.onclick = () => openConformationWindowCancel(order.id);
         actionsCell.appendChild(cancelButton);
         
         if (order.status === 3) {
             const acceptButton = document.createElement('button');
             acceptButton.classList.add('btn', 'btn-success', 'order-accept-button');
             acceptButton.textContent = 'Принять';
-            acceptButton.onclick = () => acceptOrder(order.id);
+            // acceptButton.onclick = () => openConformationWindowAccept(order.id);
+            acceptButton.onclick = () => openConformationWindowAccept(order.id);
             actionsCell.appendChild(acceptButton);
         }
-        
     });
-}
-
-function acceptOrder(orderId) {
-    fetch(`http://localhost:5106/orders/client/accept/${orderId}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-        .then(response => {
-            getOrders();
-            console.log('Заказ принят!');
-        })
-        .catch(error => {
-            console.error('Ошибка при отправке запроса на прием:', error);
-        });
 }
 
 async function checkOrderStatus() {
@@ -110,7 +99,6 @@ async function checkOrderStatus() {
             if (response.status === 200) {
                 const orderData = await response.text();
                 updateOrderStatus(orderId, orderData);
-                getOrders();
             } else if (response.status === 204) {
                 getOrders();
             } else {
