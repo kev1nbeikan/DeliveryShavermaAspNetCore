@@ -78,8 +78,8 @@ public class StoreController : Controller
     {
         try
         {
-            var user = await _storeAuthService.Register(request.Login, request.Password);
-            return Ok(user.Id);
+            var userId = await _storeAuthService.Register(request.Login, request.Password);
+            return Ok(userId);
         }
         catch (Exception e) when (e is UniqeConstraitException | e is ArgumentException)
         {

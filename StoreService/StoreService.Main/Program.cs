@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using StoreService.DataAccess;
 using StoreService.Main.Extensions;
@@ -33,9 +35,9 @@ app.UseMiddleware<UserIdMiddleware>();
 
 app.UseRouting();
 
-
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}"
+);
 
 app.Run();

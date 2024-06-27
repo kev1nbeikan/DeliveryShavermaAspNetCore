@@ -15,7 +15,7 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        return View();
+        return RedirectToRoute("/store/index");
     }
 
     public IActionResult Privacy()

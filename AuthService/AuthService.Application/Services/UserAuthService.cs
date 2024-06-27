@@ -17,8 +17,8 @@ public class UserAuthService : IUserAuthService
     }
 
 
-    public async Task<UserAuth> Register(string email,
-        string passwordHash)
+    public async Task<Guid> Register(string email,
+        string password)
     {
         var user = await _userRepository.GetByEmail(email);
 
@@ -27,13 +27,13 @@ public class UserAuthService : IUserAuthService
             throw new UniqeConstraitException("user with this email already exists");
         }
 
-        var hashedPassword = _passwordHasher.Generate(passwordHash);
+        var hashedPassword = _passwordHasher.Generate(password);
 
         var userAuth = UserAuth.Create(Guid.NewGuid(), email, hashedPassword);
 
         await _userRepository.Add(userAuth);
 
-        return userAuth;
+        return userAuth.Id;
     }
 
     public async Task<Guid> Login(string email, string password)

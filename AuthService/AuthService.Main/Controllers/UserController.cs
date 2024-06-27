@@ -75,8 +75,8 @@ public class UserController : Controller
     {
         try
         {
-            var user = await _userAuthService.Register(request.Email, request.Password);
-            return Ok(user.Id);
+            var userId = await _userAuthService.Register(request.Email, request.Password);
+            return Ok(userId);
         }
         catch (Exception e) when (e is UniqeConstraitException | e is ArgumentException)
         {

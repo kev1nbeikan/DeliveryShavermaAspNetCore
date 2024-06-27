@@ -16,7 +16,7 @@ public class StoreAuthService : IStoreAuthService
         _storeAuthRepository = storeAuthRepository;
     }
 
-    public async Task<StoreAuth> Register(string login, string password)
+    public async Task<Guid> Register(string login, string password)
     {
         var store = await _storeAuthRepository.GetByLogin(login);
 
@@ -31,7 +31,7 @@ public class StoreAuthService : IStoreAuthService
 
         await _storeAuthRepository.Add(newStore);
 
-        return newStore;
+        return newStore.Id;
     }
 
     public async Task<Guid> Login(string login, string password)
