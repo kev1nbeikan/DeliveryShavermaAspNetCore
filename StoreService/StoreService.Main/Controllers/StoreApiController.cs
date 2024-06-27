@@ -37,7 +37,7 @@ public class StoreApiController : ControllerBase
 
 
     [HttpGet("cookingtime")]
-    public async Task<IActionResult> Check(GetCookingTimeRequest request)
+    public async Task<IActionResult> GetStore(GetCookingTimeRequest request)
     {
         try
         {

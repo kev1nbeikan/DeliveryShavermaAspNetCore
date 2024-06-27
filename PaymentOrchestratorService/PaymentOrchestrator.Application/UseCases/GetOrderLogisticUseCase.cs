@@ -31,7 +31,7 @@ public class GetOrderLogisticUseCase : IGetOrderLogisticUseCase
 
         (result.Cooking.Time, var error) =
             await _storeService.GetCookingTime(temporyOrder.ClientAddress, temporyOrder.ProductAndQuantity);
-        result.Cooking.Perfomer = temporyOrder.StoreId;
+        result.Cooking.Executer = temporyOrder.StoreId;
 
         if (error.HasValue()) return ExecuteErrorResult(error);
 

@@ -22,6 +22,7 @@ public class StoreService : IStoreService
     public async Task<TimeSpan> GetCookingTime(string clientAddress, List<ProductsInventoryWithoutStore> products)
     {
         var store = await GetStoreForClientAddress(clientAddress);
+        
         if (store is null) throw new StoreNotFoundException(clientAddress);
 
         await EnsureValidStoreAndProducts(store.Id, products);
