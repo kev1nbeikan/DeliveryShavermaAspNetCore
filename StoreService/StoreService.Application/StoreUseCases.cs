@@ -6,9 +6,9 @@ namespace StoreService.Application;
 public class StoreUseCases : IStoreUseCases
 {
     private readonly IStoreService _storeService;
-    private readonly IStoreServiceSpecificMenuRepository _menuRepository;
+    private readonly IStoreServiceMenuRepository _menuRepository;
 
-    public StoreUseCases(IMenuRepositoryByStoreService menuRepository, IStoreService storeService)
+    public StoreUseCases(IStoreServiceMenuRepository menuRepository, IStoreService storeService)
     {
         _menuRepository = menuRepository;
         _storeService = storeService;
@@ -16,5 +16,6 @@ public class StoreUseCases : IStoreUseCases
 
     public Task<List<MenuProductInventory>> GetMenuProductsWithInventory(Guid storeId)
     {
+        throw new NotImplementedException();
     }
 }

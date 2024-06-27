@@ -2,7 +2,7 @@ using StoreService.Core;
 
 namespace StoreService.Application;
 
-public interface IStoreServiceSpecificMenuRepository
+public interface IStoreServiceMenuRepository
 {
     Task<List<Product>> GetAll();
 }

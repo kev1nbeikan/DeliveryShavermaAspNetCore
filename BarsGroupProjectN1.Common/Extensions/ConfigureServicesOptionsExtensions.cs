@@ -6,7 +6,7 @@ namespace BarsGroupProjectN1.Core.Extensions;
 
 public static class ConfigureServicesOptionsExtensions
 {
-    public static void ConfigureServiceOptions(this IServiceCollection services, IConfiguration configuration)
+    public static void ConfigureServicesOptions(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<ServicesOptions>(configuration.GetSection(nameof(ServicesOptions)));
     }
