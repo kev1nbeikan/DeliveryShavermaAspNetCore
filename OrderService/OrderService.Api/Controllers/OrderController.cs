@@ -20,10 +20,20 @@ public class OrderController(IOrderApplicationService orderApplicationService) :
         var userId = User.UserId();
         var role = (RoleCode)Enum.Parse(typeof(RoleCode), User.Role());
 
-        var status = await _orderApplicationService.GetStatus(role, userId, orderId);
-        var textStatus = StatusCodeToString.StatusMapping[status]; 
-        
-        return Ok((int)status);
+        try
+        {
+            var status = await _orderApplicationService.GetStatus(role, userId, orderId);
+            return Ok((int)status);
+        }
+        catch (KeyNotFoundException)
+        {
+            return NoContent();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return BadRequest(); 
+        }
     }
 
     [HttpPost]
