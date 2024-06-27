@@ -17,7 +17,9 @@ public class StoreRepository : IStoreRepository
 
     public async Task<Store?> Get(Guid storeId)
     {
-        var storeEntity = await _storeDbContext.Stores.AsNoTracking().FirstOrDefaultAsync(s => s.Id == storeId);
+        var storeEntity = await _storeDbContext.Stores
+            .AsNoTracking()
+            .FirstOrDefaultAsync(s => s.Id == storeId);
         return storeEntity?.ToCore();
     }
 
@@ -35,6 +37,11 @@ public class StoreRepository : IStoreRepository
     {
         var store = await _storeDbContext.Stores.FirstOrDefaultAsync(s => s.Id == storeId);
         return store?.Status;
+    }
+
+    public async Task<List<Store>> GetAll()
+    {
+        return await _storeDbContext.Stores.AsNoTracking().Select(s => s.ToCore()).ToListAsync();
     }
 
     public async Task Add(Store store)

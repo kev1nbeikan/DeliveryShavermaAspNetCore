@@ -15,8 +15,8 @@ public class StoreService : IStoreService
         _storeRepository = storeRepository;
     }
 
-    public async Task<(TimeSpan cookingTime, string? error)> GetCookingTime(Guid storeId, List<BucketItem> basket)
+    public async Task<(TimeSpan cookingTime, string? error)> GetCookingTime(string address, List<BucketItem> basket)
     {
-        return await _storeRepository.GetCokingTime(storeId, basket);
+        return await _storeRepository.GetCokingTime(address, basket);
     }
 }

@@ -12,6 +12,9 @@ using HandlerService.Models;
 
 namespace HandlerService.Controllers;
 
+
+[ApiController]
+[Route("[controller]/[action]")]
 public class PaymentController : Controller
 {
     private readonly ILogger<PaymentController> _logger;
@@ -82,9 +85,9 @@ public class PaymentController : Controller
             temporyOrder.Comment,
             cheque!,
             temporyOrder.ClientAddress,
-            orderLogistic!.Delivery.Perfomer,
+            orderLogistic!.Delivery.Executer,
             myUser!,
-            orderLogistic.Cooking.Perfomer,
+            orderLogistic.Cooking.Executer,
             orderLogistic.Cooking.Time,
             orderLogistic.Delivery.Time
         );

@@ -1,3 +1,4 @@
+using BarsGroupProjectN1.Core.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using StoreService.Core;
 using StoreService.Core.Abstractions;
@@ -35,12 +36,12 @@ public class StoreApiController : ControllerBase
     }
 
 
-    [HttpGet("cookingtime/{storeId}")]
-    public async Task<IActionResult> Check(Guid storeId, List<ProductInventory> products)
+    [HttpGet("cookingtime")]
+    public async Task<IActionResult> GetStore(GetCookingTimeRequest request)
     {
         try
         {
-            var cookingTime = await _storeService.GetCookingTime(storeId, products);
+            var cookingTime = await _storeService.GetCookingTime(request.ClientAddress, request.Basket);
             return Ok(cookingTime);
         }
         catch (StoreServiceException e)

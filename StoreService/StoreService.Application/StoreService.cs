@@ -1,3 +1,4 @@
+using BarsGroupProjectN1.Core.Models.Payment;
 using StoreService.Core;
 using StoreService.Core.Abstractions;
 using StoreService.Core.Exceptions;
@@ -18,11 +19,27 @@ public class StoreService : IStoreService
         _storeProductsService = storeProductsService;
     }
 
-    public async Task<TimeSpan> GetCookingTime(Guid storeId, List<ProductInventory> products)
+    public async Task<TimeSpan> GetCookingTime(string clientAddress, List<ProductsInventoryWithoutStore> products)
     {
-        await EnsureValidStoreAndProducts(storeId, products);
+        var store = await GetStoreForClientAddress(clientAddress);
+        
+        if (store is null) throw new StoreNotFoundException(clientAddress);
 
-        return _getCookingTimeUseCase.GetCookingTime(storeId, products);
+        await EnsureValidStoreAndProducts(store.Id, products);
+
+        return _getCookingTimeUseCase.GetCookingTime(store.Id, products);
+    }
+
+    private async Task<Store?> GetStoreForClientAddress(string clientAddress)
+    {
+        // TODO: Implement logic to find store near client address
+
+        var stores = await _storeRepository.GetAll();
+
+        if (stores.Count == 0) return null;
+
+        var random = new Random();
+        return stores.ElementAt(random.Next(stores.Count));
     }
 
     public async Task<StoreStatus> GetStatus(Guid storeId)
@@ -52,7 +69,7 @@ public class StoreService : IStoreService
         await _storeRepository.Update(storeUpdated);
     }
 
-    private async Task EnsureValidStoreAndProducts(Guid storeId, List<ProductInventory> products)
+    private async Task EnsureValidStoreAndProducts(Guid storeId, List<ProductsInventoryWithoutStore> products)
     {
         var store = await _storeRepository.Get(storeId);
         if (store is null) throw new StoreNotFoundException(storeId);

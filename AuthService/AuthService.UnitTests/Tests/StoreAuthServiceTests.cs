@@ -20,9 +20,9 @@ public class StoreAuthServiceTests
     [Test]
     public async Task RegisterAndGetId()
     {
-        var storeAuth = await _storeAuthService.Register("login", "password");
-        var storeId = await _storeAuthService.Login(storeAuth.Login, "password");
+        var storeAuthId = await _storeAuthService.Register("login", "password");
+        var storeId = await _storeAuthService.Login("login", "password");
 
-        Assert.That(storeAuth.Id, Is.EqualTo(storeId));
+        Assert.That(storeAuthId, Is.EqualTo(storeId));
     }
 }

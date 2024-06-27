@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\BarsGroupProjectN1.Core\BarsGroupProjectN1.Core.csproj" />
       <ProjectReference Include="..\PaymentOrchestrator.Infrastructure\PaymentOrchestrator.Infrastructure.csproj" />
     </ItemGroup>
 
