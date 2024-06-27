@@ -5,9 +5,9 @@ let ordersToCheck = [];
 
 const StatusMapping = {
     "0": "Готовится",
-    "1": "Доставляется",
-    "2": "Прибыл к клиенту",
-    "3": "Ожидает курьра"
+    "1": "Ожидает курьра",
+    "2": "Доставляется",
+    "3": "Прибыл к клиенту"
 };
 
 const AuthHeaders = {
@@ -50,41 +50,56 @@ function displayOrders(orders) {
 
     orders.forEach(order => {
         const row = ordersTable.insertRow();
-
-        row.insertCell().textContent = order.id;
+        
         row.insertCell().textContent = StatusMapping[order.status];
-        row.insertCell().textContent = order.price;
+        
+        const basketCell = row.insertCell();
+        basketCell.id = 'basketCell';
+        order.basket.forEach(item => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${item.name}, ${item.amount} штук, ${item.price} рублей`;
+            basketCell.appendChild(listItem);
+        });
+        
         row.insertCell().textContent = order.comment;
         row.insertCell().textContent = order.clientAddress;
         row.insertCell().textContent = order.courierNumber;
         row.insertCell().textContent = order.clientNumber;
-    // @*
-    //     row.insertCell().textContent = order.cheque;
-    // *@
-
-        const basketCell = row.insertCell();
-        order.basket.forEach(item => {
-            const listItem = document.createElement('li');
-            listItem.textContent = `${item.name} - Количество: ${item.amount} - Цена: ${item.price}`;
-            basketCell.appendChild(listItem);
-        });
-        row.cells[7].style.textAlign = 'left';
-
+        row.insertCell().textContent = order.price;
 
         const actionsCell = row.insertCell();
         const cancelButton = document.createElement('button');
-        cancelButton.classList.add('btn', 'btn-secondary');
-        cancelButton.textContent = 'Cancel';
-        cancelButton.setAttribute('id', `open-dialog`);
-        cancelButton.onclick = () => cancelOrder(order.id);
+        cancelButton.classList.add('btn', 'btn-secondary', 'order-cancel-button');
+        cancelButton.textContent = 'Отменить';
+        cancelButton.onclick = () => openConformationWindow(order.id);
         actionsCell.appendChild(cancelButton);
+        
+        if (order.status === 3) {
+            const acceptButton = document.createElement('button');
+            acceptButton.classList.add('btn', 'btn-success', 'order-accept-button');
+            acceptButton.textContent = 'Принять';
+            acceptButton.onclick = () => acceptOrder(order.id);
+            actionsCell.appendChild(acceptButton);
+        }
+        
     });
 }
-    function cancelOrder(orderId) {
-        const conformationWindow = document.getElementById("conformationWindow");
-        conformationWindow.classList.remove("hidden");
 
-    }
+function acceptOrder(orderId) {
+    fetch(`http://localhost:5106/orders/client/accept/${orderId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => {
+            getOrders();
+            console.log('Заказ принят!');
+        })
+        .catch(error => {
+            console.error('Ошибка при отправке запроса на прием:', error);
+        });
+}
 
 async function checkOrderStatus() {
     const promises = ordersToCheck.map(async (orderId) => {
@@ -95,6 +110,7 @@ async function checkOrderStatus() {
             if (response.status === 200) {
                 const orderData = await response.text();
                 updateOrderStatus(orderId, orderData);
+                getOrders();
             } else if (response.status === 204) {
                 getOrders();
             } else {
