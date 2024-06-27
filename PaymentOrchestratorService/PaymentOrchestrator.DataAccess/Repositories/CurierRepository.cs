@@ -1,7 +1,6 @@
 using System.Net.Http.Json;
 using Handler.Core.Abstractions.Repositories;
 using Handler.Core.Common;
-using HandlerService.Controllers;
 using HandlerService.DataAccess.Contracts;
 using Microsoft.Extensions.Configuration;
 

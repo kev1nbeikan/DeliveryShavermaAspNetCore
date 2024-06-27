@@ -1,8 +1,11 @@
+using BarsGroupProjectN1.Core.Contracts;
+using BarsGroupProjectN1.Core.Models.Store;
 using Handler.Core.Payment;
 
 namespace Handler.Core.Abstractions.Repositories;
 
 public interface IStoreRepository
 {
-    public Task<(TimeSpan cookingTime, string? error)> GetCokingTime(string clientAddress, List<BucketItem> basket);
+    public Task<(OrderTaskExecution<Store>? cookingExecution, string? error)> GetCokingTime(string clientAddress,
+        List<BucketItem> basket);
 }

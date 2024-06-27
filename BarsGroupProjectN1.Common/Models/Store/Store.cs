@@ -1,9 +1,8 @@
-using System;
-
-namespace StoreService.Core;
+namespace BarsGroupProjectN1.Core.Models.Store;
 
 public class Store()
 {
+    
     public Guid Id { get; init; }
     public StoreStatus Status { get; set; }
 
@@ -24,3 +23,5 @@ public enum StoreStatus
     Open,
     Closed
 }
+
+

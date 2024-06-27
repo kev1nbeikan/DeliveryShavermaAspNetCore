@@ -1,3 +1,4 @@
+using BarsGroupProjectN1.Core.Models.Store;
 using Microsoft.EntityFrameworkCore;
 using StoreService.Core;
 using StoreService.Core.Abstractions;

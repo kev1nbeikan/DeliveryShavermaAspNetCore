@@ -1,23 +1,23 @@
 using Handler.Core;
 using Handler.Core.Abstractions;
+using Handler.Core.Abstractions.Repositories;
 using Handler.Core.Abstractions.Services;
 using Handler.Core.Abstractions.UseCases;
 using Handler.Core.Contracts;
 using Handler.Core.HanlderService;
-using HandlerService.Controllers;
 using HandlerService.Infustucture.Extensions;
 
 namespace HandlerService.Application.UseCases;
 
 public class GetOrderLogisticUseCase : IGetOrderLogisticUseCase
 {
-    private readonly IStoreService _storeService;
     private readonly ICurierService _curierService;
+    private readonly IStoreRepository _storeRepository;
 
-    public GetOrderLogisticUseCase(IStoreService storeService, ICurierService curierService)
+    public GetOrderLogisticUseCase(ICurierService curierService, IStoreRepository storeRepository)
     {
         _curierService = curierService;
-        _storeService = storeService;
+        _storeRepository = storeRepository;
     }
 
 
@@ -26,14 +26,13 @@ public class GetOrderLogisticUseCase : IGetOrderLogisticUseCase
         var result = new OrderLogistic();
 
         // (result.Delivery.Perfomer, result.Delivery.Time) =
-            // await _curierService.GetCurier(temporyOrder.ClientAddress);
+        // await _curierService.GetCurier(temporyOrder.ClientAddress);
         // if (result.Delivery.Perfomer == null) return ExecuteErrorResult("Curier is not found");
 
-        (result.Cooking.Time, var error) =
-            await _storeService.GetCookingTime(temporyOrder.ClientAddress, temporyOrder.ProductAndQuantity);
-        result.Cooking.Executer = temporyOrder.StoreId;
+        (result.Cooking, var error) =
+            await _storeRepository.GetCokingTime(temporyOrder.ClientAddress, temporyOrder.ProductsAndQuantities);
 
-        if (error.HasValue()) return ExecuteErrorResult(error);
+        if (error.HasValue()) return ExecuteErrorResult(error!);
 
         return (result, null);
     }

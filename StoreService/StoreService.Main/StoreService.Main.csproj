@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\BarsGroupProjectN1.Core\BarsGroupProjectN1.Core.csproj" />
+      <ProjectReference Include="..\..\BarsGroupProjectN1.Common\BarsGroupProjectN1.Common.csproj" />
       <ProjectReference Include="..\StoreService.Application\StoreService.Application.csproj" />
       <ProjectReference Include="..\StoreService.Core\StoreService.Core.csproj" />
       <ProjectReference Include="..\StoreService.DataAccess\StoreService.DataAccess.csproj" />

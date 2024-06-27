@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using BarsGroupProjectN1.Core.Models.Store;
 
 namespace StoreService.Core.Abstractions;
 

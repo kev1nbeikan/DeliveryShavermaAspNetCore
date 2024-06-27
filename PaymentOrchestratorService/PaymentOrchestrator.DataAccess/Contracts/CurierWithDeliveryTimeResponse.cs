@@ -1,5 +1,4 @@
 using Handler.Core.Common;
-using HandlerService.Controllers;
 
 namespace HandlerService.DataAccess.Contracts;
 

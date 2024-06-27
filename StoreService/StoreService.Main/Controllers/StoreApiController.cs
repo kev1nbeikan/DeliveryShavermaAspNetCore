@@ -1,7 +1,10 @@
 using BarsGroupProjectN1.Core.Contracts;
+using BarsGroupProjectN1.Core.Models.Payment;
+using BarsGroupProjectN1.Core.Models.Store;
 using Microsoft.AspNetCore.Mvc;
 using StoreService.Core;
 using StoreService.Core.Abstractions;
+using StoreService.Core.Exceptions;
 using StoreService.Main.Extensions;
 
 namespace StoreService.Main.Controllers;
@@ -12,11 +15,16 @@ public class StoreApiController : ControllerBase
 {
     private readonly ILogger<StoreApiController> _logger;
     private readonly IStoreService _storeService;
+    private readonly IStoreProductsService _storeProductService;
 
-    public StoreApiController(ILogger<StoreApiController> logger, IStoreService storeService)
+    public StoreApiController(
+        ILogger<StoreApiController> logger,
+        IStoreService storeService,
+        IStoreUseCases storeUseCases, IStoreProductsService storeProductService)
     {
         _logger = logger;
         _storeService = storeService;
+        _storeProductService = storeProductService;
     }
 
 
@@ -36,13 +44,13 @@ public class StoreApiController : ControllerBase
     }
 
 
-    [HttpGet("cookingtime")]
-    public async Task<IActionResult> GetStore(GetCookingTimeRequest request)
+    [HttpGet("get-cooking-info")]
+    public async Task<IActionResult> GetCookingInfo(GetCookingTimeRequest request)
     {
         try
         {
-            var cookingTime = await _storeService.GetCookingTime(request.ClientAddress, request.Basket);
-            return Ok(cookingTime);
+            var cookingInfo = await _storeService.GetCookingInfo(request.ClientAddress, request.Basket);
+            return Ok(cookingInfo);
         }
         catch (StoreServiceException e)
         {
@@ -83,6 +91,30 @@ public class StoreApiController : ControllerBase
         catch (ArgumentException e)
         {
             _logger.LogError(e, e.Message);
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpGet("products")]
+    public async Task<IActionResult> UpsertStoreProductInventory([FromBody] ProductsInventoryWithoutStore request)
+    {
+        try
+        {
+            await _storeService.GetOrAddNewStore(User.UserId());
+            await _storeProductService.UpsertProductInventory(
+                User.UserId(),
+                request.ProductId,
+                request.Quantity);
+            return Ok();
+        }
+        catch (StoreServiceException e)
+
+        {
+            _logger.LogError(e, e.Message);
+            return BadRequest(e.Message);
+        }
+        catch (ArgumentException e)
+        {
             return BadRequest(e.Message);
         }
     }

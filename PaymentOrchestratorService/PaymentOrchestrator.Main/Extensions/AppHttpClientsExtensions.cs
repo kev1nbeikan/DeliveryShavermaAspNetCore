@@ -1,4 +1,5 @@
 using System.Net;
+using BarsGroupProjectN1.Core.AppSettings;
 using Handler.Core.Common;
 
 namespace HandlerService.Extensions;

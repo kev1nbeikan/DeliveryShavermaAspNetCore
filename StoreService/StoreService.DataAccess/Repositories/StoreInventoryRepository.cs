@@ -50,13 +50,25 @@ public class StoreInventoryRepository : IStoreInventoryRepository
     {
         var productInventoryEntity = await _storeDbContext.StoreProductsInventory
             .FirstOrDefaultAsync(
-                x => x.ProductId == productInventory.ProductId && x.StoreId == productInventory.StoreId);
+                x =>
+                    x.ProductId == productInventory.ProductId &&
+                    x.StoreId == productInventory.StoreId
+            );
 
         if (productInventoryEntity is null) return false;
 
         productInventoryEntity.Quantity = productInventory.Quantity;
 
         return await _storeDbContext.SaveChangesAsync() > 0;
+    }
+
+    public async Task<List<ProductInventory>> GetAll(Guid storeId)
+    {
+        return await _storeDbContext.StoreProductsInventory
+            .AsNoTracking()
+            .Where(p => p.StoreId == storeId)
+            .Select(p => p.ToCore())
+            .ToListAsync();
     }
 
     private async Task EnsureValidToAdd(ProductInventory productInventory)

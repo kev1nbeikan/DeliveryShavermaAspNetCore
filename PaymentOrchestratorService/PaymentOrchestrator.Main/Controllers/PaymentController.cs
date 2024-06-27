@@ -3,7 +3,10 @@ using Handler.Core;
 using Handler.Core.Abstractions;
 using Handler.Core.Abstractions.Services;
 using Handler.Core.Abstractions.UseCases;
+using Handler.Core.Common;
+using Handler.Core.Contracts;
 using Handler.Core.Extensions;
+using Handler.Core.HanlderService;
 using HandlerService.Contracts;
 using HandlerService.Extensions;
 using HandlerService.Infustucture.Extensions;
@@ -11,7 +14,6 @@ using Microsoft.AspNetCore.Mvc;
 using HandlerService.Models;
 
 namespace HandlerService.Controllers;
-
 
 [ApiController]
 [Route("[controller]/[action]")]
@@ -24,6 +26,7 @@ public class PaymentController : Controller
     private readonly IHandlerOrderService _temporaryOrderService;
     private readonly IOrderService _orderService;
     private readonly IGetOrderLogisticUseCase _getOrderLogistic;
+    private readonly IPaymentUseCases _paymentUseCases;
 
     public PaymentController(ILogger<PaymentController> logger,
         IUserService userService,
@@ -31,7 +34,7 @@ public class PaymentController : Controller
         IMenuService menuService,
         IHandlerOrderService temporaryOrderService,
         IOrderService orderService,
-        IGetOrderLogisticUseCase getOrderLogistic)
+        IGetOrderLogisticUseCase getOrderLogistic, IPaymentUseCases paymentUseCases)
     {
         _logger = logger;
         _userService = userService;
@@ -40,6 +43,7 @@ public class PaymentController : Controller
         _temporaryOrderService = temporaryOrderService;
         _orderService = orderService;
         _getOrderLogistic = getOrderLogistic;
+        _paymentUseCases = paymentUseCases;
     }
 
     public IActionResult Index()
@@ -85,11 +89,11 @@ public class PaymentController : Controller
             temporyOrder.Comment,
             cheque!,
             temporyOrder.ClientAddress,
-            orderLogistic!.Delivery.Executer,
+            orderLogistic!.Delivering.Executor,
             myUser!,
-            orderLogistic.Cooking.Executer,
+            orderLogistic.Cooking.Executor.Id,
             orderLogistic.Cooking.Time,
-            orderLogistic.Delivery.Time
+            orderLogistic.Delivering.Time
         );
 
         if (error.HasValue()) return BadRequest(error);
@@ -103,20 +107,13 @@ public class PaymentController : Controller
         var userId = User.UserId();
         _logger.LogInformation($"User {userId} requested Payment with body {paymentRequest}");
 
-        var error = await _userService.Upsert(userId, paymentRequest.Address, paymentRequest.Comment,
-            paymentRequest.PhoneNumber);
-        if (error.HasValue()) return BadRequest(error);
-
-        (var products, error) =
-            await _menuService.GetProducts(paymentRequest.ProductIdsAndQuantity.Select(x => x.Id).ToList());
-        if (error.HasValue()) return BadRequest(error);
-
-        var price = _paymentService.CalculatePayment(products, paymentRequest.ProductIdsAndQuantity);
-
-        (var paymentOrder, error) = _temporaryOrderService.Save(
-            Guid.NewGuid(), userId, products, price, paymentRequest.Address, paymentRequest.Comment, paymentRequest.ProductIdsAndQuantity);
-        if (error.HasValue()) return BadRequest(error);
-
+        var (products, price, paymentOrder) = await _paymentUseCases.ExecutePaymentBuild(
+            paymentRequest.ProductIdsAndQuantity,
+            paymentRequest.Comment,
+            paymentRequest.Address,
+            paymentRequest.PhoneNumber,
+            userId
+        );
 
         return View(new PaymentViewModel()
         {
