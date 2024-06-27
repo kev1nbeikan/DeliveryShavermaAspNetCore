@@ -1,4 +1,5 @@
 using System.Collections;
+using BarsGroupProjectN1.Core.Models.Payment;
 using StoreService.Core;
 using StoreService.Core.Abstractions;
 
@@ -13,7 +14,8 @@ public class StoreProductService : IStoreProductsService
         _storeInventoryRepository = storeInventoryRepository;
     }
 
-    public async Task<bool> CheckProductsCount(Guid storeId, List<ProductInventory> requiredProductsQuantities)
+    public async Task<bool> CheckProductsCount(Guid storeId,
+        List<ProductsInventoryWithoutStore> requiredProductsQuantities)
     {
         List<ProductInventory> availableProductsQuantities =
             await _storeInventoryRepository.GetByIds(storeId,
@@ -23,7 +25,7 @@ public class StoreProductService : IStoreProductsService
     }
 
     private static bool CheckProductsCountCore(
-        List<ProductInventory> requiredProductsQuantities,
+        List<ProductsInventoryWithoutStore> requiredProductsQuantities,
         List<ProductInventory> availableProductsQuantities
     )
     {

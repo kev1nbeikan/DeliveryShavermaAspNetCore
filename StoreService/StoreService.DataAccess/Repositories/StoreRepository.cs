@@ -37,6 +37,11 @@ public class StoreRepository : IStoreRepository
         return store?.Status;
     }
 
+    public async Task<List<Store>> GetAll()
+    {
+        return await _storeDbContext.Stores.AsNoTracking().Select(s => s.ToCore()).ToListAsync();
+    }
+
     public async Task Add(Store store)
     {
         await EnsureValidToAdd(store);

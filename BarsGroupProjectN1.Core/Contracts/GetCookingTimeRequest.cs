@@ -1,8 +1,8 @@
 
-using Handler.Core.Payment;
+using BarsGroupProjectN1.Core.Models.Payment;
 
 namespace BarsGroupProjectN1.Core.Contracts;
 
 public record GetCookingTimeRequest(
-    string clientAddress,
-    List<BucketItem> basket);
+    string ClientAddress,
+    List<ProductsInventoryWithoutStore> Basket);

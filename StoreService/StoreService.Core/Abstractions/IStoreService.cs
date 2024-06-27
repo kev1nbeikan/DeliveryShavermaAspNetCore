@@ -1,3 +1,4 @@
+using BarsGroupProjectN1.Core.Models.Payment;
 using StoreService.Core.Exceptions;
 
 namespace StoreService.Core.Abstractions;
@@ -20,7 +21,7 @@ public interface IStoreService
     ///     <see cref="StoreClosedException"/>
     ///     <see cref="UnavailableProductsException"/>
     /// </exception>ё
-    Task<TimeSpan> GetCookingTime(Guid storeId, List<ProductInventory> products);
+    Task<TimeSpan> GetCookingTime(string storeId, List<ProductsInventoryWithoutStore> products);
 
     Task<StoreStatus> GetStatus(Guid storeId);
     Task<Store> GetOrAddNewStore(Guid storeId);
