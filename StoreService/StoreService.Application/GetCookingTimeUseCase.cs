@@ -19,7 +19,7 @@ public class GetCookingTimeUseCase : IGetCookingTimeUseCase
         return time;
     }
 
-    private TimeSpan CalculateCookingTimeForProduct(ProductInventory product)
+    private TimeSpan CalculateCookingTimeForProduct(ProductsInventoryWithoutStore product)
     {
         return DefaultCookingTime * product.Quantity;
     }

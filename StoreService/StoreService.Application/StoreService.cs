@@ -21,17 +21,20 @@ public class StoreService : IStoreService
 
     public async Task<TimeSpan> GetCookingTime(string clientAddress, List<ProductsInventoryWithoutStore> products)
     {
-        var storeId = (await GetStoreForClientAddress(clientAddress))?.Id;
-        if (storeId is null) throw new StoreNotFoundException(clientAddress);
-        await EnsureValidStoreAndProducts(storeId, products);
+        var store = await GetStoreForClientAddress(clientAddress);
+        if (store is null) throw new StoreNotFoundException(clientAddress);
 
-        return _getCookingTimeUseCase.GetCookingTime(storeId, products);
+        await EnsureValidStoreAndProducts(store.Id, products);
+
+        return _getCookingTimeUseCase.GetCookingTime(store.Id, products);
     }
 
     private async Task<Store?> GetStoreForClientAddress(string clientAddress)
     {
-        //TODO: Implement logic to find store near client address
+        // TODO: Implement logic to find store near client address
+
         var stores = await _storeRepository.GetAll();
+
         if (stores.Count == 0) return null;
 
         var random = new Random();

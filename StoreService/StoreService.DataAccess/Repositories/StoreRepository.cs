@@ -17,7 +17,9 @@ public class StoreRepository : IStoreRepository
 
     public async Task<Store?> Get(Guid storeId)
     {
-        var storeEntity = await _storeDbContext.Stores.AsNoTracking().FirstOrDefaultAsync(s => s.Id == storeId);
+        var storeEntity = await _storeDbContext.Stores
+            .AsNoTracking()
+            .FirstOrDefaultAsync(s => s.Id == storeId);
         return storeEntity?.ToCore();
     }
 

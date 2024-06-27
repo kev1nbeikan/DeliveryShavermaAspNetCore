@@ -17,10 +17,13 @@ public class StoreInventoryRepository : IStoreInventoryRepository
 
     public async Task<List<ProductInventory>> GetByIds(Guid storeId, List<Guid> productsIds)
     {
-        var productsInventory = await _storeDbContext.StoreProductsInventory.AsNoTracking().Where(p =>
-            p.StoreId == storeId &&
-            productsIds.Contains(p.ProductId)).Select(p => p.ToCore()
-        ).ToListAsync();
+        var productsInventory = await _storeDbContext.StoreProductsInventory
+            .AsNoTracking()
+            .Where(p =>
+                p.StoreId == storeId &&
+                productsIds.Contains(p.ProductId))
+            .Select(p => p.ToCore())
+            .ToListAsync();
         return productsInventory;
     }
 
