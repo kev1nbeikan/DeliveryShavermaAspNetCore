@@ -3,7 +3,6 @@ using Handler.Core.Abstractions.Repositories;
 using Handler.Core.Abstractions.Services;
 using Handler.Core.Common;
 using Handler.Core.Extensions;
-using HandlerService.Controllers;
 using HandlerService.Infustucture.Extensions;
 
 namespace HandlerService.Application.Services;

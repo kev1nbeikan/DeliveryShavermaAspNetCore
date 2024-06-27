@@ -1,5 +1,4 @@
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
+using BarsGroupProjectN1.Core.
 using Microsoft.EntityFrameworkCore;
 using StoreService.DataAccess;
 using StoreService.Main.Extensions;
@@ -12,6 +11,9 @@ builder.Services.AddDbContext<StoreDbContext>(options =>
         options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(StoreDbContext)));
     }
 );
+
+
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

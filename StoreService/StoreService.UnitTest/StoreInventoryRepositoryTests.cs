@@ -84,6 +84,7 @@ public class StoreInventoryRepositoryTests
         CustomAsserts.AssertAreEqual(productInventoriesToGet, productsFromRepo);
     }
 
+
     private static List<ProductInventory> GetRandomProductsInventory(Guid storeId) =>
 
     [

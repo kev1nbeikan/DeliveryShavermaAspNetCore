@@ -2,7 +2,7 @@ using System;
 
 namespace StoreService.Core;
 
-public class Product
+public class  Product
 {
     public const int MAX_TITLE_LENGTH = 32;
 

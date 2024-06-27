@@ -1,6 +1,8 @@
+using BarsGroupProjectN1.Core.Models.Store;
+
 namespace StoreService.Main.Models;
 
 public class IndexViewModel
 {
-    public Core.Store Store { get; set; }
+    public Store Store { get; set; }
 }

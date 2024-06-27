@@ -86,7 +86,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreService.DataAccess", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreService.UnitTest", "StoreService\StoreService.UnitTest\StoreService.UnitTest.csproj", "{113BD5AC-227D-47A6-BE98-470F3A9A8F5F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarsGroupProjectN1.Core", "BarsGroupProjectN1.Core\BarsGroupProjectN1.Core.csproj", "{8C4BA074-362B-492A-B39B-9584246A5615}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarsGroupProjectN1.Common", "BarsGroupProjectN1.Common\BarsGroupProjectN1.Common.csproj", "{8C4BA074-362B-492A-B39B-9584246A5615}"
 EndProject
 
 

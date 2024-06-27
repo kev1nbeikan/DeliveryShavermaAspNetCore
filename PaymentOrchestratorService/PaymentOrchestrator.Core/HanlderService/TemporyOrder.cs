@@ -43,7 +43,7 @@ namespace Handler.Core.HanlderService
 
         public Product[] Basket { get; } = [];
 
-        public List<BucketItem> ProductAndQuantity { get; } = [];
+        public List<BucketItem> ProductsAndQuantities { get; } = [];
 
 
         public int Price { get; }

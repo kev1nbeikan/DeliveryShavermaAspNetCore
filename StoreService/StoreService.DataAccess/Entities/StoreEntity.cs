@@ -1,3 +1,4 @@
+using BarsGroupProjectN1.Core.Models.Store;
 using StoreService.Core;
 
 namespace StoreService.DataAccess.Entities;

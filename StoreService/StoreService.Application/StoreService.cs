@@ -1,4 +1,6 @@
+using BarsGroupProjectN1.Core.Contracts;
 using BarsGroupProjectN1.Core.Models.Payment;
+using BarsGroupProjectN1.Core.Models.Store;
 using StoreService.Core;
 using StoreService.Core.Abstractions;
 using StoreService.Core.Exceptions;
@@ -19,15 +21,22 @@ public class StoreService : IStoreService
         _storeProductsService = storeProductsService;
     }
 
-    public async Task<TimeSpan> GetCookingTime(string clientAddress, List<ProductsInventoryWithoutStore> products)
+    public async Task<OrderTaskExecution<Store>> GetCookingInfo(
+        string clientAddress,
+        List<ProductsInventoryWithoutStore> products
+    )
     {
         var store = await GetStoreForClientAddress(clientAddress);
-        
+
         if (store is null) throw new StoreNotFoundException(clientAddress);
 
         await EnsureValidStoreAndProducts(store.Id, products);
 
-        return _getCookingTimeUseCase.GetCookingTime(store.Id, products);
+        return new OrderTaskExecution<Store>
+        {
+            Executor = store,
+            Time = _getCookingTimeUseCase.GetCookingTime(store.Id, products)
+        };
     }
 
     private async Task<Store?> GetStoreForClientAddress(string clientAddress)

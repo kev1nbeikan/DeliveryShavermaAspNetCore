@@ -2,6 +2,7 @@ using System.Collections;
 using BarsGroupProjectN1.Core.Models.Payment;
 using StoreService.Core;
 using StoreService.Core.Abstractions;
+using StoreService.Core.Exceptions;
 
 namespace StoreService.Application;
 
@@ -22,6 +23,36 @@ public class StoreProductService : IStoreProductsService
                 requiredProductsQuantities.Select(p => p.ProductId).ToList());
 
         return CheckProductsCountCore(requiredProductsQuantities, availableProductsQuantities);
+    }
+
+    public async Task UpsertProductInventory(Guid storeId, Guid productId, int quantity)
+    {
+        var productInventory = ProductInventory.Create(productId: productId, storeId: storeId, quantity: quantity);
+
+        var product = await _storeInventoryRepository.GetById(productInventory.StoreId, productInventory.ProductId);
+
+        if (product is null)
+        {
+            await _storeInventoryRepository.Add(productInventory);
+        }
+        else
+        {
+            await _storeInventoryRepository.UpdateQuantity(productInventory);
+        }
+    }
+
+    public async Task<ProductInventory> GetById(Guid storeId, Guid productId)
+    {
+        var productInventory = await _storeInventoryRepository.GetById(storeId, productId);
+
+        if (productInventory is null) throw new UnavailableProductsException(storeId, productId);
+
+        return productInventory;
+    }
+
+    public async Task<List<ProductInventory>> GetAll(Guid stoerId)
+    {
+        return await _storeInventoryRepository.GetAll(stoerId);
     }
 
     private static bool CheckProductsCountCore(

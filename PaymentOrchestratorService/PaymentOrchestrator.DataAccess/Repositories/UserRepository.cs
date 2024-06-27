@@ -1,4 +1,6 @@
 using System.Net.Http.Json;
+using BarsGroupProjectN1.Core.AppSettings;
+using BarsGroupProjectN1.Core.Repositories;
 using Handler.Core;
 using Handler.Core.Abstractions.Repositories;
 using Handler.Core.Common;

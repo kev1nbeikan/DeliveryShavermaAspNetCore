@@ -1,10 +1,11 @@
-using Handler.Core;
-using Handler.Core.Common;
+using BarsGroupProjectN1.Core.Contracts;
+using BarsGroupProjectN1.Core.Models.Store;
 using Handler.Core.Payment;
 
-namespace HandlerService.Controllers;
+namespace Handler.Core.Abstractions.Services;
 
 public interface IStoreService
 {
-    Task<(TimeSpan cookingTime, string? error)> GetCookingTime(string address, List<BucketItem> basket);
+    Task<(OrderTaskExecution<Store>? cookingExecution, string? error)> GetCookingTime(string address,
+        List<BucketItem> basket);
 }
