@@ -10,17 +10,17 @@
 <table id="ordersTable" class="table table-striped table-bordered table-hover text-center" style="width: 100%; vertical-align: middle;">
     <thead>
     <tr>
-        <th style="vertical-align: middle;" >Номер заказа</th>
-        <th style="vertical-align: middle;" >Статус</th>
-        <th style="vertical-align: middle;" >Цена</th>
-        <th style="vertical-align: middle;" >Комментарий</th>
-        <th style="vertical-align: middle;" >Аддресс клиента</th>
-        <th style="vertical-align: middle;" >Номер курьера</th>
-        <th style="vertical-align: middle;"  >Номер клиента</th>
+        <th style="vertical-align: middle;">Номер заказа</th>
+        <th style="vertical-align: middle;">Статус</th>
+        <th style="vertical-align: middle;">Цена</th>
+        <th style="vertical-align: middle;">Комментарий</th>
+        <th style="vertical-align: middle;">Аддресс клиента</th>
+        <th style="vertical-align: middle;">Номер курьера</th>
+        <th style="vertical-align: middle;">Номер клиента</th>
         @*
         <th>Чек</th>
         *@
-        <th style="vertical-align: middle;" >Корзина</th>
+        <th style="vertical-align: middle;">Корзина</th>
         <th></th>
     </tr>
     </thead>
@@ -47,7 +47,13 @@
         setInterval(checkOrderStatus, STATUS_CHECK_INTERVAL);
     };
     function getOrders() {
-        fetch('http://localhost:5106/orders/client/current')
+        fetch('http://localhost:5106/orders/client/current', {
+                headers: {
+                    'UserId': getCookie('UserId'),
+                    'Role': getCookie('Role')
+                }
+            }
+        )
             .then(response => {
                 if (response.status === 200) {
                     return response.json();
@@ -207,6 +213,11 @@
         const cell = row.insertCell();
         cell.colSpan = 10; 
         cell.textContent = message;
+    }
+
+    function getCookie(name) {
+        const cookieValue = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+        return cookieValue ? cookieValue[2] : null;
     }
 </script>
 

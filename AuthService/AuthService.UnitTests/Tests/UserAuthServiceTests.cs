@@ -23,9 +23,9 @@ public class UserAuthServiceTests
     [Test]
     public async Task RegisterAndGetId()
     {
-        var registerUser = await _userAuthService.Register("login@mail.ru", "password");
-        var loginUserId = await _userAuthService.Login(registerUser.Email, "password");
+        var registerUserId = await _userAuthService.Register("login@mail.ru", "password");
+        var loginUserId = await _userAuthService.Login("login@mail.ru", "password");
 
-        Assert.That(registerUser.Id, Is.EqualTo(loginUserId));
+        Assert.That(registerUserId, Is.EqualTo(loginUserId));
     }
 }
