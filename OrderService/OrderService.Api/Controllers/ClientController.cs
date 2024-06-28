@@ -66,8 +66,8 @@ public class ClientController(IOrderApplicationService orderApplicationService, 
         if (orders.Count == 0)
             return NoContent();
         var response = orders.Select(b =>
-            new ClientGetCanceled(b.Id, b.Basket, b.Price, b.Comment,
-                b.OrderDate, b.Cheque, b.LastStatus, b.ReasonOfCanceled));
+            new ClientGetCanceled(b.Id, b.Basket, b.Price, b.Comment, b.OrderDate,
+                b.CanceledDate,b.Cheque, b.LastStatus, b.ReasonOfCanceled, b.WhoCanceled));
         return Ok(response);
     }
 
