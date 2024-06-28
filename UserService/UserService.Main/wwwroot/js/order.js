@@ -1,5 +1,5 @@
 ﻿const STATUS_CHECK_INTERVAL = 5000;
-const SERVER_CHECK_INTERVAL = 5000;
+const SERVER_CHECK_INTERVAL = 15000;
 
 let ordersToCheck = [];
 
@@ -15,33 +15,35 @@ const AuthHeaders = {
     'Role': getCookie('Role')
 };
 
-function getOrders() {
-    fetch('http://localhost:5106/orders/client/current', {
+async function getOrders() {
+    try {
+        const response = await fetch('http://localhost:5106/orders/client/current', {
             headers: AuthHeaders
-        }
-    )
-        .then(response => {
-            if (response.status === 200) {
-                return response.json();
-            } else if (response.status === 204) {
-                throw new Error("204");
-            } else {
-                throw new Error();
-            }
-        })
-        .then(data => {
+        });
+        if (response.status === 200) {
+            const data = await response.json();
             displayOrders(data);
             ordersToCheck = data.map(order => order.id);
-        })
-        .catch(error => {
-            console.error('Ошибка при получении данных:', error);
-            if (error.message === "204") {
-                displayError("Текущих заказов нету 😓");
-            }else{
-                displayError("Ошибка при подключению к серверу");
-            }
-        });
+        } else if (response.status === 204) {
+            console.error('Заказов нет');
+            displayError("Текущих заказов нету 😓");
+            await restartOrderPage(SERVER_CHECK_INTERVAL);
+        }
+    } catch (error) {
+        console.error('Ошибка при получении данных:', error);
+        displayError("Ошибка при подключению к серверу");
+        await restartOrderPage(SERVER_CHECK_INTERVAL);
+    }
 }
+async function restartOrderPage(time){
+    await new Promise((resolve) => {
+        setTimeout(() => {
+            getOrders();
+            resolve();
+        }, time);
+    });
+}
+
 
 function displayOrders(orders) {
     const ordersTable = document.getElementById('ordersTable')
@@ -83,7 +85,6 @@ function displayOrders(orders) {
             const acceptButton = document.createElement('button');
             acceptButton.classList.add('btn', 'btn-success', 'order-accept-button');
             acceptButton.textContent = 'Принять';
-            // acceptButton.onclick = () => openConformationWindowAccept(order.id);
             acceptButton.onclick = () => openConformationWindowAccept(order.id);
             actionsCell.appendChild(acceptButton);
         }
@@ -100,12 +101,15 @@ async function checkOrderStatus() {
                 const orderData = await response.text();
                 updateOrderStatus(orderId, orderData);
             } else if (response.status === 204) {
-                getOrders();
+                console.error(`Заказ не найден ${orderId}`, response);
+                await getOrders();
             } else {
                 console.error(`Ошибка при получении статуса заказа ${orderId}`, response);
+                location.reload();
             }
         } catch (error) {
             console.error(`Ошибка при проверке статуса заказа ${orderId}:`, error);
+            location.reload();
         }
     });
     await Promise.all(promises);
