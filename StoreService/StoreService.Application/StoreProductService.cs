@@ -50,9 +50,9 @@ public class StoreProductService : IStoreProductsService
         return productInventory;
     }
 
-    public async Task<List<ProductInventory>> GetAll(Guid stoerId)
+    public async Task<List<ProductInventory>> GetAll(Guid storeId)
     {
-        return await _storeInventoryRepository.GetAll(stoerId);
+        return await _storeInventoryRepository.GetAll(storeId);
     }
 
     private static bool CheckProductsCountCore(

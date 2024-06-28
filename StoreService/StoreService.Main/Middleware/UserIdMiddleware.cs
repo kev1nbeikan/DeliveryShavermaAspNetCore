@@ -1,5 +1,7 @@
 ﻿using System.Security.Claims;
-using StoreService.Core;
+using Microsoft.Extensions.Options;
+using BarsGroupProjectN1.Core.AppSettings;
+using UserClaimsStrings = StoreService.Core.UserClaimsStrings;
 
 namespace StoreService.Main.Middleware;
 
@@ -7,7 +9,7 @@ public class UserIdMiddleware(RequestDelegate next)
 {
     private readonly RequestDelegate _next = next;
 
-    public async Task Invoke(HttpContext context)
+    public async Task Invoke(HttpContext context, IOptions<ServicesOptions> options)
     {
         var userIdString = GetFromCookiesOrHeaders(context, UserClaimsStrings.UserId);
         var roleString = GetFromCookiesOrHeaders(context, UserClaimsStrings.Role);
@@ -15,7 +17,7 @@ public class UserIdMiddleware(RequestDelegate next)
 
         if (!Guid.TryParse(userIdString, out Guid userId) || string.IsNullOrEmpty(roleString))
         {
-            await _next(context);
+            context.Response.Redirect(options.Value.AuthUrl);
             return;
         }
 
@@ -28,7 +30,6 @@ public class UserIdMiddleware(RequestDelegate next)
                 }
             )
         );
-        
 
 
         await _next(context);

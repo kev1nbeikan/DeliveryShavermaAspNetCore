@@ -22,9 +22,12 @@ public class ProductInventory
 
     public static ProductInventory Create(Guid productId, Guid storeId, int quantity)
     {
-        if (productId == Guid.Empty) throw new ArgumentException(nameof(productId) + " cannot be empty");
-        if (storeId == Guid.Empty) throw new ArgumentException(nameof(storeId) + " cannot be empty");
-        if (quantity < 0) throw new ArgumentException(nameof(quantity) + " cannot be less than 1");
+        if (productId == Guid.Empty)
+            throw new ArgumentException("Идентификатор продукта не может быть пустым");
+        if (storeId == Guid.Empty)
+            throw new ArgumentException("Идентификатор магазина не может быть пустым");
+        if (quantity < 0) 
+            throw new ArgumentException("Количество не может быть меньше 1");
 
         return new ProductInventory { ProductId = productId, StoreId = storeId, Quantity = quantity };
     }

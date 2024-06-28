@@ -19,8 +19,7 @@ public class StoreApiController : ControllerBase
 
     public StoreApiController(
         ILogger<StoreApiController> logger,
-        IStoreService storeService,
-        IStoreUseCases storeUseCases, IStoreProductsService storeProductService)
+        IStoreService storeService, IStoreProductsService storeProductService)
     {
         _logger = logger;
         _storeService = storeService;
@@ -95,12 +94,11 @@ public class StoreApiController : ControllerBase
         }
     }
 
-    [HttpGet("products")]
+    [HttpPost("inventory")]
     public async Task<IActionResult> UpsertStoreProductInventory([FromBody] ProductsInventoryWithoutStore request)
     {
         try
         {
-            await _storeService.GetOrAddNewStore(User.UserId());
             await _storeProductService.UpsertProductInventory(
                 User.UserId(),
                 request.ProductId,

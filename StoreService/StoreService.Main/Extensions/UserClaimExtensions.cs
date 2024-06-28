@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
-using StoreService.Core;
-using UserService.Core.Common;
+using RoleCode = StoreService.Core.RoleCode;
+using UserClaimsStrings = StoreService.Core.UserClaimsStrings;
 
 namespace StoreService.Main.Extensions;
 

@@ -1,0 +1,83 @@
+@model StoreService.Main.Models.StoreProductsInventoryViewModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Предприятие";
+}
+
+<h1>Список продуктов</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th>Описание</th>
+            <th>Состав</th>
+            <th>Цена</th>
+            <th>Количество</th>
+            <th>Изменить количество</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model.ProductsInventory)
+        {
+            <tr>
+                <td>@product.Title</td>
+                <td>@product.Description</td>
+                <td>@product.Composition</td>
+                <td>@product.Price</td>
+                <td>
+                    <span class="quantity">@product.Quantity</span>
+                    <input type="hidden" class="product-id" value="@product.Id"/>
+                </td>
+                <td>
+                    <input type="number" class="update-quantity" value="@product.Quantity" min="0"/>
+                    <button class="btn btn-primary update-button" data-product-id="@product.Id">Обновить</button>
+                    <span class="error-message" style="color: red;"></span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const updateButtons = document.querySelectorAll('.update-button');
+
+        updateButtons.forEach(button => {
+            button.addEventListener('click', async (event) => {
+                const productId = button.dataset.productId;
+                const newQuantity = event.target.previousElementSibling.value;
+                const errorMessageSpan = button.nextElementSibling;
+
+                // Очищаем ошибку
+                errorMessageSpan.textContent = '';
+
+                try {
+                    // Отправка AJAX запроса
+                    const response = await fetch('/store/api/v1.0/inventory', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            ProductId: productId,
+                            Quantity: newQuantity
+                        })
+                    });
+
+                    // Обработка ответа
+                    if (!response.ok) {
+                        throw new Error(await response.text());
+                    }
+
+                    // Обновление отображения количества
+                    const quantitySpan = button.closest('tr').querySelector('.quantity');
+                    quantitySpan.textContent = newQuantity;
+                } catch (error) {
+                    // Отображение ошибки
+                    errorMessageSpan.textContent = error.message;
+                }
+            });
+        });
+    });
+</script>

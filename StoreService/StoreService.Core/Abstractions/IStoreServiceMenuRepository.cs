@@ -1,6 +1,4 @@
-using StoreService.Core;
-
-namespace StoreService.Application;
+namespace StoreService.Core.Abstractions;
 
 public interface IStoreServiceMenuRepository
 {
