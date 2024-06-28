@@ -91,7 +91,7 @@ public class UserController : Controller
     }
     
     [HttpGet]
-    public async Task<IActionResult> Order()
+    public IActionResult Order()
     {
         // if (ModelState.IsValid) return BadRequest();
 
@@ -99,28 +99,31 @@ public class UserController : Controller
         
         _logger.LogInformation("User {UserId} requested order", userId);
         
-        // var httpClient = new HttpClient(); 
-        // httpClient.BaseAddress = new Uri("http://localhost:5106");  
-        // var response = await httpClient.GetAsync("orders/client/current"); 
-    
-        // if (response.IsSuccessStatusCode)
-        // {
-        //     if (String.IsNullOrEmpty(await response.Content.ReadAsStringAsync()))
-        //         return BadRequest("No objects");
-        //     var orders = await response.Content.ReadFromJsonAsync<List<OrderGetResponse>>();
-        //
-        //     if (orders is null)
-        //         return BadRequest("No objects");
-        //     
-        //     var ordersViewModel = new OrdersViewModel { Orders = orders };
-        // }
-        // else
-        // {
-        //     return BadRequest();
-        // }
-            return View("Order"); 
+        return View("CurrentOrder"); 
     }
-
+    
+    [HttpGet("current")]
+    public IActionResult CurrentOrder()
+    {
+        var userId = User.UserId();
+        _logger.LogInformation("User {UserId} requested order", userId);
+        return View("CurrentOrder"); 
+    }
+    [HttpGet("last")]
+    public IActionResult LastOrder()
+    {
+        var userId = User.UserId();
+        _logger.LogInformation("User {UserId} requested order", userId);
+        return View("LastOrder"); 
+    }
+    
+    [HttpGet("cancel")]
+    public IActionResult CancelOrder()
+    {
+        var userId = User.UserId();
+        _logger.LogInformation("User {UserId} requested order", userId);
+        return View("CancelOrder"); 
+    }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
