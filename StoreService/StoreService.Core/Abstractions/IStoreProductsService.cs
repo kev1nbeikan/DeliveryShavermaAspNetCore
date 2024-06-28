@@ -10,5 +10,5 @@ public interface IStoreProductsService
     Task<bool> CheckProductsCount(Guid storeId, List<ProductsInventoryWithoutStore> requiredProductsQuantities);
     Task UpsertProductInventory(Guid storeId, Guid productId, int quantity);
     Task<ProductInventory> GetById(Guid storeId, Guid productId);
-    Task<List<ProductInventory>> GetAll(Guid stoerId);
+    Task<List<ProductInventory>> GetAll(Guid storeId);
 }

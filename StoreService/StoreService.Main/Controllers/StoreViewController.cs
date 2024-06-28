@@ -9,15 +9,15 @@ namespace StoreService.Main.Controllers;
 public class StoreViewController : Controller
 {
     private readonly IStoreService _storeService;
-    private readonly IStoreProductsService _storeProductsService;
     private readonly ILogger<StoreApiController> _logger;
+    private readonly IProductInventoryMapper _productMapper;
 
     public StoreViewController(IStoreService storeService, ILogger<StoreApiController> logger,
-        IStoreProductsService storeProductsService)
+        IProductInventoryMapper productMapper)
     {
         _storeService = storeService;
         _logger = logger;
-        _storeProductsService = storeProductsService;
+        _productMapper = productMapper;
     }
 
     public async Task<IActionResult> Index()
@@ -42,9 +42,9 @@ public class StoreViewController : Controller
     {
         try
         {
-            return View(new MenuProductsInventoryViewModel
+            return View(new StoreProductsInventoryViewModel()
             {
-                productsInventory = await _storeProductsService.GetAll(User.UserId())
+                ProductsInventory = await _productMapper.GetMappedProducts(User.UserId())
             });
         }
         catch (ArgumentException e)

@@ -3,6 +3,7 @@ using BarsGroupProjectN1.Core.Tests;
 using Microsoft.Extensions.Options;
 using Moq;
 using StoreService.Application;
+using StoreService.Core.Abstractions;
 using StoreService.DataAccess.Repositories;
 
 namespace StoreService.UnitTest;

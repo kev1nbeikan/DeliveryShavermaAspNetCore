@@ -4,6 +4,8 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 .idea/
 MenuService.API/wwwroot/uploads
+OrderService/OrderService.Api/appsettings.Development.json
+OrderService
 
 # User-specific files
 *.rsuser

@@ -3,8 +3,8 @@ using BarsGroupProjectN1.Core.AppSettings;
 using BarsGroupProjectN1.Core.Exceptions;
 using BarsGroupProjectN1.Core.Repositories;
 using Microsoft.Extensions.Options;
-using StoreService.Application;
 using StoreService.Core;
+using StoreService.Core.Abstractions;
 
 namespace StoreService.DataAccess.Repositories;
 

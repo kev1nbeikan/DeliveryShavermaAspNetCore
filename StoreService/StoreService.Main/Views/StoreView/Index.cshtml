@@ -1,25 +1,13 @@
 @using BarsGroupProjectN1.Core.Models.Store
-@using StoreService.Core
 @model IndexViewModel
 
 @{
-    Layout = null;
+    Layout = "_Layout";
+    ViewData["Title"] = "Предприятие";
 }
 
-<!DOCTYPE html>
 
-<html>
-<head>
-    <title>Предприятие</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
-    <style>
-        .btn-group-toggle .btn {
-            border-radius: 30px; 
-            padding: 10px 20px;  
-        }
-    </style>
-</head>
-<body>
+
 <div class="container mt-5">
     <h1 class="text-center mb-4">
         Предприятие🏪
@@ -67,5 +55,3 @@
         }
     });
 </script>
-</body>
-</html>

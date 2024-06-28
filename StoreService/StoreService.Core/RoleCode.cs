@@ -1,4 +1,4 @@
-namespace UserService.Core.Common;
+namespace StoreService.Core;
 
 public enum RoleCode
 {
