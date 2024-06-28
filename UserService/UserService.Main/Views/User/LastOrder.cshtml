@@ -1,0 +1,29 @@
+﻿@model OrdersViewModel
+
+@{
+    ViewBag.Title = "asdasd";
+    Layout = "_OrderLayout";
+}
+
+<table id="LastOrdersTable" class="table text-center order-table" style="width: 100%; vertical-align: middle;">
+    <thead>
+    <tr>
+        <th>Цена</th>
+        <th>Комментарий</th>
+        <th>Дата заказа</th>
+        <th>Дата доставки</th>
+        <th>Корзина</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+@await Html.PartialAsync("_CancelWindowPartial")
+@await Html.PartialAsync("_AcceptWindowPartial")
+
+<script>
+    window.onload = function() {
+        getLastOrders();
+    };
+</script>

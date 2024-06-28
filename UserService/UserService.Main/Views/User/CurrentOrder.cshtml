@@ -1,0 +1,34 @@
+﻿@model OrdersViewModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_OrderLayout";
+}
+
+<table id="CurrentOrdersTable" class=" table text-center order-table" style="width: 100%; vertical-align: middle;">
+    <thead>
+    <tr>
+        <th>Статус</th>
+        <th>Корзина</th>
+        <th>Комментарий</th>
+        <th>Аддресс клиента</th>
+        <th>Номер курьера</th>
+        <th>Номер клиента</th>
+        <th>Цена</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+@await Html.PartialAsync("_CancelWindowPartial")
+@await Html.PartialAsync("_AcceptWindowPartial")
+
+<script>
+    window.onload = function() {
+        getCurrentOrders();
+        setInterval(checkOrderStatus, STATUS_CHECK_INTERVAL);
+    };
+</script>
+
