@@ -1,5 +1,6 @@
 ﻿const STATUS_CHECK_INTERVAL = 5000;
-const SERVER_CHECK_INTERVAL = 15000;
+const SERVER_CHECK_INTERVAL_ERROR = 15000;
+const SERVER_CHECK_INTERVAL_NO_CONTENT = 12000;
 
 let ordersToCheck = [];
 
@@ -27,16 +28,17 @@ async function getOrders() {
         } else if (response.status === 204) {
             console.error('Заказов нет');
             displayError("Текущих заказов нету 😓");
-            await restartOrderPage(SERVER_CHECK_INTERVAL);
+            await restartOrderPage(SERVER_CHECK_INTERVAL_NO_CONTENT);
         }
     } catch (error) {
         console.error('Ошибка при получении данных:', error);
         displayError("Ошибка при подключению к серверу");
-        await restartOrderPage(SERVER_CHECK_INTERVAL);
+        await restartOrderPage(SERVER_CHECK_INTERVAL_ERROR);
     }
 }
 async function restartOrderPage(time){
     await new Promise((resolve) => {
+        ordersToCheck = [];
         setTimeout(() => {
             getOrders();
             resolve();
@@ -105,11 +107,13 @@ async function checkOrderStatus() {
                 await getOrders();
             } else {
                 console.error(`Ошибка при получении статуса заказа ${orderId}`, response);
-                location.reload();
+                // location.reload();
+                await getOrders();
             }
         } catch (error) {
             console.error(`Ошибка при проверке статуса заказа ${orderId}:`, error);
-            location.reload();
+            // location.reload();
+            await getOrders();
         }
     });
     await Promise.all(promises);
@@ -118,9 +122,18 @@ async function checkOrderStatus() {
 function updateOrderStatus(orderId, newStatus) {
     const ordersTable = document.getElementById('ordersTable').getElementsByTagName('tbody')[0];
     const rows = ordersTable.querySelectorAll('tr');
-    const orderRow = Array.from(rows).find(row => row.cells[0].textContent === orderId.toString());
+    const index = ordersToCheck.findIndex(id => id === orderId);
+    const orderRow = rows[index];
+    // const orderRow = Array.from(rows).find(row => row.cells[0].textContent === orderId.toString());
+
+    if (StatusMapping[newStatus] === orderRow.cells[0].textContent) {
+        return;
+    }
+    if (newStatus === "3") {
+        getOrders();
+    }
     if (orderRow) {
-        orderRow.cells[1].textContent = StatusMapping[newStatus];
+        orderRow.cells[0].textContent = StatusMapping[newStatus];
     }
 }
 
@@ -132,6 +145,8 @@ function displayError(message) {
     const cell = row.insertCell();
     cell.colSpan = 10;
     cell.textContent = message;
+    cell.style.fontSize = '20px'; 
+    cell.style.padding = '20px'; 
 }
 
 function getCookie(name) {
