@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using OrderService.DataAccess;
@@ -11,9 +12,11 @@ using OrderService.DataAccess;
 namespace OrderService.DataAccess.Migrations
 {
     [DbContext(typeof(OrderServiceDbContext))]
-    partial class OrderServiceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240628200216_add_WhoCanceled_for_cancelTable")]
+    partial class add_WhoCanceled_for_cancelTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

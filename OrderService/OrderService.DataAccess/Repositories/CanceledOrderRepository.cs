@@ -36,13 +36,14 @@ public class CanceledOrderRepository(OrderServiceDbContext context) : ICanceledO
                 b.Cheque,
                 (StatusCode)b.LastStatus,
                 b.ReasonOfCanceled,
-                b.CanceledDate
+                b.CanceledDate,
+                role
             ).Order)
             .ToList();
         return orders;
     }
 
-    public async Task Create(CurrentOrder order, string reasonOfCanceled)
+    public async Task Create(CurrentOrder order, string reasonOfCanceled, RoleCode role)
     {
         var orderEntity = new CanceledOrderEntity
         {
@@ -61,7 +62,8 @@ public class CanceledOrderRepository(OrderServiceDbContext context) : ICanceledO
             Cheque = order.Cheque,
             LastStatus = (int)order.Status,
             ReasonOfCanceled = reasonOfCanceled,
-            CanceledDate = DateTime.UtcNow
+            CanceledDate = DateTime.UtcNow,
+            WhoCanceled = (int)role
         };
 
         await context.CanceledOrders.AddAsync(orderEntity);
