@@ -6,19 +6,18 @@
     <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/css/cancelWindow.css" />
-    @* <link rel="stylesheet" href="~/UserService.Main.styles.css" asp-append-version="true"/> *@
-    @* <link rel="stylesheet" href="~/css/menu.css"/> *@
+    <link rel="stylesheet" href="~/css/confirmWindow.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/navBar.css" asp-append-version="true"/>
 </head>
 <body>
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-        <div class="container-fluid">
-            <a class="navbar-brand" asp-area="" asp-controller="Product" asp-action="GetProducts">Menu Service</a>
+        <div class="container-fluid mainNav">
+            <a class="navbar-brand">Шаверма</a>
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-action="AdminStorePanel">Create Product</a>
+                        <a class="nav-link text-dark" asp-area="" asp-action="CurrentOrder">Заказы</a>
                     </li>
                 </ul>
             </div>
@@ -33,15 +32,17 @@
 
 <footer class="border-top footer text-muted">
     <div class="container">
-        &copy; 2024 - MenuService. API - <a asp-area="" asp-controller="User" asp-action="Privacy">Privacy</a>
+        &copy; 2024 - Шаверма - <a asp-area="" asp-controller="User" asp-action="Privacy">Privacy</a>
     </div>
 </footer>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="~/js/order.js" asp-append-version="true"></script>
 <script src="~/js/acceptWindow.js" asp-append-version="true"></script>
 <script src="~/js/cancelWindow.js" asp-append-version="true"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/js/currentOrder.js" asp-append-version="true"></script>
+<script src="~/js/cancelOrder.js" asp-append-version="true"></script>
+<script src="~/js/lastOrder.js" asp-append-version="true"></script>
 @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
