@@ -26,20 +26,20 @@ cancelButtonCancel.addEventListener("click", () => {
     conformationWindowCancel.classList.add("hidden");
 });
 
-function cancelOrder(reasonOfCanceled) {
+function cancelOrder(reasonOfCanceledText) {
     fetch(`http://localhost:5106/orders/client/cancel/${_orderIdCancel}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({reasonOfCanceled: reasonOfCanceled})
+        body: JSON.stringify({reasonOfCanceled: reasonOfCanceledText})
     })
         .then(response => {
-            getOrders();
+            getCurrentOrders();
             console.log('Заказ отменен', response);
         })
         .catch(error => {
             alert('Произошла ошибка');
-            console.error('Ошибка при отмене заказа:', reasonOfCanceled);
+            console.error('Ошибка при отмене заказа:', reasonOfCanceledText);
         });
 }

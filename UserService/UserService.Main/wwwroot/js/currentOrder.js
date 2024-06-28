@@ -1,54 +1,36 @@
-﻿const STATUS_CHECK_INTERVAL = 5000;
-const SERVER_CHECK_INTERVAL_ERROR = 15000;
-const SERVER_CHECK_INTERVAL_NO_CONTENT = 12000;
+﻿let ordersToCheck = [];
 
-let ordersToCheck = [];
-
-const StatusMapping = {
-    "0": "Готовится",
-    "1": "Ожидает курьра",
-    "2": "Доставляется",
-    "3": "Прибыл к клиенту"
-};
+let currentTable = 'CurrentOrdersTable'
 
 const AuthHeaders = {
     'UserId': getCookie('UserId'),
     'Role': getCookie('Role')
 };
 
-async function getOrders() {
+async function getCurrentOrders() {
     try {
         const response = await fetch('http://localhost:5106/orders/client/current', {
             headers: AuthHeaders
         });
         if (response.status === 200) {
             const data = await response.json();
-            displayOrders(data);
+            displayCurrentOrders(data);
             ordersToCheck = data.map(order => order.id);
         } else if (response.status === 204) {
             console.error('Заказов нет');
-            displayError("Текущих заказов нету 😓");
-            await restartOrderPage(SERVER_CHECK_INTERVAL_NO_CONTENT);
+            displayError("Текущих заказов нету 😓", currentTable);
+            await restartCurrentOrderPage(SERVER_CHECK_INTERVAL_NO_CONTENT);
         }
     } catch (error) {
         console.error('Ошибка при получении данных:', error);
-        displayError("Ошибка при подключению к серверу");
-        await restartOrderPage(SERVER_CHECK_INTERVAL_ERROR);
+        displayError("Ошибка при подключению к серверу", currentTable);
+        await restartCurrentOrderPage(SERVER_CHECK_INTERVAL_ERROR);
     }
 }
-async function restartOrderPage(time){
-    await new Promise((resolve) => {
-        ordersToCheck = [];
-        setTimeout(() => {
-            getOrders();
-            resolve();
-        }, time);
-    });
-}
 
 
-function displayOrders(orders) {
-    const ordersTable = document.getElementById('ordersTable')
+function displayCurrentOrders(orders) {
+    const ordersTable = document.getElementById(currentTable)
         .getElementsByTagName('tbody')[0];
 
     ordersTable.innerHTML = '';
@@ -84,6 +66,9 @@ function displayOrders(orders) {
         actionsCell.appendChild(cancelButton);
         
         if (order.status === 3) {
+            let statusCell = document.getElementById('statusCell');
+            statusCell.style.backgroundColor = '#e3ffe3';
+            
             const acceptButton = document.createElement('button');
             acceptButton.classList.add('btn', 'btn-success', 'order-accept-button');
             acceptButton.textContent = 'Принять';
@@ -104,52 +89,42 @@ async function checkOrderStatus() {
                 updateOrderStatus(orderId, orderData);
             } else if (response.status === 204) {
                 console.error(`Заказ не найден ${orderId}`, response);
-                await getOrders();
+                await getCurrentOrders();
             } else {
                 console.error(`Ошибка при получении статуса заказа ${orderId}`, response);
-                // location.reload();
-                await getOrders();
+                await getCurrentOrders();
             }
         } catch (error) {
             console.error(`Ошибка при проверке статуса заказа ${orderId}:`, error);
-            // location.reload();
-            await getOrders();
+            await getCurrentOrders();
         }
     });
     await Promise.all(promises);
 }
 
 function updateOrderStatus(orderId, newStatus) {
-    const ordersTable = document.getElementById('ordersTable').getElementsByTagName('tbody')[0];
+    const ordersTable = document.getElementById(currentTable).getElementsByTagName('tbody')[0];
     const rows = ordersTable.querySelectorAll('tr');
     const index = ordersToCheck.findIndex(id => id === orderId);
     const orderRow = rows[index];
-    // const orderRow = Array.from(rows).find(row => row.cells[0].textContent === orderId.toString());
 
     if (StatusMapping[newStatus] === orderRow.cells[0].textContent) {
         return;
     }
     if (newStatus === "3") {
-        getOrders();
+        getCurrentOrders();
     }
     if (orderRow) {
         orderRow.cells[0].textContent = StatusMapping[newStatus];
     }
 }
 
-function displayError(message) {
-    const ordersTable = document.getElementById('ordersTable').getElementsByTagName('tbody')[0];
-    ordersTable.innerHTML = '';
-
-    const row = ordersTable.insertRow();
-    const cell = row.insertCell();
-    cell.colSpan = 10;
-    cell.textContent = message;
-    cell.style.fontSize = '20px'; 
-    cell.style.padding = '20px'; 
-}
-
-function getCookie(name) {
-    const cookieValue = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
-    return cookieValue ? cookieValue[2] : null;
+async function restartCurrentOrderPage(time){
+    await new Promise((resolve) => {
+        ordersToCheck = [];
+        setTimeout(() => {
+            getCurrentOrders();
+            resolve();
+        }, time);
+    });
 }
