@@ -82,7 +82,7 @@ async function checkNewOrder() {
     if (serverWorking) {
         try {
             const response = await fetch(
-                `http://localhost:5106/orders/store/get_new_orders/${newestOrderDate}`, {
+                `http://localhost:5106/orders/store/getNewOrders/${newestOrderDate}`, {
                     headers: AuthHeaders
                 });
             if (response.status === 200) {

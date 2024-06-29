@@ -46,13 +46,15 @@ public class StoreController(IOrderApplicationService orderApplicationService) :
         return Ok(response);
     }
 
-    [HttpGet("get_new_orders/{lastOrderDate:Datetime}")]
+    [HttpGet("getNewOrders/{lastOrderDate:Datetime}")]
     public async Task<ActionResult<List<StoreGetCurrent>>> GetNewOrderByDate(DateTime lastOrderDate)
     {
         var userId = User.UserId();
         var role = (RoleCode)Enum.Parse(typeof(RoleCode), User.Role());
 
         var orders = await _orderApplicationService.GetNewOrdersByDate(role, userId, lastOrderDate);
+        if (orders.Count == 0)
+            return NoContent();
         var response = orders.Select(b =>
             new StoreGetCurrent(b.Id, b.Status, b.Basket, b.Comment,
                 b.CourierNumber, b.CookingTime, b.OrderDate));
