@@ -35,6 +35,9 @@ function cancelOrder(reasonOfCanceledText) {
         body: JSON.stringify({reasonOfCanceled: reasonOfCanceledText})
     })
         .then(response => {
+            if (!response.ok) {
+                throw new Error('Не удалось отменить заказ');
+            }
             getCurrentOrders();
             console.log('Заказ отменен', response);
         })

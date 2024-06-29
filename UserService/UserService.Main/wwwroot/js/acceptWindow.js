@@ -27,6 +27,9 @@ function acceptOrder() {
         }
     })
         .then(response => {
+            if (!response.ok) {
+                throw new Error('Не удалось отменить заказ');
+            }
             getOrders();
             console.log('Заказ принят!', response);
         })
