@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Закакзы";
+    Layout = "_Layout";
+}
+
+
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <div class="container-fluid">
+        @* <a class="navbar-brand">Заказы</a> *@
+        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+            <ul class="navbar-nav flex-grow-1 justify-content-center orderNav">
+                    <a id="currentNav" class="nav-link text-dark" asp-area="" asp-action="CurrentOrder">Текущие</a>
+                    <a id="lastNav" class="nav-link text-dark" asp-area="" asp-action="LastOrder">История</a>
+                    <a id="cancelNav" class="nav-link text-dark" asp-area="" asp-action="CancelOrder">Отмененные</a>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div>
+    @RenderBody()
+</div>
+
+
+
+@await RenderSectionAsync("Scripts", required: false)
+

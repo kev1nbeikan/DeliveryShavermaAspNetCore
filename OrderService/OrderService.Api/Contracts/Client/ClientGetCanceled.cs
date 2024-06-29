@@ -9,6 +9,8 @@ public record ClientGetCanceled(
     int Price,
     string Comment,
     DateTime OrderDate,
+    DateTime CanceledDate,
     string Cheque,
     StatusCode LastStatus,
-    string ReasonOfCanceled);
+    string ReasonOfCanceled,
+    RoleCode WhoCanceled);

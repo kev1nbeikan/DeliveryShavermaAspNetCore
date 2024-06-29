@@ -47,6 +47,9 @@ public class CurrentOrder : BaseOrder
 
         if (string.IsNullOrEmpty(storeAddress) || storeAddress.Length > MaxAddressLength)
             errorString = "Error in the store address, the value is empty or exceeds the maximum value";
+        
+        if(!Enum.IsDefined(typeof(StatusCode), status))
+            errorString = "Такого статуса нету";
 
         var order = new CurrentOrder(id, clientId, courierId, storeId, basket,
             price, comment, storeAddress, clientAddress, courierNumber, clientNumber, cookingTime,

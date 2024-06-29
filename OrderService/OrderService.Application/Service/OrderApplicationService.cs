@@ -62,7 +62,7 @@ public class OrderApplicationService(
             throw new Exception($"Courier cannot cancel the order with the current status. Current status = {(StatusCode)order.Status}");
         if (role == RoleCode.Store && order.Status is not StatusCode.Cooking) 
             throw new Exception($"Store cannot cancel the order with the current status. Current status = {(StatusCode)order.Status}");
-        await _canceledOrderRepository.Create(order, reasonOfCanceled);
+        await _canceledOrderRepository.Create(order, reasonOfCanceled, role);
         await _currentOrderRepository.Delete(role, sourceId, orderId);
     }
 
