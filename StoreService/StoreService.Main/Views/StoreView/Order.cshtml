@@ -1,0 +1,36 @@
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Заказы";
+}
+
+<table id="CurrentStoreOrdersTable" class="order-table" style="width: 100%; vertical-align: center; !important;">
+    <thead>
+    <tr>
+        <th>Статус</th>
+        <th>Корзина</th>
+        <th>Комментарий</th>
+        <th>Номер курьера</th>
+        <th>Время готовки</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+@await Html.PartialAsync("_CancelWindowPartial")
+@await Html.PartialAsync("_AcceptWindowPartial")
+
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/js/cancelWindow.js" asp-append-version="true"></script>
+<script src="~/js/acceptWindow.js" asp-append-version="true"></script>
+<script src="~/js/order.js" asp-append-version="true"></script>
+
+<script>
+    window.onload = function() {
+        getStoreOrders();
+        setInterval(checkNewOrder, STATUS_CHECK_INTERVAL);
+    };
+</script>
+
+
