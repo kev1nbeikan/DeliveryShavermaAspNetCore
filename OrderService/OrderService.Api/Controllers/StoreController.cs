@@ -27,7 +27,7 @@ public class StoreController(IOrderApplicationService orderApplicationService) :
         
         var response = orders.Select(b =>
             new StoreGetCurrent(b.Id, b.Status, b.Basket, b.Comment,
-                b.CourierNumber, b.CookingTime));
+                b.CourierNumber, b.CookingTime, b.OrderDate));
         return Ok(response);
     }
 
@@ -55,7 +55,7 @@ public class StoreController(IOrderApplicationService orderApplicationService) :
         var orders = await _orderApplicationService.GetNewOrdersByDate(role, userId, lastOrderDate);
         var response = orders.Select(b =>
             new StoreGetCurrent(b.Id, b.Status, b.Basket, b.Comment,
-                b.CourierNumber, b.CookingTime));
+                b.CourierNumber, b.CookingTime, b.OrderDate));
         return Ok(response);
     }
 
@@ -70,7 +70,7 @@ public class StoreController(IOrderApplicationService orderApplicationService) :
         return Ok();
     }
 
-    [HttpPut("canceled/{orderId:Guid}")]
+    [HttpPut("cancel/{orderId:Guid}")]
     public async Task<ActionResult> ChangeStatusCanceled(Guid orderId, [FromBody] CancelOrderRequest cancelOrderRequest)
     {
         var userId = User.UserId();

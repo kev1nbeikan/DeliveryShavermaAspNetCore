@@ -9,4 +9,5 @@ public record StoreGetCurrent(
     List<BasketItem> Basket,
     string Comment,
     string CourierNumber,
-    TimeSpan CookingTime);
+    TimeSpan CookingTime,
+    DateTime OrderDate);
