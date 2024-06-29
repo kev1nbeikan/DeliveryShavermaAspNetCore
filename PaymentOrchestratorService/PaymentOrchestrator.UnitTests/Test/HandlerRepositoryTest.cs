@@ -21,29 +21,29 @@ public class PaymentRepositoryTest
     [Test]
     public void SavePaymentOrderInMemoryCasheAndGetBack()
     {
-        TemporyOrder temporyOrder = TemporyOrder.Create(
+        PaymentOrder paymentOrder = PaymentOrder.Create(
             Guid.NewGuid(),
             new Product[] { }, [],
-            100, "comment", "address", Guid.NewGuid(), Guid.NewGuid()).Order!;
+            100, "comment", "address", Guid.NewGuid(), "+785781884").Order!;
 
-        var error = _handlerRepository.Save(temporyOrder);
-        var savedInMemoryPaymentOrder = _handlerRepository.Get(temporyOrder.Id);
+        var error = _handlerRepository.Save(paymentOrder);
+        var savedInMemoryPaymentOrder = _handlerRepository.Get(paymentOrder.Id);
 
         Assert.That(error, Is.Null);
         Assert.That(savedInMemoryPaymentOrder, Is.Not.Null);
-        Assert.That(PaymentOrderIsEqual.IsEqual(temporyOrder, savedInMemoryPaymentOrder!), Is.True);
+        Assert.That(PaymentOrderIsEqual.IsEqual(paymentOrder, savedInMemoryPaymentOrder!), Is.True);
     }
 
     [Test]
     public void SavePaymentOrderInMemoryCasheAndDelete()
     {
-        TemporyOrder temporyOrder = TemporyOrder.Create(
+        PaymentOrder paymentOrder = PaymentOrder.Create(
             Guid.NewGuid(),
             new Product[] { }, [],
-            100, "comment", "address", Guid.NewGuid(), Guid.NewGuid()).Order!;
+            100, "comment", "address", Guid.NewGuid(), "+7857818489").Order!;
 
-        var error = _handlerRepository.Save(temporyOrder);
-        var savedInMemoryPaymentOrder = _handlerRepository.Delete(temporyOrder.Id);
+        var error = _handlerRepository.Save(paymentOrder);
+        var savedInMemoryPaymentOrder = _handlerRepository.Delete(paymentOrder.Id);
 
         Assert.That(error, Is.Null);
         Assert.That(savedInMemoryPaymentOrder, Is.Null);

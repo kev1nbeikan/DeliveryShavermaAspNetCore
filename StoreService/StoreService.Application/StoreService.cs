@@ -23,7 +23,7 @@ public class StoreService : IStoreService
 
     public async Task<OrderTaskExecution<Store>> GetCookingInfo(
         string clientAddress,
-        List<ProductsInventoryWithoutStore> products
+        List<ProductsInventory> products
     )
     {
         var store = await GetStoreForClientAddress(clientAddress);
@@ -78,7 +78,7 @@ public class StoreService : IStoreService
         await _storeRepository.Update(storeUpdated);
     }
 
-    private async Task EnsureValidStoreAndProducts(Guid storeId, List<ProductsInventoryWithoutStore> products)
+    private async Task EnsureValidStoreAndProducts(Guid storeId, List<ProductsInventory> products)
     {
         var store = await _storeRepository.Get(storeId);
         if (store is null) throw new StoreNotFoundException(storeId);

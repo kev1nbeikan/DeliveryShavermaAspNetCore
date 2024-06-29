@@ -96,7 +96,7 @@ public class StoreApiController : ControllerBase
     }
 
     [HttpPost("inventory")]
-    public async Task<IActionResult> UpsertStoreProductInventory([FromBody] ProductsInventoryWithoutStore request)
+    public async Task<IActionResult> UpsertStoreProductInventory([FromBody] ProductsInventory request)
     {
         try
         {

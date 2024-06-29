@@ -30,8 +30,8 @@ public class PaymentUseCases : IPaymentUseCases
     }
 
 
-    public async Task<(Product[] products, int price, TemporyOrder? paymentOrder)> ExecutePaymentBuild(
-        List<BucketItem> productIdsAndQuantity,
+    public async Task<(Product[] products, int price, PaymentOrder? paymentOrder)> ExecutePaymentBuild(
+        List<ProductWithAmount> productIdsAndQuantity,
         string comment,
         string address,
         string phoneNumber,
@@ -48,6 +48,14 @@ public class PaymentUseCases : IPaymentUseCases
 
         (var products, error) =
             await _menuService.GetProducts(productIds);
+
+        var bucket = products.Join(
+            productIdsAndQuantity,
+            product => product.Id,
+            bucketItem => bucketItem.Id,
+            (product, bucketItem) => (product: product, amount: bucketItem.Quantity,
+                price: product.Price)).ToList();
+
         if (error.HasValue()) throw new PaymentBuildException(error!);
 
         var price = _paymentService.CalculatePayment(products, productIdsAndQuantity);
@@ -59,7 +67,8 @@ public class PaymentUseCases : IPaymentUseCases
             price,
             address,
             comment,
-            productIdsAndQuantity);
+            bucket,
+            phoneNumber);
         if (error.HasValue()) throw new PaymentBuildException(error!);
 
         return (products, price, paymentOrder);

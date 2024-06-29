@@ -4,8 +4,8 @@ namespace Handler.Core.Abstractions.Repositories;
 
 public interface IHandlerRepository
 {
-    string? Save(TemporyOrder? order);
-    TemporyOrder? Get(Guid orderId);
+    string? Save(PaymentOrder? order);
+    PaymentOrder? Get(Guid orderId);
 
     string? Delete(Guid orderId);
 }

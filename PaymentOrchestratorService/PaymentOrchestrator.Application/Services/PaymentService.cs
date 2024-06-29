@@ -9,7 +9,7 @@ namespace HandlerService.Application.Services;
 
 public class PaymentService : IPaymentService
 {
-    public int CalculatePayment(Product[] products, List<BucketItem> productIdsAndQuantity)
+    public int CalculatePayment(Product[] products, List<ProductWithAmount> productIdsAndQuantity)
     {
         return products.Sum(p =>
             p.Price * productIdsAndQuantity.Where(x => p.Id == x.Id).Select(x => x.Quantity).First());
@@ -20,7 +20,7 @@ public class PaymentService : IPaymentService
         return [PaymentType.Card, PaymentType.Cash];
     }
 
-    public (string? error, string? cheque) ConfirmPayment(TemporyOrder order,
+    public (string? error, string? cheque) ConfirmPayment(PaymentOrder order,
         Payment paymentInfo)
     {
         return paymentInfo.PaymentType switch
@@ -31,7 +31,7 @@ public class PaymentService : IPaymentService
         };
     }
 
-    private static (string? error, string? cheque) ProccessCardPayment(TemporyOrder order, Card? paymentInfoCard)
+    private static (string? error, string? cheque) ProccessCardPayment(PaymentOrder order, Card? paymentInfoCard)
     {
         if (paymentInfoCard == null) return ("card not found", null);
         return ("", "Cheque for Card: " + order.Price);

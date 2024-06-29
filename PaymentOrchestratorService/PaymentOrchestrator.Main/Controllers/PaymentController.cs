@@ -71,30 +71,24 @@ public class PaymentController : Controller
         var temporyOrder = _temporaryOrderService.Get(paymentConfirmRequest.OrderId);
         _logger.LogInformation(temporyOrder?.ToString());
 
-        if (temporyOrder == null) return BadRequest("Order not found: try make order again");
+        if (temporyOrder == null)
+            return BadRequest("Платеж не найден: перейдите на страницу магазина и попробуйте ещё раз");
 
         (var orderLogistic, error) = await _getOrderLogistic.Execute(temporyOrder);
         if (error.HasValue()) return BadRequest(error);
-        return Ok(orderLogistic);
 
         (error, var cheque) = _paymentService.ConfirmPayment(temporyOrder, paymentConfirmRequest.ToPaymentInfo());
         if (error.HasValue()) return BadRequest(error);
-
+        
         (var myUser, error) = await _userService.Get(User.UserId());
         if (error.HasValue()) return BadRequest(error);
+      
 
         (var order, error) = await _orderService.Save(
-            temporyOrder.Id,
-            temporyOrder.Basket,
-            temporyOrder.Price,
-            temporyOrder.Comment,
+            temporyOrder!,
+            orderLogistic!,
             cheque!,
-            temporyOrder.ClientAddress,
-            orderLogistic!.Delivering.Executor,
-            myUser!,
-            orderLogistic.Cooking.Executor.Id,
-            orderLogistic.Cooking.Time,
-            orderLogistic.Delivering.Time
+            myUser!
         );
 
         if (error.HasValue()) return BadRequest(error);
@@ -107,7 +101,7 @@ public class PaymentController : Controller
     {
         var userId = User.UserId();
         _logger.LogInformation($"User {userId} requested Payment with body {paymentRequest}");
-
+        
         var (products, price, paymentOrder) = await _paymentUseCases.ExecutePaymentBuild(
             paymentRequest.ProductIdsAndQuantity,
             paymentRequest.Comment,

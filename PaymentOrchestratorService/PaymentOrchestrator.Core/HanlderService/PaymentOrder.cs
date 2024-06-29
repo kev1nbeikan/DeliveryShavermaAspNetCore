@@ -6,29 +6,29 @@ namespace Handler.Core.HanlderService
     /// <summary>
     /// Represents a temporary order that inherits certain fields from the Order class to store it in the database until payment is confirmed.
     /// </summary>
-    public record TemporyOrder
+    public record PaymentOrder
     {
         public const int MAX_NUMBER_LENGHT = 10;
         public const int MAX_ADDRESS_LENGHT = 250;
         public const int MAX_COMMENT_LENGHT = 250;
 
-        public TemporyOrder(Guid id,
-            Product[] basket,
-            List<BucketItem> productAndQuantity,
+        public PaymentOrder(Guid id,
+            Product[] produtsList,
+            List<(Product product, int amount, int price)> productAndQuantity,
             int price,
             string comment,
             string clientAddress,
             Guid clientId,
-            Guid storeId)
+            string clientNumber)
         {
             Id = id;
-            Basket = basket;
+            ProdutsList = produtsList;
             Price = price;
             Comment = comment;
             ClientAddress = clientAddress;
             ClientId = clientId;
-            StoreId = storeId;
-            productAndQuantity = productAndQuantity;
+            ClientNumber = clientNumber;
+            Bucket = productAndQuantity;
         }
 
 
@@ -38,12 +38,12 @@ namespace Handler.Core.HanlderService
         public Guid ClientId { get; }
 
 
-        public Guid StoreId { get; }
+        public string ClientNumber { get; }
 
 
-        public Product[] Basket { get; } = [];
+        public Product[] ProdutsList { get; } = [];
 
-        public List<BucketItem> ProductsAndQuantities { get; } = [];
+        public List<(Product product, int amount, int price)> Bucket { get; } = [];
 
 
         public int Price { get; }
@@ -55,14 +55,14 @@ namespace Handler.Core.HanlderService
         public string ClientAddress { get; } = string.Empty;
 
 
-        public static (TemporyOrder? Order, string? Error) Create(Guid id,
+        public static (PaymentOrder? Order, string? Error) Create(Guid id,
             Product[] basket,
-            List<BucketItem> productQuantity,
+            List<(Product product, int amount, int price)> productQuantity,
             int price,
             string comment,
             string clientAddress,
             Guid clientId,
-            Guid storeId)
+            string clientNumber)
         {
             string errorString = string.Empty;
 
@@ -79,9 +79,8 @@ namespace Handler.Core.HanlderService
             if (clientId == Guid.Empty)
                 errorString = "Error in clientId, value is empty";
 
-
-            if (storeId == Guid.Empty)
-                errorString = "Error in storeId, value is empty";
+            if (string.IsNullOrEmpty(clientNumber) || clientNumber.Length > MAX_NUMBER_LENGHT)
+                errorString = "Error in clientNumber, is empty or exceeds the maximum value " + MAX_NUMBER_LENGHT;
 
             if (price < 0)
                 errorString = "Error in price, negative value for price";
@@ -89,14 +88,14 @@ namespace Handler.Core.HanlderService
             if (productQuantity.Count != basket.Length)
                 errorString = "Incorrect productQuantity or basket";
 
-            var task = new TemporyOrder(id,
+            var task = new PaymentOrder(id,
                 basket!,
                 productQuantity,
                 price,
                 comment,
                 clientAddress,
                 clientId,
-                storeId);
+                clientNumber);
 
             return (task, errorString);
         }

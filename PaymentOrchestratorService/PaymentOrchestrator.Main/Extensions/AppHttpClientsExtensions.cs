@@ -19,6 +19,10 @@ public static class AppHttpClientsExtensions
 
         services.AddHttpClient(nameof(options.StoreUrl),
             httpClient => { SetBaseAddressWithLogging(options.StoreUrl, httpClient, nameof(options.StoreUrl)); });
+        
+        services.AddHttpClient(nameof(options.OrderUrl),
+            httpClient => { SetBaseAddressWithLogging(options.OrderUrl, httpClient, nameof(options.OrderUrl)); });
+
     }
 
     private static void SetBaseAddressWithLogging(string url, HttpClient httpClient, string httpClientName)
