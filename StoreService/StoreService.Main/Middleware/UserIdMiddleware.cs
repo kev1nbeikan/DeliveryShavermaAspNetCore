@@ -17,7 +17,8 @@ public class UserIdMiddleware(RequestDelegate next)
 
         if (!Guid.TryParse(userIdString, out Guid userId) || string.IsNullOrEmpty(roleString))
         {
-            context.Response.Redirect(options.Value.AuthUrl);
+            // context.Response.Redirect(options.Value.AuthUrl);
+            await _next(context);
             return;
         }
 

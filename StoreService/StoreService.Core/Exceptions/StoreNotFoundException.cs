@@ -5,7 +5,7 @@ namespace StoreService.Core.Exceptions;
 public class StoreNotFoundException : StoreServiceException
 {
     public StoreNotFoundException(Guid storeId)
-        : base($"Store with ID {storeId} not found.")
+        : base($"Магазин с id {storeId} не найден")
     {
     }
 
@@ -13,4 +13,6 @@ public class StoreNotFoundException : StoreServiceException
         : base($"Нет доступного магазина для адреса: {clientAddress}")
     {
     }
+    
+    
 }

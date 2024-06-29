@@ -19,7 +19,8 @@ public class StoreApiController : ControllerBase
 
     public StoreApiController(
         ILogger<StoreApiController> logger,
-        IStoreService storeService, IStoreProductsService storeProductService)
+        IStoreService storeService,
+        IStoreProductsService storeProductService)
     {
         _logger = logger;
         _storeService = storeService;

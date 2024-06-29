@@ -32,4 +32,15 @@ public class HttpClientFactoryMockBuilder
             });
         return this;
     }
+
+    public HttpClientFactoryMockBuilder WithStoreClient()
+    {
+        _mockHttpClientFactory
+            .Setup(x => x.CreateClient(It.Is<string>(x => x == nameof(_servicesOptions.Value.StoreUrl))))
+            .Returns(() => new HttpClient
+            {
+                BaseAddress = new Uri(_servicesOptions.Value.StoreUrl)
+            });
+        return this;
+    }
 }

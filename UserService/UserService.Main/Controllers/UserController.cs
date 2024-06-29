@@ -13,8 +13,7 @@ using UserService.Main.Models;
 
 namespace UserService.Main.Controllers;
 
-// [Route("[controller]")]
-[Route("")]
+[Route("[controller]")]
 public class UserController : Controller
 {
     private readonly ILogger<UserController> _logger;
@@ -90,7 +89,7 @@ public class UserController : Controller
         }
     }
     
-    [HttpGet]
+    [HttpGet("Order")]
     public async Task<IActionResult> Order()
     {
         // if (ModelState.IsValid) return BadRequest();

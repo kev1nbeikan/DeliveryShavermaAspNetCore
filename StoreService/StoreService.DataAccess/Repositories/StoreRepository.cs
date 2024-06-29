@@ -45,6 +45,15 @@ public class StoreRepository : IStoreRepository
         return await _storeDbContext.Stores.AsNoTracking().Select(s => s.ToCore()).ToListAsync();
     }
 
+    public Task<List<Store>> GetAllOpened()
+    {
+        return _storeDbContext.Stores
+            .AsNoTracking()
+            .Where(s => s.Status == StoreStatus.Open)
+            .Select(s => s.ToCore())
+            .ToListAsync();
+    }
+
     public async Task Add(Store store)
     {
         await EnsureValidToAdd(store);

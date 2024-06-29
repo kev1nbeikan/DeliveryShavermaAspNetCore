@@ -25,20 +25,31 @@ public class StoreRepository : RepositoryHttpClientBase, IStoreRepository
     public async Task<(OrderTaskExecution<Store>? cookingExecution, string? error)> GetCokingTime(string clientAddress,
         List<BucketItem> basket)
     {
-        var body = new GetCookingTimeRequest(clientAddress, basket);
-
-        var request = new HttpRequestMessage
+        try
         {
-            Method = HttpMethod.Get,
-            Content = JsonContent.Create(body),
-            RequestUri = new Uri("store/api/v1.0/get-execution-info", UriKind.Relative)
-        };
 
-        var response = await _httpClient.SendAsync(request);
+            var body = new GetCookingTimeRequest(clientAddress, basket);
 
-        if (!response.IsSuccessStatusCode) return (null, await response.Content.ReadAsStringAsync());
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+                Content = JsonContent.Create(body),
+                RequestUri = new Uri("store/api/v1.0/get-cooking-info", UriKind.Relative)
+            };
 
-        var cookingExecution = await response.Content.ReadFromJsonAsync<OrderTaskExecution<Store>>();
-        return (cookingExecution, null);
+            var response = await _httpClient.SendAsync(request);
+
+            Console.WriteLine(await response.Content.ReadAsStringAsync());
+
+            if (!response.IsSuccessStatusCode) return (null, await response.Content.ReadAsStringAsync());
+
+            var cookingExecution = await response.Content.ReadFromJsonAsync<OrderTaskExecution<Store>>();
+
+            return (cookingExecution, null);
+        }
+        catch (HttpRequestException e)
+        {
+            return (null, e.Message);
+        }
     }
 }

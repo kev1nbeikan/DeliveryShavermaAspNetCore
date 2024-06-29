@@ -12,7 +12,8 @@ public class StoreViewController : Controller
     private readonly ILogger<StoreApiController> _logger;
     private readonly IProductInventoryMapper _productMapper;
 
-    public StoreViewController(IStoreService storeService, ILogger<StoreApiController> logger,
+    public StoreViewController(IStoreService storeService,
+        ILogger<StoreApiController> logger,
         IProductInventoryMapper productMapper)
     {
         _storeService = storeService;

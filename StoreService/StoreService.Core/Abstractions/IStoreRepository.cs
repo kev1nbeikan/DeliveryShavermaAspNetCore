@@ -13,4 +13,5 @@ public interface IStoreRepository
     Task<bool> Update(Store store);
     Task<StoreStatus?> GetStatus(Guid storeId);
     Task<List<Store>> GetAll();
+    Task<List<Store>> GetAllOpened();
 }

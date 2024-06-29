@@ -10,10 +10,7 @@
     <ItemGroup>
       <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
       <PackageReference Include="Moq" Version="4.20.70" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\UserService\UserService.Core\UserService.Core.csproj" />
+      <PackageReference Include="System.Security.Claims" Version="4.3.0" />
     </ItemGroup>
 
 </Project>

@@ -43,7 +43,7 @@ public class StoreService : IStoreService
     {
         // TODO: Implement logic to find store near client address
 
-        var stores = await _storeRepository.GetAll();
+        var stores = await _storeRepository.GetAllOpened();
 
         if (stores.Count == 0) return null;
 

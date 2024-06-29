@@ -10,10 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<UserDbContext>(
-    options =>
-    {
-        options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(UserDbContext)));
-    }
+    options => { options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(UserDbContext))); }
 );
 
 builder.Services.AddDependencyInjection();
@@ -43,7 +40,7 @@ app.UseMiddleware<UserIdMiddleware>();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=User}/{action=Order}/{id?}", 
-    defaults: new { controller = "User", action = "Order" });
+    pattern: "{controller=Home}/{action=Index}/{id?}"
+);
 
 app.Run();

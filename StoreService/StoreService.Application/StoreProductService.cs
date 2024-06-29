@@ -22,7 +22,32 @@ public class StoreProductService : IStoreProductsService
             await _storeInventoryRepository.GetByIds(storeId,
                 requiredProductsQuantities.Select(p => p.ProductId).ToList());
 
-        return CheckProductsCountCore(requiredProductsQuantities, availableProductsQuantities);
+        return CheckProductAvailability(requiredProductsQuantities, availableProductsQuantities);
+    }
+
+    private bool CheckProductAvailability(
+        List<ProductsInventoryWithoutStore> requiredProductQuantities,
+        List<ProductInventory> availableProductInventories
+    )
+    {
+        if (requiredProductQuantities.Count != availableProductInventories.Count)
+        {
+            return false;
+        }
+
+        foreach (var requiredProductQuantity in requiredProductQuantities)
+        {
+            var availableProductInventory = availableProductInventories.Find(
+                x => x.ProductId == requiredProductQuantity.ProductId
+            );
+
+            if (availableProductInventory is null) return false;
+
+            if (availableProductInventory.Quantity < requiredProductQuantity.Quantity)
+                return false;
+        }
+
+        return true;
     }
 
     public async Task UpsertProductInventory(Guid storeId, Guid productId, int quantity)
@@ -53,25 +78,5 @@ public class StoreProductService : IStoreProductsService
     public async Task<List<ProductInventory>> GetAll(Guid storeId)
     {
         return await _storeInventoryRepository.GetAll(storeId);
-    }
-
-    private static bool CheckProductsCountCore(
-        List<ProductsInventoryWithoutStore> requiredProductsQuantities,
-        List<ProductInventory> availableProductsQuantities
-    )
-    {
-        foreach (var requiredProductQuantity in requiredProductsQuantities)
-        {
-            var availableProductQuantity =
-                availableProductsQuantities.Find(x =>
-                    x.ProductId == requiredProductQuantity.ProductId);
-
-            if (availableProductQuantity!.Quantity < requiredProductQuantity.Quantity)
-            {
-                return false;
-            }
-        }
-
-        return true;
     }
 }

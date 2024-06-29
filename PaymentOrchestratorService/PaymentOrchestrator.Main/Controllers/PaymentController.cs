@@ -34,7 +34,8 @@ public class PaymentController : Controller
         IMenuService menuService,
         IHandlerOrderService temporaryOrderService,
         IOrderService orderService,
-        IGetOrderLogisticUseCase getOrderLogistic, IPaymentUseCases paymentUseCases)
+        IGetOrderLogisticUseCase getOrderLogistic,
+        IPaymentUseCases paymentUseCases)
     {
         _logger = logger;
         _userService = userService;
