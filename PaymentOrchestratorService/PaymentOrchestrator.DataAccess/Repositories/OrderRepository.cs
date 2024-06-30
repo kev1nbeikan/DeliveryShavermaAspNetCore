@@ -11,11 +11,13 @@ using Microsoft.Extensions.Options;
 
 namespace HandlerService.DataAccess.Repositories;
 
-public class OrderRepository : RepositoryHttpClientBase, IOrderRepository
+public class OrderRepository : IOrderRepository
 {
-    public OrderRepository(IHttpClientFactory clientFactory, IOptions<ServicesOptions> options) : base(
-        nameof(options.Value.MenuUrl), clientFactory)
+    private readonly HttpClient _httpClient;
+
+    public OrderRepository(IHttpClientFactory clientFactory, IOptions<ServicesOptions> options)
     {
+        _httpClient = clientFactory.CreateClient(options.Value.OrderUrl);
     }
 
     public async Task<string?> Save(OrderCreateRequest order)
@@ -24,8 +26,9 @@ public class OrderRepository : RepositoryHttpClientBase, IOrderRepository
 
         if (!response.IsSuccessStatusCode)
         {
-            return await response.Content.ReadAsStringAsync();
+            return "Ошибка при создании заказа: " + await response.Content.ReadAsStringAsync();
         }
+
 
         return null;
     }

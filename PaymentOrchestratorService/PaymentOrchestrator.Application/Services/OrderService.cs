@@ -20,7 +20,7 @@ public class OrderService : IOrderService
     }
     
 
-    public async Task<(PaymentOrder order, string? error)> Save(PaymentOrder order, OrderLogistic orderLogistic,
+    public async Task<(OrderCreateRequest order, string? error)> Save(PaymentOrder order, OrderLogistic orderLogistic,
         string cheque,
         MyUser user)
     {
@@ -54,6 +54,6 @@ public class OrderService : IOrderService
 
         var error = await _orderRepository.Save(orderCreateRequest);
 
-        return (order, error);
+        return (orderCreateRequest, error);
     }
 }

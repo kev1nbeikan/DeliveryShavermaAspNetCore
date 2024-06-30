@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using BarsGroupProjectN1.Core.AppSettings;
 using Handler.Core;
 using Handler.Core.Abstractions;
 using Handler.Core.Abstractions.Services;
@@ -12,6 +13,7 @@ using HandlerService.Extensions;
 using HandlerService.Infustucture.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using HandlerService.Models;
+using Microsoft.Extensions.Options;
 
 namespace HandlerService.Controllers;
 
@@ -27,6 +29,7 @@ public class PaymentController : Controller
     private readonly IOrderService _orderService;
     private readonly IGetOrderLogisticUseCase _getOrderLogistic;
     private readonly IPaymentUseCases _paymentUseCases;
+    private readonly IOptions<ServicesOptions> _options;
 
     public PaymentController(ILogger<PaymentController> logger,
         IUserService userService,
@@ -35,7 +38,8 @@ public class PaymentController : Controller
         IHandlerOrderService temporaryOrderService,
         IOrderService orderService,
         IGetOrderLogisticUseCase getOrderLogistic,
-        IPaymentUseCases paymentUseCases)
+        IPaymentUseCases paymentUseCases, 
+        IOptions<ServicesOptions> options)
     {
         _logger = logger;
         _userService = userService;
@@ -45,6 +49,7 @@ public class PaymentController : Controller
         _orderService = orderService;
         _getOrderLogistic = getOrderLogistic;
         _paymentUseCases = paymentUseCases;
+        _options = options;
     }
 
     public IActionResult Index()
@@ -93,7 +98,7 @@ public class PaymentController : Controller
 
         if (error.HasValue()) return BadRequest(error);
 
-        return Ok(order);
+        return RedirectToRoute($"{_options.Value.UsersUrl}/user/order");
     }
 
 

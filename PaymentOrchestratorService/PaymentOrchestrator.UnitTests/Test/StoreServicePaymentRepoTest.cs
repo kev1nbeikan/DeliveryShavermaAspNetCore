@@ -1,4 +1,5 @@
 using BarsGroupProjectN1.Core.AppSettings;
+using BarsGroupProjectN1.Core.Models.Payment;
 using BarsGroupProjectN1.Core.Tests;
 using Handler.Core.Abstractions.Repositories;
 using Handler.Core.Abstractions.Services;
@@ -31,7 +32,7 @@ public class StoreServicePaymentRepoTest
     public async Task GetAll()
     {
         var menu = await _storeRepository.GetCokingTime("ул Тест",
-            [new ProductWithAmount() { Id = Guid.Parse("ebf5fd27-fd27-44b3-8f48-0cf7a7211d3c"), Quantity = 1 }]);
+            [new ProductsInventory() { ProductId = Guid.Parse("ebf5fd27-fd27-44b3-8f48-0cf7a7211d3c"), Quantity = 1 }]);
         Assert.That(menu.error, Is.Null);
     }
 }

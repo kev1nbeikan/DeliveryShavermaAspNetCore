@@ -1,9 +1,8 @@
 using BarsGroupProjectN1.Core.AppSettings;
-using Handler.Core.Common;
+using BarsGroupProjectN1.Core.Extensions;
 using HandlerService.Extensions;
 using HandlerService.Middlewares;
 using Microsoft.Extensions.Options;
-using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,9 +10,9 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDependencies();
 
-builder.Services.Configure<ServicesOptions>(builder.Configuration.GetSection("Services"));
+builder.Services.Configure<ServicesOptions>(builder.Configuration.GetSection("ServicesOptions"));
 
-builder.Services.AddServicesHttpClients(builder.Configuration.GetSection("Services").Get<ServicesOptions>());
+builder.Services.AddServicesHttpClients(builder.Configuration);
 
 var app = builder.Build();
 
