@@ -23,7 +23,9 @@ function acceptOrder() {
     fetch(`http://localhost:5106/orders/client/accept/${_orderIdAccept}`, {
         method: 'PUT',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'UserId': AuthHeaders.UserId,
+            'Role': AuthHeaders.Role,
         }
     })
         .then(response => {

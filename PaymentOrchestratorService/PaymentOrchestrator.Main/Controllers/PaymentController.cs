@@ -98,7 +98,7 @@ public class PaymentController : Controller
 
         if (error.HasValue()) return BadRequest(error);
 
-        return RedirectToRoute($"{_options.Value.UsersUrl}/user/order");
+        return Redirect($"{_options.Value.UsersUrl}/user/order");
     }
 
 
