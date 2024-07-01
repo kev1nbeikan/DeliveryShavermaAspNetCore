@@ -1,11 +1,11 @@
 ﻿@model ProductListViewModel
 
 @{
-    ViewData["Title"] = "Menu Page";
+    ViewData["Title"] = "Меню";
 }
 
 <div class="container mt-5">
-    <h1 class="text-center mb-4">Restaurant Menu</h1>
+    <h1 class="text-center mb-4">Выберите шаверму</h1>
     <div class="menu-grid">
         <div class="product-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
             @foreach (var product in Model.Products)

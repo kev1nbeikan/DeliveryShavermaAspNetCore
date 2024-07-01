@@ -6,6 +6,6 @@ public class HomeController : Controller
 {
     public IActionResult Index()
     {
-        return RedirectToAction("Order", "User");
+        return RedirectToAction("CurrentOrder", "User");
     }
 }

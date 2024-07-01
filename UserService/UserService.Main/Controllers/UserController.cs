@@ -29,7 +29,7 @@ public class UserController : Controller
     public async Task<IActionResult> GetByUserId(Guid userId)
     {
         if (!ModelState.IsValid) return BadRequest();
-        
+
         try
         {
             var user = await _userService.Get(userId);
@@ -67,7 +67,7 @@ public class UserController : Controller
     public async Task<IActionResult> Bucket([FromBody] List<BucketItem> products)
     {
         if (!ModelState.IsValid) return BadRequest();
-        
+
         var viewModel = new BucketViewModel { Products = products };
 
         try
@@ -88,17 +88,23 @@ public class UserController : Controller
             return View(viewModel);
         }
     }
-    
-    [HttpGet("Order")]
-    public async Task<IActionResult> Order()
-    {
-        // if (ModelState.IsValid) return BadRequest();
 
-        var userId = User.UserId();
-        
-        _logger.LogInformation("User {UserId} requested order", userId);
-        
-        return View("CurrentOrder"); 
+    [HttpGet("CurrentOrder")]
+    public async Task<IActionResult> CurrentOrder()
+    {
+        return View();
+    }
+
+    [HttpGet("LastOrder")]
+    public async Task<IActionResult> LastOrder()
+    {
+        return View();
+    }
+
+    [HttpGet("CancelOrder")]
+    public async Task<IActionResult> CancelOrder()
+    {
+        return View();
     }
 
 
