@@ -13,7 +13,8 @@ public static class CookiesSaverBuilder
             serviceOptions.Value.UsersUrl,
             serviceOptions.Value.PaymentOrchestratorUrl,
             serviceOptions.Value.OrderUrl,
-            serviceOptions.Value.CouriersUrl
+            serviceOptions.Value.CouriersUrl,
+            serviceOptions.Value.,
         ]);
 
         return cookiesSaver;

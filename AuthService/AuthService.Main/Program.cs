@@ -1,6 +1,7 @@
 using AuthService.Core;
 using AuthService.DataAccess;
 using AuthService.Main.Extensions;
+using BarsGroupProjectN1.Core.AppSettings;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

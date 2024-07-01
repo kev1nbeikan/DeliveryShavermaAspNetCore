@@ -1,4 +1,6 @@
+using BarsGroupProjectN1.Core.Middlewares;
 using ChatService.Api.Hubs;
+using ChatService.Core;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +8,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddSignalR();
+
+builder.Services.AddScoped<IChatService, ChatService.Services.ChatService>();
 
 var app = builder.Build();
 
@@ -16,6 +20,10 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+
+
+app.UseMiddleware<UserIdMiddleware>();
 
 app.MapRazorPages();
 app.MapHub<ChatHub>("/chatHub");

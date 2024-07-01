@@ -10,4 +10,10 @@
       <_ContentIncludedByDefault Remove="Pages\Chat\Chat.cshtml" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\BarsGroupProjectN1.Common\BarsGroupProjectN1.Common.csproj" />
+      <ProjectReference Include="..\ChatService.Core\ChatService.Core.csproj" />
+      <ProjectReference Include="..\ChatService.Services\ChatService.Services.csproj" />
+    </ItemGroup>
+
 </Project>
