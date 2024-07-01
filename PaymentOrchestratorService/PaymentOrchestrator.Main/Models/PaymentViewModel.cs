@@ -8,7 +8,6 @@ namespace HandlerService.Models;
 
 public class PaymentViewModel
 {
-    public PaymentRequest PaymentRequest { get; set; }
     public long Price { get; set; }
 
     public List<PaymentType> PaymentTypes { get; set; }

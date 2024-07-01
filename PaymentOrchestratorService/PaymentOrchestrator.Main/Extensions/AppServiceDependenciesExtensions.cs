@@ -55,8 +55,8 @@ public static class AppServiceDependenciesExtensions
     private static void AddCourierDependencies(this IServiceCollection serviceProvider)
     {
         serviceProvider.AddSingleton<ICurierService, CurierService>();
-        serviceProvider.AddSingleton<ICurierRepository, CurierRepository>();
-        serviceProvider.AddHttpClient<CurierRepository>();
+        serviceProvider.AddSingleton<ICurierRepository, CourierRepository>();
+        serviceProvider.AddHttpClient<CourierRepository>();
 
     }
 

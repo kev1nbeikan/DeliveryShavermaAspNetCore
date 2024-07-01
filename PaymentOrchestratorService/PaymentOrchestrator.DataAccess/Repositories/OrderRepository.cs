@@ -11,13 +11,11 @@ using Microsoft.Extensions.Options;
 
 namespace HandlerService.DataAccess.Repositories;
 
-public class OrderRepository : IOrderRepository
+public class OrderRepository : RepositoryHttpClientBase, IOrderRepository
 {
-    private readonly HttpClient _httpClient;
-
-    public OrderRepository(IHttpClientFactory clientFactory, IOptions<ServicesOptions> options)
+    public OrderRepository(IHttpClientFactory clientFactory, IOptions<ServicesOptions> options) :
+        base(options.Value.OrderUrl, clientFactory)
     {
-        _httpClient = clientFactory.CreateClient(options.Value.OrderUrl);
     }
 
     public async Task<string?> Save(OrderCreateRequest order)

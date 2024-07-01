@@ -8,17 +8,22 @@ public static class PaymentConfirmRequestExtensions
 {
     public static Payment ToPaymentInfo(this PaymentConfirmRequest paymentConfirmRequest)
     {
-        return new Payment
+        var result = new Payment
         {
             PaymentType = paymentConfirmRequest.PaymentType.ToPaymentTypeEnum(),
-            Card = new Card
+        };
+
+        if (result.PaymentType == PaymentType.Card)
+        {
+            result.Card = new Card
             {
-                PaymentType = paymentConfirmRequest.PaymentType,
                 CardNumber = paymentConfirmRequest.CardNumber,
                 ExpiryDate = paymentConfirmRequest.ExpiryDate,
                 CVV = paymentConfirmRequest.CVV
-            }
-        };
+            };
+        }
+
+        return result;
     }
 
     private static PaymentType ToPaymentTypeEnum(this string paymentType)

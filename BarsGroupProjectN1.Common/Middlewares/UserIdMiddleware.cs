@@ -1,24 +1,30 @@
 ﻿using System.Security.Claims;
-using Microsoft.Extensions.Options;
-using BarsGroupProjectN1.Core.AppSettings;
-using UserClaimsStrings = StoreService.Core.UserClaimsStrings;
+using BarsGroupProjectN1.Core.Contracts;
+using BarsGroupProjectN1.Core.Models;
+using Microsoft.AspNetCore.Http;
 
-namespace StoreService.Main.Middleware;
+namespace BarsGroupProjectN1.Core.Middlewares;
 
 public class UserIdMiddleware(RequestDelegate next)
 {
     private readonly RequestDelegate _next = next;
 
-    public async Task Invoke(HttpContext context, IOptions<ServicesOptions> options)
+    public async Task Invoke(HttpContext context)
     {
         var userIdString = GetFromCookiesOrHeaders(context, UserClaimsStrings.UserId);
         var roleString = GetFromCookiesOrHeaders(context, UserClaimsStrings.Role);
 
 
+        if (roleString == ((int)RoleCode.Admin).ToString())
+        {
+            Console.WriteLine("User is admin");
+            await _next(context);
+            return;
+        }
+
         if (!Guid.TryParse(userIdString, out Guid userId) || string.IsNullOrEmpty(roleString))
         {
-            // context.Response.Redirect(options.Value.AuthUrl);
-            await _next(context);
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
             return;
         }
 
@@ -31,7 +37,6 @@ public class UserIdMiddleware(RequestDelegate next)
                 }
             )
         );
-
 
         await _next(context);
     }

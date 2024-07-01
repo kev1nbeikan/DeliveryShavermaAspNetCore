@@ -1,3 +1,4 @@
+using BarsGroupProjectN1.Core.Contracts.Orders;
 using Handler.Core.Common;
 using Handler.Core.HanlderService;
 using Handler.Core.Payment;
@@ -12,4 +13,6 @@ public interface IPaymentUseCases
         string address,
         string phoneNumber,
         Guid userId);
+
+    public Task<OrderCreateRequest> ExecutePaymentConfirm(Guid orderId, Guid userId, Services.Payment payment);
 }
