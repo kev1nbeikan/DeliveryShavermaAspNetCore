@@ -1,4 +1,5 @@
 using AuthService.Core;
+using BarsGroupProjectN1.Core.AppSettings;
 using Microsoft.Extensions.Options;
 
 namespace AuthService.Main.Infostructure;
@@ -14,7 +15,7 @@ public static class CookiesSaverBuilder
             serviceOptions.Value.PaymentOrchestratorUrl,
             serviceOptions.Value.OrderUrl,
             serviceOptions.Value.CouriersUrl,
-            serviceOptions.Value.,
+            serviceOptions.Value.ChatUrl,
         ]);
 
         return cookiesSaver;
@@ -29,7 +30,9 @@ public static class CookiesSaverBuilder
             serviceOptions.Value.OrderUrl,
             serviceOptions.Value.StoreUrl,
             serviceOptions.Value.CouriersUrl,
-            serviceOptions.Value.MenuUrl
+            serviceOptions.Value.MenuUrl,
+            serviceOptions.Value.ChatUrl,
+
         ]);
 
         return cookiesSaver;
@@ -43,6 +46,7 @@ public static class CookiesSaverBuilder
             serviceOptions.Value.StoreUrl,
             serviceOptions.Value.CouriersUrl,
             serviceOptions.Value.OrderUrl,
+            serviceOptions.Value.ChatUrl
         ]);
 
         return cookiesSaver;

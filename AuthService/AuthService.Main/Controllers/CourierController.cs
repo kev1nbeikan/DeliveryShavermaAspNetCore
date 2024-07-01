@@ -5,6 +5,7 @@ using AuthService.Core.Exceptions;
 using AuthService.Core.Extensions;
 using AuthService.Main.Contracts;
 using AuthService.Main.Infostructure;
+using BarsGroupProjectN1.Core.AppSettings;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;

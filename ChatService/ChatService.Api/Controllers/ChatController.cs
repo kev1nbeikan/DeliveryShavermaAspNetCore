@@ -2,11 +2,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ChatService.Api.Controllers;
 
-public class ChatController: Controller
+public class ChatController : Controller
 {
-    public IActionResult Room()
+    public IActionResult Room(Guid recipientId)
     {
-        return View();
+        return View(new RoomViewModel
+        {
+            RecipientId = recipientId
+        });
     }
-    
 }
