@@ -90,7 +90,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarsGroupProjectN1.Common",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ChatService", "ChatService", "{E7870F1D-1DE8-47B0-9A83-574BA952DC83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatService.Api", "ChatService.Api\ChatService.Api.csproj", "{2768C8F3-CCBA-4470-A71E-B6B69DAA3920}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatService.Api", "ChatService/ChatService.Api\ChatService.Api.csproj", "{2768C8F3-CCBA-4470-A71E-B6B69DAA3920}"
 EndProject
 
 
