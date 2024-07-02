@@ -57,7 +57,6 @@ function displayCancelOrders(orders) {
             minute: '2-digit'
         });
         
-        // row.insertCell().textContent = order.orderDate;
         row.insertCell().textContent = StatusMapping[order.lastStatus];
         row.insertCell().textContent = `${RoleMapping[order.whoCanceled]}: ${order.reasonOfCanceled}`;
 
@@ -65,7 +64,7 @@ function displayCancelOrders(orders) {
         basketCell.id = 'basketCell';
         order.basket.forEach(item => {
             const listItem = document.createElement('li');
-            listItem.textContent = `${item.name}, ${item.amount} штук, ${item.price} рублей`;
+            listItem.textContent = `${item.name}, ${item.amount}, ${item.price} рублей`;
             basketCell.appendChild(listItem);
         });
     });
