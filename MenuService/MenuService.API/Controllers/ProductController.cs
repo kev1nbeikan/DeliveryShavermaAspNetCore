@@ -76,6 +76,8 @@ public class ProductController : Controller
 			return BadRequest(error);
 		}
 
+		await _productService.CreateProduct(product);
+
 		return RedirectToAction(nameof(AdminStorePanel));
 	}
 
