@@ -1,8 +1,4 @@
-﻿.table-striped tbody tr:nth-of-type(odd) {
-    background-color: white;
-}
-
-.table {
+﻿.table {
     margin-top: 15px;
     width: 100%;
     
@@ -50,5 +46,8 @@
     background-color: white;
 }
 
+#CancelOrdersTable td, #LastOrdersTable td{
+    padding: 20px 0 20px 0;
+}
 
 
