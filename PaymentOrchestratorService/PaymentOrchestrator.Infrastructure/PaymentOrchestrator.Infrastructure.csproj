@@ -7,4 +7,12 @@
         <RootNamespace>HandlerService.Infustucture</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\PaymentOrchestrator.Core\PaymentOrchestrator.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Confluent.Kafka" Version="2.4.0" />
+    </ItemGroup>
+
 </Project>
