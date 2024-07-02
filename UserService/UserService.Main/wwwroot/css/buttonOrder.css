@@ -47,6 +47,7 @@
     border-radius: 50%;
     position: relative;
     margin-right: 5px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
 }
 
 .close-icon {
@@ -82,4 +83,7 @@
 .close-icon:hover::before,
 .close-icon:hover::after {
     background-color: #bf2b28;
+}
+.close-button:hover {
+    background-color: #ededed;
 }
