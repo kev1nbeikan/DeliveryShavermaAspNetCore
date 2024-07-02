@@ -9,7 +9,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\BarsGroupProjectN1.Common\BarsGroupProjectN1.Common.csproj" />
-      <ProjectReference Include="..\PaymentOrchestrator.Infrastructure\PaymentOrchestrator.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>
