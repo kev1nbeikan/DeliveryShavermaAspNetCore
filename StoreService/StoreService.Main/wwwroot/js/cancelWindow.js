@@ -38,7 +38,7 @@ function cancelOrder(reasonOfCanceledText) {
             if (!response.ok) {
                 throw new Error('Не удалось отменить заказ');
             }
-            getStoreOrders();
+            getCurrentStoreOrders();
             console.log('Заказ отменен', response);
         })
         .catch(error => {

@@ -1,0 +1,26 @@
+﻿@{
+    Layout = "_OrderLayout";
+}
+
+<table id="LastStoreOrdersTable" class="table text-center order-table">
+    <thead>
+    <tr>
+        <th>Комментарий</th>
+        <th>Время готовки</th>
+        <th>Дата заказа</th>
+        <th>Дата приготовления</th>
+        <th>Корзина</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+@await Html.PartialAsync("_CancelWindowPartial")
+@await Html.PartialAsync("_AcceptWindowPartial")
+
+<script>
+    window.onload = function() {
+        getLastOrders();
+    };
+</script>

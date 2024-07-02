@@ -1,9 +1,8 @@
 ﻿@{
-    Layout = "_Layout";
-    ViewData["Title"] = "Заказы";
+    Layout = "_OrderLayout";
 }
 
-<table id="CurrentStoreOrdersTable" class="order-table" style="width: 100%; vertical-align: center; !important;">
+<table id="CurrentStoreOrdersTable" class="table text-center order-table">
     <thead>
     <tr>
         <th>Статус</th>
@@ -11,6 +10,7 @@
         <th>Комментарий</th>
         <th>Номер курьера</th>
         <th>Время готовки</th>
+        <th></th>
         <th></th>
     </tr>
     </thead>
@@ -21,15 +21,11 @@
 @await Html.PartialAsync("_CancelWindowPartial")
 @await Html.PartialAsync("_AcceptWindowPartial")
 
-<script src="~/js/site.js" asp-append-version="true"></script>
-<script src="~/js/cancelWindow.js" asp-append-version="true"></script>
-<script src="~/js/acceptWindow.js" asp-append-version="true"></script>
-<script src="~/js/order.js" asp-append-version="true"></script>
-
 <script>
     window.onload = function() {
-        getStoreOrders();
+        getCurrentStoreOrders();
         setInterval(checkNewOrder, STATUS_CHECK_INTERVAL);
+        setInterval(checkOrderStatus, SERVER_CHECK_INTERVAL_ERROR);
     };
 </script>
 

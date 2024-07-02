@@ -34,7 +34,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseStaticFiles();
 
-app.UseMiddleware<UserIdMiddleware>();
+// app.UseMiddleware<UserIdMiddleware>();
 
 app.UseRouting();
 
