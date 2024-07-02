@@ -19,14 +19,16 @@ public class ChatHub : Hub<IChatHub>
 
     public async Task SendMessage(Guid recipientId, string message)
     {
-        var userId = Context.User!.UserId();
+        message = message.Trim();
 
+        if (string.IsNullOrEmpty(message)) return;
+
+        var userId = Context.User!.UserId();
 
         var roomId = _chatService.GetRoom(userId, recipientId);
 
         _logger.LogInformation("User {UserId} send message to {RecipientId} with room {roomId}", userId, recipientId,
             roomId);
-
 
         await Clients.GroupExcept(roomId, Context.ConnectionId).ReceiveMessage(message);
     }
