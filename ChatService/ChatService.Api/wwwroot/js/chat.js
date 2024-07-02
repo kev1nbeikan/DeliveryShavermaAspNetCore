@@ -13,7 +13,7 @@ connection.start().then(function () {
         }
     )
 }).catch(function (err) {
-    return console.error(err.toString());
+    return addMessage(err.toString() + " Попробуйте обновить страницу", "notification");
 });
 
 
@@ -50,7 +50,7 @@ document.getElementById("sendButton").addEventListener("click", function (event)
             messageInput.focus();
         }
     ).catch(function (err) {
-        return addMessage(err.toString(), "notification");
+        return addMessage(err.toString() + " Попробуйте обновить страницу", "notification");
     });
     event.preventDefault();
 });
