@@ -72,4 +72,11 @@ public class CourierRepository : ICourierRepository
 
 		return id;
 	}
+
+	public async Task<Courier> GetById(Guid id)
+	{
+		var courier = await _dbContext.Couriers.FindAsync(id);
+		
+		return Courier.Create(courier.Id, courier.Email, courier.Password, courier.Status).Courier;
+	}
 }
