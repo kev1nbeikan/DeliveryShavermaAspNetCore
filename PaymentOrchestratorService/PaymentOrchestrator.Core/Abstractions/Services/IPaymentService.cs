@@ -6,9 +6,9 @@ namespace Handler.Core.Abstractions.Services;
 
 public interface IPaymentService
 {
-    int CalculatePayment(Product[] products, List<BucketItem> productIdsAndQuantity);
+    int CalculatePayment(Product[] products, List<ProductWithAmount> productIdsAndQuantity);
     List<PaymentType> GetPaymentTypes();
 
-    (string? error, string? cheque) ConfirmPayment(TemporyOrder order, Payment paymentInfo);
+    (string? error, string? cheque) ConfirmPayment(PaymentOrder order, Payment paymentInfo);
 }
 

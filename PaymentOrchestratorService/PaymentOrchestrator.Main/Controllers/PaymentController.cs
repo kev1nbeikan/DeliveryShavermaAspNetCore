@@ -1,10 +1,13 @@
 using System.Diagnostics;
+using BarsGroupProjectN1.Core.AppSettings;
+using BarsGroupProjectN1.Core.Contracts.Orders;
 using Handler.Core;
 using Handler.Core.Abstractions;
 using Handler.Core.Abstractions.Services;
 using Handler.Core.Abstractions.UseCases;
 using Handler.Core.Common;
 using Handler.Core.Contracts;
+using Handler.Core.Exceptions;
 using Handler.Core.Extensions;
 using Handler.Core.HanlderService;
 using HandlerService.Contracts;
@@ -12,49 +15,30 @@ using HandlerService.Extensions;
 using HandlerService.Infustucture.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using HandlerService.Models;
+using Microsoft.Extensions.Options;
 
 namespace HandlerService.Controllers;
 
-[ApiController]
 [Route("[controller]/[action]")]
 public class PaymentController : Controller
 {
     private readonly ILogger<PaymentController> _logger;
-    private readonly IUserService _userService;
-    private readonly IMenuService _menuService;
     private readonly IPaymentService _paymentService;
-    private readonly IHandlerOrderService _temporaryOrderService;
-    private readonly IOrderService _orderService;
-    private readonly IGetOrderLogisticUseCase _getOrderLogistic;
     private readonly IPaymentUseCases _paymentUseCases;
+    private readonly IHandlerOrderService _handlerOrderService;
+    private readonly IOptions<ServicesOptions> _options;
 
     public PaymentController(ILogger<PaymentController> logger,
-        IUserService userService,
-        IPaymentService paymentService,
-        IMenuService menuService,
-        IHandlerOrderService temporaryOrderService,
-        IOrderService orderService,
-        IGetOrderLogisticUseCase getOrderLogistic, IPaymentUseCases paymentUseCases)
+        IPaymentUseCases paymentUseCases, IPaymentService paymentService, IOptions<ServicesOptions> options,
+        IHandlerOrderService handlerOrderService)
     {
         _logger = logger;
-        _userService = userService;
-        _paymentService = paymentService;
-        _menuService = menuService;
-        _temporaryOrderService = temporaryOrderService;
-        _orderService = orderService;
-        _getOrderLogistic = getOrderLogistic;
         _paymentUseCases = paymentUseCases;
+        _paymentService = paymentService;
+        _options = options;
+        _handlerOrderService = handlerOrderService;
     }
 
-    public IActionResult Index()
-    {
-        return View();
-    }
-
-    public IActionResult Privacy()
-    {
-        return View();
-    }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
@@ -63,64 +47,78 @@ public class PaymentController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> PaymentConfirm([FromForm] PaymentConfirmRequest paymentConfirmRequest)
+    public async Task<IActionResult> PaymentConfirm([FromBody] PaymentConfirmRequest paymentConfirmRequest)
     {
-        string? error;
+        try
+        {
+            
+            var userId = User.UserId();
 
-        var temporyOrder = _temporaryOrderService.Get(paymentConfirmRequest.OrderId);
-        _logger.LogInformation(temporyOrder?.ToString());
+            _logger.LogInformation($"User {userId} requested PaymentConfirm with body {paymentConfirmRequest}");
 
-        if (temporyOrder == null) return BadRequest("Order not found: try make order again");
+            await _paymentUseCases
+                .ExecutePaymentConfirm(
+                    paymentConfirmRequest.OrderId,
+                    userId,
+                    paymentConfirmRequest.ToPaymentInfo()
+                );
 
-        (var orderLogistic, error) = await _getOrderLogistic.Execute(temporyOrder);
-        if (error.HasValue()) return BadRequest(error);
-        return Ok(orderLogistic);
-
-        (error, var cheque) = _paymentService.ConfirmPayment(temporyOrder, paymentConfirmRequest.ToPaymentInfo());
-        if (error.HasValue()) return BadRequest(error);
-
-        (var myUser, error) = await _userService.Get(User.UserId());
-        if (error.HasValue()) return BadRequest(error);
-
-        (var order, error) = await _orderService.Save(
-            temporyOrder.Id,
-            temporyOrder.Basket,
-            temporyOrder.Price,
-            temporyOrder.Comment,
-            cheque!,
-            temporyOrder.ClientAddress,
-            orderLogistic!.Delivering.Executor,
-            myUser!,
-            orderLogistic.Cooking.Executor.Id,
-            orderLogistic.Cooking.Time,
-            orderLogistic.Delivering.Time
-        );
-
-        if (error.HasValue()) return BadRequest(error);
-
-        return Ok(order);
+            return Redirect($"{_options.Value.UsersUrl}/user/currentorder");
+        }
+        catch (PaymentConfirmException e)
+        {
+            return BadRequest(e.Message);
+        }
     }
 
 
-    public async Task<IActionResult> Payment([FromBody] PaymentRequest paymentRequest)
+    [HttpPost]
+    public async Task<IActionResult> PaymentBuild([FromBody] PaymentRequest paymentRequest)
     {
-        var userId = User.UserId();
-        _logger.LogInformation($"User {userId} requested Payment with body {paymentRequest}");
+        try
+        {
+            var userId = User.UserId();
+            _logger.LogInformation($"User {userId} requested Payment with body {paymentRequest}");
 
-        var (products, price, paymentOrder) = await _paymentUseCases.ExecutePaymentBuild(
-            paymentRequest.ProductIdsAndQuantity,
-            paymentRequest.Comment,
-            paymentRequest.Address,
-            paymentRequest.PhoneNumber,
-            userId
-        );
+            var (products, price, paymentOrder) = await _paymentUseCases.ExecutePaymentBuild(
+                paymentRequest.ProductIdsAndQuantity,
+                paymentRequest.Comment,
+                paymentRequest.Address,
+                paymentRequest.PhoneNumber,
+                userId
+            );
+
+            return RedirectToAction("Payment", new { paymentOrderId = paymentOrder!.Id });
+            
+        }
+        catch (PaymentBuildException e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+
+    [HttpGet("{paymentOrderId:Guid}")]
+    public IActionResult Payment(Guid paymentOrderId)
+    {
+        var paymentOrder = _handlerOrderService.Get(paymentOrderId);
+        if (paymentOrder == null)
+            return BadRequest("Страница платежа не найдена");
+
+        var viewModel = new PaymentViewModel()
+        {
+            Order = paymentOrder!,
+            Products = paymentOrder.ProdutsList,
+            Price = paymentOrder.Price,
+            PaymentTypes = _paymentService.GetPaymentTypes()
+        };
+        
 
         return View(new PaymentViewModel()
         {
             Order = paymentOrder!,
-            PaymentRequest = paymentRequest!,
-            Products = products,
-            Price = price!,
+            Products = paymentOrder.ProdutsList,
+            Price = paymentOrder.Price,
             PaymentTypes = _paymentService.GetPaymentTypes()
         });
     }

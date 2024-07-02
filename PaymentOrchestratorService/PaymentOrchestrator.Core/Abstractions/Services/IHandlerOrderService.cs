@@ -6,9 +6,9 @@ namespace Handler.Core.Abstractions.Services;
 
 public interface IHandlerOrderService
 {
-    (TemporyOrder? order, string? error) Save(Guid newGuid, Guid userId, Product[] products, int price,
+    (PaymentOrder? order, string? error) Save(Guid newGuid, Guid userId, Product[] products, int price,
         string address,
-        string comment, List<BucketItem> productAndQuantity);
+        string comment, List<(Product product, int amount, int price)> productAndQuantity, string clientNumber);
 
-    TemporyOrder? Get(Guid orderId);
+    PaymentOrder? Get(Guid orderId);
 }

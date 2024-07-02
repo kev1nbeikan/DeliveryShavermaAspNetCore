@@ -1,13 +1,13 @@
+using BarsGroupProjectN1.Core.Contracts.Orders;
 using Handler.Core.Common;
+using Handler.Core.Contracts;
+using Handler.Core.HanlderService;
 
 namespace Handler.Core.Abstractions.Services;
 
 public interface IOrderService
 {
-    Task<string?> Save(Order order);
 
-    public Task<(Order order, string? error)> Save(Guid handlerServiceOrderId,
-        Product[] orderBucket, int price,
-        string comment, string cheque, string clientAddress, Curier curier, MyUser user, Guid storeId,
-        TimeSpan cookingTime, TimeSpan deliveryTime);
+    public Task<(OrderCreateRequest order, string? error)> Save(PaymentOrder order, OrderLogistic orderLogistic,
+        string cheque, MyUser user);
 }

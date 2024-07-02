@@ -1,12 +1,16 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace HandlerService.Contracts;
 
-public record PaymentConfirmRequest
+public class PaymentConfirmRequest
 {
-    public string PaymentType { get; init; }
-    public string CardNumber { get; init; }
-    public string ExpiryDate { get; init; }
-    public string CVV { get; init; }
-    public string Comment { get; init; }
-    public string Address { get; init; }
-    public Guid OrderId { get; init; }
+    public string PaymentType { get; set; }
+    public string? CardNumber { get; set; }
+
+    public string? ExpiryDate { get; set; }
+
+    public string? CVV { get; set; }
+    
+
+    public Guid OrderId { get; set; }
 }

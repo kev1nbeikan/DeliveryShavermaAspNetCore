@@ -5,4 +5,4 @@ namespace BarsGroupProjectN1.Core.Contracts;
 
 public record GetCookingTimeRequest(
     string ClientAddress,
-    List<ProductsInventoryWithoutStore> Basket);
+    List<ProductsInventory> Basket);

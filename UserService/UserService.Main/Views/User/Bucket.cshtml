@@ -213,7 +213,7 @@
         };
 
         // Отправляем запрос на сервер
-        fetch('http://localhost:5281/Payment/Payment/', {
+        fetch('http://localhost:5281/Payment/PaymentBuild/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -224,13 +224,8 @@
         })
             .then(async response => {
                 if (response.ok) {
-                    // Обработка успешного ответа
-                    const html = await response.text();
-                    const newWindow = window.open();
-                    newWindow.document.write(html);
-                    
+                    window.location.href = response.url;
                 } else {
-                    // Обработка ошибки
                     return response.text().then(error => Promise.reject(error));
                 }
             })

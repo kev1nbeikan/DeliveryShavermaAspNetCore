@@ -8,8 +8,7 @@ public class Payment
 
 public class Card
 {
-    public string PaymentType { get; init; }
-    public string CardNumber { get; init; }
-    public string ExpiryDate { get; init; }
-    public string CVV { get; init; }
+    public string? CardNumber { get; init; }
+    public string? ExpiryDate { get; init; }
+    public string? CVV { get; init; }
 }

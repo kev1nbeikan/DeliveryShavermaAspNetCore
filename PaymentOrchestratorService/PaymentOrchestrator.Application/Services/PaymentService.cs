@@ -4,12 +4,13 @@ using Handler.Core.Abstractions.Services;
 using Handler.Core.Common;
 using Handler.Core.HanlderService;
 using Handler.Core.Payment;
+using HandlerService.Infustucture.Extensions;
 
 namespace HandlerService.Application.Services;
 
 public class PaymentService : IPaymentService
 {
-    public int CalculatePayment(Product[] products, List<BucketItem> productIdsAndQuantity)
+    public int CalculatePayment(Product[] products, List<ProductWithAmount> productIdsAndQuantity)
     {
         return products.Sum(p =>
             p.Price * productIdsAndQuantity.Where(x => p.Id == x.Id).Select(x => x.Quantity).First());
@@ -20,7 +21,7 @@ public class PaymentService : IPaymentService
         return [PaymentType.Card, PaymentType.Cash];
     }
 
-    public (string? error, string? cheque) ConfirmPayment(TemporyOrder order,
+    public (string? error, string? cheque) ConfirmPayment(PaymentOrder order,
         Payment paymentInfo)
     {
         return paymentInfo.PaymentType switch
@@ -31,9 +32,19 @@ public class PaymentService : IPaymentService
         };
     }
 
-    private static (string? error, string? cheque) ProccessCardPayment(TemporyOrder order, Card? paymentInfoCard)
+    private static (string? error, string? cheque) ProccessCardPayment(PaymentOrder order, Card? paymentInfoCard)
     {
-        if (paymentInfoCard == null) return ("card not found", null);
+        var error = IsValid(paymentInfoCard);
+        if (error.HasValue()) return (error, null);
         return ("", "Cheque for Card: " + order.Price);
+    }
+
+    private static string? IsValid(Card? card)
+    {
+        if (card is null) return "карта не указана";
+        if (string.IsNullOrEmpty(card.CardNumber)) return "неверный номер карты";
+        if (string.IsNullOrEmpty(card.ExpiryDate)) return "неверная дата окончания карты";
+        if (string.IsNullOrEmpty(card.CVV)) return "неверный код CVV";
+        return null;
     }
 }

@@ -1,35 +1,33 @@
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
+using BarsGroupProjectN1.Core.AppSettings;
+using BarsGroupProjectN1.Core.Contracts.Orders;
+using BarsGroupProjectN1.Core.Repositories;
+using Handler.Core;
+using Handler.Core.Abstractions.Repositories;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
-namespace Handler.Core.Abstractions.Repositories;
+namespace HandlerService.DataAccess.Repositories;
 
-public class OrderRepository : IOrderRepository
+public class OrderRepository : RepositoryHttpClientBase, IOrderRepository
 {
-    private readonly HttpClient _httpClient;
-    private readonly IConfiguration _configuration;
-
-    public OrderRepository(IConfiguration configuration)
+    public OrderRepository(IHttpClientFactory clientFactory, IOptions<ServicesOptions> options) :
+        base(options.Value.OrderUrl, clientFactory)
     {
-        _configuration = configuration;
-
-        _httpClient = new HttpClient();
-        _httpClient.BaseAddress = new Uri(configuration["orderUrl"] ?? throw new Exception("orderUrl not found"));
     }
 
-    public async Task<string?> Save(Order order)
+    public async Task<string?> Save(OrderCreateRequest order)
     {
-        var jsonOrder = JsonSerializer.Serialize(order);
-        var content = new StringContent(jsonOrder, Encoding.UTF8, "application/json");
+        HttpResponseMessage response = await _httpClient.PostAsJsonAsync("orders", order);
 
-        HttpResponseMessage response = await _httpClient.PostAsync("orders", content);
-
-        if (response.IsSuccessStatusCode)
+        if (!response.IsSuccessStatusCode)
         {
-            var orderId = await response.Content.ReadAsStringAsync();
-            return orderId;
+            return "Ошибка при создании заказа: " + await response.Content.ReadAsStringAsync();
         }
 
-        return $"Failed to save order. Status code: {response.StatusCode}";
+
+        return null;
     }
 }

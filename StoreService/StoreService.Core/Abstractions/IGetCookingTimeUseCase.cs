@@ -6,5 +6,5 @@ namespace StoreService.Core.Abstractions;
 
 public interface IGetCookingTimeUseCase
 {
-    TimeSpan GetCookingTime(Guid storeId, List<ProductsInventoryWithoutStore> productsAndQuantities);
+    TimeSpan GetCookingTime(Guid storeId, List<ProductsInventory> productsAndQuantities);
 }

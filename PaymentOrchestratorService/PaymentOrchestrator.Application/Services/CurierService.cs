@@ -15,6 +15,6 @@ public class CurierService : ICurierService
 
     public async Task<(Curier?, TimeSpan deliveryTime)> GetCurier(string clientAddress)
     {
-        return await _curierRepository.GetCurier(clientAddress);
+        return await _curierRepository.GetCourier(clientAddress);
     }
 }

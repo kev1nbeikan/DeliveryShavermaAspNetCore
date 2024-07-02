@@ -10,4 +10,6 @@ public class ServicesOptions
 
     public string AuthUrl { get; set; } = "";
     public string PaymentOrchestratorUrl { get; set; }
+
+    public string ChatUrl { get; set; } = "";
 }

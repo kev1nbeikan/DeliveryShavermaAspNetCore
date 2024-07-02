@@ -49,19 +49,20 @@ public static class AppServiceDependenciesExtensions
     private static void AddPaymentDependencies(this IServiceCollection serviceProvider)
     {
         serviceProvider.AddSingleton<IPaymentService, PaymentService>();
+        serviceProvider.AddSingleton<IPaymentUseCases, PaymentUseCases>();
     }
 
     private static void AddCourierDependencies(this IServiceCollection serviceProvider)
     {
         serviceProvider.AddSingleton<ICurierService, CurierService>();
-        serviceProvider.AddSingleton<ICurierRepository, CurierRepository>();
-        serviceProvider.AddHttpClient<CurierRepository>();
+        serviceProvider.AddSingleton<ICurierRepository, CourierRepository>();
+        serviceProvider.AddHttpClient<CourierRepository>();
 
     }
 
     private static void AddUserDependencies(this IServiceCollection serviceProvider)
     {
-        serviceProvider.AddSingleton<IUserService, Application.Services.UserService>();
+        serviceProvider.AddSingleton<IUserService, UserService>();
         serviceProvider.AddSingleton<IUserRepository, UserRepository>();
         serviceProvider.AddHttpClient<UserRepository>();
 
@@ -71,7 +72,6 @@ public static class AppServiceDependenciesExtensions
     {
         serviceProvider.AddSingleton<IStoreService, StoreService>();
         serviceProvider.AddSingleton<IStoreRepository, StoreRepository>();
-        serviceProvider.AddHttpClient<StoreRepository>();
 
     }
 }

@@ -66,7 +66,7 @@ app.UseRouting();
 
 app.MapControllerRoute(
 	name: "default",
-	pattern: "{controller}/{action=Index}"
+	pattern: "{controller=Home}/{action=Index}"
 );
 
 app.Run();

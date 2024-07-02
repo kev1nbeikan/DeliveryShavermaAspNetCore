@@ -1,23 +1,18 @@
 using System.Net.Http.Json;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using BarsGroupProjectN1.Core.AppSettings;
-using Handler.Core;
+using BarsGroupProjectN1.Core.Repositories;
 using Handler.Core.Abstractions.Repositories;
 using Handler.Core.Common;
 using HandlerService.Infustucture;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
 namespace HandlerService.DataAccess.Repositories;
 
-public class MenuRepository : IMenuRepository
+public class MenuRepository : RepositoryHttpClientBase, IMenuRepository
 {
-    private readonly HttpClient _httpClient;
-
-    public MenuRepository(IHttpClientFactory httpClientFactory, IOptions<ServicesOptions> options)
+    public MenuRepository(IHttpClientFactory httpClientFactory, IOptions<ServicesOptions> options) : base(
+        nameof(options.Value.MenuUrl), httpClientFactory)
     {
-        _httpClient = httpClientFactory.CreateClient(nameof(options.Value.MenuUrl));
     }
 
     public async Task<(Product[] products, string? error)> Get(List<Guid> productIds)
@@ -30,7 +25,7 @@ public class MenuRepository : IMenuRepository
 
         HttpResponseMessage response = await _httpClient.GetAsync(requestUri);
 
-        if (!response.IsSuccessStatusCode) return ([], "Failed to fetch menu data");
+        if (!response.IsSuccessStatusCode) return ([], "Невозможно получить список продуктов");
 
         List<Product>? result = await response.Content.ReadFromJsonAsync<List<Product>>();
 

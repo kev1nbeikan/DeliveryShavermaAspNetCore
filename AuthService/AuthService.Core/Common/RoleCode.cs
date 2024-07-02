@@ -5,5 +5,5 @@ public enum RoleCode
     Client,
     Store,
     Courier,
-    Admin
+    Admin,
 }

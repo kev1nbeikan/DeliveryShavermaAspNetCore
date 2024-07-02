@@ -16,7 +16,7 @@ public interface IStoreService
     /// <exception cref="StoreNotFoundException">Магазин не найден.</exception>
     /// <exception cref="UnavailableProductsException">Товары не найдены.</exception>
     /// <exception cref="StoreClosedException">Товары не найдены.</exception>
-    Task<OrderTaskExecution<Store>> GetCookingInfo(string storeId, List<ProductsInventoryWithoutStore> products);
+    Task<OrderTaskExecution<Store>> GetCookingInfo(string storeId, List<ProductsInventory> products);
 
     Task<StoreStatus> GetStatus(Guid storeId);
     Task<Store> GetOrAddNewStore(Guid storeId);

@@ -18,20 +18,20 @@ public class HandlerOrderService : IHandlerOrderService
         _handlerRepository = handlerRepository;
     }
 
-    public (TemporyOrder? order, string? error) Save(Guid newGuid, Guid userId, Product[] products,
+    public (PaymentOrder? order, string? error) Save(Guid newGuid, Guid userId, Product[] products,
         int price,
         string address,
-        string comment, List<BucketItem> productAndQuantity)
+        string comment, List<(Product product, int amount, int price)> productAndQuantity, string clientNumber)
     {
-        var (order, error) = TemporyOrder.Create(
+        var (order, error) = PaymentOrder.Create(
             newGuid,
-            products, 
+            products,
             productAndQuantity,
             price,
             comment,
             address,
             userId,
-            userId
+            clientNumber
         );
 
         if (!string.IsNullOrEmpty(error)) return (null, error);
@@ -42,7 +42,7 @@ public class HandlerOrderService : IHandlerOrderService
     }
 
 
-    public TemporyOrder? Get(Guid orderId)
+    public PaymentOrder? Get(Guid orderId)
     {
         return _handlerRepository.Get(orderId);
     }

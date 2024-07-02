@@ -1,8 +1,8 @@
 using BarsGroupProjectN1.Core.Extensions;
+using BarsGroupProjectN1.Core.Middlewares;
 using Microsoft.EntityFrameworkCore;
 using StoreService.DataAccess;
 using StoreService.Main.Extensions;
-using StoreService.Main.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
