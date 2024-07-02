@@ -15,6 +15,8 @@ public class OrderPublisher : IOrderPublisher
 
     public OrderPublisher(IOptions<KafkaOptions> options)
     {
+        Console.Write(options);
+
         ProducerConfig config = new()
         {
             BootstrapServers = options.Value.BootstrapServers,
