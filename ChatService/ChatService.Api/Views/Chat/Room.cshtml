@@ -23,7 +23,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <div class="chat-container">
+                            <div class="chat-container" id="messageListContainer">
                                 <ul id="messagesList" class="list-group list-group-flush">
                                     <!-- Здесь будут отображаться сообщения -->
                                 </ul>
@@ -47,27 +47,46 @@
     </div>
 </div>
 <style>
+
+
     .chat-container {
         height: 400px; /* Настройка высоты блока сообщений */
         overflow-y: auto; /* Добавляем прокрутку по вертикали */
         padding: 10px;
+        display: flex; /* Включение flexbox */
+        flex-direction: column; /* Расположение элементов по вертикали */
     }
 
     .list-group-item {
         padding: 10px 15px;
         border: none;
+        word-break: break-word;
+        flex-shrink: 0; /* Запрещаем элементам сжиматься */
     }
 
     .list-group-item.me {
-        text-align: right;
-        background-color: #e9ecef; /* Цвет сообщений пользователя */
+        align-self: self-end;
+        background-color: #a6ceff; 
         border-radius: 10px 0 10px 10px;
+        margin-bottom: 15px;
+        padding: 10px 15px;
+
     }
 
     .list-group-item.other {
-        text-align: left;
-        background-color: #fff; /* Цвет сообщений собеседника */
+        align-self: self-start;
+        background-color: #cae2ff;
+        margin-bottom: 15px;
+        padding: 10px 15px;
         border-radius: 0 10px 10px 10px;
+    }
+
+    .list-group-item.notification {
+        text-align: center;
+        background-color: #ffffff;
+        margin-bottom: 15px;
+        padding: 10px 15px;
+        
     }
 </style>
 

@@ -1,4 +1,5 @@
-﻿using CourierService.API.Contracts;
+﻿using BarsGroupProjectN1.Core.Contracts;
+using CourierService.API.Contracts;
 using CourierService.API.Extensions;
 using CourierService.API.Models;
 using CourierService.Core.Abstractions;
@@ -33,13 +34,11 @@ public class CourierController : Controller
 	}
 
 	[HttpGet("getcourierbyid")]
-	public async Task<IActionResult> GetCourierById([FromQuery] CourierListRequest request)
+	public async Task<IActionResult> GetCourierById(Guid id)
 	{
-		var couriers = await _courierService.GetAllCouriers();
+		var courier = await _courierService.GetCourierById(id);
 
-		var response = couriers.Where(p => request.Guids.Contains(p.Id)).ToList();
-
-		return Ok(response);
+		return Ok(courier);
 	}
 
 	[HttpPost]
@@ -116,12 +115,51 @@ public class CourierController : Controller
 	[HttpGet("profile")]
 	public async Task<IActionResult> CourierProfile()
 	{
-		return View(
-			new CourierViewModel()
+		var courierId = User.UserId();
+		var courier = await _courierService.GetCourierById(courierId);
+
+		if (courier is null)
+		{
+			var (newCourier, error) = Courier.Create(
+				courierId,
+				Request.Cookies["email"],
+				Request.Cookies["password"],
+				status: default
+			);
+
+			if (!string.IsNullOrEmpty(error))
 			{
-				Id = User.UserId(),
-				Status = User.Code()
+				return BadRequest(error);
 			}
-		);
+
+			await _courierService.CreateCourier(newCourier);
+
+			return RedirectToAction("CourierProfile", new {id = newCourier.Id});
+		}
+
+		return View(new CourierViewModel {Email = courier.Email, Status = courier.Status});
+	}
+
+	[HttpGet("getactivecourier")]
+	public async Task<OrderTaskExecution<Courier>> GetActiveCourier()
+	{
+		var couriers = await _courierService.GetAllCouriers();
+
+		var activeCourier = couriers.FirstOrDefault(c => c.Status == CourierStatusCode.Active);
+
+		if (activeCourier is null)
+		{
+			return new OrderTaskExecution<Courier>()
+			{
+				Executor = null,
+				Time = DateTime.Now.TimeOfDay
+			};
+		}
+
+		return new OrderTaskExecution<Courier>()
+		{
+			Executor = activeCourier,
+			Time = DateTime.Now.TimeOfDay
+		};
 	}
 }

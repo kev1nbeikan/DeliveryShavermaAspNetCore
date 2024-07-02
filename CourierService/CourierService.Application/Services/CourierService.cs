@@ -37,4 +37,9 @@ public class CourierService : ICourierService
 	{
 		return await _courierRepository.Delete(id);
 	}
+	
+	public async Task<Courier> GetCourierById(Guid id)
+	{
+		return await _courierRepository.GetById(id);
+	}
 }
