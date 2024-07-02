@@ -1,4 +1,6 @@
+using System.Text.RegularExpressions;
 using BarsGroupProjectN1.Core.Extensions;
+using ChatService.Api.Contracts;
 using ChatService.Core;
 using Microsoft.AspNetCore.SignalR;
 
@@ -15,19 +17,33 @@ public class ChatHub : Hub<IChatHub>
         _logger = logger;
     }
 
-    public async Task SendMessage(string user, string message)
+    public async Task SendMessage(Guid recipientId, string message)
     {
         var userId = Context.User!.UserId();
 
-        _logger.LogInformation("User {UserId} send message", userId);
-        
-        // var roomId = _chatService.GetRoom(userId, recipientId);
 
-        // await Clients.Group(roomId).ReceiveMessage(user, message);
+        var roomId = _chatService.GetRoom(userId, recipientId);
+
+        _logger.LogInformation("User {UserId} send message to {RecipientId} with room {roomId}", userId, recipientId,
+            roomId);
+
+
+        await Clients.GroupExcept(roomId, Context.ConnectionId).ReceiveMessage(message);
+    }
+
+    public async Task JoinChat(JoinChatRequest request)
+    {
+        var userId = Context.User!.UserId();
+
+        var roomId = _chatService.GetRoom(userId, request.RecipientId);
+
+        await Groups.AddToGroupAsync(Context.ConnectionId, roomId);
+
+        await Clients.GroupExcept(roomId, Context.ConnectionId).ReceiveMessage("Подключился к чату");
     }
 }
 
 public interface IChatHub
 {
-    Task ReceiveMessage(string user, string message);
+    Task ReceiveMessage(string message);
 }

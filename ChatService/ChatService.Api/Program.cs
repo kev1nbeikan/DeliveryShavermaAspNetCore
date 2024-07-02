@@ -1,6 +1,7 @@
 using BarsGroupProjectN1.Core.Middlewares;
 using ChatService.Api.Hubs;
 using ChatService.Core;
+using Microsoft.AspNetCore.HttpLogging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +21,6 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
 
 
 app.UseMiddleware<UserIdMiddleware>();
