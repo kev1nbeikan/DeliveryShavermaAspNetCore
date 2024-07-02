@@ -140,7 +140,7 @@ public class CourierController : Controller
 		return View(new CourierViewModel {Email = courier.Email, Status = courier.Status});
 	}
 
-	[HttpGet]
+	[HttpGet("getactivecourier")]
 	public async Task<OrderTaskExecution<Courier>> GetActiveCourier()
 	{
 		var couriers = await _courierService.GetAllCouriers();

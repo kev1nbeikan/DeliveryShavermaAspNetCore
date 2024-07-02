@@ -20,23 +20,20 @@ cancelButtonAccept.addEventListener("click", () => {
 });
 
 function acceptOrder() {
-    fetch(`http://localhost:5106/orders/client/accept/${_orderIdAccept}`, {
+    fetch(`http://localhost:5106/orders/store/waitingCourier/${_orderIdAccept}`, {
         method: 'PUT',
         headers: {
-            'Content-Type': 'application/json',
-            'UserId': AuthHeaders.UserId,
-            'Role': AuthHeaders.Role,
+            'Content-Type': 'application/json'
         }
     })
         .then(response => {
             if (!response.ok) {
                 throw new Error('Не удалось отменить заказ');
             }
-            getCurrentOrders();
-            console.log('Заказ принят!', response);
+            getStoreOrders();
+            console.log('Заказ поменял статус!', response);
         })
         .catch(error => {
-            alert('Произошла ошибка');
             console.error('Ошибка при отправке запроса на прием:', error);
         });
 }

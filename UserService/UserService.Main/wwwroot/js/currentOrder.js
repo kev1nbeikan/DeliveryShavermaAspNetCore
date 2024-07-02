@@ -17,7 +17,7 @@ async function getCurrentOrders() {
             displayCurrentOrders(data);
             ordersToCheck = data.map(order => order.id);
         } else if (response.status === 204) {
-            console.error('Заказов нет');
+            console.info('Заказов нет');
             displayError("Текущих заказов нету 😓", currentTable);
             await restartCurrentOrderPage(SERVER_CHECK_INTERVAL_NO_CONTENT);
         }
@@ -46,7 +46,7 @@ function displayCurrentOrders(orders) {
         basketCell.id = 'basketCell';
         order.basket.forEach(item => {
             const listItem = document.createElement('li');
-            listItem.textContent = `${item.name}, ${item.amount} штук, ${item.price} рублей`;
+            listItem.textContent = `${item.name}, ${item.amount}, ${item.price} рублей`;
             basketCell.appendChild(listItem);
         });
         
@@ -56,26 +56,41 @@ function displayCurrentOrders(orders) {
         row.insertCell().textContent = order.clientNumber;
         row.insertCell().textContent = order.price;
 
-        const actionsCell = row.insertCell();
-        actionsCell.classList.add('actions-cell');
-        
-        const cancelButton = document.createElement('button');
-        cancelButton.classList.add('btn', 'btn-secondary', 'order-cancel-button');
-        cancelButton.textContent = 'Отменить';
-        cancelButton.onclick = () => openConformationWindowCancel(order.id);
-        actionsCell.appendChild(cancelButton);
-        
-        if (order.status === 3) {
-            let statusCell = document.getElementById('statusCell');
-            statusCell.style.backgroundColor = '#e3ffe3';
-            
-            const acceptButton = document.createElement('button');
-            acceptButton.classList.add('btn', 'btn-success', 'order-accept-button');
-            acceptButton.textContent = 'Принять';
-            acceptButton.onclick = () => openConformationWindowAccept(order.id);
-            actionsCell.appendChild(acceptButton);
-        }
+        displayButtons(row, order);
     });
+}
+
+function displayButtons(row, order){
+    const actionsCell = row.insertCell();
+    actionsCell.id = 'actionCell';
+
+    const chatButton = document.createElement('button');
+    chatButton.classList.add('btn', 'order-chat-button', 'action-button');
+    chatButton.textContent = 'Чат';
+    chatButton.onclick = () => openConformationWindowCancel(order.id);
+    actionsCell.appendChild(chatButton);
+
+    if (order.status === 3) {
+        let statusCell = document.getElementById('statusCell');
+        statusCell.style.backgroundColor = '#e3ffe3';
+
+        const acceptButton = document.createElement('button');
+        acceptButton.classList.add('btn', 'order-accept-button', 'action-button');
+        acceptButton.textContent = 'Принять';
+        acceptButton.onclick = () => openConformationWindowAccept(order.id);
+        actionsCell.appendChild(acceptButton);
+    }
+
+    const cancelCell = row.insertCell();
+    cancelCell.id ='cancelCell';
+
+    const cancelButton = document.createElement('button');
+    cancelButton.classList.add('btn', 'close-button');
+    const closeIcon = document.createElement('span');
+    closeIcon.classList.add('close-icon');
+    cancelButton.appendChild(closeIcon);
+    cancelButton.onclick = () => openConformationWindowCancel(order.id);
+    cancelCell.appendChild(cancelButton);
 }
 
 async function checkOrderStatus() {
@@ -89,9 +104,6 @@ async function checkOrderStatus() {
                 updateOrderStatus(orderId, orderData);
             } else if (response.status === 204) {
                 console.error(`Заказ не найден ${orderId}`, response);
-                await getCurrentOrders();
-            } else {
-                console.error(`Ошибка при получении статуса заказа ${orderId}`, response);
                 await getCurrentOrders();
             }
         } catch (error) {

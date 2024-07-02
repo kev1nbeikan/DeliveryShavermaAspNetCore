@@ -13,7 +13,8 @@ using UserService.Main.Models;
 
 namespace UserService.Main.Controllers;
 
-[Route("[controller]")]
+// [Route("[controller]")]
+[Route("")]
 public class UserController : Controller
 {
     private readonly ILogger<UserController> _logger;
@@ -29,7 +30,7 @@ public class UserController : Controller
     public async Task<IActionResult> GetByUserId(Guid userId)
     {
         if (!ModelState.IsValid) return BadRequest();
-
+        
         try
         {
             var user = await _userService.Get(userId);
@@ -67,7 +68,7 @@ public class UserController : Controller
     public async Task<IActionResult> Bucket([FromBody] List<BucketItem> products)
     {
         if (!ModelState.IsValid) return BadRequest();
-
+        
         var viewModel = new BucketViewModel { Products = products };
 
         try
@@ -88,25 +89,41 @@ public class UserController : Controller
             return View(viewModel);
         }
     }
-
-    [HttpGet("CurrentOrder")]
-    public async Task<IActionResult> CurrentOrder()
+    
+    [HttpGet]
+    public IActionResult Order()
     {
-        return View();
-    }
+        // if (ModelState.IsValid) return BadRequest();
 
-    [HttpGet("LastOrder")]
-    public async Task<IActionResult> LastOrder()
+        var userId = User.UserId();
+        
+        _logger.LogInformation("User {UserId} requested order", userId);
+        
+        return View("CurrentOrder"); 
+    }
+    
+    [HttpGet("current")]
+    public IActionResult CurrentOrder()
     {
-        return View();
+        var userId = User.UserId();
+        _logger.LogInformation("User {UserId} requested order", userId);
+        return View("CurrentOrder"); 
     }
-
-    [HttpGet("CancelOrder")]
-    public async Task<IActionResult> CancelOrder()
+    [HttpGet("last")]
+    public IActionResult LastOrder()
     {
-        return View();
+        var userId = User.UserId();
+        _logger.LogInformation("User {UserId} requested order", userId);
+        return View("LastOrder"); 
     }
-
+    
+    [HttpGet("cancel")]
+    public IActionResult CancelOrder()
+    {
+        var userId = User.UserId();
+        _logger.LogInformation("User {UserId} requested order", userId);
+        return View("CancelOrder"); 
+    }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

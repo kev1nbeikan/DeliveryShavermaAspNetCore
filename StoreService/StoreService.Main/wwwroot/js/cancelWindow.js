@@ -27,12 +27,10 @@ cancelButtonCancel.addEventListener("click", () => {
 });
 
 function cancelOrder(reasonOfCanceledText) {
-    fetch(`http://localhost:5106/orders/client/cancel/${_orderIdCancel}`, {
+    fetch(`http://localhost:5106/orders/store/cancel/${_orderIdCancel}`, {
         method: 'PUT',
         headers: {
-            'Content-Type': 'application/json',
-            'UserId': AuthHeaders.UserId,
-            'Role': AuthHeaders.Role,
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify({reasonOfCanceled: reasonOfCanceledText})
     })
@@ -40,7 +38,7 @@ function cancelOrder(reasonOfCanceledText) {
             if (!response.ok) {
                 throw new Error('Не удалось отменить заказ');
             }
-            getCurrentOrders();
+            getStoreOrders();
             console.log('Заказ отменен', response);
         })
         .catch(error => {

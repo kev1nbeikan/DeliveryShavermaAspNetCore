@@ -28,8 +28,8 @@ public class ClientController(IOrderApplicationService orderApplicationService, 
         if (orders.Count == 0)
             return NoContent();
         var response = orders.Select(b =>
-            new ClientGetCurrent(b.Id, b.Status, b.Basket, b.Price, b.Comment,
-                b.ClientAddress, b.CourierNumber, b.ClientNumber, b.Cheque));
+            new ClientGetCurrent(b.Id,  b.ClientId, b.StoreId, b.CourierId, b.Status, b.Basket,
+                b.Price, b.Comment, b.ClientAddress, b.CourierNumber, b.ClientNumber, b.Cheque));
         return Ok(response);
     }
 
