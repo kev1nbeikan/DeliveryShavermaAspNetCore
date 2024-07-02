@@ -2,6 +2,7 @@ using BarsGroupProjectN1.Core.Extensions;
 using BarsGroupProjectN1.Core.Middlewares;
 using Microsoft.EntityFrameworkCore;
 using StoreService.DataAccess;
+using StoreService.Main.BackgroundServices;
 using StoreService.Main.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,10 +17,13 @@ builder.Services.AddDbContext<StoreDbContext>(options =>
 builder.Services.ConfigureServicesOptions(builder.Configuration);
 builder.Services.AddServicesHttpClients(builder.Configuration);
 
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddDi();
+builder.Services.AddHostedService<OrderKafkaConsumerForStoreService>();
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -34,7 +38,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseStaticFiles();
 
-// app.UseMiddleware<UserIdMiddleware>();
+app.UseMiddleware<UserIdMiddleware>();
 
 app.UseRouting();
 

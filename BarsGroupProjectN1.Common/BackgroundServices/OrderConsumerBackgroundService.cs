@@ -22,8 +22,16 @@ public abstract class OrderConsumerBackgroundService : KafkaConsumerService
 
     protected override async Task ProcessMessageAsync(string message)
     {
-        var order = JsonSerializer.Deserialize<OrderCreateRequest>(message);
-        await ProcessOrder(order);
+        try
+        {
+            var order = JsonSerializer.Deserialize<OrderCreateRequest>(message);
+            if (order != null)
+                await ProcessOrder(order);
+        }
+        catch (Exception e)
+        {
+            Logger.LogError(e.Message, e);
+        }
         return;
     }
 

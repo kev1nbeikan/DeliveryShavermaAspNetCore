@@ -12,9 +12,10 @@ public static class DIsExtensions
         
         services.AddScoped<IStoreInventoryRepository, StoreInventoryRepository>();
         services.AddScoped<IStoreProductsService, StoreProductService>();
+        
+        services.AddScoped<IStoreRepository, StoreRepository>();
         services.AddScoped<IStoreService, Application.StoreService>();
 
-        services.AddScoped<IStoreRepository, StoreRepository>();
         services.AddScoped<IStoreServiceMenuRepository, StoreServiceMenuRepository>();
 
 

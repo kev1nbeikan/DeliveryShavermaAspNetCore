@@ -21,4 +21,6 @@ public interface IStoreService
     Task<StoreStatus> GetStatus(Guid storeId);
     Task<Store> GetOrAddNewStore(Guid storeId);
     Task UpdateStatus(Guid storeId, StoreStatus status);
+
+    Task IncreaseActiveOrdersCount(Guid storeId, int increase = 1);
 }

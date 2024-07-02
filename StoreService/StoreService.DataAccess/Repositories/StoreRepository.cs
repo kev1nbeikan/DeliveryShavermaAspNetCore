@@ -30,6 +30,7 @@ public class StoreRepository : IStoreRepository
         if (storeEntity is null) return false;
 
         storeEntity.Status = store.Status;
+        storeEntity.ActiveOrdersCount = store.ActiveOrdersCount;
 
         return await _storeDbContext.SaveChangesAsync() > 0;
     }

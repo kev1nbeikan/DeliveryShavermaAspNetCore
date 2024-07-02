@@ -1,20 +1,31 @@
+using Microsoft.Extensions.Options;
+
 namespace BarsGroupProjectN1.Core.Models.Store;
 
 public class Store()
 {
-    
     public Guid Id { get; init; }
     public StoreStatus Status { get; set; }
+    public int ActiveOrdersCount { get; set; } = 0;
 
-    public static Store Create(Guid id, StoreStatus status = StoreStatus.Closed)
+    public static Store Create(Guid id, StoreStatus status = StoreStatus.Closed, int activeOrdersCount = 0)
     {
-        if (id == Guid.Empty) throw new ArgumentException(nameof(id) + " cannot be empty");
-
-        return new Store
+        var store = new Store
         {
             Id = id,
-            Status = status
+            Status = status,
+            ActiveOrdersCount = activeOrdersCount
         };
+
+        store.EnsureIsValid();
+
+        return store;
+    }
+
+    public void EnsureIsValid()
+    {
+        if (Id == Guid.Empty) throw new ArgumentException("Айди магазина не может быть пустым" );
+        if (ActiveOrdersCount < 0) throw new ArgumentException("Количество активных заказов не может быть меньше нуля");
     }
 }
 
@@ -23,5 +34,3 @@ public enum StoreStatus
     Open,
     Closed
 }
-
-

@@ -25,22 +25,24 @@ public static class EntitiesExtensions
             Quantity = productInventory.Quantity
         };
     }
-    
+
     public static Store ToCore(this StoreEntity storeEntity)
     {
         return new Store
         {
             Id = storeEntity.Id,
-            Status = storeEntity.Status
+            Status = storeEntity.Status,
+            ActiveOrdersCount = storeEntity.ActiveOrdersCount
         };
     }
-    
+
     public static StoreEntity ToEntity(this Store store)
     {
         return new StoreEntity
         {
             Id = store.Id,
-            Status = store.Status
+            Status = store.Status,
+            ActiveOrdersCount = store.ActiveOrdersCount
         };
     }
 }

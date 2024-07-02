@@ -10,7 +10,7 @@
 
 <div class="container mt-5">
     <h1 class="text-center mb-4">
-        Предприятие🏪
+        Предприятие🏪 <p>Заказов: @Model.Store.ActiveOrdersCount</p>
         <span id="store-status" class="badge badge-@(Model.Store.Status == StoreStatus.Open ? "success" : "danger") ml-2">
             @(Model.Store.Status == StoreStatus.Open ? "В работе" : "Закрыто")
         </span>

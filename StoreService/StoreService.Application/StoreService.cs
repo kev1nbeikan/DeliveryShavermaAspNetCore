@@ -78,6 +78,18 @@ public class StoreService : IStoreService
         await _storeRepository.Update(storeUpdated);
     }
 
+    public async Task IncreaseActiveOrdersCount(Guid storeId, int increase = 1)
+    {
+        var store = await _storeRepository.Get(storeId);
+        if (store is null) throw new StoreNotFoundException(storeId);
+        
+        store.ActiveOrdersCount += increase;
+        
+        store.EnsureIsValid();
+        
+        await _storeRepository.Update(store);
+    }
+
     private async Task EnsureValidStoreAndProducts(Guid storeId, List<ProductsInventory> products)
     {
         var store = await _storeRepository.Get(storeId);

@@ -7,4 +7,6 @@ public class StoreEntity
 {
     public Guid Id { get; set; }
     public StoreStatus Status { get; set; }
+
+    public int ActiveOrdersCount { get; set; } = 0;
 }

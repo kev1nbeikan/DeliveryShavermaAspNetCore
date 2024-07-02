@@ -1,7 +1,5 @@
-using BarsGroupProjectN1.Core;
 using BarsGroupProjectN1.Core.BackgroundServices;
 using BarsGroupProjectN1.Core.Contracts.Orders;
-using Confluent.Kafka;
 
 namespace ChatService.Api.BackgroundServices;
 
@@ -19,6 +17,8 @@ public class OrderKafkaConsumerForChatService : OrderConsumerBackgroundService
 
     protected override Task ProcessOrder(OrderCreateRequest? order)
     {
+        
+        
         base.ProcessOrder(order);
         return Task.CompletedTask;
     }
