@@ -1,0 +1,138 @@
+﻿
+/*.order-table th {*/
+/*    vertical-align: middle;*/
+/*}*/
+
+/*.btn {*/
+/*    padding: 10px 20px;*/
+/*    border: none;*/
+/*    border-radius: 5px;*/
+/*    cursor: pointer;*/
+/*    transition: all 0.3s ease;*/
+/*    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);*/
+/*}*/
+
+/*.btn:hover {*/
+/*    opacity: 0.8;*/
+/*}*/
+
+/*.btn:active {*/
+/*    transform: translateY(1px);*/
+/*}*/
+
+/*.actions-cell:hover {*/
+/*}*/
+
+/*.order-cancel-button {*/
+/*    background-color: #d9534f;*/
+/*    color: white;*/
+/*    border-radius: 15px;*/
+/*    box-shadow: 0 0 5px rgba(189, 72, 68, 0.8); !* Красная тень *!*/
+/*    margin: 5px;*/
+/*}*/
+
+/*.order-accept-button {*/
+/*    background-color: #5cb85c;*/
+/*    color: white;*/
+/*    border-radius: 15px;*/
+/*    box-shadow: 0 0 5px rgba(81, 161, 81, 0.8);*/
+/*    margin: 5px;*/
+/*}*/
+
+/*.order-cancel-button:hover, .order-accept-button:hover {*/
+/*    box-shadow: 0 0 0 rgba(0, 0, 0, 0);*/
+/*}*/
+
+/*#statusCell {*/
+/*    text-align: center;*/
+/*    font-weight: bold;*/
+/*}*/
+
+/*.table-striped tbody tr:nth-of-type(odd) {*/
+/*    background-color: white;*/
+/*}*/
+
+/*.order-table {*/
+/*    margin: 30px 30px 30px 0;*/
+/*    width: 100%;*/
+/*    padding-bottom: 50px;*/
+
+/*    text-align: center;*/
+/*    vertical-align: center;*/
+/*    border-radius: 20px;*/
+/*    transition: all 0.5s ease;*/
+/*    overflow: hidden;*/
+/*    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);*/
+/*}*/
+
+/*.order-table th, .order-table td {*/
+/*    padding: 8px;*/
+/*}*/
+
+/*.order-table th {*/
+/*    background: #e9e9e9;*/
+/*    margin-bottom: 100px;*/
+/*    border-bottom: 1px solid #000;*/
+/*}*/
+
+/*.order-table td {*/
+/*    border-radius: 15px;*/
+/*    padding: 2% 0 2% 0;*/
+/*}*/
+
+
+/*.order-table tr:hover {*/
+/*    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);*/
+/*}*/
+
+/*.order-table td:hover {*/
+/*    background: #fafafa;*/
+/*    box-shadow: 0 0 7px rgba(0, 0, 0, 0.25);*/
+
+/*}*/
+
+/*.order-table th:hover {*/
+/*    background: #e3e3e3;*/
+/*}*/
+
+/*#basketCell {*/
+/*    line-height: 2;*/
+/*}*/
+
+/*.navbar-brand {*/
+/*    font-weight: bold;*/
+/*    font-size: 1.5rem;*/
+/*}*/
+
+/*.nav-link {*/
+/*    font-weight: normal;*/
+/*    color: #333;*/
+/*    border-radius: 25px;*/
+/*}*/
+
+/*.nav-link:hover {*/
+/*    background-color: #f5f5f5;*/
+/*}*/
+
+/*.nav-link.active {*/
+/*    font-weight: bold;*/
+/*}*/
+
+/*.orderNav{*/
+/*    padding-top: 0;*/
+/*    font-size: 20px;*/
+/*    gap: 20px;*/
+/*}*/
+
+/*.container{*/
+/*    max-width: 2000px;*/
+/*    padding: 0 60px 0 60px;*/
+/*}*/
+
+/*.mainNav{*/
+/*    padding-left: 30px;*/
+/*    margin: 5px 0 0 10px ;*/
+/*}*/
+/*.mb-3 {*/
+/*    margin-bottom: 10px !important;*/
+/*}*/
