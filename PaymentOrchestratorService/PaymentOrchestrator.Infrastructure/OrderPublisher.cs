@@ -3,7 +3,9 @@ using System.Text.Json;
 using BarsGroupProjectN1.Core.Contracts.Orders;
 using BarsGroupProjectN1.Core.Exceptions;
 using Confluent.Kafka;
+using Handler.Core;
 using Handler.Core.Abstractions.Services;
+using Microsoft.Extensions.Options;
 
 namespace HandlerService.Infustucture;
 
@@ -11,14 +13,14 @@ public class OrderPublisher : IOrderPublisher
 {
     private readonly IProducer<Null, string> _producer;
 
-    public OrderPublisher(IProducer<Null, string> producer)
+    public OrderPublisher(IOptions<KafkaOptions> options)
     {
         ProducerConfig config = new()
         {
-            BootstrapServers = "localhost:29092",
+            BootstrapServers = options.Value.BootstrapServers,
             ClientId = Dns.GetHostName()
         };
-        
+
         _producer = new ProducerBuilder<Null, string>(config).Build();
     }
 
@@ -37,4 +39,3 @@ public class OrderPublisher : IOrderPublisher
         }
     }
 }
-

@@ -1,5 +1,6 @@
 using BarsGroupProjectN1.Core.AppSettings;
 using BarsGroupProjectN1.Core.Extensions;
+using Handler.Core;
 using HandlerService.Extensions;
 using HandlerService.Middlewares;
 using Microsoft.Extensions.Options;
@@ -11,6 +12,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDependencies();
 
 builder.Services.Configure<ServicesOptions>(builder.Configuration.GetSection("ServicesOptions"));
+builder.Services.Configure<KafkaOptions>(builder.Configuration.GetSection("KafkaOptions"));
 
 builder.Services.AddServicesHttpClients(builder.Configuration);
 

@@ -6,6 +6,7 @@ using HandlerService.Application.Services;
 using HandlerService.Application.UseCases;
 using HandlerService.Controllers;
 using HandlerService.DataAccess.Repositories;
+using HandlerService.Infustucture;
 
 namespace HandlerService.Extensions;
 
@@ -28,15 +29,14 @@ public static class AppServiceDependenciesExtensions
         serviceProvider.AddSingleton<IMenuService, MenuService>();
         serviceProvider.AddSingleton<IMenuRepository, MenuRepository>();
         serviceProvider.AddHttpClient<MenuRepository>();
-
     }
 
     private static void AddOrderDependencies(this IServiceCollection serviceProvider)
     {
         serviceProvider.AddSingleton<IOrderService, OrderService>();
         serviceProvider.AddSingleton<IOrderRepository, OrderRepository>();
+        serviceProvider.AddSingleton<IOrderPublisher, OrderPublisher>();
         serviceProvider.AddHttpClient<OrderRepository>();
-
     }
 
     private static void AddHandlerDependencies(this IServiceCollection serviceProvider)
@@ -45,7 +45,7 @@ public static class AppServiceDependenciesExtensions
         serviceProvider.AddSingleton<IHandlerOrderService, HandlerOrderService>();
         serviceProvider.AddHttpClient<HandlerRepository>();
     }
-    
+
     private static void AddPaymentDependencies(this IServiceCollection serviceProvider)
     {
         serviceProvider.AddSingleton<IPaymentService, PaymentService>();
@@ -57,7 +57,6 @@ public static class AppServiceDependenciesExtensions
         serviceProvider.AddSingleton<ICurierService, CurierService>();
         serviceProvider.AddSingleton<ICurierRepository, CourierRepository>();
         serviceProvider.AddHttpClient<CourierRepository>();
-
     }
 
     private static void AddUserDependencies(this IServiceCollection serviceProvider)
@@ -65,13 +64,11 @@ public static class AppServiceDependenciesExtensions
         serviceProvider.AddSingleton<IUserService, UserService>();
         serviceProvider.AddSingleton<IUserRepository, UserRepository>();
         serviceProvider.AddHttpClient<UserRepository>();
-
     }
 
     private static void AddStoreDependencies(this IServiceCollection serviceProvider)
     {
         serviceProvider.AddSingleton<IStoreService, StoreService>();
         serviceProvider.AddSingleton<IStoreRepository, StoreRepository>();
-
     }
 }
