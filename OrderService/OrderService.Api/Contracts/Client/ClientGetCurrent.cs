@@ -5,6 +5,9 @@ namespace OrderService.Api.Contracts.Client;
 
 public record ClientGetCurrent(
     Guid Id,
+    Guid ClientId,
+    Guid StoreId,
+    Guid CourierId,
     StatusCode Status,
     List<BasketItem> Basket,
     int Price,
