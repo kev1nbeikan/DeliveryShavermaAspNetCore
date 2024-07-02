@@ -32,10 +32,11 @@ function acceptOrder() {
             if (!response.ok) {
                 throw new Error('Не удалось отменить заказ');
             }
-            getOrders();
+            getCurrentOrders();
             console.log('Заказ принят!', response);
         })
         .catch(error => {
+            alert('Произошла ошибка');
             console.error('Ошибка при отправке запроса на прием:', error);
         });
 }

@@ -53,7 +53,7 @@ function displayLastOrders(orders) {
         basketCell.id = 'basketCell';
         order.basket.forEach(item => {
             const listItem = document.createElement('li');
-            listItem.textContent = `${item.name}, ${item.amount} штук, ${item.price} рублей`;
+            listItem.textContent = `${item.name}, ${item.amount}, ${item.price} рублей`;
             basketCell.appendChild(listItem);
         });
     });
