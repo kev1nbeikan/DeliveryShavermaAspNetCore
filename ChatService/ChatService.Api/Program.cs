@@ -1,4 +1,7 @@
+using BarsGroupProjectN1.Core;
+using BarsGroupProjectN1.Core.BackgroundServices;
 using BarsGroupProjectN1.Core.Middlewares;
+using ChatService.Api.BackgroundServices;
 using ChatService.Api.Hubs;
 using ChatService.Core;
 using Microsoft.AspNetCore.HttpLogging;
@@ -10,7 +13,11 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddSignalR();
 
+
 builder.Services.AddScoped<IChatService, ChatService.Services.ChatService>();
+
+builder.Services.AddHostedService<OrderKafkaConsumerForChatService>();
+
 
 var app = builder.Build();
 

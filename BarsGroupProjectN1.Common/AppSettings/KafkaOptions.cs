@@ -1,4 +1,4 @@
-namespace Handler.Core;
+namespace BarsGroupProjectN1.Core.AppSettings;
 
 public class KafkaOptions
 {

@@ -1,3 +1,4 @@
+using BarsGroupProjectN1.Core.AppSettings;
 using BarsGroupProjectN1.Core.Contracts.Orders;
 using Handler.Core;
 using Handler.Core.Abstractions.Services;

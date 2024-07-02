@@ -1,5 +1,6 @@
 using System.Net;
 using System.Text.Json;
+using BarsGroupProjectN1.Core.AppSettings;
 using BarsGroupProjectN1.Core.Contracts.Orders;
 using BarsGroupProjectN1.Core.Exceptions;
 using Confluent.Kafka;
