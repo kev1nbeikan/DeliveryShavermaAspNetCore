@@ -26,17 +26,6 @@ builder.Services.AddScoped<ICourierRepository, CourierRepository>();
 
 builder.Services.AddTransient<IOrdersApiClient, OrdersApiClient>();
 
-builder.Services.AddHostedService<CourierActiveStatusService>();
-
-builder.Services.AddHttpClient(
-	"OrderServiceClient",
-	client =>
-	{
-		client.BaseAddress = new Uri("https://ORDERSERVICE");
-		client.DefaultRequestHeaders.Add("Accept", "application/json");
-	}
-);
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
