@@ -4,10 +4,12 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewData["Title"]</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/buttonOrder.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/tableOrder.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/css/confirmWindow.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/css/order.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/navBar.css" asp-append-version="true"/>
 </head>
 <body>
 <header>
@@ -29,7 +31,19 @@
         @RenderBody()
     </main>
 </div>
-
+<footer class="border-top footer text-muted">
+    <div class="container">
+        &copy; 2024 - Шаверма - <a asp-area="" asp-controller="User" asp-action="Privacy">Privacy</a>
+    </div>
+</footer>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/acceptWindow.js" asp-append-version="true"></script>
+<script src="~/js/cancelWindow.js" asp-append-version="true"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/js/currentOrder.js" asp-append-version="true"></script>
+<script src="~/js/lastOrder.js" asp-append-version="true"></script>
+<script src="~/js/cancelOrder.js" asp-append-version="true"></script>
 @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -27,6 +27,12 @@ public class OrderApplicationService(
     {
         return await _canceledOrderRepository.Get(role, sourceId);
     }
+    
+    public async Task<List<CurrentOrder>> GetStoreCurrentOrders(RoleCode role, Guid sourceId)
+    {
+        var orders = await _currentOrderRepository.Get(role, sourceId);
+        return orders.Where(x => x.Status <= StatusCode.WaitingCourier).ToList();
+    }
 
     public async Task<CurrentOrder?> GetOldestActive(RoleCode role, Guid sourceId)
     {

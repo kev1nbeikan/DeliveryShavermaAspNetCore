@@ -30,10 +30,11 @@ function acceptOrder() {
             if (!response.ok) {
                 throw new Error('Не удалось отменить заказ');
             }
-            getStoreOrders();
+            getCurrentStoreOrders();
             console.log('Заказ поменял статус!', response);
         })
         .catch(error => {
+            alert('Произошла ошибка');
             console.error('Ошибка при отправке запроса на прием:', error);
         });
 }

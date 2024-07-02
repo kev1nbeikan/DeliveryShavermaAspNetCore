@@ -1,13 +1,14 @@
 ﻿let currentTable = 'CurrentStoreOrdersTable'
 let serverWorking = false;
 let newestOrderDate;
+let ordersToCheck = [];
 
 const AuthHeaders = {
-    'UserId': getCookie('StoreId'),
+    'UserId': getCookie('UserId'),
     'Role': getCookie('Role')
 };
 
-async function getStoreOrders() {
+async function getCurrentStoreOrders() {
     try {
         const response = await fetch('http://localhost:5106/orders/store', {
             headers: AuthHeaders
@@ -18,6 +19,7 @@ async function getStoreOrders() {
                 .getElementsByTagName('tbody')[0];
             ordersTable.innerHTML = '';
             displayCurrentOrders(data);
+            ordersToCheck = data.map(order => order.id);
         } else if (response.status === 204) {
             console.error('Заказов нет');
             serverWorking = false;
@@ -36,7 +38,7 @@ async function getStoreOrders() {
 function displayCurrentOrders(orders) {
     const ordersTable = document.getElementById(currentTable)
         .getElementsByTagName('tbody')[0];
-    
+
     orders.forEach(order => {
         const row = ordersTable.insertRow();
 
@@ -60,24 +62,42 @@ function displayCurrentOrders(orders) {
             newestOrderDate = order.orderDate;
         }
 
-        const actionsCell = row.insertCell();
-        actionsCell.classList.add('actions-cell');
-        if (order.status === 0) {
-            const acceptButton = document.createElement('button');
-            acceptButton.classList.add('btn', 'btn-success', 'order-accept-button');
-            acceptButton.textContent = 'Готов';
-            acceptButton.onclick = () => openConformationWindowAccept(order.id);
-            actionsCell.appendChild(acceptButton);
+        displayButtons(row, order);
 
-            const cancelButton = document.createElement('button');
-            cancelButton.classList.add('btn', 'btn-secondary', 'order-cancel-button');
-            cancelButton.textContent = 'Отменить';
-            cancelButton.onclick = () => openConformationWindowCancel(order.id);
-            actionsCell.appendChild(cancelButton);
-        }
         serverWorking = true;
     });
 }
+
+function displayButtons(row, order){
+    const actionsCell = row.insertCell();
+    actionsCell.id = 'actionCell';
+
+    const chatButton = document.createElement('button');
+    chatButton.classList.add('btn', 'order-chat-button', 'action-button');
+    chatButton.textContent = 'Чат';
+    chatButton.onclick = () => openConformationWindowCancel(order.id);
+    actionsCell.appendChild(chatButton);
+    
+    if (order.status === 0) {
+        const acceptButton = document.createElement('button');
+        acceptButton.classList.add('btn', 'order-accept-button');
+        acceptButton.textContent = 'Готов';
+        acceptButton.onclick = () => openConformationWindowAccept(order.id);
+        actionsCell.appendChild(acceptButton);
+
+        const cancelCell = row.insertCell();
+        cancelCell.id ='cancelCell';
+
+        const cancelButton = document.createElement('button');
+        cancelButton.classList.add('btn', 'close-button');
+        const closeIcon = document.createElement('span');
+        closeIcon.classList.add('close-icon');
+        cancelButton.appendChild(closeIcon);
+        cancelButton.onclick = () => openConformationWindowCancel(order.id);
+        cancelCell.appendChild(cancelButton);
+    }
+}
+
 async function checkNewOrder() {
     if (serverWorking) {
         try {
@@ -93,8 +113,43 @@ async function checkNewOrder() {
             }
         } catch (error) {
             console.error('Ошибка при получении данных:', error);
-            await getStoreOrders();
+            await getCurrentStoreOrders();
         }
+    }
+}
+
+async function checkOrderStatus() {
+    const promises = ordersToCheck.map(async (orderId) => {
+        try {
+            const response = await fetch(`http://localhost:5106/orders/status/${orderId}`, {
+                headers: AuthHeaders
+            });
+            if (response.status === 200) {
+                const orderData = await response.text();
+                updateOrderStatus(orderId, orderData);
+            } else if (response.status === 204) {
+                console.error(`Заказ не найден ${orderId}`, response);
+                await getCurrentStoreOrders();
+            }
+        } catch (error) {
+            console.error(`Ошибка при проверке статуса заказа ${orderId}:`, error);
+            await getCurrentStoreOrders();
+        }
+    });
+    await Promise.all(promises);
+}
+
+function updateOrderStatus(orderId, newStatus) {
+    const ordersTable = document.getElementById(currentTable).getElementsByTagName('tbody')[0];
+    const rows = ordersTable.querySelectorAll('tr');
+    const index = ordersToCheck.findIndex(id => id === orderId);
+    const orderRow = rows[index];
+
+    if (StatusMapping[newStatus] === orderRow.cells[0].textContent) {
+        return;
+    }
+    if (orderRow) {
+        orderRow.cells[0].textContent = StatusMapping[newStatus];
     }
 }
 
@@ -102,20 +157,9 @@ async function restartCurrentOrderPage(time) {
     await new Promise((resolve) => {
         ordersToCheck = [];
         setTimeout(() => {
-            getStoreOrders();
+            getCurrentStoreOrders();
             resolve();
         }, time);
     });
 }
 
-function displayError(message, orderTable) {
-    const ordersTable = document.getElementById(orderTable).getElementsByTagName('tbody')[0];
-    ordersTable.innerHTML = '';
-
-    const row = ordersTable.insertRow();
-    const cell = row.insertCell();
-    cell.colSpan = 10;
-    cell.textContent = message;
-    cell.style.fontSize = '20px';
-    cell.style.padding = '20px';
-}
