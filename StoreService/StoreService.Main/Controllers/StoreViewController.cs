@@ -54,4 +54,20 @@ public class StoreViewController : Controller
             return BadRequest(e.Message);
         }
     }
+    
+    [HttpGet("current")]
+    public IActionResult CurrentOrder()
+    {
+        var userId = User.UserId();
+        _logger.LogInformation("User {UserId} requested order", userId);
+        return View("CurrentOrder"); 
+    }
+    
+    [HttpGet("last")]
+    public IActionResult LastOrder()
+    {
+        var userId = User.UserId();
+        _logger.LogInformation("User {UserId} requested order", userId);
+        return View("LastOrder"); 
+    }
 }
