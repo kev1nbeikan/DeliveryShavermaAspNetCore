@@ -1,4 +1,5 @@
 using BarsGroupProjectN1.Core.Contracts.Orders;
+using BarsGroupProjectN1.Core.Exceptions;
 using Handler.Core;
 using Handler.Core.Abstractions.Repositories;
 using Handler.Core.Abstractions.Services;
@@ -13,12 +14,14 @@ namespace HandlerService.Application.Services;
 public class OrderService : IOrderService
 {
     private IOrderRepository _orderRepository;
+    private IOrderPublisher _orderPublisher;
 
-    public OrderService(IOrderRepository orderRepository)
+    public OrderService(IOrderRepository orderRepository, IOrderPublisher orderPublisher)
     {
         _orderRepository = orderRepository;
+        _orderPublisher = orderPublisher;
     }
-    
+
 
     public async Task<(OrderCreateRequest order, string? error)> Save(PaymentOrder order, OrderLogistic orderLogistic,
         string cheque,
@@ -54,6 +57,23 @@ public class OrderService : IOrderService
 
         var error = await _orderRepository.Save(orderCreateRequest);
 
+        if (string.IsNullOrEmpty(error))
+            error = await PublishOrderKafka(orderCreateRequest);
+
         return (orderCreateRequest, error);
+    }
+
+    private async Task<string?> PublishOrderKafka(OrderCreateRequest order)
+    {
+        try
+        {
+            await _orderPublisher.PublishOrder(order);
+        }
+        catch (RepositoryException e)
+        {   
+            return e.Message;
+        }
+
+        return null;
     }
 }
