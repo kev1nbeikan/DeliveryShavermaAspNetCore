@@ -70,4 +70,12 @@ public class StoreViewController : Controller
         _logger.LogInformation("User {UserId} requested order", userId);
         return View("LastOrder"); 
     }
+    
+    [HttpGet("cancel")]
+    public IActionResult CanceledOrder()
+    {
+        var userId = User.UserId();
+        _logger.LogInformation("User {UserId} requested order", userId);
+        return View("CancelOrder"); 
+    }
 }
