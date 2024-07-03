@@ -188,9 +188,9 @@
             if (!response.ok) {
                 if (response.status === 401) {
                     alert('Необходимо авторизоваться для доступа к этому ресурсу.');
-                    window.location.href = ' http://localhost:5025';
+                    window.location.href = response.url;
                 } else {
-                    throw new Error('Ошибка HTTP: ' + response.status);
+                    alert('Непредвиденная ошибка при отправке данных на сервис: ' + response.status);
                 }
             } else {
                 const html = await response.text();

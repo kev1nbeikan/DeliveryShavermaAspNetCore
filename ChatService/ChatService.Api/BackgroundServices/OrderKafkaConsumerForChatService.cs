@@ -16,9 +16,9 @@ public class OrderKafkaConsumerForChatService : OrderConsumerBackgroundService
         base.OnConfigure(consumerOptions);
     }
 
-    protected override Task ProcessOrder(OrderCreateRequest order)
+    protected override Task ProcessOrderCreate(OrderCreateRequest order)
     {
-        base.ProcessOrder(order);
+        base.ProcessOrderCreate(order);
         return Task.CompletedTask;
     }
 }

@@ -1,5 +1,6 @@
 using BarsGroupProjectN1.Core;
 using BarsGroupProjectN1.Core.BackgroundServices;
+using BarsGroupProjectN1.Core.Extensions;
 using BarsGroupProjectN1.Core.Middlewares;
 using ChatService.Api.BackgroundServices;
 using ChatService.Api.Hubs;
@@ -18,6 +19,7 @@ builder.Services.AddScoped<IChatService, ChatService.Services.ChatService>();
 
 builder.Services.AddHostedService<OrderKafkaConsumerForChatService>();
 
+builder.Services.ConfigureServicesOptions(builder.Configuration);
 
 var app = builder.Build();
 

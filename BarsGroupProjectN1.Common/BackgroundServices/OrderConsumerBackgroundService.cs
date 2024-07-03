@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using BarsGroupProjectN1.Core.Contracts.Orders;
@@ -21,43 +22,61 @@ public abstract class OrderConsumerBackgroundService : KafkaConsumerService
 
     protected override async Task ProcessMessageAsync(string message)
     {
+        await ProcessByTopic(Context.Topic, message);
+    }
+
+    private async Task ProcessByTopic(string topic, string message)
+    {
+        switch (topic)
+        {
+            case "Orders":
+                await ExecuteProcessingOfOrderCreate(message);
+                break;
+
+            case "OrdersUpdate":
+                await ExecuteProcessingOfOrderUpdate(message);
+                break;
+        }
+    }
+
+
+    private async Task ExecuteProcessingOfOrderUpdate(string message)
+    {
         try
         {
             var order = JsonSerializer.Deserialize<OrderCreateRequest>(message);
             if (order != null)
-                await ProcessOrder(order);
+                await ProcessOrderCreate(order);
         }
         catch (Exception e)
         {
             Logger.LogError(e.Message, e);
         }
-
-        return;
     }
 
-    private void ProcessByTopic(string topic, string message)
-        =>
-            topic switch
-            {
-                "Orders" => ExecuteProcessingOfOrder(message),
-                "OrdersUpdate" => ExecuteProcessingOfOrderUpdate(message),
-                _ => throw new ArgumentOutOfRangeException()
-            };
-
-
-    private void ExecuteProcessingOfOrderUpdate(string message)
+    private async Task ExecuteProcessingOfOrderCreate(string message)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var order = JsonSerializer.Deserialize<OrderCreateRequest>(message);
+            if (order != null)
+                await ProcessOrderCreate(order);
+        }
+        catch (Exception e)
+        {
+            Logger.LogError(e.Message, e);
+        }
     }
 
-    private void ExecuteProcessingOfOrder(string message)
+    protected virtual Task ProcessOrderCreate(OrderCreateRequest order)
     {
-        throw new NotImplementedException();
+        Logger.LogInformation("Get orderCreate {order}", order);
+        return Task.CompletedTask;
     }
 
-    protected virtual Task ProcessOrder(OrderCreateRequest order)
+    protected virtual Task ProcessOrderUpdate(OrderCreateRequest order)
     {
-        Logger.LogInformation("Get order {order}", order);
+        Logger.LogInformation("Get orderUpdate {order}", order);
         return Task.CompletedTask;
     }
 }

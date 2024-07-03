@@ -21,7 +21,7 @@ public class OrderKafkaConsumerForStoreService : OrderConsumerBackgroundService
     }
 
 
-    protected override async Task ProcessOrder(OrderCreateRequest order)
+    protected override async Task ProcessOrderCreate(OrderCreateRequest order)
     {
         try
         {
@@ -32,7 +32,6 @@ public class OrderKafkaConsumerForStoreService : OrderConsumerBackgroundService
             Logger.LogError(e, e.Message);
         }
 
-
-        await base.ProcessOrder(order);
+        await base.ProcessOrderCreate(order);
     }
 }

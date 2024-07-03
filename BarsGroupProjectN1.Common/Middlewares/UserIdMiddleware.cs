@@ -1,13 +1,19 @@
 ﻿using System.Security.Claims;
+using BarsGroupProjectN1.Core.AppSettings;
 using BarsGroupProjectN1.Core.Contracts;
 using BarsGroupProjectN1.Core.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace BarsGroupProjectN1.Core.Middlewares;
 
-public class UserIdMiddleware(RequestDelegate next)
+public class UserIdMiddleware(
+    RequestDelegate next,
+    ILogger<UserIdMiddleware> Logger)
 {
     private readonly RequestDelegate _next = next;
+
 
     public async Task Invoke(HttpContext context)
     {
@@ -17,14 +23,14 @@ public class UserIdMiddleware(RequestDelegate next)
 
         if (roleString == ((int)RoleCode.Admin).ToString())
         {
-            Console.WriteLine("User is admin");
+            Console.WriteLine($"{nameof(UserIdMiddleware)}: User is admin");
             await _next(context);
             return;
         }
 
         if (!Guid.TryParse(userIdString, out Guid userId) || string.IsNullOrEmpty(roleString))
         {
-            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            context.Response.Redirect("http://localhost:5025/home/unauthorizedUser");
             return;
         }
 

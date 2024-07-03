@@ -1,26 +1,26 @@
 using System.Diagnostics;
+using BarsGroupProjectN1.Core.AppSettings;
+using BarsGroupProjectN1.Core.views.models;
 using Microsoft.AspNetCore.Mvc;
 using ChatService.Api.Models;
+using Microsoft.Extensions.Options;
 
 namespace ChatService.Api.Controllers;
 
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private readonly IOptions<ServicesOptions> _servicesOptions;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger, IOptions<ServicesOptions> servicesOptions)
     {
         _logger = logger;
+        _servicesOptions = servicesOptions;
     }
 
     public IActionResult Index()
     {
         return RedirectToAction("Room", "Chat");
-    }
-
-    public IActionResult Privacy()
-    {
-        return View();
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

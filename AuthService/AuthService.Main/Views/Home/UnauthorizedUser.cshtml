@@ -1,0 +1,107 @@
+@model BarsGroupProjectN1.Core.views.models.UnauthorizedUserViewModel
+
+@{
+ViewBag.Title = ".Net Shawa";
+Layout = null; // Убираем стандартный layout
+}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>.Net Shawa - Авторизация</title>
+    <link rel="stylesheet" href="https://fonts.OpenAIapis.com/css2?family=Roboto:wght@400;700&display=swap">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #666;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            background-color: #FFC300; /* Более приятный желтый */
+            color: #fff;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #E6A700; /* Более темный оттенок желтого при наведении */
+        }
+
+        .logo {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 30px;
+            border-radius: 50%;
+            overflow: hidden;
+            background-color: #eee;
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .error-code {
+            background-color: #f0f0f0;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1.2rem; /* Более крупный шрифт */
+            font-weight: bold; /* Жирный шрифт */
+            color: #666;
+            text-transform: uppercase; /* Заглавные буквы */
+            margin-bottom: 20px; /* Отступ снизу */
+        }
+
+        .shawarma-smiley {
+            font-size: 100px; /* Adjust size as needed */
+            color: #ffb61e;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+  
+    <div class="error-code">ОШИБКА: 401</div>
+    <div class="shawarma-smiley">🥙</div>
+    <h1>.Net Shawa</h1>
+    <p>Шаверма должна знать своего покупателя! <br> Авторизуйтесь, чтобы наслаждаться лучшей шавермой в городе.</p>
+    <a href="@Model.AuthUrl" class="btn">Авторизоваться</a>
+</div>
+</body>
+</html>

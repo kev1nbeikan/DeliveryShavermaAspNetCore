@@ -27,6 +27,7 @@ if (!app.Environment.IsDevelopment())
 
 app.SetCorsPolicies(app.Services.GetService<IOptions<ServicesOptions>>()!);
 
+
 app.UseStaticFiles();
 
 app.UseRouting();

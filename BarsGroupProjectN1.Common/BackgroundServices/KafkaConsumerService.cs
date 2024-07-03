@@ -13,7 +13,7 @@ public abstract class KafkaConsumerService : BackgroundService
     private IConsumer<Null, string>? _consumer;
     private ConsumerConfig? _consumerConfig;
     private readonly IConfiguration _configuration;
-    protected ConsumerOptions Options { get; private set; }
+    protected ConsumerOptions Options { get; private set; } = new();
     protected ConsumeResult<Null, string> Context { get; private set; }
 
 
@@ -23,10 +23,11 @@ public abstract class KafkaConsumerService : BackgroundService
         _configuration = configuration;
     }
 
-    protected virtual void Configurate()
+    private void Configurate()
     {
-        var kafkaOptions = _configuration.GetSection("KafkaOptions").Get<KafkaOptions>();
-        ArgumentNullException.ThrowIfNull(kafkaOptions, "KafkaOptions not found");
+        var kafkaOptions = GetKafkaOptions();
+        EnsureValidKafkaOptions(kafkaOptions);
+
         OnConfigure(Options);
         EnsureConsumerOptionsValid();
 
@@ -36,6 +37,19 @@ public abstract class KafkaConsumerService : BackgroundService
             AutoOffsetReset = AutoOffsetReset.Earliest,
             GroupId = Options.GroupId,
         };
+    }
+
+    private static void EnsureValidKafkaOptions(KafkaOptions? kafkaOptions)
+    {
+        ArgumentNullException.ThrowIfNull(kafkaOptions,
+            "KafkaOptions not found set them is appsettings like \"KafkaOptions\":\n {\"BootstrapServers\": \"localhost:9092\",\n \"GroupId\": \"StoreService\"} \"");
+        ArgumentNullException.ThrowIfNull(kafkaOptions.BootstrapServers, "BootstrapServers not found");
+        ArgumentNullException.ThrowIfNull(kafkaOptions.GroupId);
+    }
+
+    protected virtual KafkaOptions? GetKafkaOptions()
+    {
+        return _configuration.GetSection("KafkaOptions").Get<KafkaOptions>();
     }
 
     protected abstract void OnConfigure(ConsumerOptions consumerOptions);
@@ -55,6 +69,7 @@ public abstract class KafkaConsumerService : BackgroundService
         ArgumentNullException.ThrowIfNull(_consumerConfig);
 
         Logger.LogInformation("Kafka-consumer started");
+        Logger.LogInformation(DocString());
 
         while (!stoppingToken.IsCancellationRequested)
         {
@@ -90,6 +105,11 @@ public abstract class KafkaConsumerService : BackgroundService
         ArgumentNullException.ThrowIfNull(Options.Topics);
     }
 
+    public virtual string DocString()
+    {
+        return $"{this} Options: {Options}; ConsumeConfig: {_consumerConfig};";
+    }
+
     public override void Dispose()
     {
         _consumer.Close();
@@ -98,7 +118,7 @@ public abstract class KafkaConsumerService : BackgroundService
     }
 }
 
-public class ConsumerOptions
+public record ConsumerOptions
 {
     public List<string>? Topics { get; set; } = null;
     public string? GroupId { get; set; } = null;
