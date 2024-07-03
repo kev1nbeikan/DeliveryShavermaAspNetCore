@@ -39,12 +39,11 @@
                     type: 'PUT',
                     data: { 'Address': newAddress }, // Отправка данных
                     success: function (response) {
-                        // Обработка успешного ответа
                         showSuccessMessage()
-                        // Возможно, нужно обновить отображаемые данные на странице
                     },
-                    error: function (error) {
-                        showErrorMessage(error);
+                    error: function (xhr, status, error) {
+                        var errorMessage = xhr.responseText; // Получение текста ошибки из ответа
+                        showErrorMessage(errorMessage);
                     }
                 });
             });

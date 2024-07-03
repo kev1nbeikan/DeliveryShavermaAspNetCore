@@ -51,21 +51,21 @@
         if (xhr.status === 200 && settings.type === 'POST') {
             var status = xhr.responseJSON;
             var statusElement = $('#store-status');
-            var statusText = status === '@(((int)StoreStatus.Open).ToString())' ? 'В работе' : 'Закрыто';
-            var badgeClass = status === '@(((int)StoreStatus.Open).ToString())' ? 'success' : 'danger';
+            var statusText = status === '@(((int)Model.Store.Status).ToString())' ? 'В работе' : 'Закрыто';
+            var badgeClass = status === '@(((int)Model.Store.Status).ToString())' ? 'success' : 'danger';
 
             statusElement.text(statusText);
             statusElement.removeClass().addClass('badge badge-' + badgeClass);
 
             // Отображаем сообщение об успехе
-           showSuccessMessage();
+            showSuccessMessage();
         } else if (xhr.status === 400 && settings.type === 'POST') {
             var errorMessage = xhr.responseText; // Get the text response
 
             // Отображаем сообщение об ошибке
             showErrorMessage(errorMessage);
         }
-    })
+    });
 </script>
 
 <style>

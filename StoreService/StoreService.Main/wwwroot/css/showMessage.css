@@ -1,0 +1,18 @@
+#success-message,
+#error-message {
+    position: fixed;
+    top: 20px; /* Adjust vertical position */
+    right: 20px; /*  Move to right corner */
+    transform: translate(0, 0); /* Reset transform for positioning */
+    z-index: 100;
+    width: 300px;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Текстура, как у кнопок */
+    background-color: #fff; /* Белый фон */
+    color: #333; /* Черный текст */
+}
+
+#error-details {
+    margin-top: 10px;
+}

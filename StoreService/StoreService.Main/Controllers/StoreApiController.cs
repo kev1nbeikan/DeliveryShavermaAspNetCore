@@ -43,7 +43,7 @@ public class StoreApiController : ControllerBase
         }
     }
 
-    public async Task<IActionResult> Update(UpdateStoreRequest request)
+    public async Task<IActionResult> Update([FromForm] UpdateStoreRequest request)
     {
         try
         {

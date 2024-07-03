@@ -86,8 +86,9 @@ public class StoreService : IStoreService
 
         EnsureValidStoreToOpen(storeId, store);
 
-        var storeUpdated = Store.Create(storeId, status);
-        await _storeRepository.Update(storeUpdated);
+        store.Status = status;
+        store.EnsureIsValidToOpen();
+        await _storeRepository.Update(store);
     }
 
 

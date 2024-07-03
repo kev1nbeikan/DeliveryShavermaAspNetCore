@@ -31,6 +31,8 @@ public class StoreRepository : IStoreRepository
 
         storeEntity.Status = store.Status;
         storeEntity.ActiveOrdersCount = store.ActiveOrdersCount;
+        storeEntity.Address = store.Address;
+
 
         return await _storeDbContext.SaveChangesAsync() > 0;
     }

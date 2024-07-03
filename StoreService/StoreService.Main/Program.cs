@@ -20,7 +20,7 @@ builder.Services.AddServicesHttpClients(builder.Configuration);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddDi();
-builder.Services.AddHostedService<OrderKafkaConsumerForStoreService>();
+// builder.Services.AddHostedService<OrderKafkaConsumerForStoreService>();
 
 var app = builder.Build();
 
