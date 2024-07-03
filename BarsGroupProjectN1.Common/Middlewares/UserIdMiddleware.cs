@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.Security.AccessControl;
+using System.Security.Claims;
 using BarsGroupProjectN1.Core.AppSettings;
 using BarsGroupProjectN1.Core.Contracts;
 using BarsGroupProjectN1.Core.Models;
@@ -13,6 +14,7 @@ public class UserIdMiddleware(
     ILogger<UserIdMiddleware> Logger)
 {
     private readonly RequestDelegate _next = next;
+    private readonly string _unauthorizedUserViewUrl = "http://localhost:5025/home/unauthorizedUser";
 
 
     public async Task Invoke(HttpContext context)
@@ -23,16 +25,21 @@ public class UserIdMiddleware(
 
         if (roleString == ((int)RoleCode.Admin).ToString())
         {
-            Console.WriteLine($"{nameof(UserIdMiddleware)}: User is admin");
+            Logger.LogInformation($"Get admin user {userIdString}");
+      
             await _next(context);
             return;
         }
 
         if (!Guid.TryParse(userIdString, out Guid userId) || string.IsNullOrEmpty(roleString))
         {
-            context.Response.Redirect("http://localhost:5025/home/unauthorizedUser");
+            Logger.LogInformation(
+                $"Get unauthorized user {userIdString} with role {roleString} redirecting to {_unauthorizedUserViewUrl}");
+            
+            context.Response.Redirect(_unauthorizedUserViewUrl);
             return;
         }
+
 
         context.User = new ClaimsPrincipal(
             new ClaimsIdentity(
@@ -43,6 +50,9 @@ public class UserIdMiddleware(
                 }
             )
         );
+        
+        Logger.LogInformation($"Get authorized user {userIdString} with role {roleString}");
+
 
         await _next(context);
     }

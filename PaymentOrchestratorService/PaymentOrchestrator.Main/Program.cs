@@ -1,8 +1,7 @@
 using BarsGroupProjectN1.Core.AppSettings;
 using BarsGroupProjectN1.Core.Extensions;
-using Handler.Core;
+using BarsGroupProjectN1.Core.Middlewares;
 using HandlerService.Extensions;
-using HandlerService.Middlewares;
 using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,7 +31,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseMiddleware<UserMiddleware>();
+app.UseMiddleware<UserIdMiddleware>();
 
 app.MapControllerRoute(
     name: "default",

@@ -21,4 +21,8 @@
       <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="6.6.2" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Middlewares\" />
+    </ItemGroup>
+
 </Project>
