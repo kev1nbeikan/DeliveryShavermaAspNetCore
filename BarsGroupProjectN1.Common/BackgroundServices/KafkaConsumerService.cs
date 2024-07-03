@@ -1,3 +1,4 @@
+using System.Text.Json;
 using BarsGroupProjectN1.Core.AppSettings;
 using BarsGroupProjectN1.Core.Extensions;
 using Confluent.Kafka;
@@ -107,7 +108,12 @@ public abstract class KafkaConsumerService : BackgroundService
 
     public virtual string DocString()
     {
-        return $"{this} Options: {Options}; ConsumeConfig: {_consumerConfig};";
+        return $"{this} Options: {GetOptionsString()};";
+    }
+
+    public string GetOptionsString()
+    {
+        return JsonSerializer.Serialize(Options);
     }
 
     public override void Dispose()

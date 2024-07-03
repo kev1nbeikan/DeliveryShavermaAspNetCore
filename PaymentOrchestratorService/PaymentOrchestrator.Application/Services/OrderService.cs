@@ -67,7 +67,7 @@ public class OrderService : IOrderService
     {
         try
         {
-            await _orderPublisher.PublishOrder(order);
+            await _orderPublisher.PublishOrderCreate(order);
         }
         catch (RepositoryException e)
         {   

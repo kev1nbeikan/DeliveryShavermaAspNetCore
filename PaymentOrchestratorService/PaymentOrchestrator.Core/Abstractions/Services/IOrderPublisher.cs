@@ -4,5 +4,6 @@ namespace Handler.Core.Abstractions.Services;
 
 public interface IOrderPublisher
 {
-    Task PublishOrder(OrderCreateRequest order);
+    Task PublishOrderCreate(OrderCreateRequest order);
+    Task PublishOrderUpdate(Order order);
 }

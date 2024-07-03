@@ -101,7 +101,7 @@ public class UserController : Controller
         return View("CurrentOrder"); 
     }
     
-    [HttpGet("current")]
+    [HttpGet("currentOrder")]
     public IActionResult CurrentOrder()
     {
         var userId = User.UserId();

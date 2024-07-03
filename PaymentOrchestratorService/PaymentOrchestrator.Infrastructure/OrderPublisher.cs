@@ -27,11 +27,26 @@ public class OrderPublisher : IOrderPublisher
         _producer = new ProducerBuilder<Null, string>(config).Build();
     }
 
-    public async Task PublishOrder(OrderCreateRequest order)
+    public async Task PublishOrderCreate(OrderCreateRequest order)
     {
         try
         {
             await _producer.ProduceAsync("Orders", new Message<Null, string>
+            {
+                Value = JsonSerializer.Serialize(order)
+            });
+        }
+        catch (ProduceException<Null, string> e)
+        {
+            throw new RepositoryException(e.Message);
+        }
+    }
+
+    public async Task PublishOrderUpdate(Order order)
+    {
+        try
+        {
+            await _producer.ProduceAsync("OrdersCreate", new Message<Null, string>
             {
                 Value = JsonSerializer.Serialize(order)
             });

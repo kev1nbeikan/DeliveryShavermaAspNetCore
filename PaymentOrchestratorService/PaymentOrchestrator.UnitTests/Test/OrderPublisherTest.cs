@@ -23,7 +23,7 @@ public class OrderPublisherTest
     [Test]
     public async Task Publish()
     {
-        await _publisher.PublishOrder(new OrderCreateRequest
+        await _publisher.PublishOrderCreate(new OrderCreateRequest
         (
             Id: Guid.NewGuid(),
             ClientId: Guid.NewGuid(),
