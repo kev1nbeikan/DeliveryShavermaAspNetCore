@@ -187,7 +187,6 @@
     
             if (!response.ok) {
                 if (response.status === 401) {
-                    alert('Необходимо авторизоваться для доступа к этому ресурсу.');
                     window.location.href = response.url;
                 } else {
                     alert('Непредвиденная ошибка при отправке данных на сервис: ' + response.status);
