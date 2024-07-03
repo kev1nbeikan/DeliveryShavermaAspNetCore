@@ -1,0 +1,88 @@
+@model StoreInfoViewModel
+
+@{
+    ViewBag.Title = "Информация о магазине";
+    Layout = "_Layout";
+}
+
+<div class="container">
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <h2 class="mb-4">Информация о магазине</h2>
+            <div class="store-info">
+                <div class="form-group">
+                    <label for="address" class="form-label">Адрес:</label>
+                    <input type="text" class="form-control" id="address" value="@Model.Store.Address" asp-for="Store.Address">
+                    <button type="submit" class="btn btn-primary" asp-controller="StoreApi" asp-action="UpdateAddress">Сохранить</button>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="shawarma-smiley">🥙</div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Обработка формы (отправка AJAX-запроса)
+            $('#address').on('change', function () {
+                // Получение нового адреса
+                var newAddress = $('#address').val();
+
+                // AJAX-запрос для обновления данных
+                $.ajax({
+                    url: '@Url.Action("UpdateAddress", "StoreApi")', // Путь к контроллеру и действию
+                    type: 'POST',
+                    data: { 'address': newAddress }, // Отправка данных
+                    success: function (response) {
+                        // Обработка успешного ответа
+                        console.log("Адрес успешно обновлен!");
+                        // Возможно, нужно обновить отображаемые данные на странице
+                    },
+                    error: function (error) {
+                        // Обработка ошибки
+                        console.error("Ошибка при обновлении адреса:", error);
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+<style>
+    .container {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .store-info {
+        text-align: left;
+    }
+
+    .form-label {
+        font-weight: bold;
+    }
+
+    .btn-primary {
+        background-color: #FFC300;
+        border: none;
+        border-radius: 5px;
+    }
+
+    .btn-primary:hover {
+        background-color: #E6A700;
+    }
+
+    .shawarma-smiley {
+        font-size: 100px; /* Adjust size as needed */
+        color: #ffb61e;
+        margin-bottom: 10px;
+    }
+</style>
