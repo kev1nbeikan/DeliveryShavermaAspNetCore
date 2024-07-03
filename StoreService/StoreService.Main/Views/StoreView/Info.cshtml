@@ -13,13 +13,14 @@
                 <div class="form-group">
                     <label for="address" class="form-label">Адрес:</label>
                     <input type="text" class="form-control" id="address" value="@Model.Store.Address" asp-for="Store.Address">
-                    <button type="submit" class="btn btn-primary" asp-controller="StoreApi" asp-action="UpdateAddress">Сохранить</button>
                 </div>
-
+                <div class="mt-4">
+                    <button type="submit" id="buttonSave" class="btn btn-primary" asp-controller="StoreApi" asp-action="Update">Сохранить</button>
+                </div>
             </div>
         </div>
         <div class="col-md-6">
-            <div class="shawarma-smiley">🥙</div>
+            <div class="shawarma-smiley">🏪</div>
         </div>
     </div>
 </div>
@@ -28,23 +29,22 @@
     <script>
         $(document).ready(function () {
             // Обработка формы (отправка AJAX-запроса)
-            $('#address').on('change', function () {
+            $('#buttonSave').on('click', function () {
                 // Получение нового адреса
                 var newAddress = $('#address').val();
 
-                // AJAX-запрос для обновления данных
+                // AJAX-запрос для обновления данных    
                 $.ajax({
-                    url: '@Url.Action("UpdateAddress", "StoreApi")', // Путь к контроллеру и действию
-                    type: 'POST',
-                    data: { 'address': newAddress }, // Отправка данных
+                    url: '@Url.Action("Update", "StoreApi")', // Путь к контроллеру и действию
+                    type: 'PUT',
+                    data: { 'Address': newAddress }, // Отправка данных
                     success: function (response) {
                         // Обработка успешного ответа
-                        console.log("Адрес успешно обновлен!");
+                        showSuccessMessage()
                         // Возможно, нужно обновить отображаемые данные на странице
                     },
                     error: function (error) {
-                        // Обработка ошибки
-                        console.error("Ошибка при обновлении адреса:", error);
+                        showErrorMessage(error);
                     }
                 });
             });
@@ -84,5 +84,8 @@
         font-size: 100px; /* Adjust size as needed */
         color: #ffb61e;
         margin-bottom: 10px;
+    }
+    .mt-4 {
+        margin-top: 2rem; /* Увеличенный отступ */
     }
 </style>

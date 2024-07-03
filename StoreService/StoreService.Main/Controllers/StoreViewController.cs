@@ -38,7 +38,7 @@ public class StoreViewController : Controller
         }
     }
 
-    public async Task<IActionResult> StoreInfo()
+    public async Task<IActionResult> info()
     {
         try
         {

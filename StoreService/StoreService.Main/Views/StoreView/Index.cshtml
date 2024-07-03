@@ -6,11 +6,10 @@
     ViewData["Title"] = "Предприятие";
 }
 
-
-
 <div class="container mt-5">
     <h1 class="text-center mb-4">
-        Предприятие🏪 <p>Заказов: @Model.Store.ActiveOrdersCount</p>
+        Предприятие 🏪
+        <p>Заказов: @Model.Store.ActiveOrdersCount</p>
         <span id="store-status" class="badge badge-@(Model.Store.Status == StoreStatus.Open ? "success" : "danger") ml-2">
             @(Model.Store.Status == StoreStatus.Open ? "В работе" : "Закрыто")
         </span>
@@ -19,39 +18,149 @@
     <form action="api/v1.0/status"
           method="post" class="form-inline" data-ajax="true"
           data-ajax-method="POST" data-ajax-mode="replace">
-        <div class="btn-group btn-group-toggle" data-toggle="buttons">
-            @foreach (var status in Enum.GetValues(typeof(StoreStatus)))
-            {
-                var isActive = status.Equals(Model.Store.Status);
-                var buttonClass = isActive ? "btn-secondary" : "btn-primary";
-                <input type="radio" class="btn @buttonClass" name="status"
-                       value="@status" id="@status.ToString().ToLower()" @(isActive ? "checked" : "")>
-                <label class="btn @buttonClass" for="@status.ToString().ToLower()">@status</label>
-            }
+        <div class="btn-group btn-group-toggle" data-toggle="buttons" style="margin-top: 20px;">
+            <div class="row">
+                @foreach (var status in Enum.GetValues(typeof(StoreStatus)))
+                {
+                    var isActive = status.Equals(Model.Store.Status);
+                    var buttonClass = isActive ? "btn-secondary" : "btn-primary";
+                    <div class="col-md-4">
+                        <input type="radio" class="btn @buttonClass" style="margin: 10px" name="status"
+                               value="@status" id="@status.ToString().ToLower()" @(isActive ? "checked" : "")>
+                        <label class="btn @buttonClass" for="@status.ToString().ToLower()">@status</label>
+                    </div>
+                }
+            </div>
 
-            <button type="submit" class="btn btn-success ml-2">Обновить</button>
+            <button type="submit" class="btn btn-primary" style="background-color: transparent; color: inherit; border: none; padding: 0;">
+                <span style="font-size: 2rem;">🔄️</span>
+            </button>
             <div id="status-area"></div>
         </div>
     </form>
 </div>
 
+
 <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajax-unobtrusive/3.2.6/jquery.unobtrusive-ajax.min.js"></script>
+<script src="https://kit.fontawesome.com/your-fontawesome-kit-id.js" crossorigin="anonymous"></script>
 <script>
     // Обновляем статус магазина после успешной отправки формы
     $(document).on("ajaxComplete", function (event, xhr, settings) {
         if (xhr.status === 200 && settings.type === 'POST') {
             var status = xhr.responseJSON;
             var statusElement = $('#store-status');
-            var statusText = status === '@( ((int)StoreStatus.Open ).ToString())' ? 'В работе' : 'Закрыто';
-            var badgeClass = status === '@( ((int)StoreStatus.Open ).ToString())' ? 'success' : 'danger';
+            var statusText = status === '@(((int)StoreStatus.Open).ToString())' ? 'В работе' : 'Закрыто';
+            var badgeClass = status === '@(((int)StoreStatus.Open).ToString())' ? 'success' : 'danger';
 
             statusElement.text(statusText);
             statusElement.removeClass().addClass('badge badge-' + badgeClass);
+
+            // Отображаем сообщение об успехе
+           showSuccessMessage();
         } else if (xhr.status === 400 && settings.type === 'POST') {
-            var statusElement = $('#status-area');
-            statusElement.innerHTML = ( xhr.responseJSON.message );
+            var errorMessage = xhr.responseText; // Get the text response
+
+            // Отображаем сообщение об ошибке
+            showErrorMessage(errorMessage);
         }
-    });
+    })
 </script>
+
+<style>
+    .container {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .store-info {
+        text-align: left;
+    }
+
+    .form-label {
+        font-weight: bold;
+    }
+
+    .btn-primary {
+        background-color: #FFC300; /* Основной цвет шавермы */
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+    }
+
+    .btn-primary:hover {
+        background-color: #E6A700; /* Более темный оттенок желтого */
+    }
+
+    .btn-secondary {
+        background-color: #f0f0f0; /* Серый для неактивной кнопки */
+        border: none;
+        border-radius: 5px;
+        color: #333;
+    }
+
+    .btn-secondary:hover {
+        background-color: #ddd;
+    }
+
+    .btn-success {
+        background-color: #4CAF50; /* Зеленый цвет для кнопки "Обновить" */
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+    }
+
+    .btn-success:hover {
+        background-color: #45a049;
+    }
+
+    .shawarma-smiley {
+        font-size: 100px;
+        color: #ffb61e;
+        margin-bottom: 10px;
+    }
+
+    .mt-4 {
+        margin-top: 2rem;
+    }
+
+    #success-message,
+    #error-message {
+        position: fixed;
+        top: 20px; /* Adjust vertical position */
+        right: 20px; /*  Move to right corner */
+        transform: translate(0, 0); /* Reset transform for positioning */
+        z-index: 100;
+        width: 300px;
+        padding: 15px;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Текстура, как у кнопок */
+        background-color: #fff; /* Белый фон */
+        color: #333; /* Черный текст */
+    }
+
+    #error-details {
+        margin-top: 10px;
+    }
+
+    .btn-group {
+        margin-top: 20px; /* Расстояние от верха контейнера */
+    }
+
+    .btn-group .col-md-4 {
+        padding: 0 10px; /* Отступ между кнопками */
+    }
+
+    .btn-success {
+        padding: 5px 10px; /* Уменьшенный размер */
+    }
+
+    .btn-success i {
+        font-size: 1.2rem; /* Увеличенный размер смайлика */
+    }
+</style>

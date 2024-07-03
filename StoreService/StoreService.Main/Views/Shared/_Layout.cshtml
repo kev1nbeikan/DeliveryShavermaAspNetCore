@@ -15,11 +15,14 @@
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container-fluid">
-            <a class="navbar-brand" asp-area="" asp-controller="StoreView" asp-action="Index">Предприятие</a>
+            <a class="navbar-brand" asp-area="" asp-controller="StoreView" asp-action="Index">🥙Предприятие</a>
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="StoreView" asp-action="StoreProductsInventory">Инвентаризация</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="StoreView" asp-action="info">Магазин</a>
                     </li>
                 </ul>
             </div>
@@ -36,6 +39,9 @@
         &copy; 2024 - Шаверма - <a asp-area="" asp-controller="User" asp-action="Privacy">Privacy</a>
     </div>
 </footer>
+@await Html.PartialAsync("_InfoMassgesPartial");
+
+
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/acceptWindow.js" asp-append-version="true"></script>
@@ -44,6 +50,7 @@
 <script src="~/js/currentOrder.js" asp-append-version="true"></script>
 <script src="~/js/lastOrder.js" asp-append-version="true"></script>
 <script src="~/js/cancelOrder.js" asp-append-version="true"></script>
+<script src="~/js/showMassage.js" asp-append-version="true"></script>
 @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

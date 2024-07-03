@@ -43,11 +43,13 @@ public class StoreApiController : ControllerBase
         }
     }
 
-    public async Task<IActionResult> UpdateAddress(UpdateStoreRequest request)
+    public async Task<IActionResult> Update(UpdateStoreRequest request)
     {
         try
         {
-            if (await _storeService.UpdateStore(User.UserId(), request.Address)) return Ok();
+            if (await _storeService.UpdateStore(
+                    User.UserId(), 
+                    request.Address)) return Ok();
             return BadRequest("Адресс не был обновлен");
         }
         catch (ArgumentException e)
