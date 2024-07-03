@@ -1,5 +1,7 @@
 using BarsGroupProjectN1.Core.Contracts.Orders;
 using BarsGroupProjectN1.Core.Exceptions;
+using BarsGroupProjectN1.Core.Models;
+using BarsGroupProjectN1.Core.Models.Order;
 using Handler.Core;
 using Handler.Core.Abstractions.Repositories;
 using Handler.Core.Abstractions.Services;

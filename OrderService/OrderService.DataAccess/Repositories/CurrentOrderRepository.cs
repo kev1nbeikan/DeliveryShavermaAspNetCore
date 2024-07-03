@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using System.Text.Json;
+using BarsGroupProjectN1.Core.Models.Order;
 using Microsoft.EntityFrameworkCore;
 using OrderService.DataAccess.Entities;
 using OrderService.Domain.Abstractions;
@@ -94,13 +95,13 @@ public class CurrentOrderRepository(OrderServiceDbContext context) : ICurrentOrd
     {
         var condition = BaseOrderRepository.GetCondition<CurrentOrderEntity>(role, sourceId);
 
-        var order = await context.CurrentOrders
+        var orderEntity = await context.CurrentOrders
             .Where(condition)
             .FirstOrDefaultAsync(b => b.Id == id) ?? throw new KeyNotFoundException();
 
-        ValidateStatus(status, order);
-        
-        order.Status = (int)status;
+        ValidateStatus(status, orderEntity);
+
+        orderEntity.Status = (int)status;
 
         await context.SaveChangesAsync();
     }
@@ -165,14 +166,20 @@ public class CurrentOrderRepository(OrderServiceDbContext context) : ICurrentOrd
         await context.CurrentOrders.AddAsync(orderEntity);
         await context.SaveChangesAsync();
     }
-    
+
     private void ValidateStatus(StatusCode status, CurrentOrderEntity order)
     {
         if (!Enum.IsDefined(typeof(StatusCode), status))
-            throw new ArgumentException($"Invalid status value. Current status: {(StatusCode)order.Status}, new status: {status}", nameof(status));
+            throw new ArgumentException(
+                $"Invalid status value. Current status: {(StatusCode)order.Status}, new status: {status}",
+                nameof(status));
         if ((int)status <= order.Status)
-            throw new ArgumentException($"New status cannot be less than or equal to the current status. Current status: {(StatusCode)order.Status}, new status: {status}", nameof(status));
+            throw new ArgumentException(
+                $"New status cannot be less than or equal to the current status. Current status: {(StatusCode)order.Status}, new status: {status}",
+                nameof(status));
         if ((int)status - 1 != order.Status)
-            throw new ArgumentException($"New status skips previous states. Current status: {(StatusCode)order.Status}, new status: {status}", nameof(status));
+            throw new ArgumentException(
+                $"New status skips previous states. Current status: {(StatusCode)order.Status}, new status: {status}",
+                nameof(status));
     }
 }

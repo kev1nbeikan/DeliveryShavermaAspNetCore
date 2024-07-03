@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OrderService.Api.Contracts.Common;
 using OrderService.Api.Contracts.Courier;
-using OrderService.Api.Extensions;
 using OrderService.Domain.Abstractions;
 using OrderService.Domain.Common.Code;
 
@@ -49,7 +48,7 @@ public class CourierController(IOrderApplicationService orderApplicationService)
         var userId = User.UserId();
         var role = (RoleCode)Enum.Parse(typeof(RoleCode), User.Role());
         
-        await _orderApplicationService.ChangeStatusActive(role, Domain.Common.Code.StatusCode.Delivering, userId, orderId);
+        await _orderApplicationService.ChangeStatusActive(role,  Core.StatusCode.Delivering, userId, orderId);
         return Ok();
     }
 
@@ -59,7 +58,7 @@ public class CourierController(IOrderApplicationService orderApplicationService)
         var userId = User.UserId();
         var role = (RoleCode)Enum.Parse(typeof(RoleCode), User.Role());
         
-        await _orderApplicationService.ChangeStatusActive(role, Domain.Common.Code.StatusCode.WaitingClient, userId, orderId);
+        await _orderApplicationService.ChangeStatusActive(role, Core.StatusCode.WaitingClient, userId, orderId);
         return Ok();
     }
     

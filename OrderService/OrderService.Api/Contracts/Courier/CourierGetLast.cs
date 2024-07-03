@@ -1,4 +1,5 @@
 ﻿
+using BarsGroupProjectN1.Core.Models.Order;
 using OrderService.Domain.Common;
 
 namespace OrderService.Api.Contracts.Courier;

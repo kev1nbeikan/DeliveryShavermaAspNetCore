@@ -1,4 +1,5 @@
-﻿using OrderService.Domain.Common;
+﻿using BarsGroupProjectN1.Core.Models.Order;
+using OrderService.Domain.Common;
 
 namespace OrderService.Domain.Models;
 

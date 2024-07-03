@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Core = BarsGroupProjectN1.Core.Models.Order;
 using OrderService.Api.Contracts.Order;
-using OrderService.Api.Extensions;
 using OrderService.Domain.Abstractions;
 using OrderService.Domain.Common.Code;
 using OrderService.Domain.Models;
@@ -60,7 +60,7 @@ public class OrderController(IOrderApplicationService orderApplicationService) :
             null,
             null,
             request.Cheque,
-            Domain.Common.Code.StatusCode.Cooking);
+            Core.StatusCode.Cooking);
 
         if (!string.IsNullOrEmpty(errorString))
         {

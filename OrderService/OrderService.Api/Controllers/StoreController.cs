@@ -4,6 +4,7 @@ using OrderService.Api.Contracts.Store;
 using OrderService.Api.Extensions;
 using OrderService.Domain.Abstractions;
 using OrderService.Domain.Common.Code;
+using Core = BarsGroupProjectN1.Core.Models.Order;
 
 namespace OrderService.Api.Controllers;
 
@@ -20,7 +21,7 @@ public class StoreController(IOrderApplicationService orderApplicationService) :
         var role = (RoleCode)Enum.Parse(typeof(RoleCode), User.Role());
 
         var orders = (await _orderApplicationService.GetStoreCurrentOrders(role, userId))
-            .Where(x => x.Status <= Domain.Common.Code.StatusCode.WaitingCourier).ToList();
+            .Where(x => x.Status <= Core.StatusCode.WaitingCourier).ToList();
 
         if (orders.Count == 0)
             return NoContent();
@@ -46,24 +47,24 @@ public class StoreController(IOrderApplicationService orderApplicationService) :
         return Ok(response);
     }
 
-    [HttpGet("canceled")]
-    public async Task<ActionResult<List<StoreGetCanceled>>> GetCanceled()
-    {
-        var userId = User.UserId();
-        var role = (RoleCode)Enum.Parse(typeof(RoleCode), User.Role());
-
-        // _logger.LogInformation(
-        //     "Request for a list of CANCELED orders. User id = {userId}, role = {role}",
-        //     userId, role);
-
-        var orders = await _orderApplicationService.GetCanceledOrders(role, userId);
-        if (orders.Count == 0)
-            return NoContent();
-        var response = orders.Select(b =>
-            new StoreGetCanceled(b.Id, b.Basket, b.Comment, b.OrderDate, b.CanceledDate,
-                b.LastStatus, b.ReasonOfCanceled, b.WhoCanceled));
-        return Ok(response);
-    }
+    // [HttpGet("canceled")]
+    // public async Task<ActionResult<List<StoreGetCanceled>>> GetCanceled()
+    // {
+    //     var userId = User.UserId();
+    //     var role = (RoleCode)Enum.Parse(typeof(RoleCode), User.Role());
+    //
+    //     // _logger.LogInformation(
+    //     //     "Request for a list of CANCELED orders. User id = {userId}, role = {role}",
+    //     //     userId, role);
+    //
+    //     var orders = await _orderApplicationService.GetCanceledOrders(role, userId);
+    //     if (orders.Count == 0)
+    //         return NoContent();
+    //     var response = orders.Select(b =>
+    //         new StoreGetCanceled(b.Id, b.Basket, b.Comment, b.OrderDate, b.CanceledDate,
+    //             b.LastStatus, b.ReasonOfCanceled, b.WhoCanceled));
+    //     return Ok(response);
+    // }
 
     [HttpGet("getNewOrders/{lastOrderDate:Datetime}")]
     public async Task<ActionResult<List<StoreGetCurrent>>> GetNewOrderByDate(DateTime lastOrderDate)
@@ -86,7 +87,7 @@ public class StoreController(IOrderApplicationService orderApplicationService) :
         var userId = User.UserId();
         var role = (RoleCode)Enum.Parse(typeof(RoleCode), User.Role());
 
-        await _orderApplicationService.ChangeStatusActive(role, Domain.Common.Code.StatusCode.WaitingCourier, userId,
+        await _orderApplicationService.ChangeStatusActive(role, Core.StatusCode.WaitingCourier, userId,
             orderId);
         return Ok();
     }

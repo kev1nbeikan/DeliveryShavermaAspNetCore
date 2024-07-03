@@ -1,4 +1,4 @@
-﻿namespace OrderService.Domain.Common.Code;
+namespace BarsGroupProjectN1.Core.Models.Order;
 
 public enum StatusCode
 {

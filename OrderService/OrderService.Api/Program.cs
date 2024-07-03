@@ -46,6 +46,7 @@ builder.Services.AddScoped<IOrderApplicationService, OrderApplicationService>();
 builder.Services.AddScoped<ICurrentOrderRepository, CurrentOrderRepository>();
 builder.Services.AddScoped<ICanceledOrderRepository, CanceledOrderRepository>();
 builder.Services.AddScoped<ILastOrderRepository, LastOrderRepository>();
+builder.Services.AddScoped<IOrderPublisher, OrderPublisher>();
 
 var app = builder.Build();
 

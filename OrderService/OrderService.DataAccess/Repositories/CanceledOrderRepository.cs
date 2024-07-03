@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using BarsGroupProjectN1.Core.Models.Order;
 using Microsoft.EntityFrameworkCore;
 using OrderService.DataAccess.Entities;
 using OrderService.Domain.Abstractions;
