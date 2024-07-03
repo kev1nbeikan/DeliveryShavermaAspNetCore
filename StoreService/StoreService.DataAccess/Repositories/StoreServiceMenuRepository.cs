@@ -17,7 +17,7 @@ public class StoreServiceMenuRepository(IHttpClientFactory httpClientFactory, IO
 
         try
         {
-            var response = await _httpClient.GetAsync(path);
+            var response = await HttpClient.GetAsync(path);
             if (!response.IsSuccessStatusCode) ExecuteException(path);
 
             return await response.Content.ReadFromJsonAsync<List<Product>>() ?? [];
@@ -32,7 +32,7 @@ public class StoreServiceMenuRepository(IHttpClientFactory httpClientFactory, IO
     private void ExecuteException(string path, string message = "")
     {
         throw new RemoteServiceException("MenuService",
-            _httpClient.BaseAddress + path,
+            HttpClient.BaseAddress + path,
             "Обратитесь к администратору для получения подробностей", message);
     }
 }

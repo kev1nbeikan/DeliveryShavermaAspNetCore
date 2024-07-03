@@ -20,7 +20,7 @@ public class OrderRepository : RepositoryHttpClientBase, IOrderRepository
 
     public async Task<string?> Save(OrderCreateRequest order)
     {
-        HttpResponseMessage response = await _httpClient.PostAsJsonAsync("orders", order);
+        HttpResponseMessage response = await HttpClient.PostAsJsonAsync("orders", order);
 
         if (!response.IsSuccessStatusCode)
         {

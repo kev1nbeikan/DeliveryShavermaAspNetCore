@@ -18,7 +18,7 @@ public class UserRepository : RepositoryHttpClientBase, IUserRepository
 
     public async Task<MyUser?> Get(Guid userId)
     {
-        HttpResponseMessage response = await _httpClient.GetAsync($"/user/{userId}");
+        HttpResponseMessage response = await HttpClient.GetAsync($"/user/{userId}");
 
         Console.WriteLine(await response.Content.ReadAsStringAsync());
 
@@ -30,11 +30,6 @@ public class UserRepository : RepositoryHttpClientBase, IUserRepository
         return null;
     }
 
-    public async Task<string?> Save(MyUser user)
-    {
-        throw new NotImplementedException();
-    }
-
     public async Task<string?> Upsert(UpsertFields fields)
     {
         var httpRequest = new HttpRequestMessage()
@@ -44,7 +39,7 @@ public class UserRepository : RepositoryHttpClientBase, IUserRepository
             RequestUri = new Uri("/user/upsert", UriKind.Relative),
         };
 
-        HttpResponseMessage response = await _httpClient.SendAsync(httpRequest);
+        HttpResponseMessage response = await HttpClient.SendAsync(httpRequest);
         var content = await response.Content.ReadAsStringAsync();
 
         return string.IsNullOrEmpty(content)

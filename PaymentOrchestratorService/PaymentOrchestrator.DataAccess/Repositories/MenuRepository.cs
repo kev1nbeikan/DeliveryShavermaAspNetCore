@@ -23,7 +23,7 @@ public class MenuRepository : RepositoryHttpClientBase, IMenuRepository
             Path = "api/product/getproductsbyid"
         }.Uri.PathAndQuery;
 
-        HttpResponseMessage response = await _httpClient.GetAsync(requestUri);
+        HttpResponseMessage response = await HttpClient.GetAsync(requestUri);
 
         if (!response.IsSuccessStatusCode) return ([], "Невозможно получить список продуктов");
 

@@ -31,7 +31,7 @@ public class StoreRepository : RepositoryHttpClientBase, IStoreRepository
                 RequestUri = new Uri("store/api/v1.0/get-cooking-info", UriKind.Relative)
             };
 
-            var response = await _httpClient.SendAsync(request);
+            var response = await HttpClient.SendAsync(request);
 
             Console.WriteLine(await response.Content.ReadAsStringAsync());
 
