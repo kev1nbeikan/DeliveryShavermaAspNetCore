@@ -72,7 +72,6 @@ public class StoreViewController : Controller
         }
     }
 
-    [HttpGet("current")]
     public IActionResult CurrentOrder()
     {
         var userId = User.UserId();
@@ -80,7 +79,6 @@ public class StoreViewController : Controller
         return View("CurrentOrder");
     }
 
-    [HttpGet("last")]
     public IActionResult LastOrder()
     {
         var userId = User.UserId();
@@ -88,7 +86,6 @@ public class StoreViewController : Controller
         return View("LastOrder");
     }
 
-    [HttpGet("cancel")]
     public IActionResult CanceledOrder()
     {
         var userId = User.UserId();

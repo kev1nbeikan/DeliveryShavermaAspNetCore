@@ -31,8 +31,6 @@ public class StoreController : Controller
     {
         return View();
     }
-    
-    
 
 
     [HttpPost("login")]
@@ -55,7 +53,8 @@ public class StoreController : Controller
                 cookiesSaver.Append(nameof(response.Role), response.Role.Value.ToIntString());
             }
 
-            return Ok(response);
+
+            return Redirect(_serviceOptions.Value.StoreUrl);
         }
         catch (Exception e) when (
             e is NotFoundException ||
@@ -65,13 +64,13 @@ public class StoreController : Controller
             return BadRequest(e.Message);
         }
     }
-    
+
     [HttpGet("register")]
     public IActionResult Register()
     {
         return View();
     }
-    
+
     [HttpPost("register")]
     public async Task<IActionResult> Register(AuthStaffRequest request)
     {
