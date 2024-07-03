@@ -43,6 +43,21 @@ public class StoreApiController : ControllerBase
         }
     }
 
+    [HttpPut("storeId")]
+    public async Task<IActionResult> UpdateAddress(Guid storeId, [FromQuery] string address)
+    {
+        try
+        {
+            if (await _storeService.UpdateStoreAddress(storeId, address)) return Ok();
+            return BadRequest("Адресс не был обновлен");
+        }
+        catch (ArgumentException e)
+        {
+            _logger.LogError(e, e.Message);
+            return BadRequest(e.Message);
+        }
+    }
+
 
     [HttpGet("get-cooking-info")]
     public async Task<IActionResult> GetCookingInfo(GetCookingTimeRequest request)

@@ -32,7 +32,8 @@ public static class EntitiesExtensions
         {
             Id = storeEntity.Id,
             Status = storeEntity.Status,
-            ActiveOrdersCount = storeEntity.ActiveOrdersCount
+            ActiveOrdersCount = storeEntity.ActiveOrdersCount,
+            Address = storeEntity.Address
         };
     }
 
@@ -42,7 +43,8 @@ public static class EntitiesExtensions
         {
             Id = store.Id,
             Status = store.Status,
-            ActiveOrdersCount = store.ActiveOrdersCount
+            ActiveOrdersCount = store.ActiveOrdersCount,
+            Address = store.Address
         };
     }
 }

@@ -38,6 +38,23 @@ public class StoreViewController : Controller
         }
     }
 
+    public async Task<IActionResult> StoreInfo()
+    {
+        try
+        {
+            var store = await _storeService.GetOrAddNewStore(User.UserId());
+            return View(new StoreInfoViewModel
+            {
+                Store = store
+            });
+        }
+        catch (ArgumentException e)
+        {
+            _logger.LogError(e, e.Message);
+            return BadRequest(e.Message);
+        }
+    }
+
 
     public async Task<IActionResult> StoreProductsInventory()
     {
@@ -54,28 +71,28 @@ public class StoreViewController : Controller
             return BadRequest(e.Message);
         }
     }
-    
+
     [HttpGet("current")]
     public IActionResult CurrentOrder()
     {
         var userId = User.UserId();
         _logger.LogInformation("User {UserId} requested order", userId);
-        return View("CurrentOrder"); 
+        return View("CurrentOrder");
     }
-    
+
     [HttpGet("last")]
     public IActionResult LastOrder()
     {
         var userId = User.UserId();
         _logger.LogInformation("User {UserId} requested order", userId);
-        return View("LastOrder"); 
+        return View("LastOrder");
     }
-    
+
     [HttpGet("cancel")]
     public IActionResult CanceledOrder()
     {
         var userId = User.UserId();
         _logger.LogInformation("User {UserId} requested order", userId);
-        return View("CancelOrder"); 
+        return View("CancelOrder");
     }
 }

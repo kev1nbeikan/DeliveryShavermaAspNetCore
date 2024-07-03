@@ -30,7 +30,7 @@ public class StoreService : IStoreService
 
         if (store is null) throw new StoreNotFoundException(clientAddress);
 
-        await EnsureValidStoreAndProducts(store.Id, products);
+        await EnsureValidStoreAndProductsToMakeOrder(store.Id, products);
 
         return new OrderTaskExecution<Store>
         {
@@ -69,36 +69,56 @@ public class StoreService : IStoreService
         return store;
     }
 
-    public async Task UpdateStatus(Guid storeId, StoreStatus status)
+    public async Task<bool> UpdateStoreAddress(Guid storeId, string address)
     {
         var store = await _storeRepository.Get(storeId);
         if (store is null) throw new StoreNotFoundException(storeId);
+
+        store.Address = address;
+        store.EnsureIsValidToOpen();
+
+        return await _storeRepository.Update(store);
+    }
+
+    public async Task UpdateStatus(Guid storeId, StoreStatus status)
+    {
+        var store = await _storeRepository.Get(storeId);
+
+        EnsureValidStoreToOpen(storeId, store);
 
         var storeUpdated = Store.Create(storeId, status);
         await _storeRepository.Update(storeUpdated);
     }
 
+
     public async Task IncreaseActiveOrdersCount(Guid storeId, int increase = 1)
     {
         var store = await _storeRepository.Get(storeId);
         if (store is null) throw new StoreNotFoundException(storeId);
-        
+
         store.ActiveOrdersCount += increase;
-        
-        store.EnsureIsValid();
-        
+
+        store.EnsureIsValidToOpen();
+
         await _storeRepository.Update(store);
     }
 
-    private async Task EnsureValidStoreAndProducts(Guid storeId, List<ProductsInventory> products)
+    private async Task EnsureValidStoreAndProductsToMakeOrder(Guid storeId, List<ProductsInventory> products)
     {
         var store = await _storeRepository.Get(storeId);
-        if (store is null) throw new StoreNotFoundException(storeId);
 
-        if (store.Status != StoreStatus.Open)
+        EnsureValidStoreToOpen(storeId, store);
+
+        if (store!.Status != StoreStatus.Open)
             throw new StoreClosedException(storeId);
 
         if (!await _storeProductsService.CheckProductsCount(storeId, products))
             throw new UnavailableProductsException(products);
+    }
+
+    private static void EnsureValidStoreToOpen(Guid storeId, Store? store)
+    {
+        if (store is null) throw new StoreNotFoundException(storeId);
+        store.EnsureIsValidToOpen();
     }
 }

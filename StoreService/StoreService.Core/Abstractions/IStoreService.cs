@@ -19,7 +19,17 @@ public interface IStoreService
     Task<OrderTaskExecution<Store>> GetCookingInfo(string storeId, List<ProductsInventory> products);
 
     Task<StoreStatus> GetStatus(Guid storeId);
+
+    /// <summary>
+    /// Получает существующий магазин по идентификатору или добавляет новый закрытый магазин без адреса.
+    /// </summary>
+    /// <param name="storeId">Идентификатор магазина.</param>
+    /// <returns>Магазин, который был получен или добавлен.</returns>
+    /// <exception cref="ArgumentException">Бросается, если идентификатор магазина недопустим.</exception>
     Task<Store> GetOrAddNewStore(Guid storeId);
+
+    Task<bool> UpdateStoreAddress(Guid storeId, string address);
+
     Task UpdateStatus(Guid storeId, StoreStatus status);
 
     Task IncreaseActiveOrdersCount(Guid storeId, int increase = 1);
