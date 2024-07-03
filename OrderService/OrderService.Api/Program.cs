@@ -42,6 +42,9 @@ builder.Services.AddDbContext<OrderServiceDbContext>(
             .GetConnectionString(nameof(OrderServiceDbContext)));
     });
 
+
+builder.Services.ConfigureKafkaOptions(builder.Configuration);
+
 builder.Services.AddScoped<IOrderApplicationService, OrderApplicationService>();
 builder.Services.AddScoped<ICurrentOrderRepository, CurrentOrderRepository>();
 builder.Services.AddScoped<ICanceledOrderRepository, CanceledOrderRepository>();
