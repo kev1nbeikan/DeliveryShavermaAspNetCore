@@ -28,7 +28,8 @@ public interface IStoreService
     /// <exception cref="ArgumentException">Бросается, если идентификатор магазина недопустим.</exception>
     Task<Store> GetOrAddNewStore(Guid storeId);
 
-    Task<bool> UpdateStoreAddress(Guid storeId, string address);
+    Task<bool> UpdateStore(Guid storeId,
+        string address);
 
     Task UpdateStatus(Guid storeId, StoreStatus status);
 

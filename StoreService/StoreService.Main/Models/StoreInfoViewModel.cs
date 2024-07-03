@@ -1,6 +1,6 @@
 using BarsGroupProjectN1.Core.Models.Store;
 
-namespace StoreService.Main.Controllers;
+namespace StoreService.Main.Models;
 
 public class StoreInfoViewModel
 {

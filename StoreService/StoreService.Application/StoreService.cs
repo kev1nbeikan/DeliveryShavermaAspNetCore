@@ -69,7 +69,7 @@ public class StoreService : IStoreService
         return store;
     }
 
-    public async Task<bool> UpdateStoreAddress(Guid storeId, string address)
+    public async Task<bool> UpdateStore(Guid storeId, string address)
     {
         var store = await _storeRepository.Get(storeId);
         if (store is null) throw new StoreNotFoundException(storeId);
