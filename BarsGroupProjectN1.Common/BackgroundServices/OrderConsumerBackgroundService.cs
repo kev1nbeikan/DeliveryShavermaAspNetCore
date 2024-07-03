@@ -14,10 +14,9 @@ public abstract class OrderConsumerBackgroundService : KafkaConsumerService
     {
     }
 
-
-    protected override string Topic()
+    protected override void OnConfigure(ConsumerOptions consumerOptions)
     {
-        return "Orders";
+        consumerOptions.Topics = ["Orders", "OrdersUpdate"];
     }
 
     protected override async Task ProcessMessageAsync(string message)
@@ -32,20 +31,33 @@ public abstract class OrderConsumerBackgroundService : KafkaConsumerService
         {
             Logger.LogError(e.Message, e);
         }
+
         return;
     }
 
-    protected virtual Task ProcessOrder(OrderCreateRequest? order)
+    private void ProcessByTopic(string topic, string message)
+        =>
+            topic switch
+            {
+                "Orders" => ExecuteProcessingOfOrder(message),
+                "OrdersUpdate" => ExecuteProcessingOfOrderUpdate(message),
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
+
+    private void ExecuteProcessingOfOrderUpdate(string message)
     {
-        if (order == null)
-        {
-            Logger.LogInformation("Order is null");
-        }
-        else
-        {
-            Logger.LogInformation("Get order {order}", order);
-        }
-        
+        throw new NotImplementedException();
+    }
+
+    private void ExecuteProcessingOfOrder(string message)
+    {
+        throw new NotImplementedException();
+    }
+
+    protected virtual Task ProcessOrder(OrderCreateRequest order)
+    {
+        Logger.LogInformation("Get order {order}", order);
         return Task.CompletedTask;
     }
 }

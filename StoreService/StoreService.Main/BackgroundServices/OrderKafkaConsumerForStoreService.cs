@@ -6,35 +6,32 @@ namespace StoreService.Main.BackgroundServices;
 
 public class OrderKafkaConsumerForStoreService : OrderConsumerBackgroundService
 {
-    private readonly IServiceScopeFactory _scopeFactory;
     private readonly IStoreService _storeService;
 
     public OrderKafkaConsumerForStoreService(ILogger<OrderKafkaConsumerForStoreService> logger,
         IConfiguration configuration, IServiceScopeFactory scopeFactory) : base(logger, configuration)
     {
-        _scopeFactory = scopeFactory;
-        _storeService = _scopeFactory.CreateScope().ServiceProvider.GetRequiredService<IStoreService>();
+        _storeService = scopeFactory.CreateScope().ServiceProvider.GetRequiredService<IStoreService>();
     }
 
-    protected override string GroupId()
+    protected override void OnConfigure(ConsumerOptions consumerOptions)
     {
-        return "Store";
+        consumerOptions.GroupId = "Store";
+        base.OnConfigure(consumerOptions);
     }
 
-    protected override async Task ProcessOrder(OrderCreateRequest? order)
+
+    protected override async Task ProcessOrder(OrderCreateRequest order)
     {
-        if (order != null)
+        try
         {
-            try
-            {
-                await _storeService.IncreaseActiveOrdersCount(order.StoreId);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+            await _storeService.IncreaseActiveOrdersCount(order.StoreId);
         }
+        catch (Exception e)
+        {
+            Logger.LogError(e, e.Message);
+        }
+
 
         await base.ProcessOrder(order);
     }

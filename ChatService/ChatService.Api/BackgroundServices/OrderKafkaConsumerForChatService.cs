@@ -10,15 +10,14 @@ public class OrderKafkaConsumerForChatService : OrderConsumerBackgroundService
     {
     }
 
-    protected override string GroupId()
+    protected override void OnConfigure(ConsumerOptions consumerOptions)
     {
-        return "Chat";
+        consumerOptions.GroupId = "Chat";
+        base.OnConfigure(consumerOptions);
     }
 
-    protected override Task ProcessOrder(OrderCreateRequest? order)
+    protected override Task ProcessOrder(OrderCreateRequest order)
     {
-        
-        
         base.ProcessOrder(order);
         return Task.CompletedTask;
     }
