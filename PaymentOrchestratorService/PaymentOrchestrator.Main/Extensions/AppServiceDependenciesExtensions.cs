@@ -35,7 +35,6 @@ public static class AppServiceDependenciesExtensions
     {
         serviceProvider.AddSingleton<IOrderService, OrderService>();
         serviceProvider.AddSingleton<IOrderRepository, OrderRepository>();
-        serviceProvider.AddSingleton<IOrderPublisher, OrderPublisher>();
         serviceProvider.AddHttpClient<OrderRepository>();
     }
 

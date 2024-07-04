@@ -47,18 +47,18 @@ public abstract class KafkaConsumerService : BackgroundService
         ArgumentNullException.ThrowIfNull(kafkaOptions.BootstrapServers, "BootstrapServers not found");
         ArgumentNullException.ThrowIfNull(kafkaOptions.GroupId);
     }
-
-    protected virtual KafkaOptions? GetKafkaOptions()
-    {
-        return _configuration.GetSection("KafkaOptions").Get<KafkaOptions>();
-    }
-
+    
     protected abstract void OnConfigure(ConsumerOptions consumerOptions);
 
     private void SetConsumer()
     {
         _consumer = new ConsumerBuilder<Null, string>(_consumerConfig).Build();
         _consumer.Subscribe(Options.Topics);
+    }
+    
+    protected virtual async Task ProcessMessageAsync(string message)
+    {
+        Logger.LogInformation($"Processing message: {message}");
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -94,16 +94,18 @@ public abstract class KafkaConsumerService : BackgroundService
         }
     }
 
-    protected virtual async Task ProcessMessageAsync(string message)
-    {
-        Logger.LogInformation($"Processing message: {message}");
-    }
+    
 
     private void EnsureConsumerOptionsValid()
     {
         ArgumentNullException.ThrowIfNull(Options);
         ArgumentNullException.ThrowIfNull(Options.GroupId);
         ArgumentNullException.ThrowIfNull(Options.Topics);
+    }
+    
+    protected virtual KafkaOptions? GetKafkaOptions()
+    {
+        return _configuration.GetSection("KafkaOptions").Get<KafkaOptions>();
     }
 
     public virtual string DocString()

@@ -31,12 +31,7 @@ public abstract class OrderConsumerBackgroundService : KafkaConsumerService
 
     protected override async Task ProcessMessageAsync(string message)
     {
-        await ProcessByTopic(Context.Topic, message);
-    }
-
-    private async Task ProcessByTopic(string topic, string message)
-    {
-        switch (topic)
+        switch (Context.Topic)
         {
             case Topics.OrderCreateTopic:
                 await ExecuteProcessingOfOrderCreate(message);
@@ -47,7 +42,6 @@ public abstract class OrderConsumerBackgroundService : KafkaConsumerService
                 break;
         }
     }
-
 
     private async Task ExecuteProcessingOfOrderUpdate(string message)
     {

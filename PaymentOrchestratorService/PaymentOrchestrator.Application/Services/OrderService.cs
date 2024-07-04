@@ -16,12 +16,11 @@ namespace HandlerService.Application.Services;
 public class OrderService : IOrderService
 {
     private IOrderRepository _orderRepository;
-    private IOrderPublisher _orderPublisher;
 
-    public OrderService(IOrderRepository orderRepository, IOrderPublisher orderPublisher)
+
+    public OrderService(IOrderRepository orderRepository)
     {
         _orderRepository = orderRepository;
-        _orderPublisher = orderPublisher;
     }
 
 
@@ -59,23 +58,7 @@ public class OrderService : IOrderService
 
         var error = await _orderRepository.Save(orderCreateRequest);
 
-        if (string.IsNullOrEmpty(error))
-            error = await PublishOrderKafka(orderCreateRequest);
-
+      
         return (orderCreateRequest, error);
-    }
-
-    private async Task<string?> PublishOrderKafka(OrderCreateRequest order)
-    {
-        try
-        {
-            await _orderPublisher.PublishOrderCreate(order);
-        }
-        catch (RepositoryException e)
-        {   
-            return e.Message;
-        }
-
-        return null;
     }
 }
