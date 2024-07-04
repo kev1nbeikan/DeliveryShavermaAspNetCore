@@ -141,7 +141,7 @@ public class CourierController : Controller
 	}
 
 	[HttpGet("getactivecourier")]
-	public async Task<OrderTaskExecution<Courier>> GetActiveCourier()
+	public async Task<IActionResult> GetActiveCourier()
 	{
 		var couriers = await _courierService.GetAllCouriers();
 
@@ -149,17 +149,15 @@ public class CourierController : Controller
 
 		if (activeCourier is null)
 		{
-			return new OrderTaskExecution<Courier>()
-			{
-				Executor = null,
-				Time = DateTime.Now.TimeOfDay
-			};
+			return NotFound("Courier not found");
 		}
 
-		return new OrderTaskExecution<Courier>()
-		{
-			Executor = activeCourier,
-			Time = DateTime.Now.TimeOfDay
-		};
+		return Ok(
+			new OrderTaskExecution<Courier>
+			{
+				Executor = activeCourier,
+				Time = DateTime.Now.TimeOfDay
+			}
+		);
 	}
 }
