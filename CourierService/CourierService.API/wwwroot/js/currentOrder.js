@@ -56,45 +56,81 @@ function displayCurrentOrders(order) {
     row.insertCell().textContent = order.deliveryTime;
     row.insertCell().textContent = order.cookingTime;
 
-    displayButtons(row, order);
+    displayButtons(order);
 }
 
-function displayButtons(row, order) {
-    const actionsCell = row.insertCell();
-    actionsCell.id = 'actionCell';
+function displayButtons(order) {
+
+    const mainDiv = document.querySelector('main');
+
+    const orderButton = document.createElement('div');
+    orderButton.id = 'order-button'; // Добавляем id для идентификации
 
     const chatButton = document.createElement('button');
-    chatButton.classList.add('btn', 'order-chat-button', 'action-button');
-    chatButton.textContent = 'Чат';
+    chatButton.id = "order-chat-button";
+    chatButton.classList.add('btn', 'action-button');
+    chatButton.textContent = 'Чат с клиентом';
     chatButton.onclick = () => openConformationWindowCancel(order.id);
-    actionsCell.appendChild(chatButton);
+    orderButton.appendChild(chatButton);
 
-    const acceptCell = row.insertCell();
-    acceptCell.id = 'acceptCell';
 
     const acceptButton = document.createElement('button');
-    acceptButton.classList.add('btn', 'order-accept-button', 'action-button');
+    acceptButton.id = "order-accept-button";
+    acceptButton.classList.add('btn', 'action-button');
     if (order.status === 1) {
-        acceptButton.textContent = 'Принят';
+        acceptButton.textContent = 'Заказ забран';
         acceptButton.onclick = () => openConformationWindowAccept(order.id, order.status);
     } else {
-        acceptButton.textContent = 'Доставлен';
+        acceptButton.textContent = 'Заказ доставлен';
         acceptButton.onclick = () => openConformationWindowAccept(order.id, order.status);
     }
     acceptButton.disabled = order.status === 0;
-    acceptCell.appendChild(acceptButton);
+    acceptButton.onclick = () => openConformationWindowCancel(order.id);
+    orderButton.appendChild(acceptButton);
 
-
-    const cancelCell = row.insertCell();
-    cancelCell.id = 'cancelCell';
 
     const cancelButton = document.createElement('button');
-    cancelButton.classList.add('btn', 'close-button');
-    const closeIcon = document.createElement('span');
-    closeIcon.classList.add('close-icon');
-    cancelButton.appendChild(closeIcon);
+    cancelButton.id = "order-cancel-button";
+    cancelButton.classList.add('btn', 'action-button');
+    cancelButton.textContent = 'Отменить заказ';
     cancelButton.onclick = () => openConformationWindowCancel(order.id);
-    cancelCell.appendChild(cancelButton);
+    orderButton.appendChild(cancelButton);
+
+    mainDiv.appendChild(orderButton);
+
+    //
+    // const chatButton = document.createElement('button');
+    // chatButton.classList.add('btn', 'order-chat-button', 'action-button');
+    // chatButton.textContent = 'Чат';
+    // chatButton.onclick = () => openConformationWindowCancel(order.id);
+    // actionsCell.appendChild(chatButton);
+    //
+    // const acceptCell = row.insertCell();
+    // acceptCell.id = 'acceptCell';
+    //
+    // const acceptButton = document.createElement('button');
+    // acceptButton.classList.add('btn', 'order-accept-button', 'action-button');
+    // if (order.status === 1) {
+    //     acceptButton.textContent = 'Принят';
+    //     acceptButton.onclick = () => openConformationWindowAccept(order.id, order.status);
+    // } else {
+    //     acceptButton.textContent = 'Доставлен';
+    //     acceptButton.onclick = () => openConformationWindowAccept(order.id, order.status);
+    // }
+    // acceptButton.disabled = order.status === 0;
+    // acceptCell.appendChild(acceptButton);
+    //
+    //
+    // const cancelCell = row.insertCell();
+    // cancelCell.id = 'cancelCell';
+    //
+    // const cancelButton = document.createElement('button');
+    // cancelButton.classList.add('btn', 'close-button');
+    // const closeIcon = document.createElement('span');
+    // closeIcon.classList.add('close-icon');
+    // cancelButton.appendChild(closeIcon);
+    // cancelButton.onclick = () => openConformationWindowCancel(order.id);
+    // cancelCell.appendChild(cancelButton);
 }
 
 async function checkOrderStatus() {
