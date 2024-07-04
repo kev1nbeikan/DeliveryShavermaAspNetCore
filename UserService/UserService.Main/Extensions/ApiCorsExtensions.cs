@@ -11,11 +11,11 @@ public static class ApiCorsExtensions
 
         services.UseCors(options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
-        // services.UseCors(
-        //     policyBuilder => policyBuilder
-        //         .AllowAnyHeader()
-        //         .WithOrigins(optionsServices.Value.MenuUrl, optionsServices.Value.UsersUrl)
-        //         .Build()
-        // );
+        services.UseCors(
+            policyBuilder => policyBuilder
+                .AllowAnyHeader()
+                .WithOrigins(optionsServices.Value.MenuUrl, optionsServices.Value.UsersUrl)
+                .Build()
+        );
     }
 }

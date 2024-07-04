@@ -1,7 +1,4 @@
-using BarsGroupProjectN1.Core.Contracts.Orders;
-using BarsGroupProjectN1.Core.Models.Order;
-
-namespace BarsGroupProjectN1.Core.Models;
+namespace BarsGroupProjectN1.Core.Models.Order;
 
 public class PublishOrder
 {

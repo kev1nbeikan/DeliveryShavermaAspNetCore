@@ -1,4 +1,6 @@
 using BarsGroupProjectN1.Core.Contracts;
+using BarsGroupProjectN1.Core.Models;
+using BarsGroupProjectN1.Core.Models.Order;
 using BarsGroupProjectN1.Core.Models.Payment;
 using BarsGroupProjectN1.Core.Models.Store;
 using StoreService.Core.Exceptions;
@@ -32,6 +34,7 @@ public interface IStoreService
         string address);
 
     Task UpdateStatus(Guid storeId, StoreStatus status);
-
-    Task IncreaseActiveOrdersCount(Guid storeId, int increase = 1);
+    Task AdjustActiveOrdersCount(Guid storeId, int adjustment = 1);
+    Task OnOrderCreate(PublishOrder order);
+    Task OnOrderUpdate(PublishOrder order);
 }

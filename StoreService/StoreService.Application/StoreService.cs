@@ -1,4 +1,6 @@
 using BarsGroupProjectN1.Core.Contracts;
+using BarsGroupProjectN1.Core.Models;
+using BarsGroupProjectN1.Core.Models.Order;
 using BarsGroupProjectN1.Core.Models.Payment;
 using BarsGroupProjectN1.Core.Models.Store;
 using StoreService.Core;
@@ -91,13 +93,22 @@ public class StoreService : IStoreService
         await _storeRepository.Update(store);
     }
 
+    public async Task OnOrderCreate(PublishOrder order)
+    {
+        await AdjustActiveOrdersCount(order.StoreId, adjustment: 1);
+    }
 
-    public async Task IncreaseActiveOrdersCount(Guid storeId, int increase = 1)
+    public async Task OnOrderUpdate(PublishOrder order)
+    {
+        await AdjustActiveOrdersCount(order.StoreId, adjustment: -1);
+    }
+
+    public async Task AdjustActiveOrdersCount(Guid storeId, int adjustment = 1)
     {
         var store = await _storeRepository.Get(storeId);
         if (store is null) throw new StoreNotFoundException(storeId);
 
-        store.ActiveOrdersCount += increase;
+        store.ActiveOrdersCount += adjustment;
 
         store.EnsureIsValidToOpen();
 

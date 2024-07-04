@@ -2,6 +2,8 @@ using System.Diagnostics;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using BarsGroupProjectN1.Core.Contracts.Orders;
+using BarsGroupProjectN1.Core.Models;
+using BarsGroupProjectN1.Core.Models.Order;
 using Confluent.Kafka;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -10,6 +12,13 @@ namespace BarsGroupProjectN1.Core.BackgroundServices;
 
 public abstract class OrderConsumerBackgroundService : KafkaConsumerService
 {
+    public static class Topics
+    {
+        public const string OrderCreateTopic = "OrdersCreated";
+        public const string OrderUpdateTopic = "OrdersCancelled";
+    }
+
+
     protected OrderConsumerBackgroundService(ILogger<KafkaConsumerService> logger, IConfiguration configuration) : base(
         logger, configuration)
     {
@@ -17,7 +26,7 @@ public abstract class OrderConsumerBackgroundService : KafkaConsumerService
 
     protected override void OnConfigure(ConsumerOptions consumerOptions)
     {
-        consumerOptions.Topics = ["Orders", "OrdersUpdate"];
+        consumerOptions.Topics = [Topics.OrderCreateTopic, Topics.OrderUpdateTopic];
     }
 
     protected override async Task ProcessMessageAsync(string message)
@@ -29,11 +38,11 @@ public abstract class OrderConsumerBackgroundService : KafkaConsumerService
     {
         switch (topic)
         {
-            case "Orders":
+            case Topics.OrderCreateTopic:
                 await ExecuteProcessingOfOrderCreate(message);
                 break;
 
-            case "OrdersUpdate":
+            case Topics.OrderUpdateTopic:
                 await ExecuteProcessingOfOrderUpdate(message);
                 break;
         }
@@ -44,9 +53,9 @@ public abstract class OrderConsumerBackgroundService : KafkaConsumerService
     {
         try
         {
-            var order = JsonSerializer.Deserialize<OrderCreateRequest>(message);
+            var order = JsonSerializer.Deserialize<PublishOrder>(message);
             if (order != null)
-                await ProcessOrderCreate(order);
+                await ProcessOrderUpdate(order);
         }
         catch (Exception e)
         {
@@ -58,7 +67,7 @@ public abstract class OrderConsumerBackgroundService : KafkaConsumerService
     {
         try
         {
-            var order = JsonSerializer.Deserialize<OrderCreateRequest>(message);
+            var order = JsonSerializer.Deserialize<PublishOrder>(message);
             if (order != null)
                 await ProcessOrderCreate(order);
         }
@@ -68,13 +77,13 @@ public abstract class OrderConsumerBackgroundService : KafkaConsumerService
         }
     }
 
-    protected virtual Task ProcessOrderCreate(OrderCreateRequest order)
+    protected virtual Task ProcessOrderCreate(PublishOrder order)
     {
         Logger.LogInformation("Get orderCreate {order}", order);
         return Task.CompletedTask;
     }
 
-    protected virtual Task ProcessOrderUpdate(OrderCreateRequest order)
+    protected virtual Task ProcessOrderUpdate(PublishOrder order)
     {
         Logger.LogInformation("Get orderUpdate {order}", order);
         return Task.CompletedTask;

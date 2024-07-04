@@ -1,5 +1,7 @@
 using BarsGroupProjectN1.Core.BackgroundServices;
 using BarsGroupProjectN1.Core.Contracts.Orders;
+using BarsGroupProjectN1.Core.Models;
+using BarsGroupProjectN1.Core.Models.Order;
 using StoreService.Core.Abstractions;
 
 namespace StoreService.Main.BackgroundServices;
@@ -21,11 +23,11 @@ public class OrderKafkaConsumerForStoreService : OrderConsumerBackgroundService
     }
 
 
-    protected override async Task ProcessOrderCreate(OrderCreateRequest order)
+    protected override async Task ProcessOrderCreate(PublishOrder order)
     {
         try
         {
-            await _storeService.IncreaseActiveOrdersCount(order.StoreId);
+            await _storeService.OnOrderCreate(order);
         }
         catch (Exception e)
         {
@@ -33,5 +35,18 @@ public class OrderKafkaConsumerForStoreService : OrderConsumerBackgroundService
         }
 
         await base.ProcessOrderCreate(order);
+    }
+
+    protected override async Task ProcessOrderUpdate(PublishOrder order)
+    {
+        try
+        {
+            await _storeService.OnOrderUpdate(order);
+        }
+        catch (Exception e)
+        {
+            Logger.LogError(e, e.Message);
+        }
+        await base.ProcessOrderUpdate(order);
     }
 }

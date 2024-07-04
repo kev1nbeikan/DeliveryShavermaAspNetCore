@@ -6,6 +6,9 @@ namespace OrderService.DataAccess
 {
     public class OrderServiceDbContext(DbContextOptions options) : DbContext(options)
     {
+        
+        
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new CurrentOrderConfiguration());
