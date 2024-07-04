@@ -14,8 +14,8 @@ public abstract class KafkaConsumerService : BackgroundService
     private IConsumer<Null, string>? _consumer;
     private ConsumerConfig? _consumerConfig;
     private readonly IConfiguration _configuration;
-    protected ConsumerOptions Options { get; private set; } = new();
-    protected ConsumeResult<Null, string> Context { get; private set; }
+    protected ConsumerOptions ConsumerOptions { get; private set; } = new();
+    protected ConsumeResult<Null, string> MessageContext { get; private set; }
 
 
     protected KafkaConsumerService(ILogger<KafkaConsumerService> logger, IConfiguration configuration)
@@ -23,20 +23,28 @@ public abstract class KafkaConsumerService : BackgroundService
         Logger = logger;
         _configuration = configuration;
     }
+    
+    protected abstract void OnConfigure(ConsumerOptions consumerOptions);
+    
+    protected virtual async Task ProcessMessageAsync(string message)
+    {
+        Logger.LogInformation($"Processing message: {message}");
+    }
+    
 
     private void Configurate()
     {
         var kafkaOptions = GetKafkaOptions();
         EnsureValidKafkaOptions(kafkaOptions);
 
-        OnConfigure(Options);
+        OnConfigure(ConsumerOptions);
         EnsureConsumerOptionsValid();
 
         _consumerConfig = new ConsumerConfig
         {
-            BootstrapServers = kafkaOptions.BootstrapServers,
+            BootstrapServers = kafkaOptions!.BootstrapServers,
             AutoOffsetReset = AutoOffsetReset.Earliest,
-            GroupId = Options.GroupId,
+            GroupId = ConsumerOptions.GroupId,
         };
     }
 
@@ -48,17 +56,11 @@ public abstract class KafkaConsumerService : BackgroundService
         ArgumentNullException.ThrowIfNull(kafkaOptions.GroupId);
     }
     
-    protected abstract void OnConfigure(ConsumerOptions consumerOptions);
-
+   
     private void SetConsumer()
     {
         _consumer = new ConsumerBuilder<Null, string>(_consumerConfig).Build();
-        _consumer.Subscribe(Options.Topics);
-    }
-    
-    protected virtual async Task ProcessMessageAsync(string message)
-    {
-        Logger.LogInformation($"Processing message: {message}");
+        _consumer.Subscribe(ConsumerOptions.Topics);
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -78,9 +80,9 @@ public abstract class KafkaConsumerService : BackgroundService
             {
                 Logger.LogInformation("Kafka-consumer is working");
 
-                Context = await _consumer.ConsumeAsync(stoppingToken);
+                MessageContext = await _consumer.ConsumeAsync(stoppingToken);
 
-                await ProcessMessageAsync(Context.Message.Value);
+                await ProcessMessageAsync(MessageContext.Message.Value);
             }
             catch (OperationCanceledException)
             {
@@ -98,9 +100,9 @@ public abstract class KafkaConsumerService : BackgroundService
 
     private void EnsureConsumerOptionsValid()
     {
-        ArgumentNullException.ThrowIfNull(Options);
-        ArgumentNullException.ThrowIfNull(Options.GroupId);
-        ArgumentNullException.ThrowIfNull(Options.Topics);
+        ArgumentNullException.ThrowIfNull(ConsumerOptions);
+        ArgumentNullException.ThrowIfNull(ConsumerOptions.GroupId);
+        ArgumentNullException.ThrowIfNull(ConsumerOptions.Topics);
     }
     
     protected virtual KafkaOptions? GetKafkaOptions()
@@ -115,7 +117,7 @@ public abstract class KafkaConsumerService : BackgroundService
 
     public string GetOptionsString()
     {
-        return JsonSerializer.Serialize(Options);
+        return JsonSerializer.Serialize(ConsumerOptions);
     }
 
     public override void Dispose()
