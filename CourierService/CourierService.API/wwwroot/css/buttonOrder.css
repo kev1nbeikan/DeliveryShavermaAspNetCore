@@ -1,4 +1,11 @@
-﻿.btn {
+﻿#order-button{
+    padding-top: 15px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.btn {
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
@@ -18,72 +25,67 @@
 }
 
 .action-button {
+    padding: 20px 30px;
+
     color: white;
-    border-radius: 15px;
-}
-
-.order-chat-button {
-    background-color: #4f5ad9;
-    box-shadow: 0 0 5px rgba(68, 78, 189, 0.7);
-}
-
-.order-accept-button {
-    background-color: #5cb85c;
-    box-shadow: 0 0 5px rgba(81, 161, 81, 0.7);
-    margin: 10px;
+    border-radius: 35px;
 }
 
 .action-button:hover {
     box-shadow: 0 0 0 rgba(0, 0, 0, 0);
 }
 
-.close-button {
-    background-color: transparent;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    position: relative;
-    margin-right: 5px;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+#order-chat-button {
+    background-color: #4f5ad9;
+    box-shadow: 0 0 5px rgba(68, 78, 189, 0.7);
 }
 
-.close-icon {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+#order-accept-button {
+    background-color: #5cb85c;
+    box-shadow: 0 0 5px rgba(81, 161, 81, 0.7);
+    /*margin: 10px;*/
 }
 
-.close-icon::before,
-.close-icon::after {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 3px;
+#order-cancel-button {
     background-color: #d9534f;
     box-shadow: 0 0 4px rgba(189, 72, 68, 0.5);
 }
 
-.close-icon::before {
-    transform: rotate(45deg);
-}
 
-.close-icon::after {
-    transform: rotate(-45deg);
-}
+/*.close-icon {*/
+/*    position: absolute;*/
+/*    top: 50%;*/
+/*    left: 50%;*/
+/*    transform: translate(-50%, -50%);*/
+/*    width: 20px;*/
+/*    height: 20px;*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*}*/
 
-.close-icon:hover::before,
-.close-icon:hover::after {
-    background-color: #bf2b28;
-}
-.close-button:hover {
-    background-color: #ededed;
-}
+/*.close-icon::before,*/
+/*.close-icon::after {*/
+/*    content: "";*/
+/*    position: absolute;*/
+/*    width: 100%;*/
+/*    height: 3px;*/
+/*    background-color: #d9534f;*/
+/*    box-shadow: 0 0 4px rgba(189, 72, 68, 0.5);*/
+/*}*/
+
+/*.close-icon::before {*/
+/*    transform: rotate(45deg);*/
+/*}*/
+
+/*.close-icon::after {*/
+/*    transform: rotate(-45deg);*/
+/*}*/
+
+/*.close-icon:hover::before,*/
+/*.close-icon:hover::after {*/
+/*    background-color: #bf2b28;*/
+/*}*/
+/*.close-button:hover {*/
+/*    background-color: #ededed;*/
+/*}*/
