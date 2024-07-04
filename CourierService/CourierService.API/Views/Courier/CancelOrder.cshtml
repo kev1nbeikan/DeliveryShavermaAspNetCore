@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "asdasd";
+    Layout = "_OrderLayout";
+}
+
+<table id="CancelOrdersTable" class="table text-center order-table">
+    <thead>
+    <tr>
+        <th>Последний статус</th>
+        <th>Причина отмены</th>
+        <th>Дата заказа</th>
+        <th>Дата отмены</th>
+        <th>Комментарий</th>
+        <th>Корзина</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+@await Html.PartialAsync("_CancelWindowPartial")
+@await Html.PartialAsync("_AcceptWindowPartial")
+
+<script>
+    window.onload = function() {
+        getCancelOrders();
+    };
+</script>

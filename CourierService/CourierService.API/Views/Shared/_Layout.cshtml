@@ -6,8 +6,12 @@
     <title>@ViewData["Title"] - CourierService.API</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/CourierService.API.styles.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/css/menu.css"/>
+    <link rel="stylesheet" href="~/css/menu.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/buttonOrder.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/tableOrder.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/confirmWindow.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/navBar.css" asp-append-version="true"/>
 </head>
 <body>
 <header>
@@ -25,12 +29,17 @@
 
 <footer class="border-top footer text-muted">
     <div class="container">
-        &copy; 2024 - CourierService.API - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        &copy; 2024 - Шаверма
     </div>
 </footer>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/acceptWindow.js" asp-append-version="true"></script>
+<script src="~/js/cancelWindow.js" asp-append-version="true"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/js/currentOrder.js" asp-append-version="true"></script>
+<script src="~/js/cancelOrder.js" asp-append-version="true"></script>
+<script src="~/js/lastOrder.js" asp-append-version="true"></script>
 @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -1,0 +1,37 @@
+﻿.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.nav-link {
+    font-weight: normal;
+    color: #333; 
+    border-radius: 25px;
+}
+
+.nav-link:hover {
+    background-color: #f5f5f5;
+}
+
+.nav-link.active {
+    font-weight: bold;
+}
+
+.navbar-nav{
+    font-size: 20px;
+    padding:0 0 5px 0;
+}
+
+.container{
+    max-width: 2000px;
+    padding: 0 60px 0 60px;
+}
+
+.mainNav{
+    padding-left: 30px;
+    margin: 5px 0 0 10px ;
+}
+
+#cancelNav, #lastNav, #currentNav{
+    margin:0 5px 0 5px;
+}
