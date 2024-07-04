@@ -28,10 +28,13 @@ function displayError(message, orderTable) {
 
 const currentNav = document.getElementById("currentNav");
 const lastNav = document.getElementById("lastNav");
+const cancelNav = document.getElementById("cancelNav");
 
 const currentUrl = window.location.pathname;
 if (currentUrl.includes("/current")) {
     currentNav.classList.add("active");
 } else if (currentUrl.includes("/last")) {
     lastNav.classList.add("active");
+} else if (currentUrl.includes("/cancel")) {
+    cancelNav.classList.add("active");
 }

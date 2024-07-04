@@ -126,7 +126,7 @@ async function checkOrderStatus() {
             });
             if (response.status === 200) {
                 const orderData = await response.text();
-                updateOrderStatus(orderId, orderData);
+                await updateOrderStatus(orderId, orderData);
             } else if (response.status === 204) {
                 console.error(`Заказ не найден ${orderId}`, response);
                 await getCurrentStoreOrders();
@@ -139,12 +139,15 @@ async function checkOrderStatus() {
     await Promise.all(promises);
 }
 
-function updateOrderStatus(orderId, newStatus) {
+async function updateOrderStatus(orderId, newStatus) {
     const ordersTable = document.getElementById(currentTable).getElementsByTagName('tbody')[0];
     const rows = ordersTable.querySelectorAll('tr');
     const index = ordersToCheck.findIndex(id => id === orderId);
     const orderRow = rows[index];
 
+    if (newStatus !== "0" || newStatus !== "1") {
+       await getCurrentOrders();
+    }
     if (StatusMapping[newStatus] === orderRow.cells[0].textContent) {
         return;
     }
