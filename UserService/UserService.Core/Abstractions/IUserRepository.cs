@@ -1,3 +1,5 @@
+using BarsGroupProjectN1.Core.Models;
+
 namespace UserService.Core.Abstractions;
 
 public interface IUserRepository

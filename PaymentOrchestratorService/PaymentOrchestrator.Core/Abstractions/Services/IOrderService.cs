@@ -1,4 +1,5 @@
 using BarsGroupProjectN1.Core.Contracts.Orders;
+using BarsGroupProjectN1.Core.Models;
 using Handler.Core.Common;
 using Handler.Core.Contracts;
 using Handler.Core.HanlderService;

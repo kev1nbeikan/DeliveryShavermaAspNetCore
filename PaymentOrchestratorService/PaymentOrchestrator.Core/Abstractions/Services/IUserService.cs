@@ -1,3 +1,4 @@
+using BarsGroupProjectN1.Core.Models;
 using Handler.Core.Common;
 
 namespace Handler.Core.Abstractions.Services;

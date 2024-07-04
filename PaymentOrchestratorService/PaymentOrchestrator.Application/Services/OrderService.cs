@@ -2,6 +2,7 @@ using BarsGroupProjectN1.Core.Contracts.Orders;
 using BarsGroupProjectN1.Core.Exceptions;
 using BarsGroupProjectN1.Core.Models;
 using BarsGroupProjectN1.Core.Models.Order;
+using BarsGroupProjectN1.Core.Models.Store;
 using Handler.Core;
 using Handler.Core.Abstractions.Repositories;
 using Handler.Core.Abstractions.Services;
@@ -37,7 +38,6 @@ public class OrderService : IOrderService
             })
             .ToList();
 
-        // TODO adrress in store
         var orderCreateRequest = new OrderCreateRequest
         (
             Id: order.Id,
@@ -47,7 +47,7 @@ public class OrderService : IOrderService
             Basket: basketToRequest,
             Price: order.Price,
             Comment: order.Comment,
-            StoreAddress: "адресс",
+            StoreAddress: orderLogistic.Cooking.Executor.Address,
             ClientAddress: order.ClientAddress,
             CourierNumber: orderLogistic.Delivering.Executor.PhoneNumber,
             ClientNumber: order.ClientNumber,
@@ -58,7 +58,7 @@ public class OrderService : IOrderService
 
         var error = await _orderRepository.Save(orderCreateRequest);
 
-      
+
         return (orderCreateRequest, error);
     }
 }

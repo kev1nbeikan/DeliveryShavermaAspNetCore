@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using BarsGroupProjectN1.Core.Models;
+using Microsoft.Extensions.Logging;
 using UserService.Core;
 using UserService.Core.Abstractions;
 using UserService.Core.Exceptions;

@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using BarsGroupProjectN1.Core.Models;
+using NUnit.Framework;
 using UserService.Core;
 using UserService.Core.Abstractions;
 using UserService.DataAccess.Repositories;

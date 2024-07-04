@@ -1,3 +1,4 @@
+using BarsGroupProjectN1.Core.Models;
 using UserService.Core;
 
 namespace UserService.Application;

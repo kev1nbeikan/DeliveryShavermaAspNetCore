@@ -1,4 +1,5 @@
-﻿using Handler.Core;
+﻿using BarsGroupProjectN1.Core.Models;
+using Handler.Core;
 using Handler.Core.Abstractions;
 using Handler.Core.Abstractions.Repositories;
 using Handler.Core.Abstractions.Services;

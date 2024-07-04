@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using BarsGroupProjectN1.Core.Models;
+using UserService.Core.Exceptions;
 
 namespace UserService.Core.Abstractions;
 

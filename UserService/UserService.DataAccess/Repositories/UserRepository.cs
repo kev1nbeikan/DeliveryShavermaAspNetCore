@@ -1,3 +1,4 @@
+using BarsGroupProjectN1.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using UserService.Core;
 using UserService.Core.Abstractions;

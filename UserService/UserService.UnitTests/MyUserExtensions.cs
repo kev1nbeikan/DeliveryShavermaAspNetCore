@@ -1,3 +1,4 @@
+using BarsGroupProjectN1.Core.Models;
 using NUnit.Framework;
 using UserService.Core;
 
