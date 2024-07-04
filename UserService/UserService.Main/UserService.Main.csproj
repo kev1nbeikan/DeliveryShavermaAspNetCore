@@ -40,4 +40,8 @@
       <Folder Include="Middleware\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Models\OrdersViewModel.cs" />
+    </ItemGroup>
+
 </Project>

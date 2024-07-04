@@ -41,9 +41,9 @@ public class OrderApplicationService(
     public async Task<CurrentOrder?> GetOldestActive(RoleCode role, Guid sourceId)
     {
         var orders = await _currentOrderRepository.Get(role, sourceId);
-        var oldestActive = orders.FirstOrDefault(x =>
-            x.OrderDate == orders.Min(o => o.OrderDate)
-            && x.Status is StatusCode.WaitingCourier or StatusCode.Delivering);
+        var ordersWithStatus = orders.Where(x => x.Status <= StatusCode.Delivering).ToList();
+        var oldestActive = ordersWithStatus
+            .FirstOrDefault(x => x.OrderDate == ordersWithStatus.Min(o => o.OrderDate));
         return oldestActive;
     }
 

@@ -8,7 +8,7 @@ namespace OrderService.Api.Controllers;
 
 [ApiController]
 [Route("orders/courier")]
-public class CourierController(IOrderApplicationService orderApplicationService) : ControllerBase
+public class CourierController(IOrderApplicationService orderApplicationService, ILogger<CourierController> logger) : ControllerBase
 {
     private readonly IOrderApplicationService _orderApplicationService = orderApplicationService;
 
@@ -36,8 +36,8 @@ public class CourierController(IOrderApplicationService orderApplicationService)
         var order = await _orderApplicationService.GetOldestActive(role, userId);
         if (order is null)
             return NoContent();
-        var response = new CourierGetCurrent(order.Id, order.Status, order.Basket, order.Comment,
-            order.StoreAddress, order.ClientAddress, order.ClientNumber, order.DeliveryTime);
+        var response = new CourierGetCurrent(order.Id, order.ClientId,order.Status, order.Basket, order.Comment,
+            order.StoreAddress, order.ClientAddress, order.ClientNumber, order.DeliveryTime, order.CookingTime);
         return Ok(response);
     }
     
