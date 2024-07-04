@@ -10,10 +10,8 @@ public interface ICourierService
 	Task<Guid> DeleteCourier(Guid id);
 
 	Task<List<Courier>> GetAllCouriers();
-
-	Task<Guid> UpdateCourier(Guid id, string email, string password);
-
+	
 	Task<Guid> UpdateCourier(Guid id, CourierStatusCode status);
 	
-	Task<Courier> GetCourierById(Guid Id);
+	Task<Courier> GetCourierById(Guid id);
 }

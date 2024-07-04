@@ -23,11 +23,6 @@ public class CourierService : ICourierService
 		return await _courierRepository.Create(courier);
 	}
 
-	public async Task<Guid> UpdateCourier(Guid id, string email, string password)
-	{
-		return await _courierRepository.Update(id, email, password);
-	}
-
 	public async Task<Guid> UpdateCourier(Guid id, CourierStatusCode status)
 	{
 		return await _courierRepository.Update(id, status);

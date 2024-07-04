@@ -28,7 +28,7 @@ public class CourierController : Controller
 	{
 		var couriers = await _courierService.GetAllCouriers();
 
-		var response = couriers.Select(c => new CourierResponse(c.Id, c.Email, c.Password, c.Status));
+		var response = couriers.Select(c => new CourierResponse(c.Id, c.Status));
 
 		return Ok(response);
 	}
@@ -46,8 +46,6 @@ public class CourierController : Controller
 	{
 		var (courier, error) = Courier.Create(
 			Guid.NewGuid(),
-			request.email,
-			request.password,
 			status: default
 		);
 
@@ -59,12 +57,6 @@ public class CourierController : Controller
 		await _courierService.CreateCourier(courier);
 
 		return Ok(courier);
-	}
-
-	[HttpPut("{id:guid}")]
-	public async Task<IActionResult> UpdateCourier(Guid id, string email, string password)
-	{
-		return Ok(await _courierService.UpdateCourier(id, email, password));
 	}
 
 	[HttpPost("status/{id:guid}")]
@@ -122,8 +114,6 @@ public class CourierController : Controller
 		{
 			var (newCourier, error) = Courier.Create(
 				courierId,
-				Request.Cookies["email"],
-				Request.Cookies["password"],
 				status: default
 			);
 
@@ -137,7 +127,7 @@ public class CourierController : Controller
 			return RedirectToAction("CourierProfile", new {id = newCourier.Id});
 		}
 
-		return View(new CourierViewModel {Email = courier.Email, Status = courier.Status});
+		return View(new CourierViewModel {Status = courier.Status});
 	}
 
 	[HttpGet("getactivecourier")]

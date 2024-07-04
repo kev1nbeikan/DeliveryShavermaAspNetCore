@@ -10,12 +10,6 @@ public class CourierConfiguration : IEntityTypeConfiguration<CourierEntity>
 	{
 		builder.HasKey(c => c.Id);
 
-		builder.Property(c => c.Email)
-			.IsRequired();
-
-		builder.Property(c => c.Password)
-			.IsRequired();
-
 		builder.Property(c => c.Status);
 	}
 }

@@ -20,7 +20,7 @@ public class CourierRepository : ICourierRepository
 		var courierEntities = await _dbContext.Couriers.ToListAsync();
 
 		var couriers = courierEntities
-			.Select(c => Courier.Create(c.Id, c.Email, c.Password, c.Status).Courier)
+			.Select(c => Courier.Create(c.Id, c.Status).Courier)
 			.ToList();
 
 		return couriers;
@@ -31,26 +31,13 @@ public class CourierRepository : ICourierRepository
 		var courierEntity = new CourierEntity()
 		{
 			Id = courier.Id,
-			Email = courier.Email,
-			Password = courier.Password
+			Status = courier.Status	
 		};
 
 		await _dbContext.Couriers.AddAsync(courierEntity);
 		await _dbContext.SaveChangesAsync();
 
 		return courierEntity.Id;
-	}
-
-	public async Task<Guid> Update(Guid id, string email, string password)
-	{
-		await _dbContext.Couriers.Where(c => c.Id == id)
-			.ExecuteUpdateAsync(
-				s => s
-					.SetProperty(c => c.Email, c => email)
-					.SetProperty(c => c.Password, c => password)
-			);
-
-		return id;
 	}
 
 	public async Task<Guid> Update(Guid id, CourierStatusCode status)
@@ -77,6 +64,6 @@ public class CourierRepository : ICourierRepository
 	{
 		var courier = await _dbContext.Couriers.FindAsync(id);
 		
-		return Courier.Create(courier.Id, courier.Email, courier.Password, courier.Status).Courier;
+		return Courier.Create(courier.Id, courier.Status).Courier;
 	}
 }
