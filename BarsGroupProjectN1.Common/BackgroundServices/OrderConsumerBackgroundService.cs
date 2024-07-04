@@ -10,7 +10,8 @@ using Microsoft.Extensions.Logging;
 
 namespace BarsGroupProjectN1.Core.BackgroundServices;
 
-public abstract class OrderConsumerBackgroundService : KafkaConsumerService
+public abstract class OrderConsumerBackgroundService(ILogger<KafkaConsumerService> logger, IConfiguration configuration)
+    : KafkaConsumerService(logger, configuration)
 {
     public static class Topics
     {
@@ -18,11 +19,6 @@ public abstract class OrderConsumerBackgroundService : KafkaConsumerService
         public const string OrderUpdateTopic = "OrdersCancelled";
     }
 
-
-    protected OrderConsumerBackgroundService(ILogger<KafkaConsumerService> logger, IConfiguration configuration) : base(
-        logger, configuration)
-    {
-    }
 
     protected override void OnConfigure(ConsumerOptions consumerOptions)
     {

@@ -23,14 +23,14 @@ public abstract class KafkaConsumerService : BackgroundService
         Logger = logger;
         _configuration = configuration;
     }
-    
+
     protected abstract void OnConfigure(ConsumerOptions consumerOptions);
-    
+
     protected virtual async Task ProcessMessageAsync(string message)
     {
         Logger.LogInformation($"Processing message: {message}");
     }
-    
+
 
     private void Configurate()
     {
@@ -55,8 +55,8 @@ public abstract class KafkaConsumerService : BackgroundService
         ArgumentNullException.ThrowIfNull(kafkaOptions.BootstrapServers, "BootstrapServers not found");
         ArgumentNullException.ThrowIfNull(kafkaOptions.GroupId);
     }
-    
-   
+
+
     private void SetConsumer()
     {
         _consumer = new ConsumerBuilder<Null, string>(_consumerConfig).Build();
@@ -96,7 +96,6 @@ public abstract class KafkaConsumerService : BackgroundService
         }
     }
 
-    
 
     private void EnsureConsumerOptionsValid()
     {
@@ -104,7 +103,7 @@ public abstract class KafkaConsumerService : BackgroundService
         ArgumentNullException.ThrowIfNull(ConsumerOptions.GroupId);
         ArgumentNullException.ThrowIfNull(ConsumerOptions.Topics);
     }
-    
+
     protected virtual KafkaOptions? GetKafkaOptions()
     {
         return _configuration.GetSection("KafkaOptions").Get<KafkaOptions>();

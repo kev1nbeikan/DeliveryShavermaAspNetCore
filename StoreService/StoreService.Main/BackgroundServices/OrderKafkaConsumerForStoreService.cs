@@ -6,15 +6,14 @@ using StoreService.Core.Abstractions;
 
 namespace StoreService.Main.BackgroundServices;
 
-public class OrderKafkaConsumerForStoreService : OrderConsumerBackgroundService
+public class OrderKafkaConsumerForStoreService(
+    ILogger<OrderKafkaConsumerForStoreService> logger,
+    IConfiguration configuration,
+    IServiceScopeFactory scopeFactory
+) : OrderConsumerBackgroundService(logger, configuration)
 {
-    private readonly IStoreService _storeService;
-
-    public OrderKafkaConsumerForStoreService(ILogger<OrderKafkaConsumerForStoreService> logger,
-        IConfiguration configuration, IServiceScopeFactory scopeFactory) : base(logger, configuration)
-    {
-        _storeService = scopeFactory.CreateScope().ServiceProvider.GetRequiredService<IStoreService>();
-    }
+    private readonly IStoreService _storeService =
+        scopeFactory.CreateScope().ServiceProvider.GetRequiredService<IStoreService>();
 
     protected override void OnConfigure(ConsumerOptions consumerOptions)
     {
@@ -25,6 +24,7 @@ public class OrderKafkaConsumerForStoreService : OrderConsumerBackgroundService
 
     protected override async Task ProcessOrderCreate(PublishOrder order)
     {
+        await base.ProcessOrderCreate(order);
         try
         {
             await _storeService.OnOrderCreate(order);
@@ -33,12 +33,11 @@ public class OrderKafkaConsumerForStoreService : OrderConsumerBackgroundService
         {
             Logger.LogError(e, e.Message);
         }
-
-        await base.ProcessOrderCreate(order);
     }
 
     protected override async Task ProcessOrderUpdate(PublishOrder order)
     {
+        await base.ProcessOrderUpdate(order);
         try
         {
             await _storeService.OnOrderUpdate(order);
@@ -47,6 +46,5 @@ public class OrderKafkaConsumerForStoreService : OrderConsumerBackgroundService
         {
             Logger.LogError(e, e.Message);
         }
-        await base.ProcessOrderUpdate(order);
     }
 }
