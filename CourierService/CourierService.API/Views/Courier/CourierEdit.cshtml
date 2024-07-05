@@ -1,0 +1,93 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model CourierEditViewModel
+
+@{
+    ViewBag.Title = "Редактирование";
+    Layout = "_Layout";
+}
+
+<div class="container">
+    <div class="row align-items-center">
+        <div class="col-md-6">
+            <h2 class="mb-4">Профиль</h2>
+            <div class="store-info">
+                <div class="form-group">
+                    <label for="phonenumber" class="form-label">Номер телефона:</label>
+                    <input type="text" class="form-control" id="phoneNumber" value="@Model.Courier.PhoneNumber" asp-for="Courier.PhoneNumber">
+                </div>
+                <div class="mt-4">
+                    <button type="submit" id="buttonSave" class="btn btn-primary" asp-controller="StoreApi" asp-action="Update">Сохранить</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="shawarma-smiley">🚲</div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Обработка формы (отправка AJAX-запроса)
+            $('#buttonSave').on('click', function () {
+                // Получение нового адреса
+                let newPhoneNumber = $('#phoneNumber').val();
+
+                // AJAX-запрос для обновления данных    
+                $.ajax({
+                    url: '@Url.Action("UpdateCourier", "Courier", new { id = @Model.Courier.Id })', 
+                    type: 'PUT',
+                    data: { 
+                        PhoneNumber: newPhoneNumber 
+                    }, // Отправка данных
+                    success: function (response) {
+                        showSuccessMessage()
+                    },
+                    error: function (xhr, status, error) {
+                        var errorMessage = xhr.responseText; // Получение текста ошибки из ответа
+                        showErrorMessage(errorMessage);
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+<style>
+    .container {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .store-info {
+        text-align: left;
+    }
+
+    .form-label {
+        font-weight: bold;
+    }
+
+    .btn-primary {
+        background-color: #FFC300;
+        border: none;
+        border-radius: 5px;
+    }
+
+    .btn-primary:hover {
+        background-color: #E6A700;
+    }
+
+    .shawarma-smiley {
+        font-size: 100px; /* Adjust size as needed */
+        color: #ffb61e;
+        margin-bottom: 10px;
+    }
+    .mt-4 {
+        margin-top: 2rem; /* Увеличенный отступ */
+    }
+</style>

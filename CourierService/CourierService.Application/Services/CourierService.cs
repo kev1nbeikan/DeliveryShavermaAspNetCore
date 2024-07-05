@@ -33,18 +33,18 @@ public class CourierService : ICourierService
         return await _courierRepository.Update(id, status);
     }
 
-    public async Task<Courier> UpdateCourier(Guid id, string phoneNumber)
+    public async Task<Guid> UpdateCourier(Guid id, string phoneNumber)
     {
         var courier = await GetCourierById(id);
 
         var courierCreateResult = Courier.Create(courier.Id, courier.Status, courier.ActiveOrdersCount, phoneNumber);
 
-        if (string.IsNullOrEmpty(courierCreateResult.Error)) throw new ArgumentException(courierCreateResult.Error);
+        if (!string.IsNullOrEmpty(courierCreateResult.Error)) throw new ArgumentException(courierCreateResult.Error);
 
         if (!await _courierRepository.Update(courier.Id, phoneNumber))
             throw new RepositoryException("Не удалось обновить курьера");
 
-        return courierCreateResult.Courier;
+        return courierCreateResult.Courier.Id;
     }
 
     public async Task<Guid> DeleteCourier(Guid id)

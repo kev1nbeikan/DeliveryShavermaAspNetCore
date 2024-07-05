@@ -47,7 +47,6 @@ public class CourierRepository : ICourierRepository
                 s => s
                     .SetProperty(c => c.Status, c => status)
             );
-        await _dbContext.SaveChangesAsync();
         return id;
     }
 
@@ -58,7 +57,7 @@ public class CourierRepository : ICourierRepository
                 s => s
                     .SetProperty(c => c.PhoneNumber, c => phoneNumber)
             );
-        return await _dbContext.SaveChangesAsync() > 0;
+        return true;
     }
 
     public async Task<Guid> Delete(Guid id)

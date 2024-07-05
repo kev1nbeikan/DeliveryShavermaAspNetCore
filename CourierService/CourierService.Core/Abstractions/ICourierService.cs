@@ -19,6 +19,7 @@ public interface ICourierService
     /// <returns>Идентификатор обновленного курьера.</returns>
     /// <exception cref="ArgumentException">Сгенерировано, если курьер не найден или если номер телефона не указан.</exception>
     Task<Guid> UpdateCourier(Guid id, CourierStatusCode status);
+    Task<Guid> UpdateCourier(Guid id, string phoneNumber);
 
     Task<Courier> GetCourierById(Guid id);
 }

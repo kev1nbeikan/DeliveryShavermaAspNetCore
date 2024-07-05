@@ -1,53 +1,76 @@
 ﻿@using CourierService.Core.Models.Code
-@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model CourierViewModel;
 
 @{
     ViewData["Title"] = "Профиль";
 }
 
-<form class="form-inline row g-3" asp-controller="Courier" asp-action="UpdateCourierStatus" asp-route-id="@Model.Id" method="POST">
-    <div class="container mt-5">
-        <h1 class="text-center mb-4">Курьер🚲</h1>
-        <div class="menu-grid">
-            <div class="input-group-append">
-                @switch (@Model.Status)
-                {
-                    case CourierStatusCode.NotWork:
-                        <button type="submit" name="status" value="NotWork" class="btn btn-outline-primary">
-                            Не на работе
-                        </button>
-                        <button type="submit" name="status" value="OnWork" class="btn btn-primary">
-                            На работе
-                        </button>
-                        <button type="submit" name="status" value="Active" class="btn btn-primary">
-                            Активен
-                        </button>
-                        break;
-                    case CourierStatusCode.OnWork:
-                        <button type="submit" name="status" value="NotWork" class="btn btn-primary">
-                            Не на работе
-                        </button>
-                        <button type="submit" name="status" value="OnWork" class="btn btn-outline-primary">
-                            На работе
-                        </button>
-                        <button type="submit" name="status" value="Active" class="btn btn-primary">
-                            Активен
-                        </button>
-                        break;
-                    case CourierStatusCode.Active:
-                        <button type="submit" name="status" value="NotWork" class="btn btn-primary">
-                            Не на работе
-                        </button>
-                        <button type="submit" name="status" value="OnWork" class="btn btn-primary">
-                            На работе
-                        </button>
-                        <button type="submit" name="status" value="Active" class="btn btn-outline-primary">
-                            Активен
-                        </button>
-                        break;
-                }
-            </div>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Курьер🚲</h1>
+    <div class="menu-grid">
+        <div class="input-group-append">
+            @switch (@Model.Status)
+            {
+                case CourierStatusCode.NotWork:
+                    <button type="button" name="status" value="NotWork" class="btn btn-outline-primary" data-status="NotWork">
+                        Не на работе
+                    </button>
+                    <button type="button" name="status" value="OnWork" class="btn btn-primary" data-status="OnWork">
+                        На работе
+                    </button>
+                    <button type="button" name="status" value="Active" class="btn btn-primary" data-status="Active">
+                        Активен
+                    </button>
+                    break;
+                case CourierStatusCode.OnWork:
+                    <button type="button" name="status" value="NotWork" class="btn btn-primary" data-status="NotWork">
+                        Не на работе
+                    </button>
+                    <button type="button" name="status" value="OnWork" class="btn btn-outline-primary" data-status="OnWork">
+                        На работе
+                    </button>
+                    <button type="button" name="status" value="Active" class="btn btn-primary" data-status="Active">
+                        Активен
+                    </button>
+                    break;
+                case CourierStatusCode.Active:
+                    <button type="button" name="status" value="NotWork" class="btn btn-primary" data-status="NotWork">
+                        Не на работе
+                    </button>
+                    <button type="button" name="status" value="OnWork" class="btn btn-primary" data-status="OnWork">
+                        На работе
+                    </button>
+                    <button type="button" name="status" value="Active" class="btn btn-outline-primary" data-status="Active">
+                        Активен
+                    </button>
+                    break;
+            }
         </div>
     </div>
-</form>
+</div>
+
+@section Scripts {
+    <script>
+    $(document).ready(function () {
+        $('.btn').click(function() {
+            var status = $(this).data('status');
+            console.log("start to update status: " + status);
+            $.ajax({
+                url: '@Url.Action("UpdateCourierStatus", "Courier", new { id = @Model.Id })',
+                method: 'POST',
+                data: { status: status },
+                success: function(response) {
+                    // Handle success, update UI if needed
+                    console.log('Status updated successfully!');
+                    showSuccessMessage();
+                    window.location.reload();
+                },
+                error: function(xhr, status, error) {
+                    showErrorMessage(xhr.responseText);
+                    console.error('Error updating status:', error);
+                }
+            });
+        });
+    });
+</script>
+}

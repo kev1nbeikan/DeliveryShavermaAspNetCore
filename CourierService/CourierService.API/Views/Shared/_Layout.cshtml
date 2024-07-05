@@ -13,12 +13,22 @@
     <link rel="stylesheet" href="~/css/tableOrder.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/css/confirmWindow.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/css/navBar.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/showMessage.css" asp-append-version="true"/>
+
 </head>
 <body>
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container-fluid">
             <a class="navbar-brand" asp-area="" asp-controller="Courier" asp-action="CourierProfile">Курьер🚲 .Net SHAVA🥙</a>
+            <ul class="navbar-nav flex-grow-1">
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Courier" asp-action="CurrentOrder">Заказы</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Courier" asp-action="CourierEdit">Редактировать</a>
+                </li>
+            </ul>
         </div>
     </nav>
 </header>
@@ -28,11 +38,14 @@
     </main>
 </div>
 
+
 <footer class="border-top footer text-muted">
     <div class="container">
         &copy; 2024 - Шаверма
     </div>
 </footer>
+
+@await Html.PartialAsync("_InfoMassgesPartial");
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/acceptWindow.js" asp-append-version="true"></script>
@@ -41,6 +54,7 @@
 <script src="~/js/currentOrder.js" asp-append-version="true"></script>
 <script src="~/js/cancelOrder.js" asp-append-version="true"></script>
 <script src="~/js/lastOrder.js" asp-append-version="true"></script>
+<script src="~/js/showMassage.js" asp-append-version="true"></script>
 @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

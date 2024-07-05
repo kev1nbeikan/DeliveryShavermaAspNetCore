@@ -71,15 +71,81 @@ public class CourierController : Controller
     [HttpPost("status/{id:guid}")]
     public async Task<IActionResult> UpdateCourierStatus(Guid id, [FromForm] CourierStatusCode status)
     {
-        await _courierService.UpdateCourier(id, status);
+        try
+        {
+            await _courierService.UpdateCourier(id, status);
+        }
+        catch (RepositoryException e)
+        {
+            _logger.LogError(e, "Error updating courier status");
+            return BadRequest(e.Message);
+        }
+        catch (ArgumentException e)
+        {
+            _logger.LogError(e, e.Message);
+            return BadRequest(e.Message);
+        }
+        catch (EntityNotFound e)
+        {
+            _logger.LogError(e, e.Message);
+            return BadRequest(e.Message);
+        }
 
         return RedirectToAction(nameof(CourierProfile));
+    }
+
+
+    [HttpPut("update/{id:guid}")]
+    public async Task<IActionResult> UpdateCourier(Guid id, [FromForm] CourierEditRequest request)
+    {
+        try
+        {
+            await _courierService.UpdateCourier(id, request.PhoneNumber);
+            return Ok();
+        }
+        catch (RepositoryException e)
+        {
+            _logger.LogError(e, "Error updating courier status");
+            return BadRequest(e.Message);
+        }
+        catch (ArgumentException e)
+        {
+            _logger.LogError(e, e.Message);
+            return BadRequest(e.Message);
+        }
+        catch (EntityNotFound e)
+        {
+            _logger.LogError(e, e.Message);
+            return BadRequest(e.Message);
+        }
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> DeleteCourier(Guid id)
     {
         return Ok(await _courierService.DeleteCourier(id));
+    }
+
+    [HttpGet("edit")]
+    public async Task<IActionResult> CourierEdit()
+    {
+        var courierId = User.UserId();
+
+        try
+        {
+            var courier = await _courierService.GetCourierById(courierId);
+
+            return View(new CourierEditViewModel()
+            {
+                Courier = courier
+            });
+        }
+        catch (EntityNotFound e)
+        {
+            _logger.LogError(e, e.Message);
+
+            return BadRequest(e.Message);
+        }
     }
 
     [HttpGet("orders/courier/last")]
@@ -96,22 +162,25 @@ public class CourierController : Controller
         }
     }
 
-    [HttpGet("orders/order_id/status")]
-    public async Task<IActionResult> GetOrderStatus()
+    [HttpGet("CurrentOrder")]
+    public  IActionResult CurrentOrder()
     {
-        try
-        {
-            var orders = await _ordersApiClient.GetCurrentOrdersAsync();
-
-            var firstOrderStatus = orders.FirstOrDefault()?.Status;
-
-            return Ok(firstOrderStatus);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, $"Внутренняя ошибка сервера: {ex.Message}");
-        }
+        return View();
     }
+    
+    
+    [HttpGet("LastOrder")]
+    public IActionResult LastOrder()
+    {
+        return View();
+    }
+    
+    [HttpGet("CancelOrder")]
+    public  IActionResult CancelOrder()
+    {
+        return View();
+    }
+
 
     [HttpGet("profile")]
     public async Task<IActionResult> CourierProfile()
@@ -147,16 +216,14 @@ public class CourierController : Controller
         }
         catch (ArgumentException e)
         {
-            BadRequest(e.Message);
             _logger.LogError(e, e.Message);
+            return BadRequest(e.Message);
         }
         catch (RepositoryException e)
         {
-            BadRequest(e.Message);
             _logger.LogError(e, e.Message);
+            return BadRequest(e.Message);
         }
-
-        return BadRequest();
     }
 
     [HttpGet("getactivecourier")]
