@@ -1,5 +1,7 @@
 using BarsGroupProjectN1.Core.Contracts;
+using BarsGroupProjectN1.Core.Models.Courier;
 using BarsGroupProjectN1.Core.Models.Payment;
+using BarsGroupProjectN1.Core.Models.Store;
 using Handler.Core;
 using Handler.Core.Abstractions;
 using Handler.Core.Abstractions.Repositories;
@@ -15,43 +17,52 @@ namespace HandlerService.Application.UseCases;
 
 public class GetOrderLogisticUseCase : IGetOrderLogisticUseCase
 {
-    private readonly ICurierService _courierService;
     private readonly IStoreRepository _storeRepository;
+    private readonly ICurierRepository _courierRepository;
 
-    public GetOrderLogisticUseCase(ICurierService courierService, IStoreRepository storeRepository)
+    public GetOrderLogisticUseCase(IStoreRepository storeRepository, ICurierRepository courierRepository)
     {
-        _courierService = courierService;
         _storeRepository = storeRepository;
+        _courierRepository = courierRepository;
     }
 
 
-    public async Task<(OrderLogistic? orderTimings, string? error)> Execute(PaymentOrder paymentOrder)
+    public async Task<(OrderLogistic? orderLogistic, string? error)> Execute(PaymentOrder paymentOrder)
     {
         var result = new OrderLogistic();
 
-        // (result.Delivery.Perfomer, result.Delivery.Time) =
-        // await _curierService.GetCurier(temporyOrder.ClientAddress);
-        // if (result.Delivery.Perfomer == null) return ExecuteErrorResult("Curier is not found");
-        result.Delivering = new OrderTaskExecution<Curier>()
-        {
-            Executor = new Curier(Guid.NewGuid(), "798578997"),
-            Time = TimeSpan.FromMinutes(15)
-        };
+        var findStoreResult = await FindStore(paymentOrder);
+        if (findStoreResult.error.HasValue()) return ExecuteErrorResult(findStoreResult.error!);
 
-        var productsAndAmount = paymentOrder.Bucket
-            .Select(x => new ProductsInventory() { ProductId = x.product.Id, Quantity = x.amount }).ToList();
+        var findCourierResult = await FindCourier(paymentOrder.ClientAddress, result.Cooking.Executor.Address);
+        if (findCourierResult.error.HasValue()) return ExecuteErrorResult(findCourierResult.error!);
 
-        (result.Cooking, var error) =
-            await _storeRepository.GetCokingTime(paymentOrder.ClientAddress, productsAndAmount);
+        result.Delivering = findCourierResult.deliveryExecution!;
+        result.Cooking = findStoreResult.cookingExecution!;
 
-        return error.HasValue() ? 
-            ExecuteErrorResult(error!) :
-            (result, null);
+        return (result, null);
     }
 
 
     private (OrderLogistic? orderTimings, string error) ExecuteErrorResult(string error)
     {
         return (null, error);
+    }
+
+    private async Task<(OrderTaskExecution<Store>? cookingExecution, string? error)> FindStore(
+        PaymentOrder paymentOrder)
+    {
+        var productsAndAmount = paymentOrder.Bucket
+            .Select(x =>
+                new ProductsInventory() { ProductId = x.product.Id, Quantity = x.amount }
+            ).ToList();
+
+        return await _storeRepository.GetCokingTime(paymentOrder.ClientAddress, productsAndAmount);
+    }
+
+    private async Task<(OrderTaskExecution<Courier>? deliveryExecution, string? error)> FindCourier(
+        string clientAddress, string storeAddress)
+    {
+        return await _courierRepository.FindCourier(clientAddress, storeAddress);
     }
 }

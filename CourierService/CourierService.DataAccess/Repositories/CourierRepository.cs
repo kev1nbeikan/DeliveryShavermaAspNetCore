@@ -1,4 +1,5 @@
-﻿using CourierService.Core.Abstractions;
+﻿using BarsGroupProjectN1.Core.Models.Courier;
+using CourierService.Core.Abstractions;
 using CourierService.Core.Models;
 using CourierService.Core.Models.Code;
 using CourierService.DataAccess.Entities;

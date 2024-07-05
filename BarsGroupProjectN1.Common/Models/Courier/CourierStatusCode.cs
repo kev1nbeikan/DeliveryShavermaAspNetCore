@@ -1,4 +1,4 @@
-﻿namespace CourierService.Core.Models.Code;
+﻿namespace BarsGroupProjectN1.Core.Models.Courier;
 
 public enum CourierStatusCode
 {

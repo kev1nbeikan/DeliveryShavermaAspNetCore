@@ -1,5 +1,6 @@
 ﻿using BarsGroupProjectN1.Core.Contracts;
 using BarsGroupProjectN1.Core.Exceptions;
+using BarsGroupProjectN1.Core.Models.Courier;
 using CourierService.API.Contracts;
 using CourierService.API.Extensions;
 using CourierService.API.Models;
@@ -148,35 +149,22 @@ public class CourierController : Controller
         }
     }
 
-    [HttpGet("orders/courier/last")]
-    public async Task<IActionResult> GetLastOrder()
-    {
-        try
-        {
-            var latestOrder = _ordersApiClient.GetLatestOrderAsync();
-            return Ok(latestOrder);
-        }
-        catch (Exception ex)
-        {
-            return StatusCode(500, $"Ошибка сервера: {ex.Message}");
-        }
-    }
 
     [HttpGet("CurrentOrder")]
-    public  IActionResult CurrentOrder()
+    public IActionResult CurrentOrder()
     {
         return View();
     }
-    
-    
+
+
     [HttpGet("LastOrder")]
     public IActionResult LastOrder()
     {
         return View();
     }
-    
+
     [HttpGet("CancelOrder")]
-    public  IActionResult CancelOrder()
+    public IActionResult CancelOrder()
     {
         return View();
     }
@@ -226,8 +214,8 @@ public class CourierController : Controller
         }
     }
 
-    [HttpGet("getactivecourier")]
-    public async Task<IActionResult> GetActiveCourier()
+    [HttpGet("find")]
+    public async Task<IActionResult> GetActiveCourier([FromQuery] string clientAddress, string storeAddress)
     {
         var couriers = await _courierService.GetAllCouriers();
 

@@ -1,9 +1,12 @@
 using System.Net.Http.Json;
 using BarsGroupProjectN1.Core.AppSettings;
+using BarsGroupProjectN1.Core.Contracts;
+using BarsGroupProjectN1.Core.Models.Courier;
 using BarsGroupProjectN1.Core.Repositories;
 using Handler.Core.Abstractions.Repositories;
 using Handler.Core.Common;
 using HandlerService.DataAccess.Contracts;
+using HandlerService.Infustucture;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 
@@ -16,16 +19,24 @@ public class CourierRepository : RepositoryHttpClientBase, ICurierRepository
     {
     }
 
-    public async Task<(Curier?, TimeSpan deliveryTime)> GetCourier(string clientAddress)
+    public async Task<(OrderTaskExecution<Courier>?, string? error)> FindCourier(string clientAddress,
+        string storeAddress)
     {
-        HttpResponseMessage response = await HttpClient.GetAsync($"curiers/find?address={clientAddress}");
+        var requestUri = new UriBuilder()
+        {
+            Query = QueryUtils.GetQueryString(clientAddress, storeAddress),
+            Path = "api/couierier/find"
+        }.Uri.PathAndQuery;
 
-        if (!response.IsSuccessStatusCode) return (null, TimeSpan.Zero);
-        CurierWithDeliveryTimeResponse? result =
-            await response.Content.ReadFromJsonAsync<CurierWithDeliveryTimeResponse>();
+
+        HttpResponseMessage response = await HttpClient.GetAsync(requestUri);
+
+        if (!response.IsSuccessStatusCode) return (null, await response.Content.ReadAsStringAsync());
+        OrderTaskExecution<Courier>? result =
+            await response.Content.ReadFromJsonAsync<OrderTaskExecution<Courier>>();
 
         return result == null
-            ? (null, TimeSpan.Zero)
-            : (result.Curier, result.DeliveryTime);
+            ? (null, "Ошибка получения данных курьера")
+            : (result, null);
     }
 }

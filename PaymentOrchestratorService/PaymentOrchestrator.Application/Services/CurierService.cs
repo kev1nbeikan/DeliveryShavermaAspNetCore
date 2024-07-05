@@ -1,3 +1,5 @@
+using BarsGroupProjectN1.Core.Contracts;
+using BarsGroupProjectN1.Core.Models.Courier;
 using Handler.Core.Abstractions.Repositories;
 using Handler.Core.Abstractions.Services;
 using Handler.Core.Common;
@@ -6,15 +8,16 @@ namespace HandlerService.Application.Services;
 
 public class CurierService : ICurierService
 {
-    private readonly ICurierRepository _curierRepository;
+    private readonly ICurierRepository _courierRepository;
 
-    public CurierService(ICurierRepository curierRepository)
+    public CurierService(ICurierRepository courierRepository)
     {
-        _curierRepository = curierRepository;
+        _courierRepository = courierRepository;
     }
 
-    public async Task<(Curier?, TimeSpan deliveryTime)> GetCurier(string clientAddress)
+    public async Task<(OrderTaskExecution<Courier>? courier, string? error)> FindCourier(string clientAddress,
+        string storeAddress)
     {
-        return await _curierRepository.GetCourier(clientAddress);
+        return await _courierRepository.FindCourier(clientAddress, storeAddress);
     }
 }

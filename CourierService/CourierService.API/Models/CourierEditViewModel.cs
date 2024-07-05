@@ -1,3 +1,4 @@
+using BarsGroupProjectN1.Core.Models.Courier;
 using CourierService.Core.Models;
 
 namespace CourierService.API.Models;

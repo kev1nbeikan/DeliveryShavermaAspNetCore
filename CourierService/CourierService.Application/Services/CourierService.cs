@@ -1,4 +1,5 @@
 ﻿using BarsGroupProjectN1.Core.Exceptions;
+using BarsGroupProjectN1.Core.Models.Courier;
 using CourierService.Core.Abstractions;
 using CourierService.Core.Exceptions;
 using CourierService.Core.Models;

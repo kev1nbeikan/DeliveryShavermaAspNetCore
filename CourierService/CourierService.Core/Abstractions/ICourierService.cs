@@ -1,4 +1,5 @@
-﻿using CourierService.Core.Models;
+﻿using BarsGroupProjectN1.Core.Models.Courier;
+using CourierService.Core.Models;
 using CourierService.Core.Models.Code;
 
 namespace CourierService.Core.Abstractions;

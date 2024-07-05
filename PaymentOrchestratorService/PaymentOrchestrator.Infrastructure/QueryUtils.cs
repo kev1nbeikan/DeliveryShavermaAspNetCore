@@ -16,4 +16,14 @@ public static class QueryUtils
 
         return query.ToString().MakeEmptyIfNull();
     }
+
+    public static string GetQueryString(string ClientAddress, string StoreAddress)
+    {
+        var query = ParseQueryString(string.Empty);
+
+        query.Add(nameof(ClientAddress), ClientAddress);
+        query.Add(nameof(StoreAddress), StoreAddress);
+
+        return query.ToString().MakeEmptyIfNull();
+    }
 }

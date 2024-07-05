@@ -1,6 +1,4 @@
-﻿using CourierService.Core.Models.Code;
-
-namespace CourierService.Core.Models;
+﻿namespace BarsGroupProjectN1.Core.Models.Courier;
 
 public class Courier
 {
