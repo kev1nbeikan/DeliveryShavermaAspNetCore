@@ -3,12 +3,12 @@
 @model CourierViewModel;
 
 @{
-    ViewData["Title"] = "Service Page";
+    ViewData["Title"] = "Профиль";
 }
 
 <form class="form-inline row g-3" asp-controller="Courier" asp-action="UpdateCourierStatus" asp-route-id="@Model.Id" method="POST">
     <div class="container mt-5">
-        <h1 class="text-center mb-4">Courier Profile Menu</h1>
+        <h1 class="text-center mb-4">Курьер🚲</h1>
         <div class="menu-grid">
             <div class="input-group-append">
                 @switch (@Model.Status)

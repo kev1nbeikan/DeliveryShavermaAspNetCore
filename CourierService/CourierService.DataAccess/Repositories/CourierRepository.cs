@@ -51,6 +51,16 @@ public class CourierRepository : ICourierRepository
         return id;
     }
 
+    public async Task<bool> Update(Guid id, string phoneNumber)
+    {
+        await _dbContext.Couriers.Where(c => c.Id == id)
+            .ExecuteUpdateAsync(
+                s => s
+                    .SetProperty(c => c.PhoneNumber, c => phoneNumber)
+            );
+        return await _dbContext.SaveChangesAsync() > 0;
+    }
+
     public async Task<Guid> Delete(Guid id)
     {
         await _dbContext.Couriers
@@ -64,6 +74,8 @@ public class CourierRepository : ICourierRepository
     {
         var courier = await _dbContext.Couriers.FindAsync(id);
 
-        return courier is null ? null : Courier.Create(courier.Id, courier.Status).Courier;
+        return courier is null
+            ? null
+            : Courier.Create(courier.Id, courier.Status, courier.ActiveOrdersCount, courier.PhoneNumber).Courier;
     }
 }

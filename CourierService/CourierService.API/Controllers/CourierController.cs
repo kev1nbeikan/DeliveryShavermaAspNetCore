@@ -1,8 +1,10 @@
 ﻿using BarsGroupProjectN1.Core.Contracts;
+using BarsGroupProjectN1.Core.Exceptions;
 using CourierService.API.Contracts;
 using CourierService.API.Extensions;
 using CourierService.API.Models;
 using CourierService.Core.Abstractions;
+using CourierService.Core.Exceptions;
 using CourierService.Core.Models;
 using CourierService.Core.Models.Code;
 using Microsoft.AspNetCore.Mvc;
@@ -17,10 +19,17 @@ public class CourierController : Controller
 
     private readonly IOrdersApiClient _ordersApiClient;
 
-    public CourierController(ICourierService courierService, IOrdersApiClient ordersApiClient)
+    private readonly ILogger<CourierController> _logger;
+
+    public CourierController(
+        ICourierService courierService,
+        IOrdersApiClient ordersApiClient,
+        ILogger<CourierController> logger
+    )
     {
         _courierService = courierService;
         _ordersApiClient = ordersApiClient;
+        _logger = logger;
     }
 
     [HttpGet]
@@ -108,9 +117,19 @@ public class CourierController : Controller
     public async Task<IActionResult> CourierProfile()
     {
         var courierId = User.UserId();
-        var courier = await _courierService.GetCourierById(courierId);
 
-        if (courier is null)
+        try
+        {
+            var courier = await _courierService.GetCourierById(courierId);
+
+            return View(new CourierViewModel
+            {
+                Id = courier.Id,
+                Status = courier.Status
+            });
+        }
+
+        catch (EntityNotFound e)
         {
             var (newCourier, error) = Courier.Create(
                 courierId,
@@ -126,12 +145,18 @@ public class CourierController : Controller
 
             return RedirectToAction("CourierProfile", new { id = newCourier.Id });
         }
-
-        return View(new CourierViewModel
+        catch (ArgumentException e)
         {
-            Id = courier.Id,
-            Status = courier.Status
-        });
+            BadRequest(e.Message);
+            _logger.LogError(e, e.Message);
+        }
+        catch (RepositoryException e)
+        {
+            BadRequest(e.Message);
+            _logger.LogError(e, e.Message);
+        }
+
+        return BadRequest();
     }
 
     [HttpGet("getactivecourier")]

@@ -9,6 +9,5 @@ public class CourierDbContext : DbContext
 
 	public CourierDbContext(DbContextOptions<CourierDbContext> options) : base(options)
 	{
-		Database.EnsureCreated();
 	}
 }

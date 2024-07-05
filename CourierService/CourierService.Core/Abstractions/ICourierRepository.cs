@@ -5,13 +5,15 @@ namespace CourierService.Core.Abstractions;
 
 public interface ICourierRepository
 {
-	Task<Guid> Create(Courier courier);
+    Task<Guid> Create(Courier courier);
 
-	Task<Guid> Delete(Guid id);
+    Task<Guid> Delete(Guid id);
 
-	Task<List<Courier>> Get();
+    Task<List<Courier>> Get();
 
-	Task<Guid> Update(Guid id, CourierStatusCode status);
-	
-	Task<Courier?> GetById(Guid id);
+    Task<Guid> Update(Guid id, CourierStatusCode status);
+
+    Task<bool> Update(Guid id, string phoneNumber);
+
+    Task<Courier?> GetById(Guid id);
 }
