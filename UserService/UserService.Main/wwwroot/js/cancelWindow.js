@@ -41,10 +41,11 @@ function cancelOrder(reasonOfCanceledText) {
                 throw new Error('Не удалось отменить заказ');
             }
             getCurrentOrders();
+            showInfoMessage("Заказ отменен");
             console.log('Заказ отменен', response);
         })
         .catch(error => {
-            alert('Произошла ошибка');
+            showErrorMessage('Произошла ошибка');
             console.error('Ошибка при отмене заказа:', reasonOfCanceledText);
         });
 }

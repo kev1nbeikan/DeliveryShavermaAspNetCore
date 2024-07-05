@@ -41,7 +41,9 @@ function displayCurrentOrders(orders) {
         const statusCell = row.insertCell();
         statusCell.id = 'statusCell';
         statusCell.textContent = StatusMapping[order.status];
-        
+        if (order.status === 3) {
+            statusCell.style.backgroundColor = '#e3ffe3';
+        }
         const basketCell = row.insertCell();
         basketCell.id = 'basketCell';
         order.basket.forEach(item => {
@@ -49,48 +51,17 @@ function displayCurrentOrders(orders) {
             listItem.textContent = `${item.name}, ${item.amount}, ${item.price} рублей`;
             basketCell.appendChild(listItem);
         });
-        
+
         row.insertCell().textContent = order.comment;
         row.insertCell().textContent = order.clientAddress;
         row.insertCell().textContent = order.courierNumber;
         row.insertCell().textContent = order.clientNumber;
         row.insertCell().textContent = order.price;
 
-        displayButtons(row, order);
+        createChatButton(row, order);
+        createAcceptButton(row, order);
+        createCancelButton(row, order);
     });
-}
-
-function displayButtons(row, order){
-    const actionsCell = row.insertCell();
-    actionsCell.id = 'actionCell';
-
-    const chatButton = document.createElement('button');
-    chatButton.classList.add('btn', 'order-chat-button', 'action-button');
-    chatButton.textContent = 'Чат';
-    chatButton.onclick = () => openConformationWindowCancel(order.id);
-    actionsCell.appendChild(chatButton);
-
-    if (order.status === 3) {
-        let statusCell = document.getElementById('statusCell');
-        statusCell.style.backgroundColor = '#e3ffe3';
-
-        const acceptButton = document.createElement('button');
-        acceptButton.classList.add('btn', 'order-accept-button', 'action-button');
-        acceptButton.textContent = 'Принять';
-        acceptButton.onclick = () => openConformationWindowAccept(order.id);
-        actionsCell.appendChild(acceptButton);
-    }
-
-    const cancelCell = row.insertCell();
-    cancelCell.id ='cancelCell';
-
-    const cancelButton = document.createElement('button');
-    cancelButton.classList.add('btn', 'close-button');
-    const closeIcon = document.createElement('span');
-    closeIcon.classList.add('close-icon');
-    cancelButton.appendChild(closeIcon);
-    cancelButton.onclick = () => openConformationWindowCancel(order.id);
-    cancelCell.appendChild(cancelButton);
 }
 
 async function checkOrderStatus() {
@@ -131,7 +102,7 @@ function updateOrderStatus(orderId, newStatus) {
     }
 }
 
-async function restartCurrentOrderPage(time){
+async function restartCurrentOrderPage(time) {
     await new Promise((resolve) => {
         ordersToCheck = [];
         setTimeout(() => {

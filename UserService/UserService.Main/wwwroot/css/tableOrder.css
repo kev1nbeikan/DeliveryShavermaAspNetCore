@@ -1,5 +1,5 @@
 ﻿.table {
-    margin-top: 15px;
+    margin: 15px 0 50px 0;
     width: 100%;
     
     border-radius: 20px;
@@ -31,7 +31,6 @@
     }
 }
 
-
 #statusCell {
     font-weight: bold;
 }
@@ -40,7 +39,7 @@
     line-height: 1.5;
 }
 
-#cancelCell:hover, #actionCell:hover {
+#chatCell:hover, #acceptCell:hover, #cancelCell:hover{
     box-shadow: 0 0 0 rgba(0, 0, 0, 0);
     border-radius: 0;
     background-color: white;
@@ -50,4 +49,6 @@
     padding: 20px 0 20px 0;
 }
 
-
+#CurrentOrdersTable th{
+    vertical-align: center;
+}

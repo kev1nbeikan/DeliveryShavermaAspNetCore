@@ -80,7 +80,7 @@ function displayButtons(row, order){
     
     if (order.status === 0) {
         const acceptButton = document.createElement('button');
-        acceptButton.classList.add('btn', 'order-accept-button');
+        acceptButton.classList.add('btn', 'order-accept-button', 'action-button');
         acceptButton.textContent = 'Готов';
         acceptButton.onclick = () => openConformationWindowAccept(order.id);
         actionsCell.appendChild(acceptButton);
@@ -107,6 +107,7 @@ async function checkNewOrder() {
                 });
             if (response.status === 200) {
                 const data = await response.json();
+                showInfoMessage("Новый заказ");
                 displayCurrentOrders(data);
             } else if (response.status === 204) {
                 console.info('Новых заказов нет');

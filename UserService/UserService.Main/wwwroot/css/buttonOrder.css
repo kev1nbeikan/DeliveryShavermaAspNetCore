@@ -30,7 +30,6 @@
 .order-accept-button {
     background-color: #5cb85c;
     box-shadow: 0 0 5px rgba(81, 161, 81, 0.7);
-    margin: 10px;
 }
 
 .action-button:hover {
@@ -47,7 +46,6 @@
     border-radius: 50%;
     position: relative;
     margin-right: 5px;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
 }
 
 .close-icon {

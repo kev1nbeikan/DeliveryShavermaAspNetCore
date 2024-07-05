@@ -5,7 +5,7 @@
 
 .nav-link {
     font-weight: normal;
-    color: #333; 
+    color: #333;
     border-radius: 25px;
 }
 
@@ -17,21 +17,28 @@
     font-weight: bold;
 }
 
-.navbar-nav{
+.navbar-nav {
     font-size: 20px;
-    padding:0 0 5px 0;
+    padding: 0 0 5px 0;
 }
 
-.container{
+.container {
     max-width: 2000px;
     padding: 0 60px 0 60px;
 }
 
-.mainNav{
+.mainNav {
     padding-left: 30px;
-    margin: 5px 0 0 10px ;
+    margin: 5px 0 0 10px;
 }
 
-#cancelNav, #lastNav, #currentNav{
-    margin:0 5px 0 5px;
+#cancelNav, #lastNav, #currentNav {
+    margin: 0 5px 0 5px;
+}
+
+#mainNav, #orderNav {
+    margin-bottom: 10px;
+}
+#orderNav{
+    padding: 0;
 }

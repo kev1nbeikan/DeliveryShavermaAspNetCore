@@ -35,7 +35,7 @@ function deliveryOrder() {
                 throw new Error('Не удалось отменить заказ');
             }
             getCurrentOrders();
-            showSuccessMessage("Закакз принят")
+            showInfoMessage("Закакз принят");
             console.log('Заказ принят!', response);
         })
         .catch(error => {
@@ -58,7 +58,7 @@ function acceptOrder() {
                 throw new Error('Не удалось отменить заказ');   
             }
             getCurrentOrders();
-            showSuccessMessage("Закакз доставлен")
+            showInfoMessage("Закакз доставлен");
             console.log('Заказ принят!', response);
         })
         .catch(error => {

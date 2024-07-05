@@ -50,4 +50,11 @@
     padding: 20px 0 20px 0;
 }
 
+#CancelOrdersTable th, #LastOrdersTable th, #CurrentOrdersTable th {
+    vertical-align: center;
+}
+
+#CancelOrdersTable, #LastOrdersTable {
+    margin-bottom: 50px;
+}
 
