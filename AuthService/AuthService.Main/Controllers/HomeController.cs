@@ -29,4 +29,9 @@ public class HomeController : Controller
             AuthUrl = _servicesOptions.Value.AuthUrl
         });
     }
+
+    public IActionResult MainLinks()
+    {
+        return View(_servicesOptions);
+    }
 }

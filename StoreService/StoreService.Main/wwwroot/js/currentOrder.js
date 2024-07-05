@@ -58,6 +58,7 @@ function displayCurrentOrders(orders) {
         row.insertCell().textContent = order.courierNumber;
         row.insertCell().textContent = order.cookingTime;
 
+
         if (!newestOrderDate || new Date(order.orderDate) > new Date(newestOrderDate)) {
             newestOrderDate = order.orderDate;
         }
@@ -68,16 +69,18 @@ function displayCurrentOrders(orders) {
     });
 }
 
-function displayButtons(row, order){
+function displayButtons(row, order) {
     const actionsCell = row.insertCell();
     actionsCell.id = 'actionCell';
 
     const chatButton = document.createElement('button');
     chatButton.classList.add('btn', 'order-chat-button', 'action-button');
     chatButton.textContent = 'Чат';
-    chatButton.onclick = () => openConformationWindowCancel(order.id);
+    chatButton.onclick = () => {
+        window.open(` http://localhost:5223/Room?RecipientId=${order.storeId}&ChatName=Магазин`, '_blank'); // Open in a new window
+    };
     actionsCell.appendChild(chatButton);
-    
+
     if (order.status === 0) {
         const acceptButton = document.createElement('button');
         acceptButton.classList.add('btn', 'order-accept-button', 'action-button');
@@ -86,7 +89,7 @@ function displayButtons(row, order){
         actionsCell.appendChild(acceptButton);
 
         const cancelCell = row.insertCell();
-        cancelCell.id ='cancelCell';
+        cancelCell.id = 'cancelCell';
 
         const cancelButton = document.createElement('button');
         cancelButton.classList.add('btn', 'close-button');
@@ -147,7 +150,7 @@ async function updateOrderStatus(orderId, newStatus) {
     const orderRow = rows[index];
 
     if (newStatus !== "0" || newStatus !== "1") {
-       await getCurrentOrders();
+        await getCurrentOrders();
     }
     if (StatusMapping[newStatus] === orderRow.cells[0].textContent) {
         return;

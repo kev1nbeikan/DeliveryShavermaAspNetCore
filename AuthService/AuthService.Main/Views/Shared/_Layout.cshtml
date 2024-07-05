@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+<div class="top-nav">
+    <a href="/">.Net Shawa🥙</a>
+    <div class="menu-grid">
+        <a href="@Model.Value.AuthUrl" class="btn">
+            <span class="shawarma-smiley">🔑</span>
+            Авторизация
+        </a>
+        <a href="@Url.Action("MainLinks", "Home")" class="btn">
+            <span class="shawarma-smiley">🌯</span>
+            Сервисы
+        </a>
+    </div>
+</div>
+<div class="container mt-5">
+    @RenderBody()
+</div>
+
+@RenderBody()
+
+</body>
+</html>

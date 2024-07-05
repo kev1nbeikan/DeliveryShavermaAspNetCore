@@ -50,13 +50,30 @@
             margin-top: 10px;
             display: none;
         }
+
+        .shawarma-smiley {
+            font-size: 100px; /* Adjust size as needed */
+            color: #ffb61e;
+            margin-bottom: 10px;
+        }
+        .all-services-link {
+            background-color: #ff8f00; /* Blue background */
+            color: #fff; /* White text */
+        }
+
+        .all-services-link:hover {
+            background-color: #ffda76; /* Darker blue on hover */
+        }
+  
     </style>
 </head>
 <body>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <h2 class="text-center mb-4">.Net SHAVA🥙</h2>
+            <h1 class="text-center shawarma-smiley">🥙</h1>
+            <h2 class="text-center mb-4">Вход</h2>
+
             <form id="loginForm">
                 <input type="email" name="Email" class="form-control mb-2" placeholder="Email" required>
                 <input type="password" name="Password" class="form-control mb-2" placeholder="Password" required>
@@ -65,10 +82,14 @@
             <a class="btn btn-success btn-block mt-3" href="registration">Регистрация</a>
             <div id="result" class="mt-4"></div>
             <div id="errorMessage" class="mt-4"></div>
-            <a class="btn btn-sm mt-3" href="@Url.Action("Login", "Store")">Предприятие</a>
-            <a class="btn btn-sm mt-3" href="@Url.Action("Login", "Courier")">Курьер</a>
+            <a class="btn btn-sm mt-3 all-services-link" href="@Url.Action("Login", "Store")">Предприятие-вход</a>
+            <a class="btn btn-sm mt-3 all-services-link" href="@Url.Action("Login", "Courier")">Курьер-вход</a>
+            <a href="@Url.Action("MainLinks", "Home")" class="btn btn-sm mt-3 all-services-link">Все сервисы (для работников)</a>
         </div>
+      
+
     </div>
+
 </div>
 
 <script>
