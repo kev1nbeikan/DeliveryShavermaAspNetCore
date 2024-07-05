@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Core = BarsGroupProjectN1.Core.Models.Order;
 using OrderService.Api.Contracts.Order;
+using OrderService.Api.Extensions;
 using OrderService.Domain.Abstractions;
 using OrderService.Domain.Common.Code;
 using OrderService.Domain.Models;
