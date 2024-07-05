@@ -13,5 +13,5 @@ public interface ICourierRepository
 
 	Task<Guid> Update(Guid id, CourierStatusCode status);
 	
-	Task<Courier> GetById(Guid id);
+	Task<Courier?> GetById(Guid id);
 }

@@ -33,7 +33,7 @@ public interface IStoreService
     Task<bool> UpdateStore(Guid storeId,
         string address);
 
-    Task UpdateStatus(Guid storeId, StoreStatus status);
+    Task UpdateStatus(Guid storeId, StoreStatus newStatus);
     Task AdjustActiveOrdersCount(Guid storeId, int adjustment = 1);
     Task OnOrderCreate(PublishOrder order);
     Task OnOrderUpdate(PublishOrder order);

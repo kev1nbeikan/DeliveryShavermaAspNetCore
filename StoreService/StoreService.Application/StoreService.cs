@@ -77,20 +77,46 @@ public class StoreService : IStoreService
         if (store is null) throw new StoreNotFoundException(storeId);
 
         store.Address = address;
-        store.EnsureIsValidToOpen();
+        store.EnsureIsValid();
 
         return await _storeRepository.Update(store);
     }
 
-    public async Task UpdateStatus(Guid storeId, StoreStatus status)
+    public async Task UpdateStatus(Guid storeId, StoreStatus newStatus)
     {
         var store = await _storeRepository.Get(storeId);
+        if (store is null) throw new StoreNotFoundException(storeId);
+        
+        EnsureValidChangingOfStatus(newStatus, store);
 
-        EnsureValidStoreToOpen(storeId, store);
+        store.Status = newStatus;
 
-        store.Status = status;
-        store.EnsureIsValidToOpen();
         await _storeRepository.Update(store);
+    }
+
+    private void EnsureValidChangingOfStatus(StoreStatus newStatus, Store store)
+    {
+        switch (newStatus)
+        {
+            case StoreStatus.Open:
+                EnsureValidStoreToOpen(store);
+                break;
+            case StoreStatus.Closed:
+                EnsureValidStoreToClose(store);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(newStatus), newStatus,
+                    "Вы пытаетесь установить неизвестный статус магазина.");
+        }
+    }
+
+    private void EnsureValidStoreToClose(Store store)
+    {
+        if (store.ActiveOrdersCount > 0)
+        {
+            throw new ArgumentException(
+                "Магазин не может быть открыт, если имеются активные заказы. Если таковых нет, то обратитесь к администратору");
+        }
     }
 
     public async Task OnOrderCreate(PublishOrder order)
@@ -110,7 +136,7 @@ public class StoreService : IStoreService
 
         store.ActiveOrdersCount += adjustment;
 
-        store.EnsureIsValidToOpen();
+        store.EnsureIsValid();
 
         await _storeRepository.Update(store);
     }
@@ -118,8 +144,8 @@ public class StoreService : IStoreService
     private async Task EnsureValidStoreAndProductsToMakeOrder(Guid storeId, List<ProductsInventory> products)
     {
         var store = await _storeRepository.Get(storeId);
-
-        EnsureValidStoreToOpen(storeId, store);
+        if (store is null) throw new StoreNotFoundException(storeId);
+        store.EnsureIsValid();
 
         if (store!.Status != StoreStatus.Open)
             throw new StoreClosedException(storeId);
@@ -128,9 +154,8 @@ public class StoreService : IStoreService
             throw new UnavailableProductsException(products);
     }
 
-    private static void EnsureValidStoreToOpen(Guid storeId, Store? store)
+    private void EnsureValidStoreToOpen(Store store)
     {
-        if (store is null) throw new StoreNotFoundException(storeId);
-        store.EnsureIsValidToOpen();
+        store.EnsureIsValid();
     }
 }

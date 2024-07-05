@@ -1,4 +1,4 @@
-using CourierService.API.Middleware;
+using BarsGroupProjectN1.Core.Middlewares;
 using CourierService.Application.Services;
 using CourierService.Core.Abstractions;
 using CourierService.DataAccess;
@@ -45,7 +45,7 @@ app.UseRouting();
 
 app.MapControllerRoute(
 	name: "default",
-	pattern: "{controller}/{action=Index}"
+	pattern: "{controller=Home}/{action=Index}"
 );
 
 app.Run();

@@ -19,20 +19,20 @@ public class Store()
             ActiveOrdersCount = activeOrdersCount
         };
 
-        store.EnsureIsValid();
+        store.EnsureIsValidWithoutAddress();
 
         return store;
     }
 
-    public void EnsureIsValid()
+    public void EnsureIsValidWithoutAddress()
     {
         if (Id == Guid.Empty) throw new ArgumentException("Айди магазина не может быть пустым");
         if (ActiveOrdersCount < 0) throw new ArgumentException("Количество активных заказов не может быть меньше нуля");
     }
 
-    public void EnsureIsValidToOpen()
+    public void EnsureIsValid()
     {
-        EnsureIsValid();
+        EnsureIsValidWithoutAddress();
         if (string.IsNullOrEmpty(Address)) throw new ArgumentException("Адрес магазина не может быть пустым");
     }
 }
