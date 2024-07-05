@@ -13,8 +13,7 @@ namespace BarsGroupProjectN1.Core.Extensions
 
         public static string Role(this ClaimsPrincipal user)
         {
-            return "0";
-            // return user.FindFirstValue(UserClaims.Role);
+            return user.FindFirst(UserClaimsStrings.Role)!.Value ?? string.Empty;
         }
     }
 }

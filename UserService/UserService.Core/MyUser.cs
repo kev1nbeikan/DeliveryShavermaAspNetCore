@@ -1,4 +1,4 @@
-namespace BarsGroupProjectN1.Core.Models;
+namespace UserService.Core;
 
 public class MyUser
 {
@@ -7,10 +7,10 @@ public class MyUser
     public string Comment { get; set; }
     public string PhoneNumber { get; set; }
 
-    public MyUser(Guid userId, List<string> address, string comment, string phoneNumber)
+    public MyUser(Guid userId, List<string> addresses, string comment, string phoneNumber)
     {
         UserId = userId;
-        Addresses = address;
+        Addresses = addresses;
         Comment = comment;
         PhoneNumber = phoneNumber;
     }

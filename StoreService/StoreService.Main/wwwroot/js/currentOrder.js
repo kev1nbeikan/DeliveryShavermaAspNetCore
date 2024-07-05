@@ -77,7 +77,7 @@ function displayButtons(row, order) {
     chatButton.classList.add('btn', 'order-chat-button', 'action-button');
     chatButton.textContent = 'Чат';
     chatButton.onclick = () => {
-        window.open(` http://localhost:5223/Room?RecipientId=${order.storeId}&ChatName=Магазин`, '_blank'); // Open in a new window
+        window.open(` http://localhost:5223/Chat/Room?RecipientId=${order.clientId}&ChatName=Покупателем`, '_blank'); // Open in a new window
     };
     actionsCell.appendChild(chatButton);
 

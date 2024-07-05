@@ -1,13 +1,15 @@
-﻿function createChatButton(orderButton, order){
+﻿function createChatButton(orderButton, order) {
     const chatButton = document.createElement('button');
     chatButton.id = "order-chat-button";
     chatButton.classList.add('btn', 'action-button');
     chatButton.textContent = 'Чат с клиентом';
-    chatButton.onclick = () => openConformationWindowCancel(order.id);
+    chatButton.onclick = () => {
+        window.open(` http://localhost:5223/Chat/Room?RecipientId=${order.StoreId}&ChatName=Магазин`, '_blank'); // Open in a new window
+    };
     orderButton.appendChild(chatButton);
 }
 
-function createAcceptButton(orderButton, order, status){
+function createAcceptButton(orderButton, order, status) {
     const acceptButton = document.createElement('button');
     acceptButton.id = "order-accept-button";
     acceptButton.classList.add('btn', 'action-button');
@@ -21,7 +23,7 @@ function createAcceptButton(orderButton, order, status){
     orderButton.appendChild(acceptButton);
 }
 
-function createCancelButton(orderButton, order){
+function createCancelButton(orderButton, order) {
     const cancelButton = document.createElement('button');
     cancelButton.id = "order-cancel-button";
     cancelButton.classList.add('btn', 'action-button');
@@ -30,7 +32,7 @@ function createCancelButton(orderButton, order){
     orderButton.appendChild(cancelButton);
 }
 
-function deleteButton(){
+function deleteButton() {
     const orderButton = document.getElementById("order-button");
     orderButton.innerHTML = '';
     return orderButton;

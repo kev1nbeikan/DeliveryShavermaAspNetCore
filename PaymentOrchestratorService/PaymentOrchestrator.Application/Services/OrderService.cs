@@ -1,7 +1,6 @@
 using BarsGroupProjectN1.Core.Contracts.Orders;
 using BarsGroupProjectN1.Core.Exceptions;
 using BarsGroupProjectN1.Core.Models;
-using BarsGroupProjectN1.Core.Models.Order;
 using BarsGroupProjectN1.Core.Models.Store;
 using Handler.Core;
 using Handler.Core.Abstractions.Repositories;
@@ -11,6 +10,8 @@ using Handler.Core.Contracts;
 using Handler.Core.Extensions;
 using Handler.Core.HanlderService;
 using HandlerService.Infustucture.Extensions;
+using UserService.Core;
+using BasketItem = BarsGroupProjectN1.Core.Models.Order.BasketItem;
 
 namespace HandlerService.Application.Services;
 

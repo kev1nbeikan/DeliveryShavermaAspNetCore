@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\BarsGroupProjectN1.Common\BarsGroupProjectN1.Common.csproj" />
+      <ProjectReference Include="..\..\UserService\UserService.Core\UserService.Core.csproj" />
     </ItemGroup>
 
 </Project>

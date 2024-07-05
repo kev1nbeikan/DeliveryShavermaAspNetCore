@@ -4,7 +4,9 @@
     const chatButton = document.createElement('button');
     chatButton.classList.add('btn', 'order-chat-button', 'action-button');
     chatButton.textContent = 'Чат';
-    chatButton.onclick = () => openConformationWindowCancel(order.id);
+    chatButton.onclick = () => {
+        window.open(`http://localhost:5223/Chat/Room?RecipientId=${order.storeId}&ChatName=Магазином`, '_blank'); // Open in a new window
+    };
     chatCell.appendChild(chatButton);
 }
 

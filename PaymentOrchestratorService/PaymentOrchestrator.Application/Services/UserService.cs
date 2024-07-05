@@ -6,6 +6,7 @@ using Handler.Core.Abstractions.Services;
 using Handler.Core.Common;
 using Handler.Core.Contracts;
 using HandlerService.Infustucture.Extensions;
+using UserService.Core;
 
 namespace HandlerService.Application.Services;
 

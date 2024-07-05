@@ -6,6 +6,7 @@ using BarsGroupProjectN1.Core.Models;
 using Handler.Core.Common;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using UserService.Core;
 using UserService.Core.Abstractions;
 using UserService.Core.Exceptions;
 using UserService.Main.Contracts;

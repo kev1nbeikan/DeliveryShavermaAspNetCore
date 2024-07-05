@@ -30,7 +30,9 @@ function cancelOrder(reasonOfCanceledText) {
     fetch(`http://localhost:5106/orders/store/cancel/${_orderIdCancel}`, {
         method: 'PUT',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'UserId': AuthHeaders.UserId,
+            'Role': AuthHeaders.Role
         },
         body: JSON.stringify({reasonOfCanceled: reasonOfCanceledText})
     })

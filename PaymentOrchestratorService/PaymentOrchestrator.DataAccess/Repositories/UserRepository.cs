@@ -7,6 +7,7 @@ using Handler.Core.Abstractions.Repositories;
 using Handler.Core.Common;
 using Handler.Core.Contracts;
 using Microsoft.Extensions.Options;
+using UserService.Core;
 
 namespace HandlerService.DataAccess.Repositories;
 
