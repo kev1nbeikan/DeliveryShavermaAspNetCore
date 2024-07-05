@@ -19,17 +19,20 @@ public class OrderApplicationService(
 
     public async Task<List<CurrentOrder>> GetCurrentOrders(RoleCode role, Guid sourceId)
     {
-        return await _currentOrderRepository.Get(role, sourceId);
+        var orders = await _currentOrderRepository.Get(role, sourceId);
+        return orders.OrderByDescending(o => o.OrderDate).ToList();
     }
 
     public async Task<List<LastOrder>> GetHistoryOrders(RoleCode role, Guid sourceId)
     {
-        return await _lastOrderRepository.Get(role, sourceId);
+        var orders = await _lastOrderRepository.Get(role, sourceId);
+        return orders.OrderByDescending(o => o.OrderDate).ToList();
     }
 
     public async Task<List<CanceledOrder>> GetCanceledOrders(RoleCode role, Guid sourceId)
     {
-        return await _canceledOrderRepository.Get(role, sourceId);
+        var orders = await _canceledOrderRepository.Get(role, sourceId);
+        return orders.OrderByDescending(o => o.OrderDate).ToList(); 
     }
 
     public async Task<List<CurrentOrder>> GetStoreCurrentOrders(RoleCode role, Guid sourceId)
