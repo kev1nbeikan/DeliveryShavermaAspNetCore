@@ -35,10 +35,11 @@ function deliveryOrder() {
                 throw new Error('Не удалось отменить заказ');
             }
             getCurrentOrders();
+            showSuccessMessage("Закакз принят")
             console.log('Заказ принят!', response);
         })
         .catch(error => {
-            alert('Произошла ошибка');
+            showErrorMessage("Произошла ошибка")
             console.error('Ошибка при отправке запроса на прием:', error);
         });
 }
@@ -57,10 +58,11 @@ function acceptOrder() {
                 throw new Error('Не удалось отменить заказ');   
             }
             getCurrentOrders();
+            showSuccessMessage("Закакз доставлен")
             console.log('Заказ принят!', response);
         })
         .catch(error => {
-            alert('Произошла ошибка');
+            showErrorMessage("Произошла ошибка")
             console.error('Ошибка при отправке запроса на прием:', error);
         });
 }

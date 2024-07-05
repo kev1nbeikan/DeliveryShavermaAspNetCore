@@ -48,13 +48,14 @@
 @await Html.PartialAsync("_InfoMassgesPartial");
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/showMassage.js" asp-append-version="true"></script>
 <script src="~/js/acceptWindow.js" asp-append-version="true"></script>
 <script src="~/js/cancelWindow.js" asp-append-version="true"></script>
+<script src="~/js/button.js" asp-append-version="true"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
 <script src="~/js/currentOrder.js" asp-append-version="true"></script>
 <script src="~/js/cancelOrder.js" asp-append-version="true"></script>
 <script src="~/js/lastOrder.js" asp-append-version="true"></script>
-<script src="~/js/showMassage.js" asp-append-version="true"></script>
 @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

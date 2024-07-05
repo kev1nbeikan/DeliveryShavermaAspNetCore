@@ -14,15 +14,12 @@
         <th>Номер клиента</th>
         <th>Время готовки</th>
         <th>Время доставки</th>
-        <th> </th>
-        <th></th>
-        <th></th>
     </tr>
     </thead>
     <tbody>
     </tbody>
 </table>
-
+<div id="order-button"></div>
 @await Html.PartialAsync("_CancelWindowPartial")
 @await Html.PartialAsync("_AcceptWindowPartial")
 
@@ -32,4 +29,3 @@
         setInterval(checkOrderStatus, STATUS_CHECK_INTERVAL);
     };
 </script>
-
