@@ -21,7 +21,7 @@ public class CourierRepository : ICourierRepository
         var courierEntities = await _dbContext.Couriers.ToListAsync();
 
         var couriers = courierEntities
-            .Select(c => Courier.Create(c.Id, c.Status).Courier)
+            .Select(c => Courier.Create(c.Id, c.Status, c.ActiveOrdersCount, c.PhoneNumber).Courier)
             .ToList();
 
         return couriers;

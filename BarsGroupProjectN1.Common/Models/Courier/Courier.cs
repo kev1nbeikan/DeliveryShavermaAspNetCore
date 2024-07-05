@@ -8,7 +8,7 @@ public class Courier
         Status = status;
     }
 
-    private Courier(Guid id, CourierStatusCode status, int activeOrdersCount, string? phoneNumber)
+    public Courier(Guid id, CourierStatusCode status, int activeOrdersCount, string? phoneNumber)
     {
         Id = id;
         Status = status;
@@ -39,7 +39,7 @@ public class Courier
         Guid id,
         CourierStatusCode status,
         int activeOrdersCount,
-        string phoneNumber)
+        string? phoneNumber)
     {
         var error = string.Empty;
 
@@ -49,7 +49,7 @@ public class Courier
             id: id,
             status: status,
             activeOrdersCount: activeOrdersCount,
-            phoneNumber);
+            phoneNumber: phoneNumber);
 
 
         return (courier, error);

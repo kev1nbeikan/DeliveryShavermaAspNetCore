@@ -34,7 +34,8 @@ public class GetOrderLogisticUseCase : IGetOrderLogisticUseCase
         var findStoreResult = await FindStore(paymentOrder);
         if (findStoreResult.error.HasValue()) return ExecuteErrorResult(findStoreResult.error!);
 
-        var findCourierResult = await FindCourier(paymentOrder.ClientAddress, result.Cooking.Executor.Address);
+        var findCourierResult =
+            await FindCourier(paymentOrder.ClientAddress, findStoreResult.cookingExecution.Executor.Address);
         if (findCourierResult.error.HasValue()) return ExecuteErrorResult(findCourierResult.error!);
 
         result.Delivering = findCourierResult.deliveryExecution!;

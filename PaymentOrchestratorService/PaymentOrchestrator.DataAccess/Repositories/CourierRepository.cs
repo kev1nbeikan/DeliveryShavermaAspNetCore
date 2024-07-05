@@ -25,13 +25,13 @@ public class CourierRepository : RepositoryHttpClientBase, ICurierRepository
         var requestUri = new UriBuilder()
         {
             Query = QueryUtils.GetQueryString(clientAddress, storeAddress),
-            Path = "api/couierier/find"
+            Path = "api/courier/find"
         }.Uri.PathAndQuery;
 
 
         HttpResponseMessage response = await HttpClient.GetAsync(requestUri);
 
-        if (!response.IsSuccessStatusCode) return (null, await response.Content.ReadAsStringAsync());
+        if (!response.IsSuccessStatusCode) return (null, "Ошибка при получении данных курьера. " + await response.Content.ReadAsStringAsync());
         OrderTaskExecution<Courier>? result =
             await response.Content.ReadFromJsonAsync<OrderTaskExecution<Courier>>();
 
