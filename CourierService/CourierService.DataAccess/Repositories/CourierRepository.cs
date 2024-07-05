@@ -47,7 +47,7 @@ public class CourierRepository : ICourierRepository
                 s => s
                     .SetProperty(c => c.Status, c => status)
             );
-
+        await _dbContext.SaveChangesAsync();
         return id;
     }
 
@@ -56,14 +56,14 @@ public class CourierRepository : ICourierRepository
         await _dbContext.Couriers
             .Where(c => c.Id == id)
             .ExecuteDeleteAsync();
-
+        await _dbContext.SaveChangesAsync();
         return id;
     }
 
     public async Task<Courier?> GetById(Guid id)
     {
         var courier = await _dbContext.Couriers.FindAsync(id);
-        
+
         return courier is null ? null : Courier.Create(courier.Id, courier.Status).Courier;
     }
 }

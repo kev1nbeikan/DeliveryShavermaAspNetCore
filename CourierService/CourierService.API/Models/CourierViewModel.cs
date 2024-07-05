@@ -4,9 +4,7 @@ namespace CourierService.API.Models;
 
 public class CourierViewModel
 {
-	public Guid Id { get; set; }
+    public Guid Id { get; set; }
 
-	public string Email { get; set; }
-
-	public CourierStatusCode Status { get; set; }
+    public CourierStatusCode Status { get; set; }
 }
