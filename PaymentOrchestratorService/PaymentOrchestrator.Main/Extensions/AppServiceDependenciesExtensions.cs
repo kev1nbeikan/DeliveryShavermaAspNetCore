@@ -26,14 +26,14 @@ public static class AppServiceDependenciesExtensions
 
     private static void AddMenuDependencies(this IServiceCollection serviceProvider)
     {
-        serviceProvider.AddSingleton<IMenuService, MenuService>();
+        serviceProvider.AddSingleton<IMenuService, MenuServiceApi>();
         serviceProvider.AddSingleton<IMenuRepository, MenuRepositoryHttp>();
         serviceProvider.AddHttpClient<MenuRepositoryHttp>();
     }
 
     private static void AddOrderDependencies(this IServiceCollection serviceProvider)
     {
-        serviceProvider.AddSingleton<IOrderService, OrderService>();
+        serviceProvider.AddSingleton<IOrderService, OrderServiceApi>();
         serviceProvider.AddSingleton<IOrderRepository, OrderRepositoryHttp>();
         serviceProvider.AddHttpClient<OrderRepositoryHttp>();
     }
