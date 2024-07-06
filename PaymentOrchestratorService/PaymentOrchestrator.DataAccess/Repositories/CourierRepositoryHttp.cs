@@ -12,9 +12,9 @@ using Microsoft.Extensions.Options;
 
 namespace HandlerService.DataAccess.Repositories;
 
-public class CourierRepository : RepositoryHttpClientBase, ICurierRepository
+public class CourierRepositoryHttp : RepositoryHttpClientBase, ICurierRepository
 {
-    public CourierRepository(IHttpClientFactory httpClientFactory, IOptions<ServicesOptions> options) : base(
+    public CourierRepositoryHttp(IHttpClientFactory httpClientFactory, IOptions<ServicesOptions> options) : base(
         nameof(options.Value.CouriersUrl), httpClientFactory)
     {
     }

@@ -15,7 +15,7 @@ public class PaymentRepositoryTest
     [SetUp]
     public void Setup()
     {
-        _handlerRepository = new HandlerRepository(TestFixture.InMemory());
+        _handlerRepository = new HandlerRepositoryHttp(TestFixture.InMemory());
     }
 
     [Test]

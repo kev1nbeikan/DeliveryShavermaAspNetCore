@@ -24,7 +24,7 @@ public class StoreServicePaymentRepoTest
             .WithStoreClient()
             .Build();
 
-        _storeRepository = new StoreRepository(httpClientFactory, serviceOptions);
+        _storeRepository = new StoreRepositoryHttp(httpClientFactory, serviceOptions);
     }
 
 

@@ -27,22 +27,22 @@ public static class AppServiceDependenciesExtensions
     private static void AddMenuDependencies(this IServiceCollection serviceProvider)
     {
         serviceProvider.AddSingleton<IMenuService, MenuService>();
-        serviceProvider.AddSingleton<IMenuRepository, MenuRepository>();
-        serviceProvider.AddHttpClient<MenuRepository>();
+        serviceProvider.AddSingleton<IMenuRepository, MenuRepositoryHttp>();
+        serviceProvider.AddHttpClient<MenuRepositoryHttp>();
     }
 
     private static void AddOrderDependencies(this IServiceCollection serviceProvider)
     {
         serviceProvider.AddSingleton<IOrderService, OrderService>();
-        serviceProvider.AddSingleton<IOrderRepository, OrderRepository>();
-        serviceProvider.AddHttpClient<OrderRepository>();
+        serviceProvider.AddSingleton<IOrderRepository, OrderRepositoryHttp>();
+        serviceProvider.AddHttpClient<OrderRepositoryHttp>();
     }
 
     private static void AddHandlerDependencies(this IServiceCollection serviceProvider)
     {
-        serviceProvider.AddSingleton<IHandlerRepository, HandlerRepository>();
-        serviceProvider.AddSingleton<IHandlerOrderService, HandlerOrderService>();
-        serviceProvider.AddHttpClient<HandlerRepository>();
+        serviceProvider.AddSingleton<IHandlerRepository, HandlerRepositoryHttp>();
+        serviceProvider.AddSingleton<IHandlerOrderService, PaymentOrchestratorOrderService>();
+        serviceProvider.AddHttpClient<HandlerRepositoryHttp>();
     }
 
     private static void AddPaymentDependencies(this IServiceCollection serviceProvider)
@@ -53,21 +53,21 @@ public static class AppServiceDependenciesExtensions
 
     private static void AddCourierDependencies(this IServiceCollection serviceProvider)
     {
-        serviceProvider.AddSingleton<ICurierService, CurierService>();
-        serviceProvider.AddSingleton<ICurierRepository, CourierRepository>();
-        serviceProvider.AddHttpClient<CourierRepository>();
+        serviceProvider.AddSingleton<ICurierService, CourierServiceApi>();
+        serviceProvider.AddSingleton<ICurierRepository, CourierRepositoryHttp>();
+        serviceProvider.AddHttpClient<CourierRepositoryHttp>();
     }
 
     private static void AddUserDependencies(this IServiceCollection serviceProvider)
     {
-        serviceProvider.AddSingleton<IUserService, Application.Services.UserService>();
-        serviceProvider.AddSingleton<IUserRepository, UserRepository>();
-        serviceProvider.AddHttpClient<UserRepository>();
+        serviceProvider.AddSingleton<IUserService, Application.Services.UserServiceApi>();
+        serviceProvider.AddSingleton<IUserRepository, UserRepositoryHttp>();
+        serviceProvider.AddHttpClient<UserRepositoryHttp>();
     }
 
     private static void AddStoreDependencies(this IServiceCollection serviceProvider)
     {
-        serviceProvider.AddSingleton<IStoreService, StoreService>();
-        serviceProvider.AddSingleton<IStoreRepository, StoreRepository>();
+        serviceProvider.AddSingleton<IStoreService, StoreServiceApi>();
+        serviceProvider.AddSingleton<IStoreRepository, StoreRepositoryHttp>();
     }
 }
