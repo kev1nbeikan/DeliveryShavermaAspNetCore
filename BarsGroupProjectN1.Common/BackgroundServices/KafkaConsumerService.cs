@@ -15,6 +15,10 @@ public abstract class KafkaConsumerService : BackgroundService
     private ConsumerConfig? _consumerConfig;
     private readonly IConfiguration _configuration;
     protected ConsumerOptions ConsumerOptions { get; private set; } = new();
+    
+    /// <summary>
+    /// Контекст сообщения, которое обрабатывается.
+    /// </summary>
     protected ConsumeResult<Null, string> MessageContext { get; private set; }
 
 
@@ -24,6 +28,10 @@ public abstract class KafkaConsumerService : BackgroundService
         _configuration = configuration;
     }
 
+    /// <summary>
+    /// Метод для настройки опций конфигурации потребителя Kafka.
+    /// </summary>
+    /// <param name="consumerOptions">Опции конфигурации потребителя Kafka.</param>
     protected abstract void OnConfigure(ConsumerOptions consumerOptions);
 
     protected virtual async Task ProcessMessageAsync(string message)

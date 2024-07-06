@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using BarsGroupProjectN1.Core.Contracts.Orders;
 using BarsGroupProjectN1.Core.Models;
 using BarsGroupProjectN1.Core.Models.Order;
 using Confluent.Kafka;

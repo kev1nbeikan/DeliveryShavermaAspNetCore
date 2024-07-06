@@ -1,5 +1,4 @@
 using BarsGroupProjectN1.Core.BackgroundServices;
-using BarsGroupProjectN1.Core.Contracts.Orders;
 using BarsGroupProjectN1.Core.Models;
 using BarsGroupProjectN1.Core.Models.Order;
 

@@ -2,7 +2,6 @@ using System.Net;
 using System.Text.Json;
 using BarsGroupProjectN1.Core.AppSettings;
 using BarsGroupProjectN1.Core.BackgroundServices;
-using BarsGroupProjectN1.Core.Contracts.Orders;
 using BarsGroupProjectN1.Core.Exceptions;
 using BarsGroupProjectN1.Core.Models;
 using BarsGroupProjectN1.Core.Models.Order;

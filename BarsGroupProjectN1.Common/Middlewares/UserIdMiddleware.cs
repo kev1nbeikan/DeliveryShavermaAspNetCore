@@ -8,13 +8,16 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace BarsGroupProjectN1.Core.Middlewares;
-
+/// <summary>
+/// Промежуточное ПО для извлечения информации о пользователе из куки или заголовков и перенаправления на страницу ошибки 401 в случае отсутствия информации.
+/// </summary>
 public class UserIdMiddleware(
     RequestDelegate next,
     ILogger<UserIdMiddleware> Logger)
 {
     private readonly RequestDelegate _next = next;
-    private readonly string _unauthorizedUserViewUrl = "http://localhost:5025/home/unauthorizedUser";
+    
+    public readonly string UnauthorizedUserViewUrl = "http://localhost:5025/home/unauthorizedUser";
 
 
     public async Task Invoke(HttpContext context)
@@ -34,9 +37,9 @@ public class UserIdMiddleware(
         if (!Guid.TryParse(userIdString, out Guid userId) || string.IsNullOrEmpty(roleString))
         {
             Logger.LogInformation(
-                $"Get unauthorized user {userIdString} with role {roleString} redirecting to {_unauthorizedUserViewUrl}");
+                $"Get unauthorized user {userIdString} with role {roleString} redirecting to {UnauthorizedUserViewUrl}");
             
-            context.Response.Redirect(_unauthorizedUserViewUrl);
+            context.Response.Redirect(UnauthorizedUserViewUrl);
             return;
         }
 

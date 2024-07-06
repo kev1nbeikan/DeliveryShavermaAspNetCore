@@ -1,4 +1,4 @@
-using BarsGroupProjectN1.Core.Contracts.Orders;
+using BarsGroupProjectN1.Core.Contracts;
 
 namespace Handler.Core.Abstractions.Repositories;
 

@@ -1,7 +1,6 @@
-﻿using BarsGroupProjectN1.Core.Models;
-using BarsGroupProjectN1.Core.Models.Order;
+﻿using BarsGroupProjectN1.Core.Models.Order;
 
-namespace BarsGroupProjectN1.Core.Contracts.Orders;
+namespace BarsGroupProjectN1.Core.Contracts;
 
 public record OrderCreateRequest(
     Guid Id,

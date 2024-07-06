@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using BarsGroupProjectN1.Core.AppSettings;
-using BarsGroupProjectN1.Core.views.models;
 using Microsoft.AspNetCore.Mvc;
 using ChatService.Api.Models;
 using Microsoft.Extensions.Options;

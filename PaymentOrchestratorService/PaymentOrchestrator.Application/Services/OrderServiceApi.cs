@@ -1,4 +1,4 @@
-using BarsGroupProjectN1.Core.Contracts.Orders;
+using BarsGroupProjectN1.Core.Contracts;
 using BarsGroupProjectN1.Core.Exceptions;
 using BarsGroupProjectN1.Core.Models;
 using BarsGroupProjectN1.Core.Models.Store;

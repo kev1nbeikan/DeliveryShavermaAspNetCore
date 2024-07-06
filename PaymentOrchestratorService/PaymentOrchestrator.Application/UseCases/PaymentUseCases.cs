@@ -1,4 +1,4 @@
-using BarsGroupProjectN1.Core.Contracts.Orders;
+using BarsGroupProjectN1.Core.Contracts;
 using Handler.Core.Abstractions.Services;
 using Handler.Core.Abstractions.UseCases;
 using Handler.Core.Common;

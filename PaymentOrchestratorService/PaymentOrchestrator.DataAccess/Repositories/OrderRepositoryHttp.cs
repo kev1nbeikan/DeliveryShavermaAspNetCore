@@ -2,7 +2,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using BarsGroupProjectN1.Core.AppSettings;
-using BarsGroupProjectN1.Core.Contracts.Orders;
+using BarsGroupProjectN1.Core.Contracts;
 using BarsGroupProjectN1.Core.Repositories;
 using Handler.Core;
 using Handler.Core.Abstractions.Repositories;
