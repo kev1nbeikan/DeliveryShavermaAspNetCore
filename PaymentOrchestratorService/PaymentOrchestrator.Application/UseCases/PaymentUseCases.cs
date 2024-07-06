@@ -15,12 +15,12 @@ public class PaymentUseCases : IPaymentUseCases
     private readonly IUserService _userService;
     private readonly IMenuService _menuService;
     private readonly IPaymentService _paymentService;
-    private readonly IHandlerOrderService _temporaryOrderService;
+    private readonly IPaymentOrderService _temporaryOrderService;
     private readonly IOrderService _orderService;
     private readonly IGetOrderLogisticUseCase _getOrderLogistic;
 
     public PaymentUseCases(IUserService userService, IMenuService menuService, IPaymentService paymentService,
-        IHandlerOrderService temporaryOrderService, IOrderService orderService,
+        IPaymentOrderService temporaryOrderService, IOrderService orderService,
         IGetOrderLogisticUseCase getOrderLogistic)
     {
         _userService = userService;

@@ -41,7 +41,7 @@ public static class AppServiceDependenciesExtensions
     private static void AddHandlerDependencies(this IServiceCollection serviceProvider)
     {
         serviceProvider.AddSingleton<IHandlerRepository, HandlerRepositoryHttp>();
-        serviceProvider.AddSingleton<IHandlerOrderService, PaymentOrchestratorOrderService>();
+        serviceProvider.AddSingleton<IPaymentOrderService, PaymentOrchestratorOrderService>();
         serviceProvider.AddHttpClient<HandlerRepositoryHttp>();
     }
 

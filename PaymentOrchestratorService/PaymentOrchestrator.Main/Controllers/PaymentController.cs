@@ -25,18 +25,18 @@ public class PaymentController : Controller
     private readonly ILogger<PaymentController> _logger;
     private readonly IPaymentService _paymentService;
     private readonly IPaymentUseCases _paymentUseCases;
-    private readonly IHandlerOrderService _handlerOrderService;
+    private readonly IPaymentOrderService _paymentOrderService;
     private readonly IOptions<ServicesOptions> _options;
 
     public PaymentController(ILogger<PaymentController> logger,
         IPaymentUseCases paymentUseCases, IPaymentService paymentService, IOptions<ServicesOptions> options,
-        IHandlerOrderService handlerOrderService)
+        IPaymentOrderService paymentOrderService)
     {
         _logger = logger;
         _paymentUseCases = paymentUseCases;
         _paymentService = paymentService;
         _options = options;
-        _handlerOrderService = handlerOrderService;
+        _paymentOrderService = paymentOrderService;
     }
 
 
@@ -101,7 +101,7 @@ public class PaymentController : Controller
     [HttpGet("{paymentOrderId:Guid}")]
     public IActionResult Payment(Guid paymentOrderId)
     {
-        var paymentOrder = _handlerOrderService.Get(paymentOrderId);
+        var paymentOrder = _paymentOrderService.Get(paymentOrderId);
         if (paymentOrder == null)
             return BadRequest("Страница платежа не найдена");
 

@@ -9,7 +9,7 @@ using Handler.Core.Payment;
 
 namespace HandlerService.Application.Services;
 
-public class PaymentOrchestratorOrderService : IHandlerOrderService
+public class PaymentOrchestratorOrderService : IPaymentOrderService
 {
     private readonly IHandlerRepository _handlerRepository;
 
