@@ -6,7 +6,7 @@ namespace StoreService.Application;
 
 public class GetCookingTimeUseCase : IGetCookingTimeUseCase
 {
-    private static readonly TimeSpan DefaultCookingTime = TimeSpan.FromMinutes(5);
+    private static readonly TimeSpan DefaultCookingTime = TimeSpan.FromMinutes(1);
 
     public TimeSpan GetCookingTime(Guid storeId, List<ProductsInventory> productsAndQuantities)
     {

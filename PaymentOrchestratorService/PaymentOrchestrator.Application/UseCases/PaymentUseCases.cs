@@ -60,7 +60,7 @@ public class PaymentUseCases : IPaymentUseCases
 
         if (error.HasValue()) throw new PaymentBuildException(error!);
 
-        var price = _paymentService.CalculatePayment(products, productIdsAndQuantity);
+        var price = _paymentService.GetTotalPrice(products, productIdsAndQuantity);
 
         (var paymentOrder, error) = _temporaryOrderService.Save(
             Guid.NewGuid(),

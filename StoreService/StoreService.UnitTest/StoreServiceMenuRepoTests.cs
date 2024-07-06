@@ -12,7 +12,7 @@ namespace StoreService.UnitTest;
 // Нужно иметь запущенный сервис MenuService перед запуском тестов
 public class StoreServiceMenuRepoTests
 {
-    private IStoreServiceMenuRepository _menuRepository;
+    private IMenuRepositoryApi _menuRepositoryApi;
 
     [SetUp]
     public void Setup()
@@ -24,14 +24,14 @@ public class StoreServiceMenuRepoTests
             .WithMenuClient()
             .Build();
 
-        _menuRepository = new StoreServiceMenuRepository(httpClientFactory, serviceOptions);
+        _menuRepositoryApi = new MenuRepositoryApi(httpClientFactory, serviceOptions);
     }
 
 
     [Test]
     public async Task GetAll()
     {
-        var menu = await _menuRepository.GetAll();
+        var menu = await _menuRepositoryApi.GetAll();
         Assert.IsNotNull(menu);
     }
 }

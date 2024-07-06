@@ -6,11 +6,11 @@ namespace StoreService.Application;
 public class StoreUseCases : IStoreUseCases
 {
     private readonly IStoreService _storeService;
-    private readonly IStoreServiceMenuRepository _menuRepository;
+    private readonly IMenuRepositoryApi _menuRepositoryApi;
 
-    public StoreUseCases(IStoreServiceMenuRepository menuRepository, IStoreService storeService)
+    public StoreUseCases(IMenuRepositoryApi menuRepositoryApi, IStoreService storeService)
     {
-        _menuRepository = menuRepository;
+        _menuRepositoryApi = menuRepositoryApi;
         _storeService = storeService;
     }
 

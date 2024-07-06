@@ -6,19 +6,19 @@ namespace StoreService.Application;
 public class ProductInventoryMapper : IProductInventoryMapper
 {
     private readonly IStoreInventoryRepository _storeInventoryRepository;
-    private readonly IStoreServiceMenuRepository _menuRepository;
+    private readonly IMenuRepositoryApi _menuRepositoryApi;
 
     public ProductInventoryMapper(IStoreInventoryRepository storeInventoryRepository,
-        IStoreServiceMenuRepository menuRepository)
+        IMenuRepositoryApi menuRepositoryApi)
     {
         _storeInventoryRepository = storeInventoryRepository;
-        _menuRepository = menuRepository;
+        _menuRepositoryApi = menuRepositoryApi;
     }
 
     public async Task<List<MappedProduct>> GetMappedProducts(Guid storeId)
     {
         var productInventories = await _storeInventoryRepository.GetAll(storeId);
-        var allProducts = await _menuRepository.GetAll();
+        var allProducts = await _menuRepositoryApi.GetAll();
 
         var productInventoryDict = productInventories.ToDictionary(pi => pi.ProductId, pi => pi.Quantity);
 

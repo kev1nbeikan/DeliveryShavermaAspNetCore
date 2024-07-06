@@ -8,8 +8,8 @@ using StoreService.Core.Abstractions;
 
 namespace StoreService.DataAccess.Repositories;
 
-public class StoreServiceMenuRepository(IHttpClientFactory httpClientFactory, IOptions<ServicesOptions> options)
-    : RepositoryHttpClientBase(nameof(options.Value.MenuUrl), httpClientFactory), IStoreServiceMenuRepository
+public class MenuRepositoryApi(IHttpClientFactory httpClientFactory, IOptions<ServicesOptions> options)
+    : RepositoryHttpClientBase(nameof(options.Value.MenuUrl), httpClientFactory), IMenuRepositoryApi
 {
     public async Task<List<Product>> GetAll()
     {

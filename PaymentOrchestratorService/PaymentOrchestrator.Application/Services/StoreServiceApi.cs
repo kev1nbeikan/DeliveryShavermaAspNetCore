@@ -15,9 +15,9 @@ public class StoreServiceApi : IStoreService
         _storeRepository = storeRepository;
     }
 
-    public async Task<(OrderTaskExecution<Store>? cookingExecution, string? error)> GetCookingTime(string address,
+    public async Task<(OrderTaskExecution<Store>? cookingExecution, string? error)> GetCookingExecution(string clientAddress,
         List<ProductsInventory> basket)
     {
-        return await _storeRepository.GetCokingTime(address, basket);
+        return await _storeRepository.GetCokingTime(clientAddress, basket);
     }
 }

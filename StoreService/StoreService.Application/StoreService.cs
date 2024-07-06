@@ -62,6 +62,7 @@ public class StoreService : IStoreService
         return (StoreStatus)status;
     }
 
+   
     public async Task<Store> GetOrAddNewStore(Guid storeId)
     {
         var store = await _storeRepository.Get(storeId);
@@ -82,11 +83,12 @@ public class StoreService : IStoreService
         return await _storeRepository.Update(store);
     }
 
+    
     public async Task UpdateStatus(Guid storeId, StoreStatus newStatus)
     {
         var store = await _storeRepository.Get(storeId);
         if (store is null) throw new StoreNotFoundException(storeId);
-        
+
         EnsureValidChangingOfStatus(newStatus, store);
 
         store.Status = newStatus;

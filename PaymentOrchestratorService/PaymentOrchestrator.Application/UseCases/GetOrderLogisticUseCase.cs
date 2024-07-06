@@ -18,9 +18,9 @@ namespace HandlerService.Application.UseCases;
 public class GetOrderLogisticUseCase : IGetOrderLogisticUseCase
 {
     private readonly IStoreRepository _storeRepository;
-    private readonly ICurierRepository _courierRepository;
+    private readonly ICourierRepository _courierRepository;
 
-    public GetOrderLogisticUseCase(IStoreRepository storeRepository, ICurierRepository courierRepository)
+    public GetOrderLogisticUseCase(IStoreRepository storeRepository, ICourierRepository courierRepository)
     {
         _storeRepository = storeRepository;
         _courierRepository = courierRepository;
@@ -64,6 +64,6 @@ public class GetOrderLogisticUseCase : IGetOrderLogisticUseCase
     private async Task<(OrderTaskExecution<Courier>? deliveryExecution, string? error)> FindCourier(
         string clientAddress, string storeAddress)
     {
-        return await _courierRepository.FindCourier(clientAddress, storeAddress);
+        return await _courierRepository.GetDeliveryExecution(clientAddress, storeAddress);
     }
 }

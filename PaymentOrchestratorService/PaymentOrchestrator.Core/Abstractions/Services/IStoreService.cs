@@ -7,6 +7,12 @@ namespace Handler.Core.Abstractions.Services;
 
 public interface IStoreService
 {
-    Task<(OrderTaskExecution<Store>? cookingExecution, string? error)> GetCookingTime(string address,
+    /// <summary>
+    /// Получить информацию о готовке продуктов для указанного адреса и корзины продуктов.
+    /// </summary>
+    /// <param name="clientAddress">Адрес клиент, чтобы найти магазин около этого адреса.</param>
+    /// <param name="basket">Корзина продуктов, для которых нужно получить информацию о готовке.</param>
+    /// <returns>Кортеж, содержащий информацию о выполнении задачи готовки и возможную ошибку.</returns>
+    Task<(OrderTaskExecution<Store>? cookingExecution, string? error)> GetCookingExecution(string clientAddress,
         List<ProductsInventory> basket);
 }

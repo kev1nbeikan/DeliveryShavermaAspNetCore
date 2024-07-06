@@ -23,6 +23,15 @@ public interface IUserService
     Task<MyUser> Upsert(Guid userId, string address, string phoneNumber,
         string comment);
 
+    /// <summary>
+    /// Добавляет нового пользователя в систему.
+    /// </summary>
+    /// <param name="userId">Уникальный идентификатор пользователя.</param>
+    /// <param name="addresses">Список адресов пользователя.</param>
+    /// <param name="phoneNumber">Номер телефона пользователя.</param>
+    /// <param name="comment">Комментарий к пользователю.</param>
+    /// <returns>Добавленный пользователь.</returns>
+    /// <exception cref="ArgumentException">Если создание пользователя завершилось неудачей.</exception>
     Task<MyUser> Add(Guid userId, List<string> addresses, string phoneNumber,
         string comment);
 }

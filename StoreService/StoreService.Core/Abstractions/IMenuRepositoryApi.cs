@@ -1,6 +1,6 @@
 namespace StoreService.Core.Abstractions;
 
-public interface IStoreServiceMenuRepository
+public interface IMenuRepositoryApi
 {
     Task<List<Product>> GetAll();
 }

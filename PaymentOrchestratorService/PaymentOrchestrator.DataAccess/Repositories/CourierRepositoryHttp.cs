@@ -12,14 +12,14 @@ using Microsoft.Extensions.Options;
 
 namespace HandlerService.DataAccess.Repositories;
 
-public class CourierRepositoryHttp : RepositoryHttpClientBase, ICurierRepository
+public class CourierRepositoryHttp : RepositoryHttpClientBase, ICourierRepository
 {
     public CourierRepositoryHttp(IHttpClientFactory httpClientFactory, IOptions<ServicesOptions> options) : base(
         nameof(options.Value.CouriersUrl), httpClientFactory)
     {
     }
 
-    public async Task<(OrderTaskExecution<Courier>?, string? error)> FindCourier(string clientAddress,
+    public async Task<(OrderTaskExecution<Courier>?, string? error)> GetDeliveryExecution(string clientAddress,
         string storeAddress)
     {
         var requestUri = new UriBuilder()

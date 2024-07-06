@@ -10,10 +10,10 @@ namespace HandlerService.Application.Services;
 
 public class PaymentService : IPaymentService
 {
-    public int CalculatePayment(Product[] products, List<ProductWithAmount> productIdsAndQuantity)
+    public int GetTotalPrice(Product[] products, List<ProductWithAmount> productIdsAndAmount)
     {
         return products.Sum(p =>
-            p.Price * productIdsAndQuantity.Where(x => p.Id == x.Id).Select(x => x.Quantity).First());
+            p.Price * productIdsAndAmount.Where(x => p.Id == x.Id).Select(x => x.Quantity).First());
     }
 
     public List<PaymentType> GetPaymentTypes()

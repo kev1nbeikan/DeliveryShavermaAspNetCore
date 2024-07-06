@@ -16,7 +16,7 @@ public static class DIsExtensions
         services.AddScoped<IStoreRepository, StoreRepository>();
         services.AddScoped<IStoreService, Application.StoreService>();
 
-        services.AddScoped<IStoreServiceMenuRepository, StoreServiceMenuRepository>();
+        services.AddScoped<IMenuRepositoryApi, MenuRepositoryApi>();
 
 
         services.AddScoped<IProductInventoryMapper, ProductInventoryMapper>();

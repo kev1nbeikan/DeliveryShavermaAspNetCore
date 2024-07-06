@@ -23,16 +23,24 @@ public interface IStoreService
     Task<StoreStatus> GetStatus(Guid storeId);
 
     /// <summary>
-    /// Получает существующий магазин по идентификатору или добавляет новый закрытый магазин без адреса.
+    /// Возвращает магазин, если такого нет, то созадет новый с заданным идентификатором и статусом "закрыто" и возвращает его
     /// </summary>
     /// <param name="storeId">Идентификатор магазина.</param>
-    /// <returns>Магазин, который был получен или добавлен.</returns>
-    /// <exception cref="ArgumentException">Бросается, если идентификатор магазина недопустим.</exception>
+    /// <returns>Объект магазина.</returns>
+    /// <exception cref="ArgumentException">Если заданные параметры магазина не валидны.</exception>
     Task<Store> GetOrAddNewStore(Guid storeId);
 
     Task<bool> UpdateStore(Guid storeId,
         string address);
-
+    
+    /// <summary>
+    /// Обновляет статус магазина.
+    /// </summary>
+    /// <param name="storeId">Идентификатор магазина.</param>
+    /// <param name="newStatus">Новый статус магазина.</param>
+    /// <exception cref="StoreNotFoundException">Если магазин с указанным идентификатором не найден.</exception>
+    /// <exception cref="ArgumentOutOfRangeException">Если указан неизвестный статус магазина.</exception>
+    /// <exception cref="ArgumentException">Если магазин не может менять статус, так как имеются активные заказы или у магазина нет полной информации (адресс)</exception>
     Task UpdateStatus(Guid storeId, StoreStatus newStatus);
     Task AdjustActiveOrdersCount(Guid storeId, int adjustment = 1);
     Task OnOrderCreate(PublishOrder order);
