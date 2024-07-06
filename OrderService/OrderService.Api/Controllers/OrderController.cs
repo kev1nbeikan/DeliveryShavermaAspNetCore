@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using BarsGroupProjectN1.Core.Extensions;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Core = BarsGroupProjectN1.Core.Models.Order;
 using OrderService.Api.Contracts.Order;

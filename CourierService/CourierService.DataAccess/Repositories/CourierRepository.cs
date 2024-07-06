@@ -61,6 +61,19 @@ public class CourierRepository : ICourierRepository
         return true;
     }
 
+    public async Task AdjustActiveOrdersCount(Guid id, int adjustment)
+    {
+        Console.WriteLine(adjustment);
+        await _dbContext.Couriers
+            .Where(c => c.Id == id)
+            .ExecuteUpdateAsync(
+                s => s
+                    .SetProperty(
+                        c => c.ActiveOrdersCount,
+                        c => c.ActiveOrdersCount + adjustment)
+            );
+    }
+
     public async Task<Guid> Delete(Guid id)
     {
         await _dbContext.Couriers

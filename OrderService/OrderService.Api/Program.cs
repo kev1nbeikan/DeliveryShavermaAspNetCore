@@ -1,14 +1,11 @@
 using BarsGroupProjectN1.Core.Extensions;
+using BarsGroupProjectN1.Core.Middlewares;
 using OrderService.DataAccess;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using OrderService.Application.Service;
 using OrderService.DataAccess.Repositories;
 using OrderService.Domain.Abstractions;
-using OrderService.Api.Extensions;
-using OrderService.Api.Middleware;
 using OrderService.Application;
-using OrderService.Domain.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 

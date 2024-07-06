@@ -8,4 +8,5 @@ public class CourierViewModel
     public Guid Id { get; set; }
 
     public CourierStatusCode Status { get; set; }
+    public int ActiveOrdersCount { get; set; }
 }

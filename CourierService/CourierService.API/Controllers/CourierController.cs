@@ -182,7 +182,8 @@ public class CourierController : Controller
             return View(new CourierViewModel
             {
                 Id = courier.Id,
-                Status = courier.Status
+                Status = courier.Status,
+                ActiveOrdersCount = courier.ActiveOrdersCount
             });
         }
 

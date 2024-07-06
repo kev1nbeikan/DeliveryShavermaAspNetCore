@@ -16,5 +16,7 @@ public interface ICourierRepository
 
     Task<bool> Update(Guid id, string phoneNumber);
 
+    Task AdjustActiveOrdersCount(Guid id, int adjustment);
+
     Task<Courier?> GetById(Guid id);
 }

@@ -1,4 +1,5 @@
 using BarsGroupProjectN1.Core.Middlewares;
+using CourierService.API.BackgroundServices;
 using CourierService.Application.Services;
 using CourierService.Core.Abstractions;
 using CourierService.DataAccess;
@@ -18,7 +19,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient();
 
 builder.Services.AddDbContext<CourierDbContext>(
-	options => { options.UseNpgsql(builder.Configuration.GetConnectionString("default")); }
+    options => { options.UseNpgsql(builder.Configuration.GetConnectionString("default")); }
 );
 
 builder.Services.AddScoped<ICourierService, CourierService.Application.Services.CourierService>();
@@ -26,13 +27,15 @@ builder.Services.AddScoped<ICourierRepository, CourierRepository>();
 
 builder.Services.AddTransient<IOrdersApiClient, OrdersApiClient>();
 
+builder.Services.AddHostedService<OrderConsumerForCourierService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-	app.UseSwagger();
-	app.UseSwaggerUI();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
@@ -44,8 +47,8 @@ app.UseMiddleware<UserIdMiddleware>();
 app.UseRouting();
 
 app.MapControllerRoute(
-	name: "default",
-	pattern: "{controller=Home}/{action=Index}"
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}"
 );
 
 app.Run();

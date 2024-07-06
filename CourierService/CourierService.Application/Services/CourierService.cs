@@ -1,5 +1,6 @@
 ﻿using BarsGroupProjectN1.Core.Exceptions;
 using BarsGroupProjectN1.Core.Models.Courier;
+using BarsGroupProjectN1.Core.Models.Order;
 using CourierService.Core.Abstractions;
 using CourierService.Core.Exceptions;
 using CourierService.Core.Models;
@@ -31,6 +32,10 @@ public class CourierService : ICourierService
         var courier = await GetCourierById(id);
         if (string.IsNullOrEmpty(courier.PhoneNumber))
             throw new ArgumentException("Вы не указали номер телефона. Укажите его в профиле чтобы выйти на заказы.");
+        if (courier.ActiveOrdersCount > 0)
+            throw new ArgumentException(
+                "Вы не можете обновить статус курьера, когда он имеет активные заказы. Отмените или закончите их.");
+
         return await _courierRepository.Update(id, status);
     }
 
@@ -59,5 +64,24 @@ public class CourierService : ICourierService
         if (courier is null)
             throw new EntityNotFound("Курьер не найден. Попробуйте войти заново или обновить страницу профиля");
         return courier;
+    }
+
+    public async Task OnOrderCreate(PublishOrder order)
+    {
+        var courier = await GetCourierById(order.CourierId);
+        if (courier.Status != CourierStatusCode.Active)
+            throw new EntityNotFound("Активного курьера с таким идентификатором не существует");
+
+        await _courierRepository.AdjustActiveOrdersCount(courier.Id, adjustment: 1);
+    }
+
+    public async Task OnOrderUpdate(PublishOrder order)
+    {
+        var courier = await GetCourierById(order.CourierId);
+        
+        if (courier.ActiveOrdersCount <= 0)
+            throw new ArgumentException("Количество активных заказов не может быть меньше нуля");
+
+        await _courierRepository.AdjustActiveOrdersCount(courier.Id, adjustment: -1);
     }
 }

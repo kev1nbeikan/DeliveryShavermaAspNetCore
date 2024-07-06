@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BarsGroupProjectN1.Core.Extensions;
+using Microsoft.AspNetCore.Mvc;
 using OrderService.Api.Contracts.Common;
 using OrderService.Api.Contracts.Store;
 using OrderService.Api.Extensions;

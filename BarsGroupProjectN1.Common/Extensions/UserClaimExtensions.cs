@@ -15,5 +15,8 @@ namespace BarsGroupProjectN1.Core.Extensions
         {
             return user.FindFirst(UserClaimsStrings.Role)!.Value ?? string.Empty;
         }
+
+        public static Guid IdOfRequest { get; set; }
+        public static string RoleOfRequest { get; set; }
     }
 }
