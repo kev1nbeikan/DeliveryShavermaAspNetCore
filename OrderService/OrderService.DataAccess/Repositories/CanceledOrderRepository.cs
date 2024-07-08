@@ -1,10 +1,10 @@
 ﻿using System.Text.Json;
+using BarsGroupProjectN1.Core.Models;
 using BarsGroupProjectN1.Core.Models.Order;
 using Microsoft.EntityFrameworkCore;
 using OrderService.DataAccess.Entities;
 using OrderService.Domain.Abstractions;
-using OrderService.Domain.Common;
-using OrderService.Domain.Common.Code;
+using OrderService.Domain.Exceptions;
 using OrderService.Domain.Models;
 
 namespace OrderService.DataAccess.Repositories;
@@ -26,7 +26,7 @@ public class CanceledOrderRepository(OrderServiceDbContext context) : ICanceledO
                 b.CourierId,
                 b.StoreId,
                 JsonSerializer.Deserialize<List<BasketItem>>(b.Basket) 
-                ?? throw new ArgumentException("Basket cannot be null", nameof(orderEntity)),
+                ?? throw new FailToUseOrderRepository("Корзина не может быть преобразована из json"),
                 b.Price,
                 b.Comment,
                 b.CookingTime,
@@ -39,7 +39,7 @@ public class CanceledOrderRepository(OrderServiceDbContext context) : ICanceledO
                 b.ReasonOfCanceled,
                 b.CanceledDate,
                 role
-            ).Order)
+            ))
             .ToList();
         return orders;
     }
@@ -52,7 +52,8 @@ public class CanceledOrderRepository(OrderServiceDbContext context) : ICanceledO
             ClientId = order.ClientId,
             CourierId = order.CourierId,
             StoreId = order.StoreId,
-            Basket = JsonSerializer.Serialize(order.Basket),
+            Basket = JsonSerializer.Serialize(order.Basket)
+                     ?? throw new FailToUseOrderRepository($"Json не может быть преобразован в корзину."),
             Price = order.Price,
             Comment = order.Comment,
             CookingTime = order.CookingTime,

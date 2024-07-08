@@ -1,4 +1,4 @@
-﻿using OrderService.Domain.Common.Code;
+﻿using BarsGroupProjectN1.Core.Models;
 using OrderService.Domain.Models;
 
 namespace OrderService.Domain.Abstractions;

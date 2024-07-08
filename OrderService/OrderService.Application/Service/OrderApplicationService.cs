@@ -1,8 +1,9 @@
-﻿using BarsGroupProjectN1.Core.Models.Order;
+﻿using BarsGroupProjectN1.Core.Models;
+using BarsGroupProjectN1.Core.Models.Order;
 using OrderService.Domain.Abstractions;
-using OrderService.Domain.Common.Code;
 using OrderService.Domain.Models;
 using OrderService.Application.Extensions;
+using OrderService.Domain.Exceptions;
 
 namespace OrderService.Application.Service;
 
@@ -57,7 +58,6 @@ public class OrderApplicationService(
             await _currentOrderRepository.ChangeCookingDate(role, DateTime.UtcNow, sourceId, orderId);
         if (status == StatusCode.WaitingClient)
             await _currentOrderRepository.ChangeDeliveryDate(role, DateTime.UtcNow, sourceId, orderId);
-
         var order = await _currentOrderRepository.GetById(role, sourceId, orderId);
         await _orderPublisher.PublishOrderUpdate(order.ToPublishedOrder());
     }
@@ -66,7 +66,7 @@ public class OrderApplicationService(
     {
         var order = await _currentOrderRepository.GetById(role, sourceId, orderId);
         if (order.Status != StatusCode.WaitingClient)
-            throw new Exception("You can complete only accepted orders");
+            throw new FailToChangeStatus("Клиент может завершить только приехавший заказ", order.Status);
         await _lastOrderRepository.Create(order);
         await _currentOrderRepository.Delete(role, sourceId, orderId);
         await _orderPublisher.PublishOrderUpdate(order.ToPublishedOrder());
@@ -76,11 +76,9 @@ public class OrderApplicationService(
     {
         var order = await _currentOrderRepository.GetById(role, sourceId, orderId);
         if (role == RoleCode.Courier && order.Status is not (StatusCode.WaitingCourier or StatusCode.Delivering))
-            throw new Exception(
-                $"Courier cannot cancel the order with the current status. Current status = {(StatusCode)order.Status}");
+            throw new FailToChangeStatus("Курьер может отменить только заказ ожидающий курьера или доставляющийся", order.Status);
         if (role == RoleCode.Store && order.Status is not StatusCode.Cooking)
-            throw new Exception(
-                $"Store cannot cancel the order with the current status. Current status = {(StatusCode)order.Status}");
+            throw new FailToChangeStatus("Магазин может отменить только готовящийся заказ", order.Status);
         await _canceledOrderRepository.Create(order, reasonOfCanceled, role);
         await _currentOrderRepository.Delete(role, sourceId, orderId);
         await _orderPublisher.PublishOrderUpdate(order.ToPublishedOrder());

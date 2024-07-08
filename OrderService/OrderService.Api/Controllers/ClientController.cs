@@ -1,10 +1,9 @@
 ﻿using BarsGroupProjectN1.Core.Extensions;
+using BarsGroupProjectN1.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using OrderService.Api.Contracts.Client;
 using OrderService.Api.Contracts.Common;
-using OrderService.Api.Extensions;
 using OrderService.Domain.Abstractions;
-using OrderService.Domain.Common.Code;
 
 namespace OrderService.Api.Controllers;
 
@@ -22,7 +21,7 @@ public class ClientController(IOrderApplicationService orderApplicationService, 
         var role = (RoleCode)Enum.Parse(typeof(RoleCode), User.Role());
 
         _logger.LogInformation(
-            "Request for a list of CURRENT orders. User id = {userId}, role = {role}",
+            "Запрос клиента на получение текущих заказ. User id = {userId}, role = {role}",
             userId, role);
         
         var orders = await _orderApplicationService.GetCurrentOrders(role, userId);
@@ -41,7 +40,7 @@ public class ClientController(IOrderApplicationService orderApplicationService, 
         var role = (RoleCode)Enum.Parse(typeof(RoleCode), User.Role());
         
         _logger.LogInformation(
-            "Request for a list of LAST orders. User id = {userId}, role = {role}",
+            "Запрос клиента на получение истории заказ. User id = {userId}, role = {role}",
             userId, role);
         
         var orders = await _orderApplicationService.GetHistoryOrders(role, userId);
@@ -60,7 +59,7 @@ public class ClientController(IOrderApplicationService orderApplicationService, 
         var role = (RoleCode)Enum.Parse(typeof(RoleCode), User.Role());
         
         _logger.LogInformation(
-            "Request for a list of CANCELED orders. User id = {userId}, role = {role}",
+            "Запрос клиента на получение отмененных заказ. User id = {userId}, role = {role}",
             userId, role);
         
         var orders = await _orderApplicationService.GetCanceledOrders(role, userId);
@@ -79,7 +78,7 @@ public class ClientController(IOrderApplicationService orderApplicationService, 
         var role = (RoleCode)Enum.Parse(typeof(RoleCode), User.Role());
         
         _logger.LogInformation(
-            "Order Comlete Request. User id = {userId}, role = {role}, orderId = {orderId}",
+            "Запрос клиента на завершение заказа. User id = {userId}, role = {role}, orderId = {orderId}",
             userId, role, orderId);
         
         await _orderApplicationService.ChangeStatusCompleted(role, userId, orderId);
@@ -93,7 +92,7 @@ public class ClientController(IOrderApplicationService orderApplicationService, 
         var role = (RoleCode)Enum.Parse(typeof(RoleCode), User.Role());
 
         _logger.LogInformation(
-            "Order Cancellation Request. User id = {userId}, role = {role}, orderId = {orderId}, reasonOfCanceled = {reasonOfCanceled}",
+            "Запрос клиента на отмену заказа. User id = {userId}, role = {role}, orderId = {orderId}, reasonOfCanceled = {reasonOfCanceled}",
             userId, role, orderId, cancelOrderRequest.ReasonOfCanceled);
         
         await _orderApplicationService.ChangeStatusCanceled(role, userId, orderId, cancelOrderRequest.ReasonOfCanceled);

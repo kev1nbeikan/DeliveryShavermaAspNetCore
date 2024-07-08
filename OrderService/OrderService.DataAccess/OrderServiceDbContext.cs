@@ -6,9 +6,6 @@ namespace OrderService.DataAccess
 {
     public class OrderServiceDbContext(DbContextOptions options) : DbContext(options)
     {
-        
-        
-        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new CurrentOrderConfiguration());
@@ -19,6 +16,5 @@ namespace OrderService.DataAccess
         public DbSet<CurrentOrderEntity> CurrentOrders { get; set; }
         public DbSet<LastOrderEntity> LastOrders { get; set; }
         public DbSet<CanceledOrderEntity> CanceledOrders { get; set; }
-
     }
 }

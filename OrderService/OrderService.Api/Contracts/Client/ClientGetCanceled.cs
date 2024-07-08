@@ -1,6 +1,5 @@
-﻿using BarsGroupProjectN1.Core.Models.Order;
-using OrderService.Domain.Common;
-using OrderService.Domain.Common.Code;
+﻿using BarsGroupProjectN1.Core.Models;
+using BarsGroupProjectN1.Core.Models.Order;
 
 namespace OrderService.Api.Contracts.Client;
 

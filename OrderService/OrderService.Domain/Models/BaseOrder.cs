@@ -1,15 +1,18 @@
-﻿using BarsGroupProjectN1.Core.Models.Order;
+﻿using System.Text.RegularExpressions;
+using BarsGroupProjectN1.Core.Models.Order;
 using OrderService.Domain.Common;
+using OrderService.Domain.Exceptions;
 
 namespace OrderService.Domain.Models;
 
 public abstract class BaseOrder
 {
-    
     public const int MaxNumberLength = 10;
     public const int MaxAddressLength = 250;
-    public const int MaxCommentLength = 250;
+    public const int MaxCommentLength = 500;
     public const int MaxChequeLength = 500;
+    
+    public static readonly Regex RegexForNumber = new Regex(@"^[+0-9\s\-()]{6,15}$(?=.*[0-9]){11}");
 
     protected BaseOrder(Guid id, Guid clientId, Guid courierId, Guid storeId,
         List<BasketItem> basket, int price, string comment, TimeSpan cookingTime, TimeSpan deliveryTime,
@@ -44,44 +47,48 @@ public abstract class BaseOrder
     public DateTime? DeliveryDate { get; } = DateTime.UtcNow;
     public string Cheque { get; } = String.Empty; // пока не уверен как хранить чек
 
-    protected static String Check(
+    protected static void Check(
         Guid id, Guid clientId, Guid courierId, Guid storeId,
         List<BasketItem> basket, int price, string comment, TimeSpan cookingTime,
         TimeSpan deliveryTime, string cheque)
     {
-        string errorString = string.Empty;
-
         if (comment.Length > MaxCommentLength)
-            errorString = "Error in the comment, the value is exceeds the maximum value";
-
+            throw new FailToCreateOrderModel(
+                "Ошибка в комментарии заказа, поле отсутствует или превышает максимальное значение");
         if (basket.Count == 0)
-            errorString = "Error in the basket, the value is empty";
-        
+            throw new FailToCreateOrderModel(
+                "Ошибка в корзине заказа, поле отсутствует или пустое");
+
         if (id == Guid.Empty)
-            errorString = "Error in id, value is empty";
-        
+            throw new FailToCreateOrderModel(
+                "Ошибка в id заказа, пустое значение");
+
         if (clientId == Guid.Empty)
-            errorString = "Error in clientId, value is empty";
+            throw new FailToCreateOrderModel(
+                "Ошибка в id клиента, пустое значение");
 
         if (courierId == Guid.Empty)
-            errorString = "Error in courierId, value is empty";
-
+            throw new FailToCreateOrderModel(
+                "Ошибка в id курьера, пустое значение");
+        
         if (storeId == Guid.Empty)
-            errorString = "Error in storeId, value is empty";
-
+            throw new FailToCreateOrderModel(
+                "Ошибка в id предприятия, пустое значение");
+        
         if (price < 0)
-            errorString = "Error in price, negative value for price";
-
+            throw new FailToCreateOrderModel(
+                "Ошибка в цене заказа, отрицательное значение");
+        
         if (cookingTime < TimeSpan.Zero)
-            errorString = "Error in cookingTime, negative value for price";
+            throw new FailToCreateOrderModel(
+                "Ошибка в времени приготовления, отрицательное значение");
 
         if (deliveryTime < TimeSpan.Zero)
-            errorString = "Error in deliveryTime, negative value for price";
-        
-        if (string.IsNullOrEmpty(cheque) || cheque.Length > MaxChequeLength)
-            errorString = "Error in the cheque, the value is empty or exceeds the maximum value";
+            throw new FailToCreateOrderModel(
+                "Ошибка в времени доставки, отрицательное значение");
 
-        return errorString;
+        if (string.IsNullOrEmpty(cheque) || cheque.Length > MaxChequeLength)
+            throw new FailToCreateOrderModel(
+                "Ошибка в чеке, поле отсутствует или превышает максимальное значение");
     }
 }
-

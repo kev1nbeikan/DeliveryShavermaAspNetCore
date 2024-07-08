@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using OrderService.DataAccess.Entities;
 using OrderService.Domain.Models;
 
+
 namespace OrderService.DataAccess.Configurations
 {
     public class CurrentOrderConfiguration : IEntityTypeConfiguration<CurrentOrderEntity>
@@ -26,6 +27,14 @@ namespace OrderService.DataAccess.Configurations
                 .HasMaxLength(BaseOrder.MaxCommentLength)
                 .IsRequired();
 
+            builder.ToTable(table => 
+            {
+                table.HasCheckConstraint(
+                    "CK_ClientNumber", $"ClientNumber ~ '{BaseOrder.RegexForNumber}'");
+                table.HasCheckConstraint(
+                    "CK_CourierNumber", $"CourierNumber ~ '{BaseOrder.RegexForNumber}'");
+            });
+            
             builder.Property(b => b.ClientAddress)
                 .HasMaxLength(BaseOrder.MaxAddressLength)
                 .IsRequired();

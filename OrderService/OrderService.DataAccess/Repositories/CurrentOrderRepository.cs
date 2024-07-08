@@ -1,11 +1,10 @@
-﻿using System.Linq.Expressions;
-using System.Text.Json;
+﻿using System.Text.Json;
+using BarsGroupProjectN1.Core.Models;
 using BarsGroupProjectN1.Core.Models.Order;
 using Microsoft.EntityFrameworkCore;
 using OrderService.DataAccess.Entities;
 using OrderService.Domain.Abstractions;
-using OrderService.Domain.Common;
-using OrderService.Domain.Common.Code;
+using OrderService.Domain.Exceptions;
 using OrderService.Domain.Models;
 
 namespace OrderService.DataAccess.Repositories;
@@ -27,7 +26,7 @@ public class CurrentOrderRepository(OrderServiceDbContext context) : ICurrentOrd
                 b.CourierId,
                 b.StoreId,
                 JsonSerializer.Deserialize<List<BasketItem>>(b.Basket)
-                ?? throw new ArgumentException("Basket cannot be null", nameof(orderEntity)),
+                ?? throw new FailToUseOrderRepository("Корзина не может быть преобразована из json"),
                 b.Price,
                 b.Comment,
                 b.StoreAddress,
@@ -40,7 +39,7 @@ public class CurrentOrderRepository(OrderServiceDbContext context) : ICurrentOrd
                 b.CookingDate,
                 b.DeliveryDate,
                 b.Cheque,
-                (StatusCode)b.Status).Order)
+                (StatusCode)b.Status))
             .ToList();
         return orders;
     }
@@ -53,7 +52,7 @@ public class CurrentOrderRepository(OrderServiceDbContext context) : ICurrentOrd
                               .AsNoTracking()
                               .Where(condition)
                               .FirstOrDefaultAsync(b => b.Id == id)
-                          ?? throw new KeyNotFoundException();
+                          ?? throw new NotFoundOrder(role, sourceId, id, nameof(GetById));
 
         var order = CurrentOrder.Create(
             orderEntity.Id,
@@ -61,7 +60,7 @@ public class CurrentOrderRepository(OrderServiceDbContext context) : ICurrentOrd
             orderEntity.CourierId,
             orderEntity.StoreId,
             JsonSerializer.Deserialize<List<BasketItem>>(orderEntity.Basket)
-            ?? throw new ArgumentException("Basket cannot be null", nameof(orderEntity)),
+            ?? throw new FailToUseOrderRepository("Корзина не может быть преобразована из json"),
             orderEntity.Price,
             orderEntity.Comment,
             orderEntity.StoreAddress,
@@ -74,7 +73,7 @@ public class CurrentOrderRepository(OrderServiceDbContext context) : ICurrentOrd
             orderEntity.CookingDate,
             orderEntity.DeliveryDate,
             orderEntity.Cheque,
-            (StatusCode)orderEntity.Status).Order;
+            (StatusCode)orderEntity.Status);
 
         return order;
     }
@@ -87,7 +86,7 @@ public class CurrentOrderRepository(OrderServiceDbContext context) : ICurrentOrd
                               .AsNoTracking()
                               .Where(condition)
                               .FirstOrDefaultAsync(b => b.Id == id)
-                          ?? throw new KeyNotFoundException();
+                          ?? throw new NotFoundOrder(role, sourceId, id, nameof(GetStatus));
         return (StatusCode)orderEntity.Status;
     }
 
@@ -96,8 +95,9 @@ public class CurrentOrderRepository(OrderServiceDbContext context) : ICurrentOrd
         var condition = BaseOrderRepository.GetCondition<CurrentOrderEntity>(role, sourceId);
 
         var orderEntity = await context.CurrentOrders
-            .Where(condition)
-            .FirstOrDefaultAsync(b => b.Id == id) ?? throw new KeyNotFoundException();
+                              .Where(condition)
+                              .FirstOrDefaultAsync(b => b.Id == id)
+                          ?? throw new NotFoundOrder(role, sourceId, id, nameof(ChangeStatus));
 
         ValidateStatus(status, orderEntity);
 
@@ -147,7 +147,8 @@ public class CurrentOrderRepository(OrderServiceDbContext context) : ICurrentOrd
             ClientId = order.ClientId,
             CourierId = order.CourierId,
             StoreId = order.StoreId,
-            Basket = JsonSerializer.Serialize(order.Basket),
+            Basket = JsonSerializer.Serialize(order.Basket)
+                     ?? throw new FailToUseOrderRepository($"Json не может быть преобразован в корзину."),
             Price = order.Price,
             Comment = order.Comment,
             StoreAddress = order.StoreAddress,
@@ -169,17 +170,7 @@ public class CurrentOrderRepository(OrderServiceDbContext context) : ICurrentOrd
 
     private void ValidateStatus(StatusCode status, CurrentOrderEntity order)
     {
-        if (!Enum.IsDefined(typeof(StatusCode), status))
-            throw new ArgumentException(
-                $"Invalid status value. Current status: {(StatusCode)order.Status}, new status: {status}",
-                nameof(status));
-        if ((int)status <= order.Status)
-            throw new ArgumentException(
-                $"New status cannot be less than or equal to the current status. Current status: {(StatusCode)order.Status}, new status: {status}",
-                nameof(status));
-        if ((int)status - 1 != order.Status)
-            throw new ArgumentException(
-                $"New status skips previous states. Current status: {(StatusCode)order.Status}, new status: {status}",
-                nameof(status));
+        if (!Enum.IsDefined(typeof(StatusCode), status) || (int)status - 1 != order.Status)
+            throw new FailToChangeStatus((StatusCode)order.Status, status);
     }
 }
