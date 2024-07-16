@@ -6,8 +6,8 @@ namespace StoreService.Core.Exceptions;
 public class UnavailableProductsException
     : StoreServiceException
 {
-    public UnavailableProductsException(List<ProductsInventory> products) : base(
-        $"Not enough products in store: {string.Join(", ", products.Select(p => $"productId: {p.ProductId} quantity: {p.Quantity}"))}")
+    public UnavailableProductsException(List<ProductInventoryWithName> products) : base(
+        $"Недостаточно продуктов в магазине: {string.Join(", ", products.Select(p => $"Продукт: {p.Name} в количестве: {p.Quantity} не доступен, свяжитесь с магаизном или поменяйте корзину"))}")
     {
     }
 

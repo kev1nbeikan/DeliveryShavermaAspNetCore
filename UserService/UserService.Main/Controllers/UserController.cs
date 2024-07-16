@@ -1,10 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
-using System.Net;
-using System.Text.Json;
-using BarsGroupProjectN1.Core.Models;
-using Handler.Core.Common;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using UserService.Core;
 using UserService.Core.Abstractions;

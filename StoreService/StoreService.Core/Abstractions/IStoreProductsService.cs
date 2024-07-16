@@ -15,7 +15,7 @@ public interface IStoreProductsService
     /// </summary>
     /// <param name="storeId">Идентификатор магазина.</param>
     /// <param name="requiredProductsQuantities">Список требуемых количеств продуктов.</param>
-    Task<bool> CheckProductsCount(Guid storeId, List<ProductsInventory> requiredProductsQuantities);
+    Task<bool> CheckProductsCount(Guid storeId, List<ProductInventoryWithName> requiredProductsQuantities);
     /// <summary>
     /// Добавляет или обновляет информацию о количестве продукта в магазине.
     /// </summary>

@@ -16,7 +16,7 @@ public class StoreProductService : IStoreProductsService
     }
 
     public async Task<bool> CheckProductsCount(Guid storeId,
-        List<ProductsInventory> requiredProductsQuantities)
+        List<ProductInventoryWithName> requiredProductsQuantities)
     {
         List<ProductInventory> availableProductsQuantities =
             await _storeInventoryRepository.GetByIds(storeId,
@@ -26,7 +26,7 @@ public class StoreProductService : IStoreProductsService
     }
 
     private bool CheckProductAvailability(
-        List<ProductsInventory> requiredProductQuantities,
+        List<ProductInventoryWithName> requiredProductQuantities,
         List<ProductInventory> availableProductInventories
     )
     {

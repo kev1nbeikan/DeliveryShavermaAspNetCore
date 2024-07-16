@@ -55,7 +55,7 @@ public class GetOrderLogisticUseCase : IGetOrderLogisticUseCase
     {
         var productsAndAmount = paymentOrder.Bucket
             .Select(x =>
-                new ProductsInventory() { ProductId = x.product.Id, Quantity = x.amount }
+                new ProductInventoryWithName() { ProductId = x.product.Id, Quantity = x.amount, Name = x.product.Title }
             ).ToList();
 
         return await _storeRepository.GetCokingTime(paymentOrder.ClientAddress, productsAndAmount);

@@ -8,5 +8,5 @@ namespace Handler.Core.Abstractions.Repositories;
 public interface IStoreRepository
 {
     public Task<(OrderTaskExecution<Store>? cookingExecution, string? error)> GetCokingTime(string clientAddress,
-        List<ProductsInventory> basket);
+        List<ProductInventoryWithName> basket);
 }

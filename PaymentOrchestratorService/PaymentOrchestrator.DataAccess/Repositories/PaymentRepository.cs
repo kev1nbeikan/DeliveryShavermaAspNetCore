@@ -4,13 +4,13 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace HandlerService.DataAccess.Repositories;
 
-public class HandlerRepositoryHttp : IHandlerRepository
+public class PaymentRepository : IPaymentRepository
 {
     private readonly IMemoryCache _cache;
     private readonly MemoryCacheEntryOptions _entryMemoryCacheOptions;
 
 
-    public HandlerRepositoryHttp(IMemoryCache cache)
+    public PaymentRepository(IMemoryCache cache)
     {
         _cache = cache;
         _entryMemoryCacheOptions = new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromMinutes(15));

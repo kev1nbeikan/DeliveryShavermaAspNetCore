@@ -11,11 +11,11 @@ namespace HandlerService.Application.Services;
 
 public class PaymentOrchestratorOrderService : IPaymentOrderService
 {
-    private readonly IHandlerRepository _handlerRepository;
+    private readonly IPaymentRepository _paymentRepository;
 
-    public PaymentOrchestratorOrderService(IHandlerRepository handlerRepository)
+    public PaymentOrchestratorOrderService(IPaymentRepository paymentRepository)
     {
-        _handlerRepository = handlerRepository;
+        _paymentRepository = paymentRepository;
     }
 
     public (PaymentOrder? order, string? error) Save(Guid newGuid, Guid userId, Product[] products,
@@ -36,7 +36,7 @@ public class PaymentOrchestratorOrderService : IPaymentOrderService
 
         if (!string.IsNullOrEmpty(error)) return (null, error);
 
-        error = _handlerRepository.Save(order);
+        error = _paymentRepository.Save(order);
 
         return (order, error);
     }
@@ -44,6 +44,6 @@ public class PaymentOrchestratorOrderService : IPaymentOrderService
 
     public PaymentOrder? Get(Guid orderId)
     {
-        return _handlerRepository.Get(orderId);
+        return _paymentRepository.Get(orderId);
     }
 }

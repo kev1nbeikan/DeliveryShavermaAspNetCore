@@ -17,7 +17,7 @@ public class StoreRepositoryHttp : RepositoryHttpClientBase, IStoreRepository
     }
 
     public async Task<(OrderTaskExecution<Store>? cookingExecution, string? error)> GetCokingTime(string clientAddress,
-        List<ProductsInventory> basket)
+        List<ProductInventoryWithName> basket)
     {
         try
         {

@@ -8,7 +8,7 @@ public class GetCookingTimeUseCase : IGetCookingTimeUseCase
 {
     private static readonly TimeSpan DefaultCookingTime = TimeSpan.FromMinutes(1);
 
-    public TimeSpan GetCookingTime(Guid storeId, List<ProductsInventory> productsAndQuantities)
+    public TimeSpan GetCookingTime(Guid storeId, List<ProductInventoryWithName> productsAndQuantities)
     {
         TimeSpan time = TimeSpan.Zero;
         foreach (var productAndQuantity in productsAndQuantities)

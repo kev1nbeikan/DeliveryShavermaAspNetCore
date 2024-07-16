@@ -23,10 +23,8 @@ public class StoreService : IStoreService
         _storeProductsService = storeProductsService;
     }
 
-    public async Task<OrderTaskExecution<Store>> GetCookingInfo(
-        string clientAddress,
-        List<ProductsInventory> products
-    )
+    public async Task<OrderTaskExecution<Store>> GetCookingInfo(string clientAddress,
+        List<ProductInventoryWithName> products)
     {
         var store = await GetStoreForClientAddress(clientAddress);
 
@@ -143,7 +141,7 @@ public class StoreService : IStoreService
         await _storeRepository.Update(store);
     }
 
-    private async Task EnsureValidStoreAndProductsToMakeOrder(Guid storeId, List<ProductsInventory> products)
+    private async Task EnsureValidStoreAndProductsToMakeOrder(Guid storeId, List<ProductInventoryWithName> products)
     {
         var store = await _storeRepository.Get(storeId);
         if (store is null) throw new StoreNotFoundException(storeId);

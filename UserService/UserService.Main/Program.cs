@@ -1,3 +1,4 @@
+using BarsGroupProjectN1.Core.Extensions;
 using BarsGroupProjectN1.Core.Middlewares;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -13,12 +14,14 @@ builder.Services.AddDbContext<UserDbContext>(
     options => { options.UseNpgsql(builder.Configuration.GetConnectionString(nameof(UserDbContext))); }
 );
 
+
 builder.Services.AddDependencyInjection();
 
 builder.Services.Configure<ServiceOptions>(builder.Configuration.GetSection("Services"));
 
 var app = builder.Build();
 
+app.ApplyMigration<UserDbContext>();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -42,7 +45,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}"
 );
-
 
 
 app.Run();

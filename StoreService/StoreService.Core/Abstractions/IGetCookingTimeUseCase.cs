@@ -12,5 +12,5 @@ public interface IGetCookingTimeUseCase
     /// <param name="storeId">Идентификатор магазина.</param>
     /// <param name="productsAndQuantities">Список товаров и их количеств.</param>
     /// <returns>Общее время приготовления.</returns>
-    TimeSpan GetCookingTime(Guid storeId, List<ProductsInventory> productsAndQuantities);
+    TimeSpan GetCookingTime(Guid storeId, List<ProductInventoryWithName> productsAndQuantities);
 }

@@ -32,7 +32,7 @@ public class StoreServicePaymentRepoTest
     public async Task GetAll()
     {
         var menu = await _storeRepository.GetCokingTime("ул Тест",
-            [new ProductsInventory() { ProductId = Guid.Parse("ebf5fd27-fd27-44b3-8f48-0cf7a7211d3c"), Quantity = 1 }]);
+            [new ProductInventoryWithName() { ProductId = Guid.Parse("ebf5fd27-fd27-44b3-8f48-0cf7a7211d3c"), Quantity = 1 }]);
         Assert.That(menu.error, Is.Null);
     }
 }

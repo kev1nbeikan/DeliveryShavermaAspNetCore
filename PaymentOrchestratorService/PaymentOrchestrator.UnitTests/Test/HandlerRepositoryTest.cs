@@ -10,12 +10,12 @@ namespace HandlerService.UnitTests.Test;
 
 public class PaymentRepositoryTest
 {
-    private IHandlerRepository _handlerRepository;
+    private IPaymentRepository _paymentRepository;
 
     [SetUp]
     public void Setup()
     {
-        _handlerRepository = new HandlerRepositoryHttp(TestFixture.InMemory());
+        _paymentRepository = new PaymentRepository(TestFixture.InMemory());
     }
 
     [Test]
@@ -26,8 +26,8 @@ public class PaymentRepositoryTest
             new Product[] { }, [],
             100, "comment", "address", Guid.NewGuid(), "+785781884").Order!;
 
-        var error = _handlerRepository.Save(paymentOrder);
-        var savedInMemoryPaymentOrder = _handlerRepository.Get(paymentOrder.Id);
+        var error = _paymentRepository.Save(paymentOrder);
+        var savedInMemoryPaymentOrder = _paymentRepository.Get(paymentOrder.Id);
 
         Assert.That(error, Is.Null);
         Assert.That(savedInMemoryPaymentOrder, Is.Not.Null);
@@ -42,8 +42,8 @@ public class PaymentRepositoryTest
             new Product[] { }, [],
             100, "comment", "address", Guid.NewGuid(), "+7857818489").Order!;
 
-        var error = _handlerRepository.Save(paymentOrder);
-        var savedInMemoryPaymentOrder = _handlerRepository.Delete(paymentOrder.Id);
+        var error = _paymentRepository.Save(paymentOrder);
+        var savedInMemoryPaymentOrder = _paymentRepository.Delete(paymentOrder.Id);
 
         Assert.That(error, Is.Null);
         Assert.That(savedInMemoryPaymentOrder, Is.Null);

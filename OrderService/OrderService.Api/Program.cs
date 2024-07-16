@@ -14,6 +14,8 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddMemoryCache();
+
 // builder.Services.Configure<ServicesOptions>(builder.Configuration.GetSection("Services"));
 
 // builder.Services.AddServicesHttpClients(builder.Configuration.GetSection("Services").Get<ServicesOptions>());
@@ -46,16 +48,32 @@ builder.Services.AddDbContext<OrderServiceDbContext>(
             .GetConnectionString(nameof(OrderServiceDbContext)));
     });
 
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = "localhost";
+    options.InstanceName = "local";
+});
 
 builder.Services.ConfigureKafkaOptions(builder.Configuration);
 
-builder.Services.AddScoped<ExceptionMiddleware>(); 
+builder.Services.AddScoped<ExceptionMiddleware>();
 
+builder.Services.AddSingleton<ICache, Cashe>();
 builder.Services.AddScoped<IOrderApplicationService, OrderApplicationService>();
 builder.Services.AddScoped<ICurrentOrderRepository, CurrentOrderRepository>();
 builder.Services.AddScoped<ICanceledOrderRepository, CanceledOrderRepository>();
 builder.Services.AddScoped<ILastOrderRepository, LastOrderRepository>();
 builder.Services.AddScoped<IOrderPublisher, OrderPublisher>();
+builder.Services.AddScoped<ICurrentOrderRepository>(sp =>
+{
+    var baseRepository = new CurrentOrderRepository(sp.GetRequiredService<OrderServiceDbContext>());
+    var cache = sp.GetRequiredService<ICache>();
+    return new CurrentOrderRepositoryWithCache(
+        baseRepository,
+        cache,
+        sp.GetRequiredService<ILogger<CurrentOrderRepositoryWithCache>>()
+    );
+});
 
 var app = builder.Build();
 
@@ -67,11 +85,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
 // app.SetCorsPolicies(app.Services.GetService<IOptions<ServicesOptions>>());
 
 app.UseMiddleware<ExceptionMiddleware>();
 
-app.UseCors("AllowAllOrigins");
+// app.UseCors("AllowAllOrigins");
 
 app.UseMiddleware<UserIdMiddleware>();
 app.MapControllers();
