@@ -9,8 +9,17 @@ using OrderService.Domain.Models;
 
 namespace OrderService.DataAccess.Repositories;
 
+///<inheritdoc/>
+/// <param name="context">Контекст БД.</param>
 public class LastOrderRepository(OrderServiceDbContext context) : ILastOrderRepository
 {
+    /// <summary>
+    /// Возвращает список прошлых заказов для указанной роли и идентификатора источника.
+    /// </summary>
+    /// <param name="role">Роль пользователя.</param>
+    /// <param name="sourceId">Идентификатор источника (клиент, курьер, магазин).</param>
+    /// <returns>Список прошлых заказов.</returns>
+    /// <exception cref="FailToUseOrderRepository">Исключение выбрасывается, при работе json.</exception>
     public async Task<List<LastOrder>> Get(RoleCode role, Guid sourceId)
     {
         var condition = BaseOrderRepository.GetCondition<LastOrderEntity>(role, sourceId);
@@ -39,6 +48,11 @@ public class LastOrderRepository(OrderServiceDbContext context) : ILastOrderRepo
         return orders;
     }
 
+    /// <summary>
+    /// Создает новый заказ в историю.
+    /// </summary>
+    /// <param name="order">Объект заказа.</param>
+    /// <exception cref="FailToUseOrderRepository">Исключение выбрасывается, при работе json.</exception>
     public async Task Create(CurrentOrder order)
     {
         var orderEntity = new LastOrderEntity

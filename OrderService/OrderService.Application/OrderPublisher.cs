@@ -12,11 +12,18 @@ using OrderService.Domain.Abstractions;
 
 namespace OrderService.Application;
 
+///<inheritdoc/>
+
 public class OrderPublisher : IOrderPublisher
 {
     private readonly IProducer<Null, string> _producer;
     private readonly ILogger<OrderPublisher> _logger;
 
+    /// <summary>
+    /// Инициализирует новый экземпляр класса <see cref="OrderPublisher"/>.
+    /// </summary>
+    /// <param name="options">Настройки Kafka.</param>
+    /// <param name="logger">Логгер.</param>
     public OrderPublisher(IOptions<KafkaOptions> options, ILogger<OrderPublisher> logger)
     {
         _logger = logger;
@@ -32,6 +39,11 @@ public class OrderPublisher : IOrderPublisher
         _producer = new ProducerBuilder<Null, string>(config).Build();
     }
 
+    /// <summary>
+    /// Публикует событие о создании заказа в Kafka.
+    /// </summary>
+    /// <param name="order">Информация о созданном заказе.</param>
+    /// <exception cref="RepositoryException">Исключение, которое выбрасывается при ошибке публикации.</exception>
     public async Task PublishOrderCreate(PublishOrder order)
     {
         try
@@ -50,6 +62,11 @@ public class OrderPublisher : IOrderPublisher
         }
     }
 
+    /// <summary>
+    /// Публикует событие об обновлении заказа в Kafka.
+    /// </summary>
+    /// <param name="order">Информация об обновленном заказе.</param>
+    /// <exception cref="RepositoryException">Исключение, которое выбрасывается при ошибке публикации.</exception>
     public async Task PublishOrderUpdate(PublishOrder order)
     {
         try

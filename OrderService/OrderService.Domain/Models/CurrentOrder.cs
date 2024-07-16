@@ -3,8 +3,14 @@ using OrderService.Domain.Exceptions;
 
 namespace OrderService.Domain.Models;
 
+/// <summary>
+/// Модель текущего заказа.
+/// </summary>
 public class CurrentOrder : BaseOrder
 {
+    /// <summary>
+    /// Инициализирует новый экземпляр класса <see cref="CurrentOrder"/>.
+    /// </summary>
     private CurrentOrder(Guid id, Guid clientId, Guid courierId, Guid storeId,
         List<BasketItem> basket, int price, string comment, string storeAddress,
         string clientAddress, string courierNumber, string clientNumber,
@@ -20,12 +26,27 @@ public class CurrentOrder : BaseOrder
         ClientNumber = clientNumber;
     }
 
+
+    /// <summary> Статус заказа. </summary>
     public StatusCode Status { get; }
+
+    /// <summary> Адрес магазина. </summary>
     public string StoreAddress { get; } = string.Empty;
+
+    /// <summary> Адрес клиента. </summary>
     public string ClientAddress { get; } = string.Empty;
+
+    /// <summary> Номер телефона курьера. </summary>
     public string CourierNumber { get; } = string.Empty;
+
+    /// <summary> Номер телефона клиента. </summary>
     public string ClientNumber { get; } = string.Empty;
 
+    /// <summary>
+    /// Создает новый текущий заказ.
+    /// </summary>
+    /// <returns>Новый текущий заказ.</returns>
+    /// <exception cref="FailToCreateOrderModel">Исключение выбрасывается, если данные заказа некорректны.</exception>
     public static CurrentOrder Create(Guid id, Guid clientId,
         Guid courierId, Guid storeId, List<BasketItem> basket, int price, string comment,
         string storeAddress, string clientAddress, string courierNumber, string clientNumber,

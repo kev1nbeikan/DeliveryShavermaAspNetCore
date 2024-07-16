@@ -3,8 +3,14 @@ using OrderService.Domain.Common;
 
 namespace OrderService.Domain.Models;
 
+/// <summary>
+/// Модель заказа для истории.
+/// </summary>
 public class LastOrder : BaseOrder
 {
+    /// <summary>
+    /// Инициализирует новый экземпляр класса <see cref="LastOrder"/>.
+    /// </summary>
     private LastOrder(Guid id, Guid clientId, Guid courierId, Guid storeId,
         List<BasketItem> basket, int price, string comment, TimeSpan cookingTime,
         TimeSpan deliveryTime, DateTime orderDate, DateTime? cookingDate,
@@ -14,6 +20,10 @@ public class LastOrder : BaseOrder
     {
     }
 
+    /// <summary>
+    /// Создает новый заказ для истории. 
+    /// </summary>
+    /// <returns>Новый заказ для истории.</returns>
     public static LastOrder Create(Guid id, Guid clientId,
         Guid courierId, Guid storeId, List<BasketItem> basket, int price, string comment,
         TimeSpan cookingTime, TimeSpan deliveryTime, DateTime orderDate,

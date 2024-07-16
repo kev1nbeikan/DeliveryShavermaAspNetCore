@@ -2,13 +2,13 @@
 
 services:
   postgres:
-    container_name: postgres
+    container_name: orderPostgres
     image: postgres:latest
     restart: always
     environment:
       POSTGRES_DB: ordersDb
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 123
+      POSTGRES_PASSWORD: 1
     ports:
       - "5432:5432"
     volumes:

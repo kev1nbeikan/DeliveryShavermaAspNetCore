@@ -9,8 +9,17 @@ using OrderService.Domain.Models;
 
 namespace OrderService.DataAccess.Repositories;
 
+///<inheritdoc/>
+/// <param name="context">Контекст БД.</param>
 public class CanceledOrderRepository(OrderServiceDbContext context) : ICanceledOrderRepository
 {
+    /// <summary>
+    /// Возвращает список отмененных заказов для указанной роли и идентификатора источника.
+    /// </summary>
+    /// <param name="role">Роль пользователя.</param>
+    /// <param name="sourceId">Идентификатор источника (клиент, курьер, магазин).</param>
+    /// <returns>Список отмененных заказов.</returns>
+    /// <exception cref="FailToUseOrderRepository">Исключение выбрасывается, при работе json.</exception>
     public async Task<List<CanceledOrder>> Get(RoleCode role, Guid sourceId)
     {
         var condition = BaseOrderRepository.GetCondition<CanceledOrderEntity>(role, sourceId);
@@ -44,6 +53,13 @@ public class CanceledOrderRepository(OrderServiceDbContext context) : ICanceledO
         return orders;
     }
 
+    /// <summary>
+    /// Создает новый отмененный заказ.
+    /// </summary>
+    /// <param name="order">Объект заказа.</param>
+    /// <param name="reasonOfCanceled">Причина отмены заказа.</param>
+    /// <param name="role">Роль пользователя, который отменил заказ.</param>
+    /// <exception cref="FailToUseOrderRepository">Исключение выбрасывается, при работе json.</exception>
     public async Task Create(CurrentOrder order, string reasonOfCanceled, RoleCode role)
     {
         var orderEntity = new CanceledOrderEntity

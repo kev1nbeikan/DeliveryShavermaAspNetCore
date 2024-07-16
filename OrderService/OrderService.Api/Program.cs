@@ -1,11 +1,16 @@
+using System.Reflection;
+using System.Xml.XPath;
 using BarsGroupProjectN1.Core.Extensions;
 using BarsGroupProjectN1.Core.Middlewares;
 using OrderService.DataAccess;
 using Microsoft.EntityFrameworkCore;
+using OrderService.Api.Extensions;
+using OrderService.Api.Middleware;
 using OrderService.Application.Service;
 using OrderService.DataAccess.Repositories;
 using OrderService.Domain.Abstractions;
 using OrderService.Application;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,7 +36,7 @@ builder.Services.AddCors(
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(AddSwaggerCommentsFromXml.IncludeSwaggerCommentsFromXml);
 
 builder.Services.AddDbContext<OrderServiceDbContext>(
     options =>
@@ -43,6 +48,8 @@ builder.Services.AddDbContext<OrderServiceDbContext>(
 
 
 builder.Services.ConfigureKafkaOptions(builder.Configuration);
+
+builder.Services.AddScoped<ExceptionMiddleware>(); 
 
 builder.Services.AddScoped<IOrderApplicationService, OrderApplicationService>();
 builder.Services.AddScoped<ICurrentOrderRepository, CurrentOrderRepository>();
@@ -61,6 +68,8 @@ if (app.Environment.IsDevelopment())
 }
 
 // app.SetCorsPolicies(app.Services.GetService<IOptions<ServicesOptions>>());
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseCors("AllowAllOrigins");
 

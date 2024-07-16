@@ -1,5 +1,8 @@
 ﻿namespace OrderService.DataAccess.Entities;
 
+/// <summary>
+/// Базовый класс для сущностей заказов.
+/// </summary>
 public abstract class BaseOrderEntity
 {
     public Guid Id { get; set; }

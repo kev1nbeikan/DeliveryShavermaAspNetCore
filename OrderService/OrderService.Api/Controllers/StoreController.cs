@@ -9,6 +9,11 @@ using Core = BarsGroupProjectN1.Core.Models.Order;
 
 namespace OrderService.Api.Controllers;
 
+/// <summary>
+/// Контроллер, отвечающий за обработку запросов магазина, связанных с заказами.
+/// </summary>
+/// <param name="orderApplicationService">Сервис, предоставляющий возможность работы с заказами.</param>
+/// <param name="logger">Сервис, предоставляющий возможность логгирования.</param>
 [ApiController]
 [Route("orders/store")]
 public class StoreController(IOrderApplicationService orderApplicationService, ILogger<StoreController> logger) : ControllerBase
@@ -16,6 +21,10 @@ public class StoreController(IOrderApplicationService orderApplicationService, I
     private readonly IOrderApplicationService _orderApplicationService = orderApplicationService;
     private readonly ILogger<StoreController> _logger = logger;
 
+    /// <summary>
+    /// Возвращает список текущих заказов магазина.
+    /// </summary>
+    /// <returns>Список текущих заказов магазина.</returns>
     [HttpGet]
     public async Task<ActionResult<List<StoreGetCurrent>>> GetCurrent()
     {
@@ -38,6 +47,10 @@ public class StoreController(IOrderApplicationService orderApplicationService, I
         return Ok(response);
     }
 
+    /// <summary>
+    /// Возвращает список истории заказов магазина.
+    /// </summary>
+    /// <returns>Список истории заказов магазина.</returns>
     [HttpGet("last")]
     public async Task<ActionResult<List<StoreGetLast>>> GetHistory()
     {
@@ -57,6 +70,10 @@ public class StoreController(IOrderApplicationService orderApplicationService, I
         return Ok(response);
     }
 
+    /// <summary>
+    /// Возвращает список отмененных заказов магазина.
+    /// </summary>
+    /// <returns>Список отмененных заказов магазина.</returns>
     [HttpGet("canceled")]
     public async Task<ActionResult<List<StoreGetCanceled>>> GetCanceled()
     {
@@ -75,7 +92,12 @@ public class StoreController(IOrderApplicationService orderApplicationService, I
                 b.LastStatus, b.ReasonOfCanceled, b.WhoCanceled));
         return Ok(response);
     }
-
+    
+    /// <summary>
+    /// Возвращает список новых заказов магазина, созданных после указанной даты.
+    /// </summary>
+    /// <param name="lastOrderDate">Дата, после которой нужно получить заказы.</param>
+    /// <returns>Список новых заказов магазина, созданных после указанной даты.</returns>
     [HttpGet("getNewOrders/{lastOrderDate:Datetime}")]
     public async Task<ActionResult<List<StoreGetCurrent>>> GetNewOrderByDate(DateTime lastOrderDate)
     {
@@ -95,6 +117,11 @@ public class StoreController(IOrderApplicationService orderApplicationService, I
         return Ok(response);
     }
 
+    /// <summary>
+    /// Изменяет статус заказа на "Ожидание курьера".
+    /// </summary>
+    /// <param name="orderId">Идентификатор заказа.</param>
+    /// <returns>Статус-код 200 (Ok).</returns>
     [HttpPut("waitingCourier/{orderId:Guid}")]
     public async Task<ActionResult> ChangeStatusWaitingCourier(Guid orderId)
     {
@@ -110,6 +137,12 @@ public class StoreController(IOrderApplicationService orderApplicationService, I
         return Ok();
     }
 
+    /// <summary>
+    /// Изменяет статус заказа на "Отменен".
+    /// </summary>
+    /// <param name="orderId">Идентификатор заказа.</param>
+    /// <param name="cancelOrderRequest">Запрос магазина на отмену заказа. <see cref="CancelOrderRequest"/></param>
+    /// <returns>Статус-код 200 (Ok).</returns>
     [HttpPut("cancel/{orderId:Guid}")]
     public async Task<ActionResult> ChangeStatusCanceled(Guid orderId, [FromBody] CancelOrderRequest cancelOrderRequest)
     {

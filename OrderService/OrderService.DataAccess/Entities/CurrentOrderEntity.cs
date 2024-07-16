@@ -1,5 +1,8 @@
 ﻿namespace OrderService.DataAccess.Entities;
 
+/// <summary>
+/// Класс для сущностей текущих заказов.
+/// </summary>
 public class CurrentOrderEntity : BaseOrderEntity
 {
     public int Status { get; set; }

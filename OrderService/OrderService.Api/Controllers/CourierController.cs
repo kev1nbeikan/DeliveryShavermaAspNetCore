@@ -9,6 +9,11 @@ using Core = BarsGroupProjectN1.Core.Models.Order;
 
 namespace OrderService.Api.Controllers;
 
+/// <summary>
+/// Контроллер, отвечающий за обработку запросов курьера, связанных с заказами.
+/// </summary>
+/// <param name="orderApplicationService">Сервис, предоставляющий возможность работы с заказами.</param>
+/// <param name="logger">Сервис, предоставляющий возможность логгирования.</param>
 [ApiController]
 [Route("orders/courier")]
 public class CourierController(IOrderApplicationService orderApplicationService, ILogger<CourierController> logger)
@@ -17,7 +22,10 @@ public class CourierController(IOrderApplicationService orderApplicationService,
     private readonly IOrderApplicationService _orderApplicationService = orderApplicationService;
     private readonly ILogger<CourierController> _logger = logger;
 
-
+    /// <summary>
+    /// Возвращает самый старый активный заказ курьера.
+    /// </summary>
+    /// <returns>Самый старый активный заказ курьера.</returns>
     [HttpGet]
     public async Task<ActionResult<CourierGetCurrent>> GetOldestActive()
     {
@@ -36,6 +44,10 @@ public class CourierController(IOrderApplicationService orderApplicationService,
         return Ok(response);
     }
 
+    /// <summary>
+    /// Возвращает историю заказов курьера.
+    /// </summary>
+    /// <returns>Список историю заказов курьера.</returns>
     [HttpGet("last")]
     public async Task<ActionResult<List<CourierGetLast>>> GetHistory()
     {
@@ -55,6 +67,10 @@ public class CourierController(IOrderApplicationService orderApplicationService,
         return Ok(response);
     }
     
+    /// <summary>
+    /// Возвращает список отмененных заказов курьера.
+    /// </summary>
+    /// <returns>Список отмененных заказов курьера.</returns>
     [HttpGet("canceled")]
     public async Task<ActionResult<List<CourierGetCanceled>>> GetCanceled()
     {
@@ -73,7 +89,12 @@ public class CourierController(IOrderApplicationService orderApplicationService,
                 b.LastStatus, b.ReasonOfCanceled, b.WhoCanceled));
         return Ok(response);
     }
-
+    
+    /// <summary>
+    /// Изменяет статус заказа на "В доставке".
+    /// </summary>
+    /// <param name="orderId">Идентификатор заказа.</param>
+    /// <returns>Статус-код 200 (Ok).</returns>
     [HttpPut("delivering/{orderId:Guid}")]
     public async Task<ActionResult> ChangeStatusDelivering(Guid orderId)
     {
@@ -88,6 +109,11 @@ public class CourierController(IOrderApplicationService orderApplicationService,
         return Ok();
     }
 
+    /// <summary>
+    /// Изменяет статус заказа на "Ожидает клиента".
+    /// </summary>
+    /// <param name="orderId">Идентификатор заказа.</param>
+    /// <returns>Статус-код 200 (Ok).</returns>
     [HttpPut("waitingClient/{orderId:Guid}")]
     public async Task<ActionResult> ChangeStatusWaitingClient(Guid orderId)
     {
@@ -102,6 +128,12 @@ public class CourierController(IOrderApplicationService orderApplicationService,
         return Ok();
     }
 
+    /// <summary>
+    /// Изменяет статус заказа на "Отменен".
+    /// </summary>
+    /// <param name="orderId">Идентификатор заказа.</param>
+    /// <param name="cancelOrderRequest">Причина отмена заказа.<see cref="CancelOrderRequest"/></param>
+    /// <returns>Статус-код 200 (Ok).</returns>
     [HttpPut("cancel/{orderId:Guid}")]
     public async Task<ActionResult> ChangeStatusCanceled(Guid orderId, [FromBody] CancelOrderRequest cancelOrderRequest)
     {
