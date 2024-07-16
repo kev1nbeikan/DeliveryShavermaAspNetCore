@@ -1,0 +1,864 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OrderService.Api</name>
+    </assembly>
+    <members>
+        <member name="T:OrderService.Api.Contracts.Client.ClientGetCanceled">
+            <summary>
+             Dto, отмененного заказа клиента.
+            </summary>
+            <param name="Id"> Id заказа.</param>
+            <param name="Basket"> Корзина.</param>
+            <param name="Price"> Цена.</param>
+            <param name="Comment"> Комментарии.</param>
+            <param name="OrderDate"> Дата создания.</param>
+            <param name="CanceledDate"> Дата отмены.</param>
+            <param name="Cheque"> Чек.</param>
+            <param name="LastStatus"> Последний статус.</param>
+            <param name="ReasonOfCanceled"> Причина отмены.</param>
+            <param name="WhoCanceled"> Кто отменил.</param>
+        </member>
+        <member name="M:OrderService.Api.Contracts.Client.ClientGetCanceled.#ctor(System.Guid,System.Collections.Generic.List{BarsGroupProjectN1.Core.Models.Order.BasketItem},System.Int32,System.String,System.DateTime,System.DateTime,System.String,BarsGroupProjectN1.Core.Models.Order.StatusCode,System.String,BarsGroupProjectN1.Core.Models.RoleCode)">
+            <summary>
+             Dto, отмененного заказа клиента.
+            </summary>
+            <param name="Id"> Id заказа.</param>
+            <param name="Basket"> Корзина.</param>
+            <param name="Price"> Цена.</param>
+            <param name="Comment"> Комментарии.</param>
+            <param name="OrderDate"> Дата создания.</param>
+            <param name="CanceledDate"> Дата отмены.</param>
+            <param name="Cheque"> Чек.</param>
+            <param name="LastStatus"> Последний статус.</param>
+            <param name="ReasonOfCanceled"> Причина отмены.</param>
+            <param name="WhoCanceled"> Кто отменил.</param>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Client.ClientGetCanceled.Id">
+            <summary> Id заказа.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Client.ClientGetCanceled.Basket">
+            <summary> Корзина.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Client.ClientGetCanceled.Price">
+            <summary> Цена.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Client.ClientGetCanceled.Comment">
+            <summary> Комментарии.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Client.ClientGetCanceled.OrderDate">
+            <summary> Дата создания.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Client.ClientGetCanceled.CanceledDate">
+            <summary> Дата отмены.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Client.ClientGetCanceled.Cheque">
+            <summary> Чек.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Client.ClientGetCanceled.LastStatus">
+            <summary> Последний статус.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Client.ClientGetCanceled.ReasonOfCanceled">
+            <summary> Причина отмены.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Client.ClientGetCanceled.WhoCanceled">
+            <summary> Кто отменил.</summary>
+        </member>
+        <member name="T:OrderService.Api.Contracts.Client.ClientGetCurrent">
+            <summary>
+             Dto, текущего заказа клиента
+            </summary>
+            <param name="Id"> Id заказа.</param>
+            <param name="ClientId"> Id клиента.</param>
+            <param name="StoreId"> Id магазина.</param>
+            <param name="CourierId"> Id курьера.</param>
+            <param name="Status"> Статус.</param>
+            <param name="Basket"> Корзина.</param>
+            <param name="Price"> Цена.</param>
+            <param name="Comment"> Комментарии.</param>
+            <param name="ClientAddress"> Адрес доставки.</param>
+            <param name="CourierNumber"> Номер курьера.</param>
+            <param name="ClientNumber"> Номер клиента.</param>
+            <param name="Cheque"> Чек.</param>
+        </member>
+        <member name="M:OrderService.Api.Contracts.Client.ClientGetCurrent.#ctor(System.Guid,System.Guid,System.Guid,System.Guid,BarsGroupProjectN1.Core.Models.Order.StatusCode,System.Collections.Generic.List{BarsGroupProjectN1.Core.Models.Order.BasketItem},System.Int32,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+             Dto, текущего заказа клиента
+            </summary>
+            <param name="Id"> Id заказа.</param>
+            <param name="ClientId"> Id клиента.</param>
+            <param name="StoreId"> Id магазина.</param>
+            <param name="CourierId"> Id курьера.</param>
+            <param name="Status"> Статус.</param>
+            <param name="Basket"> Корзина.</param>
+            <param name="Price"> Цена.</param>
+            <param name="Comment"> Комментарии.</param>
+            <param name="ClientAddress"> Адрес доставки.</param>
+            <param name="CourierNumber"> Номер курьера.</param>
+            <param name="ClientNumber"> Номер клиента.</param>
+            <param name="Cheque"> Чек.</param>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Client.ClientGetCurrent.Id">
+            <summary> Id заказа.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Client.ClientGetCurrent.ClientId">
+            <summary> Id клиента.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Client.ClientGetCurrent.StoreId">
+            <summary> Id магазина.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Client.ClientGetCurrent.CourierId">
+            <summary> Id курьера.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Client.ClientGetCurrent.Status">
+            <summary> Статус.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Client.ClientGetCurrent.Basket">
+            <summary> Корзина.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Client.ClientGetCurrent.Price">
+            <summary> Цена.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Client.ClientGetCurrent.Comment">
+            <summary> Комментарии.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Client.ClientGetCurrent.ClientAddress">
+            <summary> Адрес доставки.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Client.ClientGetCurrent.CourierNumber">
+            <summary> Номер курьера.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Client.ClientGetCurrent.ClientNumber">
+            <summary> Номер клиента.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Client.ClientGetCurrent.Cheque">
+            <summary> Чек.</summary>
+        </member>
+        <member name="T:OrderService.Api.Contracts.Client.ClientGetLast">
+            <summary>
+             Dto, истории заказа клиента.
+            </summary>
+            <param name="Id"> Id заказа.</param>
+            <param name="Basket"> Список позиций в заказе.</param>
+            <param name="Price"> Стоимость заказа</param>
+            <param name="Comment"> Комментарий к заказу.</param>
+            <param name="OrderDate"> Дата создания заказа.</param>
+            <param name="DeliveryDate"> Дата доставки.</param>
+            <param name="Cheque"> Чек.</param>
+        </member>
+        <member name="M:OrderService.Api.Contracts.Client.ClientGetLast.#ctor(System.Guid,System.Collections.Generic.List{BarsGroupProjectN1.Core.Models.Order.BasketItem},System.Int32,System.String,System.DateTime,System.Nullable{System.DateTime},System.String)">
+            <summary>
+             Dto, истории заказа клиента.
+            </summary>
+            <param name="Id"> Id заказа.</param>
+            <param name="Basket"> Список позиций в заказе.</param>
+            <param name="Price"> Стоимость заказа</param>
+            <param name="Comment"> Комментарий к заказу.</param>
+            <param name="OrderDate"> Дата создания заказа.</param>
+            <param name="DeliveryDate"> Дата доставки.</param>
+            <param name="Cheque"> Чек.</param>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Client.ClientGetLast.Id">
+            <summary> Id заказа.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Client.ClientGetLast.Basket">
+            <summary> Список позиций в заказе.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Client.ClientGetLast.Price">
+            <summary> Стоимость заказа</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Client.ClientGetLast.Comment">
+            <summary> Комментарий к заказу.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Client.ClientGetLast.OrderDate">
+            <summary> Дата создания заказа.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Client.ClientGetLast.DeliveryDate">
+            <summary> Дата доставки.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Client.ClientGetLast.Cheque">
+            <summary> Чек.</summary>
+        </member>
+        <member name="T:OrderService.Api.Contracts.Common.CancelOrderRequest">
+            <summary>
+            Dto, представляющее запрос на отмену заказа.
+            </summary>
+            <param name="ReasonOfCanceled">Текст причины отмены заказа.</param>
+        </member>
+        <member name="M:OrderService.Api.Contracts.Common.CancelOrderRequest.#ctor(System.String)">
+            <summary>
+            Dto, представляющее запрос на отмену заказа.
+            </summary>
+            <param name="ReasonOfCanceled">Текст причины отмены заказа.</param>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Common.CancelOrderRequest.ReasonOfCanceled">
+            <summary>Текст причины отмены заказа.</summary>
+        </member>
+        <member name="T:OrderService.Api.Contracts.Courier.CourierGetCanceled">
+            <summary>
+            Dto, отмененного заказа курьера. 
+            </summary>
+            <param name="Id"> Id заказа.</param>
+            <param name="Basket"> Корзина.</param>
+            <param name="Comment"> Комментарий.</param>
+            <param name="OrderDate"> Дата создания.</param>
+            <param name="CanceledDate"> Дата отмены.</param>
+            <param name="LastStatus"> Последний статус.</param>
+            <param name="ReasonOfCanceled"> Причина отмены.</param>
+            <param name="WhoCanceled">  </param>
+        </member>
+        <member name="M:OrderService.Api.Contracts.Courier.CourierGetCanceled.#ctor(System.Guid,System.Collections.Generic.List{BarsGroupProjectN1.Core.Models.Order.BasketItem},System.String,System.DateTime,System.DateTime,BarsGroupProjectN1.Core.Models.Order.StatusCode,System.String,BarsGroupProjectN1.Core.Models.RoleCode)">
+            <summary>
+            Dto, отмененного заказа курьера. 
+            </summary>
+            <param name="Id"> Id заказа.</param>
+            <param name="Basket"> Корзина.</param>
+            <param name="Comment"> Комментарий.</param>
+            <param name="OrderDate"> Дата создания.</param>
+            <param name="CanceledDate"> Дата отмены.</param>
+            <param name="LastStatus"> Последний статус.</param>
+            <param name="ReasonOfCanceled"> Причина отмены.</param>
+            <param name="WhoCanceled">  </param>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Courier.CourierGetCanceled.Id">
+            <summary> Id заказа.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Courier.CourierGetCanceled.Basket">
+            <summary> Корзина.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Courier.CourierGetCanceled.Comment">
+            <summary> Комментарий.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Courier.CourierGetCanceled.OrderDate">
+            <summary> Дата создания.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Courier.CourierGetCanceled.CanceledDate">
+            <summary> Дата отмены.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Courier.CourierGetCanceled.LastStatus">
+            <summary> Последний статус.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Courier.CourierGetCanceled.ReasonOfCanceled">
+            <summary> Причина отмены.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Courier.CourierGetCanceled.WhoCanceled">
+            <summary>  </summary>
+        </member>
+        <member name="T:OrderService.Api.Contracts.Courier.CourierGetCurrent">
+            <summary>
+             Dto, текущего заказа курьера.
+            </summary>
+            <param name="Id"> Id заказа.</param>
+            <param name="ClientId"> Id клиента.</param>
+            <param name="Status"> Статус.</param>
+            <param name="Basket"> Корзина.</param>
+            <param name="Comment"> Комментарий.</param>
+            <param name="StoreAddress"> Адрес магазина.</param>
+            <param name="ClientAddress"> Адрес клиента.</param>
+            <param name="ClientNumber"> Номер клиента.</param>
+            <param name="DeliveryTime"> Время доставки.</param>
+            <param name="CookingTime"> Время приготовления.</param>
+        </member>
+        <member name="M:OrderService.Api.Contracts.Courier.CourierGetCurrent.#ctor(System.Guid,System.Guid,BarsGroupProjectN1.Core.Models.Order.StatusCode,System.Collections.Generic.List{BarsGroupProjectN1.Core.Models.Order.BasketItem},System.String,System.String,System.String,System.String,System.TimeSpan,System.TimeSpan)">
+            <summary>
+             Dto, текущего заказа курьера.
+            </summary>
+            <param name="Id"> Id заказа.</param>
+            <param name="ClientId"> Id клиента.</param>
+            <param name="Status"> Статус.</param>
+            <param name="Basket"> Корзина.</param>
+            <param name="Comment"> Комментарий.</param>
+            <param name="StoreAddress"> Адрес магазина.</param>
+            <param name="ClientAddress"> Адрес клиента.</param>
+            <param name="ClientNumber"> Номер клиента.</param>
+            <param name="DeliveryTime"> Время доставки.</param>
+            <param name="CookingTime"> Время приготовления.</param>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Courier.CourierGetCurrent.Id">
+            <summary> Id заказа.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Courier.CourierGetCurrent.ClientId">
+            <summary> Id клиента.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Courier.CourierGetCurrent.Status">
+            <summary> Статус.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Courier.CourierGetCurrent.Basket">
+            <summary> Корзина.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Courier.CourierGetCurrent.Comment">
+            <summary> Комментарий.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Courier.CourierGetCurrent.StoreAddress">
+            <summary> Адрес магазина.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Courier.CourierGetCurrent.ClientAddress">
+            <summary> Адрес клиента.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Courier.CourierGetCurrent.ClientNumber">
+            <summary> Номер клиента.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Courier.CourierGetCurrent.DeliveryTime">
+            <summary> Время доставки.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Courier.CourierGetCurrent.CookingTime">
+            <summary> Время приготовления.</summary>
+        </member>
+        <member name="T:OrderService.Api.Contracts.Courier.CourierGetLast">
+            <summary>
+             Dto, истории заказа курьера.
+            </summary>
+            <param name="Id"> Id заказа.</param>
+            <param name="StoreId"> Id магазина.</param>
+            <param name="Basket"> Список позиций в заказе.</param>
+            <param name="Comment"> Комментарий к заказу.</param>
+            <param name="DeliveryTime"> Время доставки.</param>
+            <param name="OrderDate"> Дата создания заказа.</param>
+            <param name="CookingDate"> Дата приготовления</param>
+            <param name="DeliveryDate"> Дата доставки</param>
+        </member>
+        <member name="M:OrderService.Api.Contracts.Courier.CourierGetLast.#ctor(System.Guid,System.Guid,System.Collections.Generic.List{BarsGroupProjectN1.Core.Models.Order.BasketItem},System.String,System.TimeSpan,System.DateTime,System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
+            <summary>
+             Dto, истории заказа курьера.
+            </summary>
+            <param name="Id"> Id заказа.</param>
+            <param name="StoreId"> Id магазина.</param>
+            <param name="Basket"> Список позиций в заказе.</param>
+            <param name="Comment"> Комментарий к заказу.</param>
+            <param name="DeliveryTime"> Время доставки.</param>
+            <param name="OrderDate"> Дата создания заказа.</param>
+            <param name="CookingDate"> Дата приготовления</param>
+            <param name="DeliveryDate"> Дата доставки</param>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Courier.CourierGetLast.Id">
+            <summary> Id заказа.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Courier.CourierGetLast.StoreId">
+            <summary> Id магазина.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Courier.CourierGetLast.Basket">
+            <summary> Список позиций в заказе.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Courier.CourierGetLast.Comment">
+            <summary> Комментарий к заказу.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Courier.CourierGetLast.DeliveryTime">
+            <summary> Время доставки.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Courier.CourierGetLast.OrderDate">
+            <summary> Дата создания заказа.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Courier.CourierGetLast.CookingDate">
+            <summary> Дата приготовления</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Courier.CourierGetLast.DeliveryDate">
+            <summary> Дата доставки</summary>
+        </member>
+        <member name="T:OrderService.Api.Contracts.Order.OrderCreateRequest">
+            <summary>
+            Dto, представляющее запрос на создание заказа.
+            </summary>
+            <param name="Id"> Id заказа.</param>
+            <param name="ClientId"> Id клиента.</param>
+            <param name="CourierId"> Id курьера.</param>
+            <param name="StoreId"> Id магазина.</param>
+            <param name="Basket"> Корзина.</param>
+            <param name="Price"> Цена.</param>
+            <param name="Comment"> Комментарий.</param>
+            <param name="StoreAddress"> Адрес магазина.</param>
+            <param name="ClientAddress"> Адрес клиента.</param>
+            <param name="CourierNumber"> Номер курьера.</param>
+            <param name="ClientNumber"> Номер клиента.</param>
+            <param name="CookingTime"> Время приготовления.</param>
+            <param name="DeliveryTime"> Время доставки.</param>
+            <param name="Cheque"> Чек.</param>
+        </member>
+        <member name="M:OrderService.Api.Contracts.Order.OrderCreateRequest.#ctor(System.Guid,System.Guid,System.Guid,System.Guid,System.Collections.Generic.List{BarsGroupProjectN1.Core.Models.Order.BasketItem},System.Int32,System.String,System.String,System.String,System.String,System.String,System.TimeSpan,System.TimeSpan,System.String)">
+            <summary>
+            Dto, представляющее запрос на создание заказа.
+            </summary>
+            <param name="Id"> Id заказа.</param>
+            <param name="ClientId"> Id клиента.</param>
+            <param name="CourierId"> Id курьера.</param>
+            <param name="StoreId"> Id магазина.</param>
+            <param name="Basket"> Корзина.</param>
+            <param name="Price"> Цена.</param>
+            <param name="Comment"> Комментарий.</param>
+            <param name="StoreAddress"> Адрес магазина.</param>
+            <param name="ClientAddress"> Адрес клиента.</param>
+            <param name="CourierNumber"> Номер курьера.</param>
+            <param name="ClientNumber"> Номер клиента.</param>
+            <param name="CookingTime"> Время приготовления.</param>
+            <param name="DeliveryTime"> Время доставки.</param>
+            <param name="Cheque"> Чек.</param>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Order.OrderCreateRequest.Id">
+            <summary> Id заказа.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Order.OrderCreateRequest.ClientId">
+            <summary> Id клиента.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Order.OrderCreateRequest.CourierId">
+            <summary> Id курьера.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Order.OrderCreateRequest.StoreId">
+            <summary> Id магазина.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Order.OrderCreateRequest.Basket">
+            <summary> Корзина.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Order.OrderCreateRequest.Price">
+            <summary> Цена.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Order.OrderCreateRequest.Comment">
+            <summary> Комментарий.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Order.OrderCreateRequest.StoreAddress">
+            <summary> Адрес магазина.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Order.OrderCreateRequest.ClientAddress">
+            <summary> Адрес клиента.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Order.OrderCreateRequest.CourierNumber">
+            <summary> Номер курьера.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Order.OrderCreateRequest.ClientNumber">
+            <summary> Номер клиента.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Order.OrderCreateRequest.CookingTime">
+            <summary> Время приготовления.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Order.OrderCreateRequest.DeliveryTime">
+            <summary> Время доставки.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Order.OrderCreateRequest.Cheque">
+            <summary> Чек.</summary>
+        </member>
+        <member name="T:OrderService.Api.Contracts.Store.StoreGetCanceled">
+            <summary>
+            Dto, отмененного заказ магазина.
+            </summary>
+            <param name="Id"> Id заказа.</param>
+            <param name="Basket"> Корзина.</param>
+            <param name="Comment"> Комментарий.</param>
+            <param name="OrderDate"> Дата создания заказа.</param>
+            <param name="CanceledDate"> Дата отмены.</param>
+            <param name="LastStatus"> Последний статус.</param>
+            <param name="ReasonOfCanceled"> Причина отмены.</param>
+            <param name="WhoCanceled"> Кто отменил.</param>
+        </member>
+        <member name="M:OrderService.Api.Contracts.Store.StoreGetCanceled.#ctor(System.Guid,System.Collections.Generic.List{BarsGroupProjectN1.Core.Models.Order.BasketItem},System.String,System.DateTime,System.DateTime,BarsGroupProjectN1.Core.Models.Order.StatusCode,System.String,BarsGroupProjectN1.Core.Models.RoleCode)">
+            <summary>
+            Dto, отмененного заказ магазина.
+            </summary>
+            <param name="Id"> Id заказа.</param>
+            <param name="Basket"> Корзина.</param>
+            <param name="Comment"> Комментарий.</param>
+            <param name="OrderDate"> Дата создания заказа.</param>
+            <param name="CanceledDate"> Дата отмены.</param>
+            <param name="LastStatus"> Последний статус.</param>
+            <param name="ReasonOfCanceled"> Причина отмены.</param>
+            <param name="WhoCanceled"> Кто отменил.</param>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Store.StoreGetCanceled.Id">
+            <summary> Id заказа.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Store.StoreGetCanceled.Basket">
+            <summary> Корзина.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Store.StoreGetCanceled.Comment">
+            <summary> Комментарий.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Store.StoreGetCanceled.OrderDate">
+            <summary> Дата создания заказа.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Store.StoreGetCanceled.CanceledDate">
+            <summary> Дата отмены.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Store.StoreGetCanceled.LastStatus">
+            <summary> Последний статус.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Store.StoreGetCanceled.ReasonOfCanceled">
+            <summary> Причина отмены.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Store.StoreGetCanceled.WhoCanceled">
+            <summary> Кто отменил.</summary>
+        </member>
+        <member name="T:OrderService.Api.Contracts.Store.StoreGetCurrent">
+            <summary>
+             Dto, текущего заказа магазина
+            </summary>
+            <param name="Id"> Id заказа.</param>
+            <param name="ClientId"> Id клиента.</param>
+            <param name="Status"> Статус.</param>
+            <param name="Basket"> Корзина.</param>
+            <param name="Comment"> Комментарий.</param>
+            <param name="CourierNumber"> Номер курьера.</param>
+            <param name="CookingTime"> Время готовки.</param>
+            <param name="OrderDate"> Дата создания.</param>
+        </member>
+        <member name="M:OrderService.Api.Contracts.Store.StoreGetCurrent.#ctor(System.Guid,System.Guid,BarsGroupProjectN1.Core.Models.Order.StatusCode,System.Collections.Generic.List{BarsGroupProjectN1.Core.Models.Order.BasketItem},System.String,System.String,System.TimeSpan,System.DateTime)">
+            <summary>
+             Dto, текущего заказа магазина
+            </summary>
+            <param name="Id"> Id заказа.</param>
+            <param name="ClientId"> Id клиента.</param>
+            <param name="Status"> Статус.</param>
+            <param name="Basket"> Корзина.</param>
+            <param name="Comment"> Комментарий.</param>
+            <param name="CourierNumber"> Номер курьера.</param>
+            <param name="CookingTime"> Время готовки.</param>
+            <param name="OrderDate"> Дата создания.</param>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Store.StoreGetCurrent.Id">
+            <summary> Id заказа.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Store.StoreGetCurrent.ClientId">
+            <summary> Id клиента.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Store.StoreGetCurrent.Status">
+            <summary> Статус.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Store.StoreGetCurrent.Basket">
+            <summary> Корзина.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Store.StoreGetCurrent.Comment">
+            <summary> Комментарий.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Store.StoreGetCurrent.CourierNumber">
+            <summary> Номер курьера.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Store.StoreGetCurrent.CookingTime">
+            <summary> Время готовки.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Store.StoreGetCurrent.OrderDate">
+            <summary> Дата создания.</summary>
+        </member>
+        <member name="T:OrderService.Api.Contracts.Store.StoreGetLast">
+            <summary>
+             Dto, истории заказа магазина.
+            </summary>
+            <param name="Id"> Id заказа.</param>
+            <param name="Basket"> Список позиций в заказе.</param>
+            <param name="Comment"> Комментарий к заказу.</param>
+            <param name="CookingTime"> Время приготовления.</param>
+            <param name="OrderDate"> Дата создания заказа.</param>
+            <param name="CookingDate"> Дата приготовления</param>
+        </member>
+        <member name="M:OrderService.Api.Contracts.Store.StoreGetLast.#ctor(System.Guid,System.Collections.Generic.List{BarsGroupProjectN1.Core.Models.Order.BasketItem},System.String,System.TimeSpan,System.DateTime,System.Nullable{System.DateTime})">
+            <summary>
+             Dto, истории заказа магазина.
+            </summary>
+            <param name="Id"> Id заказа.</param>
+            <param name="Basket"> Список позиций в заказе.</param>
+            <param name="Comment"> Комментарий к заказу.</param>
+            <param name="CookingTime"> Время приготовления.</param>
+            <param name="OrderDate"> Дата создания заказа.</param>
+            <param name="CookingDate"> Дата приготовления</param>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Store.StoreGetLast.Id">
+            <summary> Id заказа.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Store.StoreGetLast.Basket">
+            <summary> Список позиций в заказе.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Store.StoreGetLast.Comment">
+            <summary> Комментарий к заказу.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Store.StoreGetLast.CookingTime">
+            <summary> Время приготовления.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Store.StoreGetLast.OrderDate">
+            <summary> Дата создания заказа.</summary>
+        </member>
+        <member name="P:OrderService.Api.Contracts.Store.StoreGetLast.CookingDate">
+            <summary> Дата приготовления</summary>
+        </member>
+        <member name="T:OrderService.Api.Controllers.ClientController">
+            <summary>
+            Контроллер, отвечающий за обработку запросов клиента, связанных с заказами.
+            </summary>
+            <param name="orderApplicationService">Сервис, предоставляющий возможность работы с заказами.</param>
+            <param name="logger">Сервис, предоставляющий возможность логгирования.</param>
+        </member>
+        <member name="M:OrderService.Api.Controllers.ClientController.#ctor(OrderService.Domain.Abstractions.IOrderApplicationService,Microsoft.Extensions.Logging.ILogger{OrderService.Api.Controllers.ClientController})">
+            <summary>
+            Контроллер, отвечающий за обработку запросов клиента, связанных с заказами.
+            </summary>
+            <param name="orderApplicationService">Сервис, предоставляющий возможность работы с заказами.</param>
+            <param name="logger">Сервис, предоставляющий возможность логгирования.</param>
+        </member>
+        <member name="M:OrderService.Api.Controllers.ClientController.GetCurrent">
+            <summary>
+            Возвращает список текущих заказов клиента
+            </summary> 
+            <returns>Список текущих заказов клиента</returns>
+        </member>
+        <member name="M:OrderService.Api.Controllers.ClientController.GetHistory">
+            <summary>
+            Возвращает список истории заказов клиента
+            </summary>
+            <returns>Возвращает список истории заказов клиента</returns>
+        </member>
+        <member name="M:OrderService.Api.Controllers.ClientController.GetCanceled">
+            <summary>
+            Возвращает список отмененных заказов клинета
+            </summary>
+            <returns>Возвращает список отмененных заказов клиента </returns>
+        </member>
+        <member name="M:OrderService.Api.Controllers.ClientController.ChangeStatusAccepted(System.Guid)">
+            <summary>
+            Изменяет статус заказа на "Принят", завершает заказ.
+            </summary>
+            <param name="orderId">Идентификатор заказа.</param>
+            <returns>Статус-код 200 (Ok).</returns>
+        </member>
+        <member name="M:OrderService.Api.Controllers.ClientController.ChangeStatusCanceled(System.Guid,OrderService.Api.Contracts.Common.CancelOrderRequest)">
+            <summary>
+            Изменяет статус заказа на "Отменен".
+            </summary>
+            <param name="orderId">Идентификатор заказа.</param>
+            <param name="cancelOrderRequest">Запрос на отмену заказа.</param>
+            <returns>Статус-код 200 (Ok).</returns>
+        </member>
+        <member name="T:OrderService.Api.Controllers.CourierController">
+            <summary>
+            Контроллер, отвечающий за обработку запросов курьера, связанных с заказами.
+            </summary>
+            <param name="orderApplicationService">Сервис, предоставляющий возможность работы с заказами.</param>
+            <param name="logger">Сервис, предоставляющий возможность логгирования.</param>
+        </member>
+        <member name="M:OrderService.Api.Controllers.CourierController.#ctor(OrderService.Domain.Abstractions.IOrderApplicationService,Microsoft.Extensions.Logging.ILogger{OrderService.Api.Controllers.CourierController})">
+            <summary>
+            Контроллер, отвечающий за обработку запросов курьера, связанных с заказами.
+            </summary>
+            <param name="orderApplicationService">Сервис, предоставляющий возможность работы с заказами.</param>
+            <param name="logger">Сервис, предоставляющий возможность логгирования.</param>
+        </member>
+        <member name="M:OrderService.Api.Controllers.CourierController.GetOldestActive">
+            <summary>
+            Возвращает самый старый активный заказ курьера.
+            </summary>
+            <returns>Самый старый активный заказ курьера.</returns>
+        </member>
+        <member name="M:OrderService.Api.Controllers.CourierController.GetHistory">
+            <summary>
+            Возвращает историю заказов курьера.
+            </summary>
+            <returns>Список историю заказов курьера.</returns>
+        </member>
+        <member name="M:OrderService.Api.Controllers.CourierController.GetCanceled">
+            <summary>
+            Возвращает список отмененных заказов курьера.
+            </summary>
+            <returns>Список отмененных заказов курьера.</returns>
+        </member>
+        <member name="M:OrderService.Api.Controllers.CourierController.ChangeStatusDelivering(System.Guid)">
+            <summary>
+            Изменяет статус заказа на "В доставке".
+            </summary>
+            <param name="orderId">Идентификатор заказа.</param>
+            <returns>Статус-код 200 (Ok).</returns>
+        </member>
+        <member name="M:OrderService.Api.Controllers.CourierController.ChangeStatusWaitingClient(System.Guid)">
+            <summary>
+            Изменяет статус заказа на "Ожидает клиента".
+            </summary>
+            <param name="orderId">Идентификатор заказа.</param>
+            <returns>Статус-код 200 (Ok).</returns>
+        </member>
+        <member name="M:OrderService.Api.Controllers.CourierController.ChangeStatusCanceled(System.Guid,OrderService.Api.Contracts.Common.CancelOrderRequest)">
+            <summary>
+            Изменяет статус заказа на "Отменен".
+            </summary>
+            <param name="orderId">Идентификатор заказа.</param>
+            <param name="cancelOrderRequest">Причина отмена заказа.<see cref="T:OrderService.Api.Contracts.Common.CancelOrderRequest"/></param>
+            <returns>Статус-код 200 (Ok).</returns>
+        </member>
+        <member name="T:OrderService.Api.Controllers.OrderController">
+            <summary>
+            Контроллер, отвечающий за обработку запросов связанных с созданием заказа и получением его статуса.
+            </summary>
+            <param name="orderApplicationService">Сервис, предоставляющий возможность работы с заказами.</param>
+            <param name="logger">Сервис, предоставляющий возможность логгирования.</param>
+        </member>
+        <member name="M:OrderService.Api.Controllers.OrderController.#ctor(OrderService.Domain.Abstractions.IOrderApplicationService,Microsoft.Extensions.Logging.ILogger{OrderService.Api.Controllers.OrderController})">
+            <summary>
+            Контроллер, отвечающий за обработку запросов связанных с созданием заказа и получением его статуса.
+            </summary>
+            <param name="orderApplicationService">Сервис, предоставляющий возможность работы с заказами.</param>
+            <param name="logger">Сервис, предоставляющий возможность логгирования.</param>
+        </member>
+        <member name="M:OrderService.Api.Controllers.OrderController.GetStatus(System.Guid)">
+            <summary>
+            Запрос на получение статутса заказа.
+            </summary>
+            <param name="orderId">Id заказа у которого нужно получить статус.</param>
+            <returns>Статус-код 200 (Ok).</returns>
+        </member>
+        <member name="M:OrderService.Api.Controllers.OrderController.CreateOrder(OrderService.Api.Contracts.Order.OrderCreateRequest)">
+            <summary>
+            Запрос на создание заказа
+            </summary>
+            <param name="request"> Данные для создания заказа</param>
+            <returns>Статус-код 200 (Ok).</returns>
+            <exception cref="T:System.ArgumentNullException">Вызывается, если param равен null.</exception>
+            <remarks>
+            Пример запроса:
+            
+                {
+                    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                    "clientId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                    "courierId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                    "storeId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                    "basket": [
+                        {
+                            "productId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                            "name": "string",
+                            "amount": 0,
+                            "price": 0
+                        }
+                    ],
+                    "price": 0,
+                    "comment": "string",
+                    "storeAddress": "string",
+                    "clientAddress": "string",
+                    "courierNumber": "89874554046",
+                    "clientNumber": "89874554046",
+                    "cookingTime": "00:00:01",
+                    "deliveryTime": "00:00:01",
+                    "cheque": "string"
+                }
+            </remarks>
+        </member>
+        <member name="T:OrderService.Api.Controllers.StoreController">
+            <summary>
+            Контроллер, отвечающий за обработку запросов магазина, связанных с заказами.
+            </summary>
+            <param name="orderApplicationService">Сервис, предоставляющий возможность работы с заказами.</param>
+            <param name="logger">Сервис, предоставляющий возможность логгирования.</param>
+        </member>
+        <member name="M:OrderService.Api.Controllers.StoreController.#ctor(OrderService.Domain.Abstractions.IOrderApplicationService,Microsoft.Extensions.Logging.ILogger{OrderService.Api.Controllers.StoreController})">
+            <summary>
+            Контроллер, отвечающий за обработку запросов магазина, связанных с заказами.
+            </summary>
+            <param name="orderApplicationService">Сервис, предоставляющий возможность работы с заказами.</param>
+            <param name="logger">Сервис, предоставляющий возможность логгирования.</param>
+        </member>
+        <member name="M:OrderService.Api.Controllers.StoreController.GetCurrent">
+            <summary>
+            Возвращает список текущих заказов магазина.
+            </summary>
+            <returns>Список текущих заказов магазина.</returns>
+        </member>
+        <member name="M:OrderService.Api.Controllers.StoreController.GetHistory">
+            <summary>
+            Возвращает список истории заказов магазина.
+            </summary>
+            <returns>Список истории заказов магазина.</returns>
+        </member>
+        <member name="M:OrderService.Api.Controllers.StoreController.GetCanceled">
+            <summary>
+            Возвращает список отмененных заказов магазина.
+            </summary>
+            <returns>Список отмененных заказов магазина.</returns>
+        </member>
+        <member name="M:OrderService.Api.Controllers.StoreController.GetNewOrderByDate(System.DateTime)">
+            <summary>
+            Возвращает список новых заказов магазина, созданных после указанной даты.
+            </summary>
+            <param name="lastOrderDate">Дата, после которой нужно получить заказы.</param>
+            <returns>Список новых заказов магазина, созданных после указанной даты.</returns>
+        </member>
+        <member name="M:OrderService.Api.Controllers.StoreController.ChangeStatusWaitingCourier(System.Guid)">
+            <summary>
+            Изменяет статус заказа на "Ожидание курьера".
+            </summary>
+            <param name="orderId">Идентификатор заказа.</param>
+            <returns>Статус-код 200 (Ok).</returns>
+        </member>
+        <member name="M:OrderService.Api.Controllers.StoreController.ChangeStatusCanceled(System.Guid,OrderService.Api.Contracts.Common.CancelOrderRequest)">
+            <summary>
+            Изменяет статус заказа на "Отменен".
+            </summary>
+            <param name="orderId">Идентификатор заказа.</param>
+            <param name="cancelOrderRequest">Запрос магазина на отмену заказа. <see cref="T:OrderService.Api.Contracts.Common.CancelOrderRequest"/></param>
+            <returns>Статус-код 200 (Ok).</returns>
+        </member>
+        <member name="T:OrderService.Api.Extensions.AddSwaggerCommentsFromXml">
+            <summary>
+            Расширение для добавляения комментариев из XML документации Swagger
+            </summary>
+        </member>
+        <member name="M:OrderService.Api.Extensions.AddSwaggerCommentsFromXml.IncludeSwaggerCommentsFromXml(Swashbuckle.AspNetCore.SwaggerGen.SwaggerGenOptions)">
+            <summary>
+            Включить описание эндпоинтов для Swagger из XML документации (из summary).
+            </summary>
+            <param name="options"></param>
+            <exception cref="T:System.IO.FileNotFoundException"></exception>
+        </member>
+        <member name="T:OrderService.Api.Extensions.ApiCorsExtensions">
+            <summary>
+            Расширение для добавления политики CORS
+            </summary>
+        </member>
+        <member name="M:OrderService.Api.Extensions.ApiCorsExtensions.SetCorsPolicies(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.Extensions.Options.IOptions{OrderService.Domain.Common.ServicesOptions})">
+            <summary>
+            Добавить политику CORS
+            </summary>
+            <param name="services"> IApplicationBuilder типа this</param>
+            <param name="optionsServices"> IOptions [ServicesOptions] ? </param>
+        </member>
+        <member name="T:OrderService.Api.Middleware.ExceptionMiddleware">
+            <summary>
+            Middleware для обработки исключений.
+            </summary>
+            <param name="logger"></param>
+        </member>
+        <member name="M:OrderService.Api.Middleware.ExceptionMiddleware.#ctor(Microsoft.Extensions.Logging.ILogger{OrderService.Api.Middleware.ExceptionMiddleware})">
+            <summary>
+            Middleware для обработки исключений.
+            </summary>
+            <param name="logger"></param>
+        </member>
+        <member name="M:OrderService.Api.Middleware.ExceptionMiddleware.InvokeAsync(Microsoft.AspNetCore.Http.HttpContext,Microsoft.AspNetCore.Http.RequestDelegate)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+            <param name="next"></param>
+        </member>
+        <member name="M:OrderService.Api.Middleware.ExceptionMiddleware.OnUncaughtException(System.Exception,Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            Обработчик необработанных исключений.
+            </summary>
+            <param name="ex">Исключение, которое было вызвано.</param>
+            <param name="context">Текущий контекст HTTP-запроса.</param>
+            <returns>Кортеж, содержащий сообщение об ошибке и дополнительную информацию.</returns>
+        </member>
+        <member name="M:OrderService.Api.Middleware.ExceptionMiddleware.WriteErrorResponseAsync(Microsoft.AspNetCore.Http.HttpContext,System.Int32,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            Записывает ответ об ошибке в поток ответа.
+            </summary>
+            <param name="context">Текущий контекст HTTP-запроса.</param>
+            <param name="statusCode">Код состояния HTTP-ответа.</param>
+            <param name="message">Сообщение об ошибке.</param>
+            <param name="type">Тип ошибки.</param>
+            <param name="additionalData">Дополнительная информация об ошибке (необязательно).</param>
+            <returns>Задача, представляющая асинхронную операцию записи ответа.</returns>
+        </member>
+        <member name="M:OrderService.Api.Middleware.ExceptionMiddleware.GetAdditionalData(System.Exception)">
+            <summary>
+            Возвращает словарь с дополнительной информацией об исключении.
+            </summary>
+            <param name="ex">Исключение.</param>
+            <returns>Словарь с дополнительной информацией.</returns>
+        </member>
+        <member name="M:OrderService.Api.Middleware.ExceptionMiddleware.GenerateRandomId">
+            <summary>
+            Генерирует случайный идентификатор длиной 10 символов.
+            </summary>
+            <returns>Случайный идентификатор.</returns>
+        </member>
+    </members>
+</doc>
